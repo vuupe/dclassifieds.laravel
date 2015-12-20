@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+.top_nav		{
+				margin-bottom: 40px;
+}
+
+.search_panel	{
+				margin-bottom:20px; 
+				background-color: #f8f8f8; 
+				padding:15px 15px 0px 15px;
+}
+
+.centar_banner_728{
+				margin-bottom:20px;
+}
+
+.padding_bottom_15{
+				padding-bottom: 15px;
+}
+
+.padding_top_bottom_15{
+				padding-top: 15px; 
+				padding-bottom: 15px;
+}
+
+.category_panel	{
+				margin-bottom:40px;
+}
+
+.margin_bottom_15{
+				margin-bottom: 15px;
+}
+
+.home_promo_ads_panel{
+}
+
+.home_info_panel{
+				margin-bottom: 20px;
+}
+
+.home_info_link_panel{
+				font-size: 11px;
+}
+
+.footer			{
+				width: 100%;
+				background-color: #f5f5f5;
+				padding-top: 15px;
+				padding-bottom: 5px;
+}
+
+.ad_detail_container{
+				border-bottom: 2px solid #f7f6f6;
+				padding-bottom: 40px;
+				margin-bottom: 40px;
+}
+
+.ad_detail_price{
+				padding: 10px 15px;
+				background-color: #f7f6f6;
+				margin-bottom: 10px;
+}
+
+.ad_detail_panel{
+				margin-bottom: 10px;
+}
+
+.ad_detail_publish_info{
+				margin-bottom: 5px;
+}
+
+.ad_detail_ad_info{
+				margin-bottom: 15px;
+}
+
+.ad_detail_detail_info{
+				margin-bottom: 15px;
+}
+
+.ad_detail_ad_text{
+				margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
