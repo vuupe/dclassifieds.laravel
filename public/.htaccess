@@ -13,9 +13,9 @@
     
 	# Redirect Trailing Slashes If Not A Folder...
     
-	RewriteCond %{REQUEST_FILENAME} !-d
+	#RewriteCond %{REQUEST_FILENAME} !-d
     
-	RewriteRule ^(.*)/$ /$1 [L,R=301]
+	#RewriteRule ^(.*)/$ /$1 [L,R=301]
 
     
 

@@ -42,14 +42,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">DClassifieds</a>
+                    <a class="navbar-brand" href="{{ route('home') }}">DClassifieds</a>
                 </div>
         
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">My Profile</a></li>
-                        <li><button type="button" class="btn btn-danger navbar-btn">Post an ad</button></li>
+                        <li><p class="navbar-btn" style="margin:0px;"><a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a></p></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -85,7 +85,7 @@
         
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">Copyright &copy; 2015 <a href="http://www.dclassifieds.eu">DClassifieds</a> | <a href="">About</a> | <a href="">Privacy Policy</a></p>
+                <p class="text-muted">Copyright &copy; {{ date('Y') }} <a href="http://www.dclassifieds.eu">DClassifieds</a> | <a href="">About</a> | <a href="">Privacy Policy</a></p>
                 <div>Icons made by <a href="http://www.flaticon.com/authors/situ-herrera" title="Situ Herrera">Situ Herrera</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
             </div>
         </footer>

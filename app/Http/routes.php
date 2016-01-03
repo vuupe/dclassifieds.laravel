@@ -16,8 +16,11 @@
 // });
 
 Route::get('/', 'AdController@index')->name('home');
-Route::get('/search', 'AdController@search')->name('search');
+Route::get('/search/{params?}', 'AdController@search')
+	->name('search')->where('params', '.*')
+	->middleware('segment_fix');
 Route::get('/detail/{id}', 'AdController@detail')->name('detail');
+Route::match(['get', 'post'], '/publish', 'AdController@publish')->name('publish');
 
 
 Route::get('/login', 'UserController@login')->name('login');
