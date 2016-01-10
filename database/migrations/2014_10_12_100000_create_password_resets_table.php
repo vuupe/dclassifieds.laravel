@@ -16,7 +16,7 @@ class CreatePasswordResetsTable extends Migration
         	
         	$table->engine = 'MyISAM';
         	
-            $table->string('user_email')->index();
+            $table->string('email')->index();
             $table->string('token')->index();
             $table->timestamp('created_at');
         });

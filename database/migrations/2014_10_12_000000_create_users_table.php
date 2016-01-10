@@ -17,8 +17,8 @@ class CreateUsersTable extends Migration
         	$table->engine = 'MyISAM';
         	
             $table->increments('user_id');
-            $table->string('user_name');
-            $table->string('user_email')->unique();
+            $table->string('name');
+            $table->string('email')->unique();
             $table->string('password', 60);
             $table->rememberToken();
             $table->timestamps();

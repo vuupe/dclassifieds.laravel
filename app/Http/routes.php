@@ -23,8 +23,26 @@ Route::get('/detail/{id}', 'AdController@detail')->name('detail');
 Route::match(['get', 'post'], '/publish', 'AdController@publish')->name('publish');
 
 
-Route::get('/login', 'UserController@login')->name('login');
-Route::get('/register', 'UserController@register')->name('register');
-Route::get('/lostpassword', 'UserController@lostpassword')->name('lostpassword');
+// Authentication Routes...
+Route::get('login', 'Auth\AuthController@getLogin');
+Route::post('login', 'Auth\AuthController@postLogin');
+Route::get('logout', 'Auth\AuthController@getLogout');
+
+// Registration Routes...
+Route::get('register', 'Auth\AuthController@getRegister');
+Route::post('register', 'Auth\AuthController@postRegister');
+
+// Password reset link request routes...
+Route::get('lostpassword', 'Auth\PasswordController@getEmail');
+Route::post('lostpassword', 'Auth\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('reset', 'Auth\PasswordController@postReset');
+
+
+
+
+
 
 
