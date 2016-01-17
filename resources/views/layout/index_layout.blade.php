@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('js/chosen/chosen.css') }}" />
+        <link rel="stylesheet" href="{{ asset('js/chosen/chosen-bootstrap.css') }}" />
         
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,15 +58,40 @@
         </nav>
         
         <div class="container search_panel">
-            <form class="form">
+            <form method="GET" action="{{url('search')}}" class="form">
                 <div class="row">
-                    <div class="col-md-5 padding_bottom_15">
-                    	<input type="text" class="form-control" id="exampleInputName2" placeholder="1 000 000 Ads">
+                    <div class="col-md-3 padding_bottom_15">
+                    	<input type="text" name="search_text" id="search_text"  class="form-control" placeholder="1 000 000 Ads">
                     </div>
-                    <div class="col-md-5 padding_bottom_15">
-                   		<input type="email" class="form-control" id="exampleInputEmail2" placeholder="All Regions">
+                    <div class="col-md-3 padding_bottom_15">
+                    	@if(isset($c) && !empty($c))
+                   		<select name="cid" id="cid" class="form-control">
+                   			<option value="0"></option>
+                   			@foreach ($c as $k => $v)
+                   				<optgroup label="{{$v['title']}}">
+                   					@if(isset($v['c']) && !empty($v['c'])){
+                   						@include('common.cselect', ['c' => $v['c']])
+                   					@endif
+                   				</optgroup>
+                   			@endforeach
+                   		</select>
+                   		@endif
                     </div>
-                    <div class="col-md-2 padding_bottom_15">
+                    <div class="col-md-3 padding_bottom_15">
+                    	@if(isset($l) && !empty($l))
+                   		<select name="lid" id="lid" class="form-control" data-placeholder="All Locations">
+                   			<option value=""></option>
+                   			@foreach ($l as $k => $v)
+                   				<optgroup label="{{$v['title']}}">
+                   					@if(isset($v['c']) && !empty($v['c'])){
+                   						@include('common.lselect', ['c' => $v['c']])
+                   					@endif
+                   				</optgroup>
+                   			@endforeach
+                   		</select>
+                   		@endif	
+                    </div>
+                    <div class="col-md-3 padding_bottom_15">
                         <button type="submit" class="btn btn-primary" style="width: 100%;">
                             <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
                         </button>
@@ -94,5 +121,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        
+        <script src="{{ asset('js/chosen/chosen.jquery.min.js') }}"></script>
+        <script src="{{ asset('js/common.js') }}"></script>
+        
     </body>
 </html>
