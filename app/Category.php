@@ -23,7 +23,12 @@ class Category extends Model
     {
     	$ret = array();
     	$_level++;
-    	$categoryCollection = Category::where('category_parent_id', $_parent_id)->with('children')->get();
+    	$categoryCollection = $this->where('category_parent_id', $_parent_id)
+    							->where('category_active', '=', 1)
+    							->with('children')
+    							->orderBy('category_ord', 'asc')
+    							->get();
+    	
     	if(!empty($categoryCollection)){
     		foreach ($categoryCollection as $k => $v){
     			$ret[$v->category_id] = array('cid' => $v->category_id, 'title' => $v->category_title, 'level' => $_level);
@@ -33,5 +38,12 @@ class Category extends Model
     		}
     	}
     	return $ret;
+    }
+    
+    public function getOneLevel($_parent_id = null)
+    {
+    	return $this->where('category_parent_id', $_parent_id)
+    				->orderBy('category_ord', 'asc')
+    				->get();
     }
 }

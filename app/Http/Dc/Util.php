@@ -4,8 +4,19 @@ namespace App\Http\Dc;
 
 class Util
 {
-    public static function test($_test)
+    static function sanitize( $string )
     {
-    	echo $_test;
+    	return addslashes(strip_tags(trim($string)));
+    }
+    
+    static function buildUrl($_route_name, $_params = array())
+    {
+    	$params = array();
+    	if(!empty($_params)){
+    		foreach($_params as $k => $v){
+    			$params[] = $k  . '/' . $v;
+    		}
+    	}
+    	return route($_route_name) . '/' . join('/', $params);
     }
 }

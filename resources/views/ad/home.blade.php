@@ -2,6 +2,7 @@
 
 @section('content')
 		<div class="container category_panel">
+            <!-- 
             <div class="row">
             	<div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/house158.png" /> Real Estates</a></div>
                 <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/car189.png" /> Cars and Parts</a></div>
@@ -20,6 +21,29 @@
                 <div class="col-md-3 padding_top_bottom_15"></div>
                 <div class="col-md-3 padding_top_bottom_15"></div>
             </div>
+            --> 
+            
+            <?
+            $i = 1;
+            $closed = 0;
+            foreach ($clist as $k => $v){?>
+            	<?if($i == 1){?>
+            		<div class="row">
+            	<?}?>
+            	<div class="col-md-3 padding_top_bottom_15"><a href="{{ Util::buildUrl('search', ['cid' => $v->category_id]) }}"><img src="{{ asset('images/icons/' . $v->category_img) }}" /> <?=$v->category_title?></a></div>
+            	<?
+				$i++;
+				if($i > 4){
+					$closed = 1;
+					$i = 1;
+					?></div><?
+				}
+			}//end foreach
+			
+			if(!$closed){?>
+				</div>
+			<?}?>
+            
         </div>
         
         <div class="container home_promo_ads_panel">

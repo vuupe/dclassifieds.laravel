@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use App\Repositories\CategoryRepository;
 use App\Repositories\LocationRepository;
+use App\Http\Dc\Util;
 //use App\Http\Dc\Util;
 
 class AdController extends Controller
@@ -25,13 +26,43 @@ class AdController extends Controller
     public function index(Request $request)
     {
     	return view('ad.home', ['c' => $this->category->getAllHierarhy(),
-    							'l' => $this->location->getAllHierarhy()]);
+    							'l' => $this->location->getAllHierarhy(),
+    							'clist' => $this->category->getOneLevel()]);
     }
     
     public function search(Request $request)
     {
 //     	print_r(Input::all());
-    	return view('ad.search');
+    	$params = Input::all();
+		
+    	//check for category selection
+    	$cid = 0;
+    	if(isset($params['cid']) && is_numeric($params['cid'])){
+    		$cid = $params['cid'];
+    	}
+    	
+    	//check for location selection
+    	$lid = 0;
+    	if(isset($params['lid']) && is_numeric($params['lid'])){
+    		$lid = $params['lid'];
+    	}
+    	
+    	//check for search text
+    	$search_text = '';
+    	if(isset($params['search_text'])){
+    		$search_text_tmp = Util::sanitize($params['search_text']);
+    		if(!empty($search_text_tmp) && mb_strlen($search_text_tmp, 'utf-8') > 3){
+    			$search_text = $search_text_tmp;
+    		}
+    	}
+    	
+    	
+    	
+    	return view('ad.search', [	'c' => $this->category->getAllHierarhy(),
+    						     	'l' => $this->location->getAllHierarhy(),
+    								'cid' => $cid,
+    								'lid' => $lid,
+    								'search_text' => $search_text]);
     }
     
     public function detail(Request $request)

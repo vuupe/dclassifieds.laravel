@@ -61,7 +61,7 @@
             <form method="GET" action="{{url('search')}}" class="form">
                 <div class="row">
                     <div class="col-md-3 padding_bottom_15">
-                    	<input type="text" name="search_text" id="search_text"  class="form-control" placeholder="1 000 000 Ads">
+                    	<input type="text" name="search_text" id="search_text" class="form-control" placeholder="1 000 000 Ads" value="{{isset($search_text) ? stripslashes($search_text) : ''}}"/>
                     </div>
                     <div class="col-md-3 padding_bottom_15">
                     	@if(isset($c) && !empty($c))
@@ -80,7 +80,7 @@
                     <div class="col-md-3 padding_bottom_15">
                     	@if(isset($l) && !empty($l))
                    		<select name="lid" id="lid" class="form-control" data-placeholder="All Locations">
-                   			<option value=""></option>
+                   			<option value="0"></option>
                    			@foreach ($l as $k => $v)
                    				<optgroup label="{{$v['title']}}">
                    					@if(isset($v['c']) && !empty($v['c'])){

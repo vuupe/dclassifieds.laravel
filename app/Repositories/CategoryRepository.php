@@ -14,4 +14,9 @@ class CategoryRepository
 	{
 		return $this->model->getAllHierarhy($_parent_id, $_level);
 	}
+	
+	public function getOneLevel($_parent_id = null)
+	{
+		return $this->model->getOneLevel($_parent_id);
+	}
 }

@@ -23,7 +23,12 @@ class Location extends Model
     {
     	$ret = array();
     	$_level++;
-    	$locationCollection = Location::where('location_parent_id', $_parent_id)->with('children')->get();
+    	$locationCollection = $this->where('location_parent_id', $_parent_id)
+    							->where('location_active', '=', 1)
+    							->with('children')
+    							->orderBy('location_name', 'asc')
+    							->get();
+    	
     	if(!empty($locationCollection)){
     		foreach ($locationCollection as $k => $v){
     			$ret[$v->location_id] = array('lid' => $v->location_id, 'title' => $v->location_name, 'level' => $_level);
@@ -33,5 +38,12 @@ class Location extends Model
     		}
     	}
     	return $ret;
+    }
+    
+    public function getOneLevel($_parent_id = null)
+    {
+    	return $this->where('location_parent_id', $_parent_id)
+    	->orderBy('location_name', 'asc')
+    	->get();
     }
 }
