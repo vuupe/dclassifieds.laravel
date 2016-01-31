@@ -16,9 +16,12 @@
 // });
 
 Route::get('/', 'AdController@index')->name('home');
+
 Route::get('/search/{params?}', 'AdController@search')
 	->name('search')->where('params', '.*')
 	->middleware('segment_fix');
+	
+	
 Route::get('/detail/{id}', 'AdController@detail')->name('detail');
 Route::match(['get', 'post'], '/publish', 'AdController@publish')->name('publish');
 
@@ -39,6 +42,8 @@ Route::post('lostpassword', 'Auth\PasswordController@postEmail');
 // Password reset routes...
 Route::get('reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('reset', 'Auth\PasswordController@postReset');
+
+Route::get('/{slug}', 'AdController@proxy')->name('proxy')->where('slug', '.*');
 
 
 

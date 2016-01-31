@@ -19,4 +19,44 @@ class CategoryRepository
 	{
 		return $this->model->getOneLevel($_parent_id);
 	}
+	
+	public function getIdBySlug($_slug)
+	{
+		return $this->model->getIdBySlug($_slug);
+	}
+	
+	public function getSlugById($_category_id)
+	{
+		return $this->model->getSlugById($_category_id);
+	}
+	
+	public function getParentsBySlug($_slug)
+	{
+		return $this->model->getParentsBySlug($_slug);
+	}
+	
+	public function getParentsById($_category_id)
+	{
+		return $this->model->getParentsById($_category_id);
+	}
+	
+	public function getParentsBySlugFlat($_slug)
+	{
+		return $this->model->getParentsBySlugFlat($_slug);
+	}
+	
+	public function getParentsByIdFlat($_category_id)
+	{
+		return $this->model->getParentsByIdFlat($_category_id);
+	}
+	
+	public function getInfoBySlug($_slug)
+	{
+		return $this->model->getInfoBySlug($_slug);
+	}
+	
+	public function getInfoById($_category_id)
+	{
+		return $this->model->getInfoById($_category_id);
+	}
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use App\Repositories\CategoryRepository;
 use App\Repositories\LocationRepository;
 use App\Http\Dc\Util;
+use App\Category;
 //use App\Http\Dc\Util;
 
 class AdController extends Controller
@@ -28,6 +29,14 @@ class AdController extends Controller
     	return view('ad.home', ['c' => $this->category->getAllHierarhy(),
     							'l' => $this->location->getAllHierarhy(),
     							'clist' => $this->category->getOneLevel()]);
+    }
+    
+    public function proxy(Request $request)
+    {
+    	echo 'proxy';
+    	$params = Input::all();
+    	print_r($params);
+    	echo $request->slug;
     }
     
     public function search(Request $request)
