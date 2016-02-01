@@ -43,7 +43,8 @@ Route::post('lostpassword', 'Auth\PasswordController@postEmail');
 Route::get('reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('reset', 'Auth\PasswordController@postReset');
 
-Route::get('/{slug}', 'AdController@proxy')->name('proxy')->where('slug', '.*');
+// Route::get('/{slug}', 'AdController@proxy')->name('proxy')->where('slug', '.*');
+Route::get('/{category_slug}', 'AdController@search')->name('category_slug')->where('category_slug', '.*');
 
 
 

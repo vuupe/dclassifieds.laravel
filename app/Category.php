@@ -42,9 +42,13 @@ class Category extends Model
     
     public function getOneLevel($_parent_id = null)
     {
-    	return $this->where('category_parent_id', $_parent_id)
+    	$categoryCollection = $this->where('category_parent_id', $_parent_id)
     				->orderBy('category_ord', 'asc')
     				->get();
+    	foreach($categoryCollection as $k => &$v){
+    		$v->category_full_path = $this->getCategoryFullPathById($v->category_id);
+    	}
+    	return $categoryCollection;
     }
     
     public function getIdBySlug($_slug)
@@ -149,6 +153,37 @@ class Category extends Model
     	$categoryCollection = $this->where('category_id', $_category_id)->first();
     	if(!empty($categoryCollection)){
     		$ret = $categoryCollection->attributes;
+    	}
+    	return $ret;
+    }
+    
+    public function getCategoryFullPathById($_category_id)
+    {
+    	$ret = '';
+    	$parentCategories = $this->getParentsByIdFlat($_category_id);
+    	if(!empty($parentCategories)){
+	    	$parentCategories = array_reverse($parentCategories);
+	    	$ret_array = array();
+	    	foreach ($parentCategories as $k => $v){
+	    		$ret_array[] = $v['category_slug'];
+	    	}
+	    	if(!empty($ret_array)){
+	    		$ret = join('/', $ret_array);
+	    	}
+    	}
+    	return $ret;
+    }
+    
+    public function getCategoryIdByFullPath($_path)
+    {
+    	$ret = 0;
+    	$path_parts_array = explode('/', trim($_path, ' /'));
+    	if(is_array($path_parts_array)){
+    		$last_category_slug = array_pop($path_parts_array);
+    		$category_id = $this->getIdBySlug($last_category_slug);
+    		if($category_id > 0){
+    			$ret = $category_id;
+    		}
     	}
     	return $ret;
     }

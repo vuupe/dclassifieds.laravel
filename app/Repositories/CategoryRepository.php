@@ -59,4 +59,14 @@ class CategoryRepository
 	{
 		return $this->model->getInfoById($_category_id);
 	}
+	
+	public function getCategoryFullPathById($_category_id)
+	{
+		return $this->model->getCategoryFullPathById($_category_id);
+	}
+	
+	public function getCategoryIdByFullPath($_path)
+	{
+		return $this->model->getCategoryIdByFullPath($_path);
+	}
 }
