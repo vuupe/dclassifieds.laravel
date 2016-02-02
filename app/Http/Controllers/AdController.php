@@ -41,15 +41,37 @@ class AdController extends Controller
     
     public function search(Request $request)
     {
-//     	print_r(Input::all());
-    	$params = Input::all();
-		
-    	//check for category selection
-    	$cid = 0;
-    	if(isset($params['cid']) && is_numeric($params['cid'])){
-    		$cid = $params['cid'];
+//     	echo $request->category_slug;
+    	$breadcrump = array();
+    	
+    	//check if category selected
+    	$category_slug = '';
+    	if(isset($request->category_slug)){
+    		$category_slug = Util::sanitize($request->category_slug);
     	}
     	
+    	$cid = 0;
+    	if(!empty($category_slug)){
+    		$cid = $this->category->getCategoryIdByFullPath($category_slug);		
+    	}
+    	
+    	//get selected category childs
+    	$clist = array();
+    	if($cid > 0){
+    		$clist = $this->category->getOneLevel($cid);
+    		$breadcrump_data = $this->category->getParentsByIdFlat($cid);
+    		if(!empty($breadcrump_data)){
+	    		foreach ($breadcrump_data as $k => &$v){
+	    			$v['category_full_path'] = $this->category->getCategoryFullPathById($v['category_id']);
+	    		}
+	    		//category part of breadcrump
+	    		$breadcrump['c'] = array_reverse($breadcrump_data);
+    		}
+//     		print_r($breadcrump_data);
+    	}
+    	
+    	$params = Input::all();
+		
     	//check for location selection
     	$lid = 0;
     	if(isset($params['lid']) && is_numeric($params['lid'])){
@@ -65,13 +87,13 @@ class AdController extends Controller
     		}
     	}
     	
-    	
-    	
     	return view('ad.search', [	'c' => $this->category->getAllHierarhy(),
-    						     	'l' => $this->location->getAllHierarhy(),
+    						 		'l' => $this->location->getAllHierarhy(),
     								'cid' => $cid,
     								'lid' => $lid,
-    								'search_text' => $search_text]);
+    								'search_text' => $search_text,
+    								'clist' => $clist,
+    								'breadcrump' => $breadcrump]);
     }
     
     public function detail(Request $request)

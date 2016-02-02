@@ -117,6 +117,7 @@ class Category extends Model
     	do{
     		$categoryCollection = $this->where('category_slug', $_slug)->with('parents')->first();
     		$ret[$categoryCollection->category_id] = $categoryCollection->attributes;
+    		$ret[$categoryCollection->category_id]['category_full_path'] = $this->getCategoryFullPathById($_category_id);
     		if(!empty($categoryCollection->parents)){
     			$_slug = $categoryCollection->parents->category_slug;
     		}
@@ -129,7 +130,9 @@ class Category extends Model
     	$ret = array();
     	do{
     		$categoryCollection = $this->where('category_id', $_category_id)->with('parents')->first();
-    		$ret[$categoryCollection->category_id] = $categoryCollection->attributes;
+    		if(!empty($categoryCollection)){
+    			$ret[$categoryCollection->category_id] = $categoryCollection->attributes;
+    		}
     		if(!empty($categoryCollection->parents)){
     			$_category_id = $categoryCollection->parents->category_id;
     		}

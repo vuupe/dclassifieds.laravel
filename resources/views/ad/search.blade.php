@@ -6,15 +6,21 @@
         	<div class="row">
             	<div class="col-md-12">
                     <ol class="breadcrumb">
-                    	  <li><a href="#">Home</a></li>
-                          <li class="active">Fashion</li>
+                    	  <li><a href="{{ route('home') }}">Home</a></li>
+                          <!--<li class="active">Fashion</li>-->
+                          <?if(isset($breadcrump['c']) && !empty($breadcrump['c'])){?>
+                          	<?foreach ($breadcrump['c'] as $k => $v){?>
+                          	<li><a href="{{ route('category_slug', ['category_slug' => $v['category_full_path']]) }}"><?=$v['category_title']?></a></li>
+                          	<?}//end of foreach?>
+                          <?}//end of if?>
                     </ol>
                 </div>
             </div>
         </div>
         
+        <?if(isset($clist) && !empty($clist)){?>
         <div class="container category_panel">
-            <div class="row">
+            <!-- <div class="row">
             	<div class="col-md-3 padding_top_bottom_15"><a href="">Clothes <span class="text-muted">204601</span></a></div>
                 <div class="col-md-3 padding_top_bottom_15"><a href="">Shoes <span class="text-muted">74767</span></a></div>
                 <div class="col-md-3 padding_top_bottom_15"><a href="">Accessories <span class="text-muted">40133</span></a></div>
@@ -25,8 +31,30 @@
                 <div class="col-md-3 padding_top_bottom_15"><a href="">Watches <span class="text-muted">12335</span></a></div>
             	<div class="col-md-3 padding_top_bottom_15"></div>
                 <div class="col-md-3 padding_top_bottom_15"></div>
-            </div>
+            </div> -->
+            
+            <?
+            $i = 1;
+            $closed = 0;
+            foreach ($clist as $k => $v){?>
+            	<?if($i == 1){?>
+            		<div class="row">
+            	<?}?>
+            	<div class="col-md-3 padding_top_bottom_15"><a href="{{ route('category_slug', ['category_slug' => $v->category_full_path]) }}"><?=$v->category_title?></a></div>
+            	<?
+				$i++;
+				if($i > 4){
+					$closed = 1;
+					$i = 1;
+					?></div><?
+				}
+			}//end foreach
+			
+			if(!$closed){?>
+				</div>
+			<?}?>
         </div>
+        <?}//end of if?>
         
         <div class="container home_promo_ads_panel">
         	<div class="row margin_bottom_15">
