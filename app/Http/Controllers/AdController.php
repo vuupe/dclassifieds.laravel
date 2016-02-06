@@ -38,7 +38,7 @@ class AdController extends Controller
     	$url_params = array();
     	
     	$params = Input::all();
-    	print_r($params);
+//     	print_r($params);
     	
     	//check for selected category
     	$cid = 0;
@@ -46,6 +46,7 @@ class AdController extends Controller
     		$cid = $params['cid'];
     		$category_slug = $this->category->getCategoryFullPathById($cid);
     		$url_params[] = $category_slug;
+    		unset($params['cid']);
     	}
     	
     	//check for location selection
@@ -54,6 +55,7 @@ class AdController extends Controller
     		$lid = $params['lid'];
     		$location_slug = $this->location->getSlugById($lid);
     		$url_params[] = 'l-' . $location_slug;
+    		unset($params['lid']);
     	}
     	
     	//check for search text
@@ -65,20 +67,34 @@ class AdController extends Controller
     			$search_text = preg_replace('/\s+/', '-', $search_text);
     			$url_params[] = 'q-' . $search_text;
     		}
+    		unset($params['search_text']);
     	}
     	
-    	return redirect($root . '/' . join('/', $url_params));
+    	if(!empty($url_params)){
+    		$redirect_url = $root . '/' . join('/', $url_params);
+    	}
+    	
+    	$query_string = '';
+    	if(!empty($params)){
+    		$query_string = Util::getQueryStringFromArray($params);
+    	}
+    	
+    	if(!empty($query_string)){
+    		$redirect_url .= '?' . $query_string;
+    	}
+    	
+    	return redirect($redirect_url);
     	
     }
     
     public function search(Request $request)
     {
-//     	$params = Input::all();
-//     	print_r($params);
+    	$params = Input::all();
+    	print_r($params);
     	
-//     	echo 'category_slug: ' . $request->category_slug . '<br />';
-//     	echo 'location_slug: ' . $request->location_slug . '<br />';
-//     	echo 'search_slug: ' . $request->search_slug . '<br />';
+    	echo 'category_slug: ' . $request->category_slug . '<br />';
+    	echo 'location_slug: ' . $request->location_slug . '<br />';
+    	echo 'search_slug: ' . $request->search_slug . '<br />';
     	
     	
     	
@@ -111,21 +127,28 @@ class AdController extends Controller
 //     		print_r($breadcrump_data);
     	}
     	
-    	$params = Input::all();
+//     	$params = Input::all();
 		
     	//check for location selection
+    	$location_slug = '';
+    	if(isset($request->location_slug)){
+    		$location_slug = Util::sanitize($request->location_slug);
+    	}
+    	
     	$lid = 0;
-    	if(isset($params['lid']) && is_numeric($params['lid'])){
-    		$lid = $params['lid'];
+    	if(!empty($location_slug)){
+    		$lid = $this->location->getIdBySlug($location_slug);		
     	}
     	
     	//check for search text
     	$search_text = '';
-    	if(isset($params['search_text'])){
-    		$search_text_tmp = Util::sanitize($params['search_text']);
-    		if(!empty($search_text_tmp) && mb_strlen($search_text_tmp, 'utf-8') > 3){
-    			$search_text = $search_text_tmp;
-    		}
+    	$search_text_tmp = '';
+    	if(isset($request->search_slug)){
+    		$search_text_tmp = Util::sanitize($request->search_slug);
+    	}
+    	
+    	if(!empty($search_text_tmp) && mb_strlen($search_text_tmp, 'utf-8') > 3){
+    		$search_text = preg_replace('/-/', ' ', $search_text_tmp);
     	}
     	
     	return view('ad.search', [	'c' => $this->category->getAllHierarhy(),

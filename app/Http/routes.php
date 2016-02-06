@@ -70,7 +70,7 @@ Route::get('/q-{search_slug}', 'AdController@search')
 	->where(['search_slug' => '.*']);	
 
 //category + location
-Route::get('/{category_slug}/l-{location_slug}', 'AdController@search')
+Route::get('/{category_slug}/l-{location_slug?}', 'AdController@search')
 	->name('category_location_slug')
 	->where(['category_slug' => '.*', 'location_slug' => '.*']);
 	
