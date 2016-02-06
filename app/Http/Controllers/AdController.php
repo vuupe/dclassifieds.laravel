@@ -11,6 +11,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\LocationRepository;
 use App\Http\Dc\Util;
 use App\Category;
+use App\Location;
 //use App\Http\Dc\Util;
 
 class AdController extends Controller
@@ -33,14 +34,54 @@ class AdController extends Controller
     
     public function proxy(Request $request)
     {
-    	echo 'proxy';
+    	$root = $request->root();
+    	$url_params = array();
+    	
     	$params = Input::all();
     	print_r($params);
-    	echo $request->slug;
+    	
+    	//check for selected category
+    	$cid = 0;
+    	if(isset($params['cid']) && $params['cid'] > 0){
+    		$cid = $params['cid'];
+    		$category_slug = $this->category->getCategoryFullPathById($cid);
+    		$url_params[] = $category_slug;
+    	}
+    	
+    	//check for location selection
+    	$lid = 0;
+    	if(isset($params['lid']) && $params['lid'] > 0){
+    		$lid = $params['lid'];
+    		$location_slug = $this->location->getSlugById($lid);
+    		$url_params[] = 'l-' . $location_slug;
+    	}
+    	
+    	//check for search text
+    	$search_text = '';
+    	if(isset($params['search_text'])){
+    		$search_text_tmp = Util::sanitize($params['search_text']);
+    		if(!empty($search_text_tmp) && mb_strlen($search_text_tmp, 'utf-8') > 3){
+    			$search_text = $search_text_tmp;
+    			$search_text = preg_replace('/\s+/', '-', $search_text);
+    			$url_params[] = 'q-' . $search_text;
+    		}
+    	}
+    	
+    	return redirect($root . '/' . join('/', $url_params));
+    	
     }
     
     public function search(Request $request)
     {
+//     	$params = Input::all();
+//     	print_r($params);
+    	
+//     	echo 'category_slug: ' . $request->category_slug . '<br />';
+//     	echo 'location_slug: ' . $request->location_slug . '<br />';
+//     	echo 'search_slug: ' . $request->search_slug . '<br />';
+    	
+    	
+    	
 //     	echo $request->category_slug;
     	$breadcrump = array();
     	

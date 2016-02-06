@@ -19,4 +19,14 @@ class LocationRepository
 	{
 		return $this->model->getOneLevel($_parent_id);
 	}
+	
+	public function getIdBySlug($_slug)
+	{
+		return $this->model->getIdBySlug($_slug);
+	}
+	
+	public function getSlugById($_location_id)
+	{
+		return $this->model->getSlugById($_location_id);
+	}
 }

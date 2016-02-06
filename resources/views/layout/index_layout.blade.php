@@ -58,7 +58,7 @@
         </nav>
         
         <div class="container search_panel">
-            <form method="GET" action="{{url('search')}}" class="form">
+            <form method="GET" action="{{url('proxy')}}" class="form">
                 <div class="row">
                     <div class="col-md-3 padding_bottom_15">
                     	<input type="text" name="search_text" id="search_text" class="form-control" placeholder="1 000 000 Ads" value="{{isset($search_text) ? stripslashes($search_text) : ''}}"/>

@@ -8,6 +8,7 @@ class Location extends Model
 {
     protected $table = 'location';
     protected $primaryKey = 'location_id';
+    public $timestamps = false;
     
     public function parent()
     {
@@ -45,5 +46,31 @@ class Location extends Model
     	return $this->where('location_parent_id', $_parent_id)
     	->orderBy('location_name', 'asc')
     	->get();
+    }
+    
+    public function getIdBySlug($_slug)
+    {
+    	$ret = 0;
+    	$l_object = $this->select('location_id')
+    	->where('location_slug', $_slug)
+    	->first();
+    	 
+    	if(!empty($l_object)){
+    		$ret = $l_object->location_id;
+    	}
+    	return $ret;
+    }
+    
+    public function getSlugById($_location_id)
+    {
+    	$ret = '';
+    	$l_object = $this->select('location_slug')
+    	->where('location_id', $_location_id)
+    	->first();
+    
+    	if(!empty($l_object)){
+    		$ret = $l_object->location_slug;
+    	}
+    	return $ret;
     }
 }

@@ -43,8 +43,47 @@ Route::post('lostpassword', 'Auth\PasswordController@postEmail');
 Route::get('reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('reset', 'Auth\PasswordController@postReset');
 
-// Route::get('/{slug}', 'AdController@proxy')->name('proxy')->where('slug', '.*');
-Route::get('/{category_slug}', 'AdController@search')->name('category_slug')->where('category_slug', '.*');
+Route::get('/proxy', 'AdController@proxy')->name('proxy');
+
+/**
+ * search routes
+ */
+
+//category + location + search string
+Route::get('/{category_slug}/l-{location_slug}/q-{search_slug}', 'AdController@search')
+	->name('category_location_search_slug')
+	->where(['category_slug' => '.*', 'location_slug' => '.*', 'search_slug' => '.*']);
+
+//location + search string
+Route::get('/l-{location_slug}/q-{search_slug}', 'AdController@search')
+	->name('location_search_slug')
+	->where(['location_slug' => '.*', 'search_slug' => '.*']);
+	
+//location
+Route::get('/l-{location_slug}', 'AdController@search')
+	->name('location_slug')
+	->where(['location_slug' => '.*']);
+
+//search string
+Route::get('/q-{search_slug}', 'AdController@search')
+	->name('search_slug')
+	->where(['search_slug' => '.*']);	
+
+//category + location
+Route::get('/{category_slug}/l-{location_slug}', 'AdController@search')
+	->name('category_location_slug')
+	->where(['category_slug' => '.*', 'location_slug' => '.*']);
+	
+//category + search string
+Route::get('/{category_slug}/q-{search_slug}', 'AdController@search')
+	->name('category_search_slug')
+	->where(['category_slug' => '.*', 'search_slug' => '.*']);	
+	
+//category	
+Route::get('/{category_slug}', 'AdController@search')
+	->name('category_slug')
+	->where(['category_slug' => '.*']);
+
 
 
 
