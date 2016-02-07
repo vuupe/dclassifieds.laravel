@@ -50,14 +50,14 @@ Route::get('/proxy', 'AdController@proxy')->name('proxy');
  */
 
 //category + location + search string
-Route::get('/{category_slug}/l-{location_slug}/q-{search_slug}', 'AdController@search')
-	->name('category_location_search_slug')
-	->where(['category_slug' => '.*', 'location_slug' => '.*', 'search_slug' => '.*']);
+Route::get('/{category_slug}/l-{location_slug}/q-{search_text}', 'AdController@search')
+	->name('category_location_search_text')
+	->where(['category_slug' => '.*', 'location_slug' => '.*', 'search_text' => '.*']);
 
 //location + search string
-Route::get('/l-{location_slug}/q-{search_slug}', 'AdController@search')
-	->name('location_search_slug')
-	->where(['location_slug' => '.*', 'search_slug' => '.*']);
+Route::get('/l-{location_slug}/q-{search_text}', 'AdController@search')
+	->name('location_search_text')
+	->where(['location_slug' => '.*', 'search_text' => '.*']);
 	
 //location
 Route::get('/l-{location_slug}', 'AdController@search')
@@ -65,9 +65,9 @@ Route::get('/l-{location_slug}', 'AdController@search')
 	->where(['location_slug' => '.*']);
 
 //search string
-Route::get('/q-{search_slug}', 'AdController@search')
-	->name('search_slug')
-	->where(['search_slug' => '.*']);	
+Route::get('/q-{search_text}', 'AdController@search')
+	->name('search_text')
+	->where(['search_text' => '.*']);	
 
 //category + location
 Route::get('/{category_slug}/l-{location_slug?}', 'AdController@search')
@@ -75,9 +75,9 @@ Route::get('/{category_slug}/l-{location_slug?}', 'AdController@search')
 	->where(['category_slug' => '.*', 'location_slug' => '.*']);
 	
 //category + search string
-Route::get('/{category_slug}/q-{search_slug}', 'AdController@search')
-	->name('category_search_slug')
-	->where(['category_slug' => '.*', 'search_slug' => '.*']);	
+Route::get('/{category_slug}/q-{search_text}', 'AdController@search')
+	->name('category_search_text')
+	->where(['category_slug' => '.*', 'search_text' => '.*']);	
 	
 //category	
 Route::get('/{category_slug}', 'AdController@search')

@@ -30,7 +30,7 @@
             	<?if($i == 1){?>
             		<div class="row">
             	<?}?>
-            	<div class="col-md-3 padding_top_bottom_15"><a href="{{ route('category_slug', ['category_slug' => $v->category_full_path]) }}"><img src="{{ asset('images/icons/' . $v->category_img) }}" /> <?=$v->category_title?></a></div>
+            	<div class="col-md-3 padding_top_bottom_15"><a href="{{ $v->category_url }}"><img src="{{ asset('images/icons/' . $v->category_img) }}" /> <?=$v->category_title?></a></div>
             	<?
 				$i++;
 				if($i > 4){

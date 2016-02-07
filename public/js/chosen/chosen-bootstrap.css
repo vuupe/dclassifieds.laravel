@@ -152,3 +152,7 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
     cursor: default;
     background-color: white;
 }
+
+select.form-control + .chosen-container-single .chosen-single abbr {
+	top: 11px;
+}

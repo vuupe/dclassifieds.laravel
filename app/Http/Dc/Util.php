@@ -9,7 +9,7 @@ class Util
     	return addslashes(strip_tags(trim($string)));
     }
     
-    static function buildUrl($_route_name, $_params = array())
+    static function buildUrlByRouteName($_route_name, $_params = array())
     {
     	$params = array();
     	if(!empty($_params)){
@@ -18,6 +18,12 @@ class Util
     		}
     	}
     	return route($_route_name) . '/' . join('/', $params);
+    }
+    
+    static function buildUrl($_url_params = array(), $_divider = '/')
+    {
+    	$root = request()->root();
+    	return $root . $_divider . join($_divider, $_url_params);
     }
     
     static function getQueryStringFromArray($_params = array(), $_remove_zero = 1)

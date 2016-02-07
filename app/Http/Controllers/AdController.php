@@ -18,29 +18,57 @@ class AdController extends Controller
 {
 	protected $category;
 	protected $location;
+	protected $ad;
 	
-	public function __construct(CategoryRepository $_category, LocationRepository $_location)
+	public function __construct(CategoryRepository $_category, LocationRepository $_location, AdRepository $_ad)
 	{
 		$this->category = $_category;
 		$this->location = $_location;
+		$this->ad = $_ad;
 	}
 	
     public function index(Request $request)
     {
+    	//is there selected location
+    	$lid = session()->get('lid', 0);
+    	
+    	//generate category url with location if selected
+    	$clist = $this->category->getOneLevel();
+    	if(!empty($clist)){
+    		foreach ($clist as $k => &$v){
+    			$category_url_params = array();
+    			$category_url_params[] = $this->category->getCategoryFullPathById($v->category_id);
+    			if(session()->has('location_slug')){
+    				$category_url_params[] = 'l-' . session()->get('location_slug');
+    			}
+    			
+    			if(!empty($category_url_params)){
+    				$v->category_url = Util::buildUrl($category_url_params);	 
+    			}	
+    		}
+    	}
+    	
     	return view('ad.home', ['c' => $this->category->getAllHierarhy(),
     							'l' => $this->location->getAllHierarhy(),
-    							'clist' => $this->category->getOneLevel()]);
+    							'clist' => $clist,
+    							'lid' => $lid]);
     }
     
     public function proxy(Request $request)
     {
-    	$root = $request->root();
-    	$url_params = array();
+    	//root url / base url
+    	$root 			= $request->root();
     	
+    	//generated url if no parameters redirect to home
+    	$redirect_url 	= $root;
+    	
+    	//generated url parameters container
+    	$url_params 	= array();
+    	
+    	//get incoming parameters
     	$params = Input::all();
-//     	print_r($params);
     	
-    	//check for selected category
+    	//check for category selection
     	$cid = 0;
     	if(isset($params['cid']) && $params['cid'] > 0){
     		$cid = $params['cid'];
@@ -56,6 +84,16 @@ class AdController extends Controller
     		$location_slug = $this->location->getSlugById($lid);
     		$url_params[] = 'l-' . $location_slug;
     		unset($params['lid']);
+    		session()->put('lid', $lid);
+    		session()->put('location_slug', $location_slug);
+    	} else {
+    		if(session()->has('lid')){
+    			session()->forget('lid');
+    		}
+    		
+    		if(session()->has('location_slug')){
+    			session()->forget('location_slug');
+    		}
     	}
     	
     	//check for search text
@@ -70,21 +108,23 @@ class AdController extends Controller
     		unset($params['search_text']);
     	}
     	
+    	//generate new url for redirection
     	if(!empty($url_params)){
-    		$redirect_url = $root . '/' . join('/', $url_params);
+    		$redirect_url = Util::buildUrl($url_params);
     	}
     	
+    	//check if there are parameters for query string
     	$query_string = '';
     	if(!empty($params)){
     		$query_string = Util::getQueryStringFromArray($params);
     	}
     	
+    	//add query string to generated url
     	if(!empty($query_string)){
     		$redirect_url .= '?' . $query_string;
     	}
     	
     	return redirect($redirect_url);
-    	
     }
     
     public function search(Request $request)
@@ -94,11 +134,8 @@ class AdController extends Controller
     	
     	echo 'category_slug: ' . $request->category_slug . '<br />';
     	echo 'location_slug: ' . $request->location_slug . '<br />';
-    	echo 'search_slug: ' . $request->search_slug . '<br />';
+    	echo 'search_text: ' . $request->search_text . '<br />';
     	
-    	
-    	
-//     	echo $request->category_slug;
     	$breadcrump = array();
     	
     	//check if category selected
@@ -112,23 +149,40 @@ class AdController extends Controller
     		$cid = $this->category->getCategoryIdByFullPath($category_slug);		
     	}
     	
-    	//get selected category childs
+    	//if category selected get childs and generate url and breadcrump
     	$clist = array();
     	if($cid > 0){
     		$clist = $this->category->getOneLevel($cid);
+    		foreach ($clist as $k => &$v){
+    			$category_url_params = array();
+    			$category_url_params[] = $this->category->getCategoryFullPathById($v->category_id);
+    			if(session()->has('location_slug')){
+    				$category_url_params[] = 'l-' . session()->get('location_slug');
+    			}
+    			 
+    			if(!empty($category_url_params)){
+    				$v->category_url = Util::buildUrl($category_url_params);
+    			}
+    		}
+    		
     		$breadcrump_data = $this->category->getParentsByIdFlat($cid);
     		if(!empty($breadcrump_data)){
 	    		foreach ($breadcrump_data as $k => &$v){
-	    			$v['category_full_path'] = $this->category->getCategoryFullPathById($v['category_id']);
+	    			$category_url_params = array();
+	    			$category_url_params[] = $this->category->getCategoryFullPathById($v['category_id']);
+	    			if(session()->has('location_slug')){
+	    				$category_url_params[] = 'l-' . session()->get('location_slug');
+	    			}
+	    			
+	    			if(!empty($category_url_params)){
+	    				$v['category_url'] = Util::buildUrl($category_url_params);
+	    			}
 	    		}
 	    		//category part of breadcrump
 	    		$breadcrump['c'] = array_reverse($breadcrump_data);
     		}
-//     		print_r($breadcrump_data);
     	}
     	
-//     	$params = Input::all();
-		
     	//check for location selection
     	$location_slug = '';
     	if(isset($request->location_slug)){
@@ -143,8 +197,8 @@ class AdController extends Controller
     	//check for search text
     	$search_text = '';
     	$search_text_tmp = '';
-    	if(isset($request->search_slug)){
-    		$search_text_tmp = Util::sanitize($request->search_slug);
+    	if(isset($request->search_text)){
+    		$search_text_tmp = Util::sanitize($request->search_text);
     	}
     	
     	if(!empty($search_text_tmp) && mb_strlen($search_text_tmp, 'utf-8') > 3){

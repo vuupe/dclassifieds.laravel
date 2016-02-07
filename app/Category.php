@@ -46,9 +46,6 @@ class Category extends Model
     	$categoryCollection = $this->where('category_parent_id', $_parent_id)
     				->orderBy('category_ord', 'asc')
     				->get();
-    	foreach($categoryCollection as $k => &$v){
-    		$v->category_full_path = $this->getCategoryFullPathById($v->category_id);
-    	}
     	return $categoryCollection;
     }
     
@@ -69,8 +66,8 @@ class Category extends Model
     {
     	$ret = '';
     	$c_object = $this->select('category_slug')
-    	->where('category_id', $_category_id)
-    	->first();
+    					->where('category_id', $_category_id)
+    					->first();
     	 
     	if(!empty($c_object)){
     		$ret = $c_object->category_slug;
@@ -99,8 +96,8 @@ class Category extends Model
     {
     	$ret = array();
     	$categoryCollection = $this->where('category_id', $_category_id)
-    	->with('parents')
-    	->first();
+    							->with('parents')
+    							->first();
     	 
     	//get parents
     	if(!empty($categoryCollection)){
