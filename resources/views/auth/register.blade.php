@@ -23,7 +23,10 @@
                         </div>
                     </div>
                     
-                    @include('common.errors')                
+                    @include('common.errors')
+                    @if (session()->has('message'))
+					    <div class="alert alert-info">{{ session('message') }}</div>
+					@endif                
                 
                     <form class="form-horizontal" method="POST" action="{{url('register')}}">
                     

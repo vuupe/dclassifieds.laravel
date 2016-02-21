@@ -50,8 +50,18 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">My Profile</a></li>
-                        <li><p class="navbar-btn" style="margin:0px;"><a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a></p></li>
+                        <li>
+                        	<?if (Auth::check()){?>
+                        		<a href="{{ url('profile') }}">My Profile</a>
+                        	<?} else {?>
+                        		<a href="{{ url('login') }}">My Profile</a>
+                        	<?}?>	
+                        </li>
+                        <li>
+                        	<p class="navbar-btn" style="margin:0px;">
+                        		<a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a>
+                        	</p>
+                        </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

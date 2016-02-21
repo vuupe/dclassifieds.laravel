@@ -23,7 +23,10 @@
                         </div>
                     </div>
                     
-                    @include('common.errors')                
+                    @include('common.errors')
+                    @if (session()->has('message'))
+					    <div class="alert alert-info">{{ session('message') }}</div>
+					@endif                
                 
                     <form class="form-horizontal" method="POST" action="{{url('login')}}">
                     
@@ -59,7 +62,7 @@
                             	<button type="submit" class="btn btn-primary">Login</button>
                             </div>
                             <div class="col-md-offset-2 col-md-10">
-                            	<a href="{{url('lostpassword')}}">Lost Password?</a>
+                            	<a href="{{ url('register') }}">Register</a> | <a href="{{ url('lostpassword') }}">Lost Password?</a>
                             </div>
                         </div>
                     </form>

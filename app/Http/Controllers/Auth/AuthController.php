@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Mail;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+	protected $redirectTo = '/profile';
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -61,6 +65,105 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+        	'user_activation_token' => str_random(30),
         ]);
     }
+    
+	/**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        
+        $user = $this->create($request->all());
+        
+        Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {
+        	$m->from('test@mylove.bg', 'dclasssifieds activation');
+        	$m->to($user->email)->subject('Activate your account!');
+        });
+        
+        session()->flash('message', 'Please confirm your email address.');
+        return redirect()->back();
+
+        //Auth::guard($this->getGuard())->login($this->create($request->all()));
+
+        //return redirect($this->redirectPath());
+    }
+    
+    /**
+     * Confirm a user's email address.
+     *
+     * @param  string $token
+     * @return mixed
+     */
+    public function confirmEmail($token)
+    {
+    	User::where('user_activation_token', $token)->firstOrFail()->confirmEmail();
+    	session()->flash('message', 'You are now confirmed. Please login.');
+    	return redirect('login');
+    }
+    
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request)
+    {
+    	$this->validate($request, [
+    			$this->loginUsername() => 'required', 'password' => 'required',
+    			]);
+    
+    	// If the class is using the ThrottlesLogins trait, we can automatically throttle
+    	// the login attempts for this application. We'll key this by the username and
+    	// the IP address of the client making these requests into this application.
+    	$throttles = $this->isUsingThrottlesLoginsTrait();
+    
+    	if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+    		return $this->sendLockoutResponse($request);
+    	}
+    
+    	$credentials = $this->getCredentials($request);
+    
+    	if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+    		return $this->handleUserWasAuthenticated($request, $throttles);
+    	}
+    
+    	// If the login attempt was unsuccessful we will increment the number of attempts
+    	// to login and redirect the user back to the login form. Of course, when this
+    	// user surpasses their maximum number of attempts they will get locked out.
+    	if ($throttles) {
+    		$this->incrementLoginAttempts($request);
+    	}
+    
+    	return $this->sendFailedLoginResponse($request);
+    }
+    
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function getCredentials(Request $request)
+    {
+    	//return $request->only($this->loginUsername(), 'password');
+    	return [
+    		$this->loginUsername() => $request->input($this->loginUsername()),
+    		'password' => $request->input('password'),
+    		'user_activated' => 1
+    	];
+    }
+    
 }

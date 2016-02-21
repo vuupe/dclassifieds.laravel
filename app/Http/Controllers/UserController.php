@@ -9,5 +9,8 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    //
+	public function profile(Request $request)
+    {
+    	echo 'user profile action';	
+    }
 }

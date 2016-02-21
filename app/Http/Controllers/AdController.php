@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use App\Repositories\CategoryRepository;
 use App\Repositories\LocationRepository;
+use App\Repositories\AdRepository;
 use App\Http\Dc\Util;
 use App\Category;
 use App\Location;

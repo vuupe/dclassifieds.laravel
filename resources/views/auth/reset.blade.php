@@ -23,7 +23,8 @@
                         </div>
                     </div>
                     
-                    @include('common.errors')                
+                    @include('common.errors')
+                                    
                 
                     <form class="form-horizontal" method="POST" action="{{url('reset')}}">
                     
