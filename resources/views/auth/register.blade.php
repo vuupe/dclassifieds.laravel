@@ -26,7 +26,7 @@
                     @include('common.errors')
                     @if (session()->has('message'))
 					    <div class="alert alert-info">{{ session('message') }}</div>
-					@endif                
+					@endif
                 
                     <form class="form-horizontal" method="POST" action="{{url('register')}}">
                     
@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <div class="checkbox">
-                                <label>
+                                <label> 
                                 	<input type="checkbox" name="policy_agree"> I Agree with <a href="">"Privacy Policy"</a>
                                 </label>
                                 </div>

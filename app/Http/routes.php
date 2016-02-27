@@ -19,7 +19,8 @@ Route::get('/', 'AdController@index')->name('home');
 	
 	
 Route::get('/detail/{id}', 'AdController@detail')->name('detail');
-Route::match(['get', 'post'], '/publish', 'AdController@publish')->name('publish');
+Route::get('/publish', 'AdController@getPublish')->name('publish');
+Route::post('/publish', 'AdController@postPublish')->name('postPublish');
 
 /**
  * user actions

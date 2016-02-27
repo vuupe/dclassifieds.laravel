@@ -50,16 +50,31 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                        	<?if (Auth::check()){?>
-                        		<a href="{{ url('profile') }}">My Profile</a>
-                        	<?} else {?>
-                        		<a href="{{ url('login') }}">My Profile</a>
-                        	<?}?>	
-                        </li>
+                       	<?if (Auth::check()){?>
+                        	<li class="dropdown">
+	                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
+	                            
+	                            <ul class="dropdown-menu">
+	                                <li><a href="{{ url('profile') }}">My Profile</a></li>
+	                                <li><a href="{{ url('myads') }}">My Classifieds</a></li>
+	                                <li role="separator" class="divider"></li>
+	                                <li><a href="{{ url('logout') }}">Exit</a></li>
+	                            </ul>
+	                            
+	                        </li>
+                        	
+                        <?} else {?>
+	                        <li>
+	                        	<a href="{{ url('login') }}">My Profile</a>
+	                        </li>
+                        <?}?>	
                         <li>
                         	<p class="navbar-btn" style="margin:0px;">
-                        		<a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a>
+                        		<?if (Auth::check()){?>
+                        			<a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a>
+                        		<?} else {?>
+                        			<a href="{{ url('login') }}" class="btn btn-danger navbar-btn">Post an ad</a>
+                        		<?}?>
                         	</p>
                         </li>
                     </ul>
@@ -75,7 +90,7 @@
                     </div>
                     <div class="col-md-3 padding_bottom_15">
                     	@if(isset($c) && !empty($c))
-                   		<select name="cid" id="cid" class="form-control">
+                   		<select name="cid" id="cid" class="form-control cid_select">
                    			<option value="0"></option>
                    			@foreach ($c as $k => $v)
                    				<optgroup label="{{$v['title']}}">
@@ -89,7 +104,7 @@
                     </div>
                     <div class="col-md-3 padding_bottom_15">
                     	@if(isset($l) && !empty($l))
-                   		<select name="lid" id="lid" class="form-control" data-placeholder="All Locations">
+                   		<select name="lid" id="lid" class="form-control lid_select">
                    			<option value="0"></option>
                    			@foreach ($l as $k => $v)
                    				<optgroup label="{{$v['title']}}">

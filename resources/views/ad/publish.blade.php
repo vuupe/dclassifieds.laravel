@@ -16,9 +16,15 @@
         <div class="container">
         	<div class="row">
             	<div class="col-md-12">
+                	
+                	@include('common.errors')
+                	@if (session()->has('message'))
+					    <div class="alert alert-info">{{ session('message') }}</div>
+					@endif
                 
-                
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" method="POST">
+                    
+                    	{!! csrf_field() !!}
                     
                     	<div class="row">
                             <div class="col-md-offset-2 col-md-10">
@@ -27,23 +33,34 @@
                         </div>
                     
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-md-2 control-label">Ad Title</label>
+                            <label for="ad_title" class="col-md-2 control-label">Ad Title</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="inputEmail3" >
+                            	<input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ old('ad_title') }}" />
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-md-2 control-label">Category</label>
+                            <label for="category_id" class="col-md-2 control-label">Category</label>
                             <div class="col-md-5">
-                            	<select class="form-control"><option>Fashion</option></select>
+                            	@if(isset($c) && !empty($c))
+		                   		<select name="category_id" id="category_id" class="form-control cid_select">
+		                   			<option value="0"></option>
+		                   			@foreach ($c as $k => $v)
+		                   				<optgroup label="{{$v['title']}}">
+		                   					@if(isset($v['c']) && !empty($v['c'])){
+		                   						@include('common.cselect', ['c' => $v['c'], 'cid' => old('category_id')])
+		                   					@endif
+		                   				</optgroup>
+		                   			@endforeach
+		                   		</select>
+		                   		@endif
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-md-2 control-label">Ad Description</label>
+                            <label for="ad_description" class="col-md-2 control-label">Ad Description</label>
                             <div class="col-md-5">
-                            	<textarea class="form-control"></textarea>
+                            	<textarea class="form-control" name="ad_description" id="ad_description">{{ old('ad_description') }}</textarea>
                             </div>
                         </div>
                         
@@ -59,16 +76,48 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-md-2 control-label">Contact Name</label>
+                            <label for="location_id" class="col-md-2 control-label">Location</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="inputEmail3">
+                            	@if(isset($l) && !empty($l))
+		                   		<select name="location_id" id="location_id" class="form-control lid_select">
+		                   			<option value="0"></option>
+		                   			@foreach ($l as $k => $v)
+		                   				<optgroup label="{{$v['title']}}">
+		                   					@if(isset($v['c']) && !empty($v['c'])){
+		                   						@include('common.lselect', ['c' => $v['c'], 'lid' => old('location_id')])
+		                   					@endif
+		                   				</optgroup>
+		                   			@endforeach
+		                   		</select>
+		                   		@endif
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-md-2 control-label">E-Mail</label>
+                            <label for="ad_puslisher_name" class="col-md-2 control-label">Contact Name</label>
                             <div class="col-md-5">
-                            	<input type="email" class="form-control" id="inputEmail3" >
+                            	<input type="text" class="form-control" id="ad_puslisher_name" name="ad_puslisher_name" value="{{ old('ad_puslisher_name') }}" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ad_email" class="col-md-2 control-label">E-Mail</label>
+                            <div class="col-md-5">
+                            	<input type="email" class="form-control" id="ad_email" name="ad_email" value="{{ old('ad_email') }}" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ad_phone" class="col-md-2 control-label">Phone</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="ad_phone" name="ad_phone" value="{{ old('ad_phone') }}" >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ad_skype" class="col-md-2 control-label">Skype</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ old('ad_skype') }}" >
                             </div>
                         </div>
 
@@ -77,7 +126,7 @@
                             <div class="col-md-offset-2 col-md-10">
                             <div class="checkbox">
                             <label>
-                            <input type="checkbox"> I agree with <a href="">"Privacy Policy"</a>
+                            	<input type="checkbox" name="policy_agree" {{ old('policy_agree') ? 'checked' : '' }}> I agree with <a href="">"Privacy Policy"</a>
                             </label>
                             </div>
                             </div>

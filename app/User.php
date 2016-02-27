@@ -23,6 +23,11 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $table = 'user';
     protected $primaryKey = 'user_id';
+    
+    public function ad()
+    {
+    	return $this->hasMany('App\Ad', 'user_id', 'user_id');
+    }
 
     /**
      * The attributes that are mass assignable.

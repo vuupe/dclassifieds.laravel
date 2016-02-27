@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -13,7 +13,8 @@ use App\Repositories\AdRepository;
 use App\Http\Dc\Util;
 use App\Category;
 use App\Location;
-//use App\Http\Dc\Util;
+use App\Ad;
+
 
 class AdController extends Controller
 {
@@ -220,8 +221,44 @@ class AdController extends Controller
     	return view('ad.detail');
     }
     
-    public function publish(Request $request)
+    public function getPublish()
     {
-    	return view('ad.publish');
+    	return view('ad.publish', ['c' => $this->category->getAllHierarhy(),
+    							   'l' => $this->location->getAllHierarhy(),]);
+    }
+    
+    public function postPublish(Request $request)
+    {
+    	$this->validate($request, [
+    		'ad_title' => 'required|max:255',
+    		'category_id' => 'required|integer|not_in:0',
+    		'ad_description' => 'required|min:50',
+    		'location_id' => 'required|integer|not_in:0',
+    		'ad_puslisher_name' => 'required|string|max:255',
+    		'ad_email' => 'required|email|max:255',
+    		'policy_agree' => 'required',
+    	]);
+    	
+    	$ad_data = $request->all();
+    	
+    	//generate ad unique key
+    	$ad_data['code'] = str_random(40);
+    	$ad_data['user_id'] = $request->user()->user_id;
+    	$ad_data['ad_publish_date'] = date('Y-m-d');
+    	
+    	//create ad
+    	$ad = Ad::create($ad_data);
+    	
+    	//send info and activation mail
+//     	Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {
+//     		$m->from('test@mylove.bg', 'dclasssifieds activation');
+//     		$m->to($user->email)->subject('Activate your account!');
+//     	});
+
+    	//send control mail
+    	
+    	//set flash message and return
+    	session()->flash('message', 'Your ad is in moderation mode, please activate it.');
+    	return redirect()->back();
     }
 }

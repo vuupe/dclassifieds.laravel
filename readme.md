@@ -1,4 +1,4 @@
-## DClassifieds v3 Laravel 5.1 Version
+## DClassifieds v3 Laravel 5.2 Version
 
 DClassifieds Free Classifieds Script is free open source classifieds script based on Laravel framework. For this reason DClassifieds inherits all benefits of the Laravel framework futures. 
 
