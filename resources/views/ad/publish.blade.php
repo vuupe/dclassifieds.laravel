@@ -22,7 +22,7 @@
 					    <div class="alert alert-info">{{ session('message') }}</div>
 					@endif
                 
-                    <form class="form-horizontal" method="POST">
+                    <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                     
                     	{!! csrf_field() !!}
                     
@@ -65,13 +65,11 @@
                         </div>
                         
                         <div class="form-group">
-                        	<label for="exampleInputFile" class="col-md-2 control-label">Pics</label>
+                        	<label for="ad_image" class="col-md-2 control-label">Pics</label>
                             <div class="col-md-5">
-                                <input type="file" id="exampleInputFile1">
-                                <input type="file" id="exampleInputFile2">
-                                <input type="file" id="exampleInputFile3">
-                                <input type="file" id="exampleInputFile4">
-                                <input type="file" id="exampleInputFile5">
+                            	<?for($i = 1; $i < 6; $i++){?>
+                                <input type="file" name="ad_image[]">
+                                <?}//end of for?>
                             </div>
                         </div>
                         

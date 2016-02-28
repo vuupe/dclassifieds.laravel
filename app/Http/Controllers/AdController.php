@@ -229,10 +229,16 @@ class AdController extends Controller
     
     public function postPublish(Request $request)
     {
+    	
+//     	$files = Input::file('ad_image');
+//     	print_r($files);
+//     	exit;
+    	
     	$this->validate($request, [
     		'ad_title' => 'required|max:255',
     		'category_id' => 'required|integer|not_in:0',
     		'ad_description' => 'required|min:50',
+    		'ad_image.*' => 'image|max:300',
     		'location_id' => 'required|integer|not_in:0',
     		'ad_puslisher_name' => 'required|string|max:255',
     		'ad_email' => 'required|email|max:255',
@@ -248,6 +254,22 @@ class AdController extends Controller
     	
     	//create ad
     	$ad = Ad::create($ad_data);
+    	
+    	$ad_image = Input::file('ad_image');
+    	$destination_path = public_path('uf/adata/');
+    	$first_image_uploaded = 0;
+    	foreach ($ad_image as $k){
+    		if(!empty($k) && $k->isValid()){
+    			$file_name = $ad->ad_id . '_' .md5(time() + rand(0,9999)) . '.' . $k->getClientOriginalExtension();
+    			$k->move($destination_path, $file_name);
+    			if(!$first_image_uploaded){
+    				$first_image_uploaded = 1;
+    				$ad->ad_pic = $file_name;
+    				$ad->save();
+    			}
+    		}
+    	}
+    	exit;
     	
     	//send info and activation mail
 //     	Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {
