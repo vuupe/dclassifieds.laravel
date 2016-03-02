@@ -11,14 +11,13 @@
 |
 */
 
+/*
+ * ads actions
+ */
 Route::get('/', 'AdController@index')->name('home');
 
-// Route::get('/search/{params?}', 'AdController@search')
-// 	->name('search')->where('params', '.*')
-// 	->middleware('segment_fix');
-	
-	
 Route::get('/detail/{id}', 'AdController@detail')->name('detail');
+
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
 
@@ -50,7 +49,6 @@ Route::get('/proxy', 'AdController@proxy')->name('proxy');
 /**
  * search routes
  */
-
 //category + location + search string
 Route::get('/{category_slug}/l-{location_slug}/q-{search_text}', 'AdController@search')
 	->name('category_location_search_text')

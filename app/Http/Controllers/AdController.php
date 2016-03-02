@@ -229,32 +229,43 @@ class AdController extends Controller
     
     public function postPublish(Request $request)
     {
-    	
-//     	$files = Input::file('ad_image');
-//     	print_r($files);
-//     	exit;
-    	
-    	$this->validate($request, [
+    	$rules = [
     		'ad_title' => 'required|max:255',
     		'category_id' => 'required|integer|not_in:0',
     		'ad_description' => 'required|min:50',
-    		'ad_image.*' => 'image|max:300',
+    		//'ad_image' => 'require_one_of_array',
+    		'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
     		'location_id' => 'required|integer|not_in:0',
     		'ad_puslisher_name' => 'required|string|max:255',
     		'ad_email' => 'required|email|max:255',
     		'policy_agree' => 'required',
-    	]);
+    	];
+    	
+    	$messages = [
+    		'require_one_of_array' => 'You need to upload at least one ad pic.',
+    	];
+    	
+    	$validator = Validator::make($request->all(), $rules, $messages);
+    	
+    	if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
     	
     	$ad_data = $request->all();
     	
     	//generate ad unique key
     	$ad_data['code'] = str_random(40);
+    	
+    	//fill aditional fields
     	$ad_data['user_id'] = $request->user()->user_id;
     	$ad_data['ad_publish_date'] = date('Y-m-d');
     	
     	//create ad
     	$ad = Ad::create($ad_data);
     	
+    	//upload and fix ad images
     	$ad_image = Input::file('ad_image');
     	$destination_path = public_path('uf/adata/');
     	$first_image_uploaded = 0;
@@ -269,7 +280,7 @@ class AdController extends Controller
     			}
     		}
     	}
-    	exit;
+//     	exit;
     	
     	//send info and activation mail
 //     	Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {

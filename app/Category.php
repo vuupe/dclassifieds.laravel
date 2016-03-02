@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $table = 'category';
+    const COMMON_TYPE = 0; //common ads type 
+    const REAL_ESATE_TYPE = 1; //real estate ads
+    const AUTO_TYPE = 2; //autos ads
+	
+	protected $table = 'category';
     protected $primaryKey = 'category_id';
     public $timestamps = false;
     
