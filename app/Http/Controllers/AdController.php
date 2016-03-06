@@ -14,6 +14,12 @@ use App\Http\Dc\Util;
 use App\Category;
 use App\Location;
 use App\Ad;
+use App\AdType;
+use App\AdCondition;
+use App\EstateConstructionType;
+use App\EstateFurnishingType;
+use App\EstateHeatingType;
+use App\EstateType;
 
 
 class AdController extends Controller
@@ -223,8 +229,14 @@ class AdController extends Controller
     
     public function getPublish()
     {
-    	return view('ad.publish', ['c' => $this->category->getAllHierarhy(),
-    							   'l' => $this->location->getAllHierarhy(),]);
+    	return view('ad.publish', [	'c' => $this->category->getAllHierarhy(),
+    							   	'l' => $this->location->getAllHierarhy(),
+    							   	'at' => AdType::all(),
+    							   	'ac' => AdCondition::all(),
+    							   	'estate_construction_type' => EstateConstructionType::all(),
+    								'estate_furnishing_type' => EstateFurnishingType::all(),
+    								'estate_heating_type' => EstateHeatingType::all(),
+    								'estate_type' => EstateType::all(),]);
     }
     
     public function postPublish(Request $request)
@@ -232,7 +244,7 @@ class AdController extends Controller
     	$rules = [
     		'ad_title' => 'required|max:255',
     		'category_id' => 'required|integer|not_in:0',
-    		'ad_description' => 'required|min:50',
+    		//'ad_description' => 'required|min:50',
     		//'ad_image' => 'require_one_of_array',
     		'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
     		'location_id' => 'required|integer|not_in:0',
@@ -261,6 +273,12 @@ class AdController extends Controller
     	//fill aditional fields
     	$ad_data['user_id'] = $request->user()->user_id;
     	$ad_data['ad_publish_date'] = date('Y-m-d');
+    	
+    	//generate ad unique code
+    	do{
+    		$code = str_random(30);
+    	} while (Ad::where('code', $code)->first());
+    	$ad_data['code'] = $code;
     	
     	//create ad
     	$ad = Ad::create($ad_data);

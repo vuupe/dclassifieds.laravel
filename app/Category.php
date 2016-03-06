@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    const COMMON_TYPE = 0; //common ads type 
-    const REAL_ESATE_TYPE = 1; //real estate ads
-    const AUTO_TYPE = 2; //autos ads
+    const COMMON_TYPE = 1; //common ads type 
+    const REAL_ESATE_TYPE = 2; //real estate ads
+    const AUTO_TYPE = 3; //autos ads
 	
 	protected $table = 'category';
     protected $primaryKey = 'category_id';
@@ -36,7 +36,7 @@ class Category extends Model
     	
     	if(!empty($categoryCollection)){
     		foreach ($categoryCollection as $k => $v){
-    			$ret[$v->category_id] = array('cid' => $v->category_id, 'title' => $v->category_title, 'level' => $_level);
+    			$ret[$v->category_id] = array('cid' => $v->category_id, 'title' => $v->category_title, 'level' => $_level, 'category_type' => $v->category_type);
     			if($v->children->count() > 0){
     				$ret[$v->category_id]['c'] = $this->getAllHierarhy($v->category_id, $_level);
     			}
