@@ -8,7 +8,7 @@ class Category extends Model
 {
     const COMMON_TYPE = 1; //common ads type 
     const REAL_ESATE_TYPE = 2; //real estate ads
-    const AUTO_TYPE = 3; //autos ads
+    const CARS_TYPE = 3; //cars ads
 	
 	protected $table = 'category';
     protected $primaryKey = 'category_id';

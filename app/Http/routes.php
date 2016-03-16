@@ -20,6 +20,7 @@ Route::get('/detail/{id}', 'AdController@detail')->name('detail');
 
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
+Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 
 /**
  * user actions

@@ -85,6 +85,19 @@
 				display:none;
 }
 
+#car_model_loader{
+				display:none; 
+				z-index:100; 
+				position:absolute; 
+				right:40px; 
+				top:6px;
+}
+
+.form-group.required .control-label:after {
+  				content:"*";
+  				color:red;
+}
+
 
 
 

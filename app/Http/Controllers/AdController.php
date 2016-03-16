@@ -20,6 +20,11 @@ use App\EstateConstructionType;
 use App\EstateFurnishingType;
 use App\EstateHeatingType;
 use App\EstateType;
+use App\CarBrand;
+use App\CarModel;
+use App\CarEngine;
+use App\CarTransmission;
+use App\CarCondition;
 
 
 class AdController extends Controller
@@ -229,6 +234,19 @@ class AdController extends Controller
     
     public function getPublish()
     {
+        $car_model_id = array();
+        if(old('car_brand_id')){
+            if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
+                $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+                if(!$car_models->isEmpty()){
+                    $car_model_id = array(0 => 'Select Car Model');
+                    foreach ($car_models as $k => $v){
+                        $car_model_id[$v->car_model_id] = $v->car_model_name;
+                    }
+                }
+            }
+        }
+        
     	return view('ad.publish', [	'c' => $this->category->getAllHierarhy(),
     							   	'l' => $this->location->getAllHierarhy(),
     							   	'at' => AdType::all(),
@@ -236,7 +254,12 @@ class AdController extends Controller
     							   	'estate_construction_type' => EstateConstructionType::all(),
     								'estate_furnishing_type' => EstateFurnishingType::all(),
     								'estate_heating_type' => EstateHeatingType::all(),
-    								'estate_type' => EstateType::all(),]);
+    								'estate_type' => EstateType::all(),
+    								'car_brand_id' => CarBrand::all(),
+    	                            'car_model_id' => $car_model_id,
+    								'car_engine_id' => CarEngine::all(),
+    								'car_transmission_id' => CarTransmission::all(),
+    								'car_condition_id' => CarCondition::all(),]);
     }
     
     public function postPublish(Request $request)
@@ -244,7 +267,8 @@ class AdController extends Controller
     	$rules = [
     		'ad_title' => 'required|max:255',
     		'category_id' => 'required|integer|not_in:0',
-    		//'ad_description' => 'required|min:50',
+    		'ad_description' => 'required|min:50',
+    		'type_id' => 'required|integer|not_in:0',
     		//'ad_image' => 'require_one_of_array',
     		'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
     		'location_id' => 'required|integer|not_in:0',
@@ -259,11 +283,70 @@ class AdController extends Controller
     	
     	$validator = Validator::make($request->all(), $rules, $messages);
     	
+    	/**
+    	 * type 1 common ads validation 
+    	 */
+    	$validator->sometimes(['ad_price_type_1'], 'required|numeric|not_in:0', function($input){
+    		if($input->category_type == 1 && $input->price_radio == 1){
+    			return true;
+    		}
+    		return false; 
+    	});
+    	$validator->sometimes(['condition_id'], 'required|integer|not_in:0', function($input){
+	    	return $input->category_type == 1 ? 1 : 0;
+    	});
+    	
+    	/**
+    	 * type 2 estate ads validation
+    	 */
+    	$validator->sometimes(['ad_price_type_2'], 'required|numeric|not_in:0', function($input){
+	    	if($input->category_type == 2){
+	    		return true;
+	    	}
+	    	return false;
+    	});
+    	$validator->sometimes(['estate_type_id'], 'required|integer|not_in:0', function($input){
+    		return $input->category_type == 2 ? 1 : 0;
+    	});    			
+    	$validator->sometimes(['estate_sq_m'], 'required|numeric|not_in:0', function($input){
+    		return $input->category_type == 2 ? 1 : 0;
+    	});
+    				
+    	/**
+    	 * type 3 cars ads validation 
+    	 */
+		$validator->sometimes(['car_brand_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_model_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_engine_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_transmission_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_year'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_kilometeres'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_condition_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+    	$validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
+    		return $input->category_type == 3 ? 1 : 0;
+    	});
+    	
     	if ($validator->fails()) {
             $this->throwValidationException(
                 $request, $validator
             );
         }
+        
+        exit;
     	
     	$ad_data = $request->all();
     	
@@ -311,5 +394,25 @@ class AdController extends Controller
     	//set flash message and return
     	session()->flash('message', 'Your ad is in moderation mode, please activate it.');
     	return redirect()->back();
+    }
+    
+    public function axgetcarmodels(Request $request)
+    {
+    	$ret = array('code' => 400);
+    	$car_brand_id = (int)$request->car_brand_id;
+    	if(is_numeric($car_brand_id) && $car_brand_id > 0){
+    		$car_models = CarModel::where('car_brand_id', $car_brand_id)->orderBy('car_model_name', 'asc')->get();
+    		if(!$car_models->isEmpty()){
+    			$info = array(0 => 'Select Car Model');
+    			foreach ($car_models as $k => $v){
+    				$info[$v->car_model_id] = $v->car_model_name;
+    			}
+    			if(!empty($info)){
+    				$ret['code'] = 200;
+    				$ret['info'] = $info;
+    			}
+    		} 	
+    	}
+    	echo json_encode($ret);	
     }
 }
