@@ -25,6 +25,7 @@ use App\CarModel;
 use App\CarEngine;
 use App\CarTransmission;
 use App\CarCondition;
+use Image;
 
 
 class AdController extends Controller
@@ -234,6 +235,15 @@ class AdController extends Controller
     
     public function getPublish()
     {
+        $img_path = public_path('uf/adata/');
+        $img_name = '7628_9775ac147ac83e3167f85a058e5498ff.jpg';
+        //$img = Image::make($img_path. $img_name)->resize(300, 200)->save($img_path. '300_200.jpg');
+        $img = Image::make($img_path. $img_name)->fit(1000)->save($img_path. '1001.jpg');
+        exit;
+        
+        
+        
+        
         $car_model_id = array();
         if(old('car_brand_id')){
             if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
