@@ -24,7 +24,7 @@
                     <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                     
                     	{!! csrf_field() !!}
-                    	<input type="text" id="category_type" name="category_type" value="{{ old('category_type') ? old('category_type') : 0 }}" />
+                    	<input type="hidden" id="category_type" name="category_type" value="{{ old('category_type') ? old('category_type') : 0 }}" />
                     
                     	<div class="row">
                             <div class="col-md-offset-2 col-md-10">

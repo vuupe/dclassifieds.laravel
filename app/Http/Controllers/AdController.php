@@ -26,6 +26,7 @@ use App\CarEngine;
 use App\CarTransmission;
 use App\CarCondition;
 use Image;
+use App\AdPic;
 
 
 class AdController extends Controller
@@ -235,11 +236,11 @@ class AdController extends Controller
     
     public function getPublish()
     {
-        $img_path = public_path('uf/adata/');
-        $img_name = '7628_9775ac147ac83e3167f85a058e5498ff.jpg';
-        //$img = Image::make($img_path. $img_name)->resize(300, 200)->save($img_path. '300_200.jpg');
-        $img = Image::make($img_path. $img_name)->fit(1000)->save($img_path. '1001.jpg');
-        exit;
+//         $img_path = public_path('uf/adata/');
+//         $img_name = '7628_9775ac147ac83e3167f85a058e5498ff.jpg';
+//         //$img = Image::make($img_path. $img_name)->resize(300, 200)->save($img_path. '300_200.jpg');
+//         $img = Image::make($img_path. $img_name)->fit(1000)->save($img_path. '1001.jpg');
+//         exit;
         
         
         
@@ -356,22 +357,41 @@ class AdController extends Controller
             );
         }
         
-        exit;
+//      exit;
     	
     	$ad_data = $request->all();
     	
-    	//generate ad unique key
-    	$ad_data['code'] = str_random(40);
-    	
     	//fill aditional fields
     	$ad_data['user_id'] = $request->user()->user_id;
-    	$ad_data['ad_publish_date'] = date('Y-m-d');
+    	$ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
+    	$ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
+    	$ad_data['ad_ip'] = Util::getRemoteAddress();
+    	
+    	switch ($ad_data['category_type']){
+    	    case 1:
+    	        if($ad_data['price_radio'] == 1){
+    	            $ad_data['ad_price'] = $ad_data['ad_price_type_1'];
+    	            $ad_data['ad_free'] = 0;
+    	        } else {
+    	            $ad_data['ad_price'] = 0;
+    	            $ad_data['ad_free'] = 1;
+    	        }
+    	        break;
+    	    case 2:
+    	        $ad_data['ad_price'] = $ad_data['ad_price_type_2'];
+    	        break;
+    	    case 3:
+    	        $ad_data['ad_price'] = $ad_data['ad_price_type_3'];
+    	        break; 
+    	}
+    	
+    	$ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
+    	
     	
     	//generate ad unique code
     	do{
-    		$code = str_random(30);
-    	} while (Ad::where('code', $code)->first());
-    	$ad_data['code'] = $code;
+    		$ad_data['code'] = str_random(30);
+    	} while (Ad::where('code', $ad_data['code'])->first());
     	
     	//create ad
     	$ad = Ad::create($ad_data);
@@ -384,14 +404,30 @@ class AdController extends Controller
     		if(!empty($k) && $k->isValid()){
     			$file_name = $ad->ad_id . '_' .md5(time() + rand(0,9999)) . '.' . $k->getClientOriginalExtension();
     			$k->move($destination_path, $file_name);
+    			
+    			$img = Image::make($destination_path . $file_name);
+    			$img->widen(1000, function ($constraint) {
+                    $constraint->upsize();
+                })->save($destination_path . '1000_' . $file_name);
+    			
     			if(!$first_image_uploaded){
-    				$first_image_uploaded = 1;
+    			    if($img->width() > 740){
+    				    $img->fit(740)->save($destination_path . '740_' . $file_name);
+    			    } else {
+    			        $img->resizeCanvas(740, 740, 'center')->save($destination_path . '740_' . $file_name);
+    			    }
     				$ad->ad_pic = $file_name;
     				$ad->save();
+    				$first_image_uploaded = 1;
+    			} else {
+        			$adPic = new AdPic();
+        			$adPic->ad_id = $ad->ad_id;
+        			$adPic->ad_pic = $file_name;
+        			$adPic->save();
     			}
     		}
     	}
-//     	exit;
+    	exit;
     	
     	//send info and activation mail
 //     	Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {

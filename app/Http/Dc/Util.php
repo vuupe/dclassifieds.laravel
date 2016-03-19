@@ -42,4 +42,23 @@ class Util
     		return '';
     	}
     }
+    
+    static function getRemoteAddress()
+    {
+        $ret = '';
+    
+        if(isset($_SERVER['HTTP_CF_CONNECTING_IP']) && !empty($_SERVER['HTTP_CF_CONNECTING_IP'])){
+            return $_SERVER['HTTP_CF_CONNECTING_IP'];
+        }
+    
+        if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+    
+        if(isset($_SERVER['REMOTE_ADDR']) && !empty($_SERVER['REMOTE_ADDR'])){
+            return $_SERVER['REMOTE_ADDR'];
+        }
+    
+        return $ret;
+    }
 }
