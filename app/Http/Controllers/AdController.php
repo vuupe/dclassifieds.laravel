@@ -27,6 +27,7 @@ use App\CarTransmission;
 use App\CarCondition;
 use Image;
 use App\AdPic;
+use Mail;
 
 
 class AdController extends Controller
@@ -236,15 +237,6 @@ class AdController extends Controller
     
     public function getPublish()
     {
-//         $img_path = public_path('uf/adata/');
-//         $img_name = '7628_9775ac147ac83e3167f85a058e5498ff.jpg';
-//         //$img = Image::make($img_path. $img_name)->resize(300, 200)->save($img_path. '300_200.jpg');
-//         $img = Image::make($img_path. $img_name)->fit(1000)->save($img_path. '1001.jpg');
-//         exit;
-        
-        
-        
-        
         $car_model_id = array();
         if(old('car_brand_id')){
             if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
@@ -427,19 +419,39 @@ class AdController extends Controller
     			}
     		}
     	}
-    	exit;
     	
     	//send info and activation mail
-//     	Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {
-//     		$m->from('test@mylove.bg', 'dclasssifieds activation');
-//     		$m->to($user->email)->subject('Activate your account!');
-//     	});
+    	Mail::send('emails.ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
+    		$m->from('test@mylove.bg', 'dclasssifieds ad activation');
+    		$m->to($request->user()->email)->subject('Activate your ad!');
+    	});
+        exit;
 
     	//send control mail
     	
     	//set flash message and return
     	session()->flash('message', 'Your ad is in moderation mode, please activate it.');
     	return redirect()->back();
+    }
+    
+    public function activate(Request $request)
+    {
+        $code = $request->token;
+        $message = '';
+        if(!empty($code)){
+            $ad = Ad::where('code', $code)->first();
+            if(!empty($ad)){
+                $ad->ad_active = 1;
+                $ad->save();
+                $message = 'Your ad is active now';
+            } else {
+                $message = 'Ups something is wrong.';
+            }
+        } else {
+            $message = 'Ups something is wrong.';
+        }
+        session()->flash('message', $message);
+        return view('common.info_page');
     }
     
     public function axgetcarmodels(Request $request)

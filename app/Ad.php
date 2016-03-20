@@ -22,7 +22,7 @@ class Ad extends Model
     'estate_floor', 'estate_num_floors_in_building', 'estate_heating_type_id', 'estate_furnishing_type_id', 'car_brand_id', 
     'car_model_id', 'car_engine_id', 'car_year', 'car_kilometeres', 'created_at', 'updated_at'];
     
-    //used for fillable generation
+    //used for $fillable generation
     public function getTableColumns() {
         return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
     }
