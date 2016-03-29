@@ -10,7 +10,7 @@ class Location extends Model
     protected $primaryKey = 'location_id';
     public $timestamps = false;
     
-    public function parent()
+    public function parents()
     {
     	return $this->belongsTo('App\Location', 'location_parent_id');
     }
@@ -72,5 +72,20 @@ class Location extends Model
     		$ret = $l_object->location_slug;
     	}
     	return $ret;
+    }
+    
+    public function getParentsByIdFlat($_location_id)
+    {
+        $ret = array();
+        do{
+            $locationCollection = $this->where('location_id', $_location_id)->with('parents')->first();
+            if(!empty($locationCollection)){
+                $ret[$locationCollection->location_id] = $locationCollection->attributes;
+            }
+            if(!empty($locationCollection->parents)){
+                $_location_id = $locationCollection->parents->location_id;
+            }
+        } while ( !empty($locationCollection) && !empty($locationCollection->parents));
+        return $ret;
     }
 }

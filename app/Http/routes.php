@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -10,6 +11,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+DB::enableQueryLog();
 
 /*
  * ads actions
@@ -22,6 +25,7 @@ Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
 Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 Route::get('/publish/activate/{token}', 'AdController@activate');
+Route::get('/delete/{token}', 'AdController@delete');
 
 /**
  * user actions

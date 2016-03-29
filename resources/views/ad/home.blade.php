@@ -2,27 +2,6 @@
 
 @section('content')
 		<div class="container category_panel">
-            <!-- 
-            <div class="row">
-            	<div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/house158.png" /> Real Estates</a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/car189.png" /> Cars and Parts</a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/personal5.png" /> Electronics</a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/man459.png" /> Sport, Books, Hobby</a></div>
-            </div>
-            <div class="row">
-            	<div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/sofa9.png" /> Home and Garden</a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/tshirt18.png" /> Fashion</a></div>
-            	<div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/babies35.png" /> Baby and Kids</a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/flying.png" /> Тourism</a></div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/two205.png" /> Business, Services</a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href=""><img src="images/icons/man337.png" /> Job</a></div>
-                <div class="col-md-3 padding_top_bottom_15"></div>
-                <div class="col-md-3 padding_top_bottom_15"></div>
-            </div>
-            --> 
-            
             <?
             $i = 1;
             $closed = 0;
@@ -43,7 +22,6 @@
 			if(!$closed){?>
 				</div>
 			<?}?>
-            
         </div>
         
         <div class="container home_promo_ads_panel">
@@ -57,174 +35,26 @@
             <!-- ad row-->
             <div class="row margin_bottom_15">
             
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
+                <?if(isset($promo_ad_list) && !empty($promo_ad_list)){?>
+                    <?foreach ($promo_ad_list as $k => $v){
+                        $link = url(str_slug($v->ad_title) . '-' . 'ad' . $v->ad_id . '.html');
+                        ?>
+                        <!-- ad -->
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                            	<a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" alt=""></a>
+                            	<div class="caption">
+                                    <h4><a href="<?=$link?>"><?=str_limit($v->ad_title, 23)?></a></h4>
+                                    <h3><?=$v->ad_price ? $v->ad_price . '&euro;' : '&nbsp;'?></h2>
+                            	</div>
+                            </div>
+                        </div>
+                        <!-- end of ad-->
+                    <?}?>
+                <?}?>
                 
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
             </div>
             <!--end of ad row -->
-            
-            <!-- ad row-->
-            <div class="row margin_bottom_15">
-            
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-            </div>
-            <!--end of ad row -->
-            
-            <!-- ad row-->
-            <div class="row margin_bottom_15">
-            
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-            </div>
-            <!--end of ad row -->
-            
         </div>
         
         <div class="container home_info_panel">

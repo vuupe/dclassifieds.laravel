@@ -28,7 +28,7 @@ use App\CarCondition;
 use Image;
 use App\AdPic;
 use Mail;
-
+use DB;
 
 class AdController extends Controller
 {
@@ -64,10 +64,22 @@ class AdController extends Controller
     		}
     	}
     	
+    	//get home page ads
+    	$ad = DB::table('ad');
+    	$ad->where('ad_promo', 1);
+    	$ad->where('ad_active', 1);
+    	if($lid > 0){
+    	    $ad->where('location_id', $lid);
+    	}
+    	
+    	$ad->orderBy('ad_publish_date', 'desc');
+    	$promo_ad_list = $ad->get();
+    	
     	return view('ad.home', ['c' => $this->category->getAllHierarhy(),
     							'l' => $this->location->getAllHierarhy(),
     							'clist' => $clist,
-    							'lid' => $lid]);
+    							'lid' => $lid,
+    	                        'promo_ad_list' => $promo_ad_list]);
     }
     
     public function proxy(Request $request)
@@ -162,7 +174,10 @@ class AdController extends Controller
     	
     	$cid = 0;
     	if(!empty($category_slug)){
-    		$cid = $this->category->getCategoryIdByFullPath($category_slug);		
+    		$cid = $this->category->getCategoryIdByFullPath($category_slug);
+    		if (empty($cid)) {
+    		    abort(404);
+    		}		
     	}
     	
     	//if category selected get childs and generate url and breadcrump
@@ -207,7 +222,10 @@ class AdController extends Controller
     	
     	$lid = 0;
     	if(!empty($location_slug)){
-    		$lid = $this->location->getIdBySlug($location_slug);		
+    		$lid = $this->location->getIdBySlug($location_slug);
+    		if (empty($lid)) {
+    		    abort(404);
+    		}		
     	}
     	
     	//check for search text
@@ -221,13 +239,59 @@ class AdController extends Controller
     		$search_text = preg_replace('/-/', ' ', $search_text_tmp);
     	}
     	
+    	//get promo ads
+    	$ad = DB::table('ad');
+    	$ad->where('ad_promo', 1);
+    	$ad->where('ad_active', 1);
+    	if($lid > 0){
+    	    $ad->where('location_id', $lid);
+    	}
+    	if($cid > 0){
+    	    $ad->where('category_id', $cid);
+    	}
+    	if(!empty($search_text)){
+    	    $ad->whereRaw('match(ad_title, ad_description) against(?)', [$search_text]);
+    	}
+    	 
+    	$ad->take(4);
+    	$ad->orderByRaw('rand()');
+    	$promo_ad_list = $ad->get();
+    	
+    	//get normal ads
+    	$ad = DB::table('ad');
+    	$ad->where('ad_active', 1);
+    	if($lid > 0){
+    	    $ad->where('location_id', $lid);
+    	}
+    	if($cid > 0){
+    	    $ad->where('category_id', $cid);
+//     	    $ad->where('category_id', 500);
+    	}
+    	if(!empty($search_text)){
+    	    $ad->whereRaw('match(ad_title, ad_description) against(?)', [$search_text]);
+    	}
+    	
+    	$ad->orderBy('ad_publish_date', 'desc');
+    	$ad_list = $ad->paginate(2);
+    	//echo count($ad_list);
+    	//print_r($ad_list);
+    	//exit;
+    	
+    	
+//     	$query = DB::getQueryLog();
+//     	print_r($query);
+//     	exit;
+    	
+    	
     	return view('ad.search', [	'c' => $this->category->getAllHierarhy(),
     						 		'l' => $this->location->getAllHierarhy(),
     								'cid' => $cid,
     								'lid' => $lid,
     								'search_text' => $search_text,
     								'clist' => $clist,
-    								'breadcrump' => $breadcrump]);
+    								'breadcrump' => $breadcrump,
+    	                            'promo_ad_list' => $promo_ad_list,
+    	                            'ad_list' => $ad_list]);
     }
     
     public function detail(Request $request)
@@ -358,6 +422,7 @@ class AdController extends Controller
     	$ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
     	$ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
     	$ad_data['ad_ip'] = Util::getRemoteAddress();
+    	$ad_data['ad_description'] = strip_tags($ad_data['ad_description']);
     	
     	switch ($ad_data['category_type']){
     	    case 1:
@@ -417,17 +482,30 @@ class AdController extends Controller
         			$adPic->ad_pic = $file_name;
         			$adPic->save();
     			}
+    			
+    			@unlink($destination_path . $file_name);
     		}
     	}
     	
+    	$ad->ad_category_info = $this->category->getParentsByIdFlat($ad->category_id);
+    	$ad->ad_location_info = $this->location->getParentsByIdFlat($ad->location_id);
+    	$ad->pics = AdPic::where('ad_id', $ad->ad_id)->get();
+    	$ad->same_ads = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
+//     	echo view('emails.control_ad_activation', ['ad' => $ad]);
+//     	exit;
+    	
     	//send info and activation mail
     	Mail::send('emails.ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
-    		$m->from('test@mylove.bg', 'dclasssifieds ad activation');
+    		$m->from('test@mylove.bg', 'dclassifieds ad activation');
     		$m->to($request->user()->email)->subject('Activate your ad!');
     	});
-        exit;
 
     	//send control mail
+        Mail::send('emails.control_ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
+            $m->from('test@mylove.bg', '[CONTROL] dclasssifieds');
+            $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds new ad');
+        });
+//         exit;
     	
     	//set flash message and return
     	session()->flash('message', 'Your ad is in moderation mode, please activate it.');
@@ -444,6 +522,40 @@ class AdController extends Controller
                 $ad->ad_active = 1;
                 $ad->save();
                 $message = 'Your ad is active now';
+            } else {
+                $message = 'Ups something is wrong.';
+            }
+        } else {
+            $message = 'Ups something is wrong.';
+        }
+        session()->flash('message', $message);
+        return view('common.info_page');
+    }
+    
+    public function delete(Request $request)
+    {
+        $code = $request->token;
+        $message = '';
+        if(!empty($code)){
+            $ad = Ad::where('code', $code)->first();
+            if(!empty($ad)){
+                //delete images
+                if(!empty($ad->ad_pic)){
+                    @unlink(public_path('uf/adata/') . '740_' . $ad->ad_pic);
+                    @unlink(public_path('uf/adata/') . '1000_' . $ad->ad_pic);
+                }
+                
+                $more_pics = AdPic::where('ad_id', $ad->ad_id)->get();
+                if(!$more_pics->isEmpty()){
+                    foreach ($more_pics as $k => $v){
+                        @unlink(public_path('uf/adata/') . '740_' . $v->ad_pic);
+                        @unlink(public_path('uf/adata/') . '1000_' . $v->ad_pic);
+                        $v->delete();
+                    }
+                }
+                
+                $ad->delete();
+                $message = 'Your ad is deleted';
             } else {
                 $message = 'Ups something is wrong.';
             }

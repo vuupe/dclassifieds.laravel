@@ -35,7 +35,7 @@
                         <div class="form-group required {{ $errors->has('ad_title') ? ' has-error' : '' }}">
                             <label for="ad_title" class="col-md-2 control-label">Ad Title</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ old('ad_title') }}" />
+                            	<input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ old('ad_title') }}" maxlength="255"/>
                             	
                             	@if ($errors->has('ad_title'))
                                     <span class="help-block">

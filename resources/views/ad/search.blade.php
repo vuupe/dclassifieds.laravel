@@ -20,19 +20,6 @@
         
         <?if(isset($clist) && !empty($clist)){?>
         <div class="container category_panel">
-            <!-- <div class="row">
-            	<div class="col-md-3 padding_top_bottom_15"><a href="">Clothes <span class="text-muted">204601</span></a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href="">Shoes <span class="text-muted">74767</span></a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href="">Accessories <span class="text-muted">40133</span></a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href="">Perfumery and Cosmetics <span class="text-muted">10615</span></a></div>
-            </div>
-            <div class="row">
-            	<div class="col-md-3 padding_top_bottom_15"><a href="">Bijouterie <span class="text-muted">21827</span></a></div>
-                <div class="col-md-3 padding_top_bottom_15"><a href="">Watches <span class="text-muted">12335</span></a></div>
-            	<div class="col-md-3 padding_top_bottom_15"></div>
-                <div class="col-md-3 padding_top_bottom_15"></div>
-            </div> -->
-            
             <?
             $i = 1;
             $closed = 0;
@@ -66,58 +53,23 @@
             
             <!-- ad row-->
             <div class="row margin_bottom_15">
-            
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000€</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
+                <?if(isset($promo_ad_list) && !empty($promo_ad_list)){?>
+                    <?foreach ($promo_ad_list as $k => $v){
+                        $link = url(str_slug($v->ad_title) . '-' . 'ad' . $v->ad_id . '.html');
+                        ?>
+                        <!-- ad -->
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                            	<a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" alt=""></a>
+                            	<div class="caption">
+                                    <h4><a href="<?=$link?>"><?=str_limit($v->ad_title, 23)?></a></h4>
+                                    <h3><?=$v->ad_price ? $v->ad_price . '&euro;' : '&nbsp;'?></h2>
+                            	</div>
+                            </div>
+                        </div>
+                        <!-- end of ad-->
+                    <?}?>
+                <?}?>
             </div>
             <!--end of ad row -->
         </div>
@@ -126,64 +78,33 @@
         	<div class="row margin_bottom_15">
             	<div class="col-md-12">
                     <h2>New Classifieds</h2>
-                    <a href="">pusblish and ad</a>
+                    <a href="<?=url('publish')?>">pusblish an ad</a>
                 </div>
             </div>
             
             <!-- ad row-->
             <div class="row margin_bottom_15">
-            
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
+                <?if(isset($ad_list) && count($ad_list) > 0){?>
+                    <?foreach ($ad_list as $k => $v){
+                        $link = url(str_slug($v->ad_title) . '-' . 'ad' . $v->ad_id . '.html');
+                        ?>
+                        <!-- ad -->
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                            	<a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" alt=""></a>
+                            	<div class="caption">
+                                    <h4><a href="<?=$link?>"><?=str_limit($v->ad_title, 23)?></a></h4>
+                                    <h3><?=$v->ad_price ? $v->ad_price . '&euro;' : '&nbsp;'?></h2>
+                            	</div>
+                            </div>
+                        </div>
+                        <!-- end of ad-->
+                    <?}?>
+                <?} else {?>
+                    <div class="col-md-12">
+                        <h3>No results found...</h3>
                     </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
-                
-                <!-- ad -->
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                    	<a href="#"><img src="data/ad.jpg" alt=""></a>
-                    	<div class="caption">
-                            <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <h3>25000 €</h2>
-                    	</div>
-                    </div>
-                </div>
-                <!-- end of ad-->
+                <?}?>
             </div>
             <!--end of ad row -->
         </div>
@@ -191,29 +112,9 @@
         <div class="container">
         	<div class="row">
             	<div class="col-md-12">
-                
-                
-                <nav>
-                    <ul class="pagination">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                            	<span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                            	<span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                
-                
+                    <nav>
+                        <?=$ad_list->links()?>
+                    </nav>
                 </div>
             </div>
         </div>

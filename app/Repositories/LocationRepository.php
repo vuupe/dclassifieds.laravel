@@ -29,4 +29,9 @@ class LocationRepository
 	{
 		return $this->model->getSlugById($_location_id);
 	}
+	
+	public function getParentsByIdFlat($_location_id)
+	{
+	    return $this->model->getParentsByIdFlat($_location_id);
+	}
 }
