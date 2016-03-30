@@ -157,7 +157,7 @@ class AdController extends Controller
     
     public function search(Request $request)
     {
-    	$params = Input::all();
+        $params = Input::all();
     	print_r($params);
     	
     	echo 'category_slug: ' . $request->category_slug . '<br />';
@@ -182,6 +182,7 @@ class AdController extends Controller
     	
     	//if category selected get childs and generate url and breadcrump
     	$clist = array();
+    	$all_category_childs = array();
     	if($cid > 0){
     		$clist = $this->category->getOneLevel($cid);
     		foreach ($clist as $k => &$v){
@@ -212,6 +213,14 @@ class AdController extends Controller
 	    		//category part of breadcrump
 	    		$breadcrump['c'] = array_reverse($breadcrump_data);
     		}
+    		
+    		$acc = $this->category->getAllHierarhyFlat($cid);
+    		if(!empty($acc)){
+    		    foreach($acc as $ak => $av){
+    		        $all_category_childs[] = $av['cid'];
+    		    }    
+    		} 
+    		$all_category_childs[] = $cid;
     	}
     	
     	//check for location selection
@@ -247,7 +256,7 @@ class AdController extends Controller
     	    $ad->where('location_id', $lid);
     	}
     	if($cid > 0){
-    	    $ad->where('category_id', $cid);
+    	    $ad->whereIn('category_id', $all_category_childs);
     	}
     	if(!empty($search_text)){
     	    $ad->whereRaw('match(ad_title, ad_description) against(?)', [$search_text]);
@@ -264,7 +273,7 @@ class AdController extends Controller
     	    $ad->where('location_id', $lid);
     	}
     	if($cid > 0){
-    	    $ad->where('category_id', $cid);
+    	    $ad->whereIn('category_id', $all_category_childs);
 //     	    $ad->where('category_id', 500);
     	}
     	if(!empty($search_text)){

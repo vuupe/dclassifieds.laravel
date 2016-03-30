@@ -45,6 +45,27 @@ class Category extends Model
     	return $ret;
     }
     
+    public function getAllHierarhyFlat($_parent_id = null, $_level = 0)
+    {
+        $ret = array();
+        $_level++;
+        $categoryCollection = $this->where('category_parent_id', $_parent_id)
+                                ->where('category_active', '=', 1)
+                                ->with('children')
+                                ->orderBy('category_ord', 'asc')
+                                ->get();
+         
+        if(!empty($categoryCollection)){
+            foreach ($categoryCollection as $k => $v){
+                $ret[$v->category_id] = array('cid' => $v->category_id, 'title' => $v->category_title, 'level' => $_level, 'category_type' => $v->category_type);
+                if($v->children->count() > 0){
+                    $ret = array_merge($ret, $this->getAllHierarhyFlat($v->category_id, $_level));
+                }
+            }
+        }
+        return $ret;
+    }
+    
     public function getOneLevel($_parent_id = null)
     {
     	$categoryCollection = $this->where('category_parent_id', $_parent_id)
