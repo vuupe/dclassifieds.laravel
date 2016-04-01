@@ -18,13 +18,13 @@
         
         <div class="container ad_detail_container">
         	<div class="row">
-            	<div class="col-md-12"><h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1></div>
+            	<div class="col-md-12"><h1>{{ $ad_detail->ad_title }}</h1></div>
             </div>
             <div class="row ad_detail_publish_info">
-                <div class="col-md-12"><a href="">London</a> | <span class="text-muted">Added on 2015.01.01y. 22:00h.</span></div>
+                <div class="col-md-12"><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a> | <span class="text-muted">Added on {{ $ad_detail->ad_publish_date }}.</span></div>
             </div>
             <div class="row ad_detail_ad_info">
-                <div class="col-md-12"><span class="text-muted">Ad Id: 123 | Views: 500</span></div>
+                <div class="col-md-12"><span class="text-muted">Ad Id: {{ $ad_detail->ad_id }} | Views: 500</span></div>
             </div>
             
             <div class="row">
@@ -32,35 +32,108 @@
                 	
                     <div class="row">
                     	<div class="col-md-12">
-                			<img src="{{ asset('data/ad.jpg') }}" class="img-responsive thumbnail">
+                    	    <?if(!empty($ad_detail->ad_pic)){?>
+                			<img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail">
+                			<?} else {?>
+                			<img src="" class="img-responsive thumbnail">
+                			<?}?>
                         </div>
                     </div>
                     
+                    <?if(isset($ad_pic) && !$ad_pic->isEmpty()){?>
                     <div class="row">
+                        <?foreach($ad_pic as $k => $v){?>
                     	<div class="col-md-3">
-                			<a href=""><img src="data/ad.jpg" class="img-responsive thumbnail"></a>
+                			<a href="">
+                			    <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive thumbnail">
+                			</a>
                         </div>
-                        <div class="col-md-3">
-                			<a href=""><img src="data/ad.jpg" class="img-responsive thumbnail"></a>
-                        </div>
-                        <div class="col-md-3">
-                			<a href=""><img src="data/ad.jpg" class="img-responsive thumbnail"></a>
-                        </div>
-                        <div class="col-md-3">
-                			<a href=""><img src="data/ad.jpg" class="img-responsive thumbnail"></a>
-                        </div>
+                        <?}//end of foreach?>
                     </div>
+                    <?}//end of ad pic if?>
+                    
+                    <hr>
                     
                     <div class="row ad_detail_detail_info">
-                    	<div class="col-md-6"><span class="text-muted">Condition:</span> <span class="text-primary"><strong>used</strong></span></div>
-                        <div class="col-md-6"><span class="text-muted">Delivery:</span> <strong><span class="text-primary">buyer</strong></span></div>
+                    	<div class="col-md-6"><span class="text-muted">Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_condition_name}}</strong></span></div>
+                    	<div class="col-md-6"><span class="text-muted">Ad Type:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_type_name}}</strong></span></div>
+                    	
+                    	<!-- estate info -->
+                    	<?if(!empty($ad_detail->estate_type_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate Type:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_type_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_sq_m)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate sq. m.:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_sq_m}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_year)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate year of construction:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_year}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_construction_type_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate Construction Type:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_construction_type_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_floor)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate floor:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_floor}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_num_floors_in_building)){?>
+                    	<div class="col-md-6"><span class="text-muted">Num Floors in Building:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_num_floors_in_building}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_heating_type_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate Heating:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_heating_type_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->estate_furnishing_type_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Estate Furnishing:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_furnishing_type_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<!-- cars info -->
+                    	<?if(!empty($ad_detail->car_brand_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Brand:</span> <span class="text-primary"><strong>{{ $ad_detail->car_brand_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->car_model_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Model:</span> <span class="text-primary"><strong>{{ $ad_detail->car_model_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->car_engine_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Engine:</span> <span class="text-primary"><strong>{{ $ad_detail->car_engine_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->car_transmission_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Transmission:</span> <span class="text-primary"><strong>{{ $ad_detail->car_transmission_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->car_year)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Year:</span> <span class="text-primary"><strong>{{ $ad_detail->car_year}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->car_kilometeres)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Kilometers:</span> <span class="text-primary"><strong>{{ $ad_detail->car_kilometeres}}km.</strong></span></div>
+                    	<?}?>
+                    	
+                    	<?if(!empty($ad_detail->car_condition_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Car Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->car_condition_name}}</strong></span></div>
+                    	<?}?>
+                    	
+                    	
+                    	
+                    	
                     </div>
+                    
+                    <hr>
                     
                     <div class="row ad_detail_ad_text">
                     	<div class="col-md-12">
-                			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet porttitor turpis, vitae posuere ligula. Nam eu commodo dui. Mauris vestibulum aliquet gravida. Ut sit amet sapien pulvinar, suscipit est at, accumsan nisi. Proin eleifend, urna in ornare pretium, ex nulla condimentum lectus, vitae venenatis eros lorem et velit. Duis vel nibh leo. Nunc in malesuada elit. Proin imperdiet velit tellus, at feugiat purus pulvinar quis. Nulla lobortis faucibus turpis. Ut egestas convallis ante, vel ultricies orci cursus non. Sed accumsan hendrerit diam at volutpat. Aliquam euismod justo vel hendrerit gravida. Nulla facilisi. Aenean quis sollicitudin diam. Vivamus at sodales nisl. In porta diam vitae mi tincidunt, rutrum scelerisque neque ultricies. 
+                			{{ $ad_detail->ad_description }} 
                         </div>
                     </div>
+                    
+                    <hr>
                     
                     <div class="row">
                     	<div class="col-md-12">

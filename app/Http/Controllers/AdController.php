@@ -305,7 +305,41 @@ class AdController extends Controller
     
     public function detail(Request $request)
     {
-    	return view('ad.detail');
+    	//get ad id
+        $ad_id = $request->ad_id;
+        
+        //get ad info
+        $ad_detail = Ad::select('ad.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
+                'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
+                'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name')
+        
+            ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
+            ->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id')
+            ->leftJoin('ad_condition AS AC', 'AC.ad_condition_id' , '=', 'ad.condition_id')
+            ->leftJoin('ad_type AS AT', 'AT.ad_type_id' , '=', 'ad.type_id')
+            
+            ->leftJoin('estate_type AS ET', 'ET.estate_type_id' , '=', 'ad.estate_type_id')
+            ->leftJoin('estate_construction_type AS ECT', 'ECT.estate_construction_type_id' , '=', 'ad.estate_construction_type_id')
+            ->leftJoin('estate_heating_type AS EHT', 'EHT.estate_heating_type_id' , '=', 'ad.estate_heating_type_id')
+            ->leftJoin('estate_furnishing_type AS EFT', 'EFT.estate_furnishing_type_id' , '=', 'ad.estate_furnishing_type_id')
+            
+            ->leftJoin('car_brand AS CB', 'CB.car_brand_id' , '=', 'ad.car_brand_id')
+            ->leftJoin('car_model AS CM', 'CM.car_model_id' , '=', 'ad.car_model_id')
+            ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
+            ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
+            ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
+            
+            ->where('ad_active', 1)
+            ->findOrFail($ad_id);
+        
+//         print_r($ad_detail);
+       
+        
+        //get ad pics
+        $ad_pic = AdPic::where('ad_id', $ad_id)->get();
+        
+        
+        return view('ad.detail', ['ad_detail' => $ad_detail, 'ad_pic' => $ad_pic]);
     }
     
     public function getPublish()

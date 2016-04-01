@@ -19,7 +19,11 @@ DB::enableQueryLog();
  */
 Route::get('/', 'AdController@index')->name('home');
 
-Route::get('/detail/{id}', 'AdController@detail')->name('detail');
+//Route::get('/detail/{id}', 'AdController@detail')->name('detail');
+
+Route::get('/{ad_slug}-ad{ad_id}.html', 'AdController@detail')
+        ->name('ad_detail')
+        ->where(['ad_slug' => '.*', 'ad_id' => '\d+']);
 
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
