@@ -112,14 +112,14 @@
                             </div>
                         </div>
                         
-                        <div class="form-group required {{ $errors->has('condition_id') ? ' has-error' : '' }}">
-                            <label for="condition_id" class="col-md-2 control-label">Condition</label>
+                        <div class="form-group required {{ $errors->has('condition_id_type_1') ? ' has-error' : '' }}">
+                            <label for="condition_id_type_1" class="col-md-2 control-label">Condition</label>
                             <div class="col-md-5">
                             	@if(!$ac->isEmpty())
-		                   		<select name="condition_id" id="condition_id" class="form-control chosen_select" data-placeholder="Select Condition">
+		                   		<select name="condition_id_type_1" id="condition_id_type_1" class="form-control chosen_select" data-placeholder="Select Condition">
 		                   			<option value="0"></option>
 		                   			@foreach ($ac as $k => $v)
-		                   				@if(old('condition_id') == $v->ad_condition_id)
+		                   				@if(old('condition_id_type_1') == $v->ad_condition_id)
 											<option value="{{ $v->ad_condition_id }}" selected>{{ $v->ad_condition_name }}</option>
 										@else
 											<option value="{{ $v->ad_condition_id }}">{{ $v->ad_condition_name }}</option>
@@ -128,9 +128,9 @@
 		                   		</select>
 		                   		@endif
 		                   		
-		                   		@if ($errors->has('condition_id'))
+		                   		@if ($errors->has('condition_id_type_1'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('condition_id') }}</strong>
+                                        <strong>{{ $errors->first('condition_id_type_1') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -371,6 +371,29 @@
                             </div>
                         </div>
                         
+                        <div class="form-group required {{ $errors->has('car_modification_id') ? ' has-error' : '' }}">
+                            <label for="car_transmission_id" class="col-md-2 control-label">Car Modification</label>
+                            <div class="col-md-5">
+                            	@if(!$car_modification_id->isEmpty())
+		                   		<select name="car_modification_id" id="car_modification_id" class="form-control chosen_select" data-placeholder="Select Car Modification">
+		                   			<option value="0"></option>
+		                   			@foreach ($car_modification_id as $k => $v)
+		                   				@if(old('car_modification_id') == $v->car_modification_id)
+											<option value="{{ $v->car_modification_id }}" selected>{{ $v->car_modification_name }}</option>
+										@else
+											<option value="{{ $v->car_modification_id }}">{{ $v->car_modification_name }}</option>
+										@endif
+		                   			@endforeach
+		                   		</select>
+		                   		@endif
+		                   		@if ($errors->has('car_modification_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('car_modification_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
                         <div class="form-group required {{ $errors->has('car_year') ? ' has-error' : '' }}">
                             <label for="car_year" class="col-md-2 control-label">Car Year</label>
                             <div class="col-md-5">
@@ -390,6 +413,30 @@
                             	@if ($errors->has('car_kilometeres'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('car_kilometeres') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="form-group required {{ $errors->has('condition_id_type_3') ? ' has-error' : '' }}">
+                            <label for="condition_id_type_3" class="col-md-2 control-label">Condition</label>
+                            <div class="col-md-5">
+                            	@if(!$ac->isEmpty())
+		                   		<select name="condition_id_type_3" id="condition_id_type_3" class="form-control chosen_select" data-placeholder="Select Condition">
+		                   			<option value="0"></option>
+		                   			@foreach ($ac as $k => $v)
+		                   				@if(old('condition_id_type_3') == $v->ad_condition_id)
+											<option value="{{ $v->ad_condition_id }}" selected>{{ $v->ad_condition_name }}</option>
+										@else
+											<option value="{{ $v->ad_condition_id }}">{{ $v->ad_condition_name }}</option>
+										@endif
+		                   			@endforeach
+		                   		</select>
+		                   		@endif
+		                   		
+		                   		@if ($errors->has('condition_id_type_3'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('condition_id_type_3') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -528,7 +575,35 @@
                             	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ old('ad_skype') }}" >
                             </div>
                         </div>
-
+                        
+                        <div class="form-group">
+                            <label for="ad_address" class="col-md-2 control-label">Address</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ old('ad_address') }}" >
+                                	<span class="input-group-btn">
+                                        <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
+                                    </span>
+                                </div>
+                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ old('ad_lat_lng') }}" >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ad_link" class="col-md-2 control-label">Web Site</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="ad_link" name="ad_link" value="{{ old('ad_link') }}" >
+                            	<span id="helpBlock" class="help-block">Insert link to your site in this format: http://www.site.com</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ad_video" class="col-md-2 control-label">Video</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="ad_video" name="ad_video" value="{{ old('ad_video') }}" >
+                            	<span id="helpBlock" class="help-block">Insert link to video from youtube.com or vimeo.com</span>
+                            </div>
+                        </div>
                         
                         <div class="form-group required {{ $errors->has('policy_agree') ? ' has-error' : '' }}">
                         	<label for="policy_agree" class="col-md-2 control-label"></label>
@@ -594,5 +669,36 @@
                 </div>
             </div>
         </div>
+        
+        <div id="google_map_container" style="display:none;">
+            <div style="margin:10px 0px 20px 0px">
+        		<form class="form-inline">
+        		    <div class="form-group">
+            			<input type="text" name="address" id="address" class="form-control" style="width:445px;"/>
+            			<input type="hidden" name="lat" id="lat"/>
+            			<button type="button" name="location_find" id="location_find" class="btn btn-primary">
+            			    <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Find on the map
+            			</button>
+            			<button type="button" name="location_ok" id="location_ok" class="btn btn-success">
+            			    <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> Yes, this is my location
+            			</button>
+        			</div>
+        		</form>
+        	</div>
+        	<div style="width: 800px; height:400px;" id="map_canvas"></div>
+        </div>
+        
+        
+        
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{asset('js/fancybox/jquery.fancybox.css')}}" />
+@endsection
+
+@section('js')
+    <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=true&language=en"></script>
+    <script src="{{asset('js/google.map.js')}}"></script>
 @endsection
 

@@ -69,6 +69,11 @@ $(document).ready(function(){
 	$('#ad_price_type_1').keydown(function(){
 		$('#price_radio').prop("checked", true);
 	});
+	
+	$('#ad_address_show_map').click(function(){
+//		$("#google_map_container").fancybox();
+		$.fancybox([{ href : '#google_map_container' }]);
+	});
 });
 
 //show ad publish fields on category change and document ready

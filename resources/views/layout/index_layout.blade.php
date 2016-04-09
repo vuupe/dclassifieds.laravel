@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="{{ asset('js/chosen/chosen.css') }}" />
         <link rel="stylesheet" href="{{ asset('js/chosen/chosen-bootstrap.css') }}" />
         
+        @yield('styles')
+        
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -153,6 +155,8 @@
         
         <script src="{{ asset('js/chosen/chosen.jquery.min.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
+        
+        @yield('js')
         
     </body>
 </html>

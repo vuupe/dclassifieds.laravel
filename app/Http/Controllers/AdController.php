@@ -25,6 +25,7 @@ use App\CarModel;
 use App\CarEngine;
 use App\CarTransmission;
 use App\CarCondition;
+use App\CarModification;
 use Image;
 use App\AdPic;
 use Mail;
@@ -369,7 +370,8 @@ class AdController extends Controller
     	                            'car_model_id' => $car_model_id,
     								'car_engine_id' => CarEngine::all(),
     								'car_transmission_id' => CarTransmission::all(),
-    								'car_condition_id' => CarCondition::all(),]);
+    								'car_condition_id' => CarCondition::all(),
+    	                            'car_modification_id' => CarModification::all(),]);
     }
     
     public function postPublish(Request $request)
@@ -402,7 +404,7 @@ class AdController extends Controller
     		}
     		return false; 
     	});
-    	$validator->sometimes(['condition_id'], 'required|integer|not_in:0', function($input){
+    	$validator->sometimes(['condition_id_type_1'], 'required|integer|not_in:0', function($input){
 	    	return $input->category_type == 1 ? 1 : 0;
     	});
     	
@@ -437,6 +439,9 @@ class AdController extends Controller
 		$validator->sometimes(['car_transmission_id'], 'required|integer|not_in:0', function($input){
 			return $input->category_type == 3 ? 1 : 0;
 		});
+	    $validator->sometimes(['car_modification_id'], 'required|integer|not_in:0', function($input){
+	        return $input->category_type == 3 ? 1 : 0;
+	    });
 		$validator->sometimes(['car_year'], 'required|integer|not_in:0', function($input){
 			return $input->category_type == 3 ? 1 : 0;
 		});
@@ -446,6 +451,9 @@ class AdController extends Controller
 		$validator->sometimes(['car_condition_id'], 'required|integer|not_in:0', function($input){
 			return $input->category_type == 3 ? 1 : 0;
 		});
+	    $validator->sometimes(['condition_id_type_3'], 'required|integer|not_in:0', function($input){
+	        return $input->category_type == 3 ? 1 : 0;
+	    });
     	$validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
     		return $input->category_type == 3 ? 1 : 0;
     	});
@@ -476,12 +484,14 @@ class AdController extends Controller
     	            $ad_data['ad_price'] = 0;
     	            $ad_data['ad_free'] = 1;
     	        }
+    	        $ad_data['condition_id'] = $ad_data['condition_id_type_1'];
     	        break;
     	    case 2:
     	        $ad_data['ad_price'] = $ad_data['ad_price_type_2'];
     	        break;
     	    case 3:
     	        $ad_data['ad_price'] = $ad_data['ad_price_type_3'];
+    	        $ad_data['condition_id'] = $ad_data['condition_id_type_3'];
     	        break; 
     	}
     	
