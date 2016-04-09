@@ -33,7 +33,7 @@
                     <div class="row">
                     	<div class="col-md-12">
                     	    <?if(!empty($ad_detail->ad_pic)){?>
-                			<img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail">
+                			<a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
                 			<?} else {?>
                 			<img src="" class="img-responsive thumbnail">
                 			<?}?>
@@ -44,8 +44,8 @@
                     <div class="row">
                         <?foreach($ad_pic as $k => $v){?>
                     	<div class="col-md-3">
-                			<a href="">
-                			    <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive thumbnail">
+                			<a href="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="fancybox" rel="group">
+                			    <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive thumbnail" class="fancybox" rel="group" />
                 			</a>
                         </div>
                         <?}//end of foreach?>
@@ -100,6 +100,10 @@
                     	<div class="col-md-6"><span class="text-muted">Car Model:</span> <span class="text-primary"><strong>{{ $ad_detail->car_model_name}}</strong></span></div>
                     	<?}?>
                     	
+                    	<?if(!empty($ad_detail->car_modification_id)){?>
+                    	<div class="col-md-6"><span class="text-muted">Modification:</span> <span class="text-primary"><strong>{{ $ad_detail->car_modification_name}}</strong></span></div>
+                    	<?}?>
+                    	
                     	<?if(!empty($ad_detail->car_engine_id)){?>
                     	<div class="col-md-6"><span class="text-muted">Car Engine:</span> <span class="text-primary"><strong>{{ $ad_detail->car_engine_name}}</strong></span></div>
                     	<?}?>
@@ -120,9 +124,6 @@
                     	<div class="col-md-6"><span class="text-muted">Car Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->car_condition_name}}</strong></span></div>
                     	<?}?>
                     	
-                    	
-                    	
-                    	
                     </div>
                     
                     <hr>
@@ -134,6 +135,20 @@
                     </div>
                     
                     <hr>
+                    
+                    
+                    
+                    <?if(!empty($ad_detail->ad_video)){?>
+                    <div class="row">
+                        <div class="col-md-12">
+                        	<div class="embed-responsive embed-responsive-16by9">
+                    			{!! $ad_detail->ad_video_fixed !!} 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <?}?>
                     
                     <div class="row">
                     	<div class="col-md-12">
@@ -217,21 +232,42 @@
                     </div>
                     
                     
-                    
-                    
                 </div>
                 <div class="col-md-4">
-                	<div class="ad_detail_price text-center"><h2>100&euro;</h2></div>
-                    
-                    <div class="ad_detail_panel">
-                    	<h4>Ad from <a href="">John Doe</a></h4>
+                	<div class="ad_detail_price text-center">
+                	    <h2>
+                	        <?if($ad_detail->ad_free){
+                	            echo 'free';
+                	        } else {
+                                echo number_format($ad_detail->ad_price, 2, '.', '') . '&euro;';
+                            }?>
+                	    </h2>
+                	</div>
+                	<hr>
+                	
+                	<?if(!empty($ad_detail->ad_lat_lng)){?>
+                    <div class="row">
+                        <div class="col-md-12">
+                        	<div id="gmap_detail" style="width: 100%; height:300px;"></div>
+        		        </div>
                     </div>
                     
+                    <hr>
+                    <?}?>
+                    
                     <div class="ad_detail_panel">
-                        <a href="">Print this ad</a><br />
-                        <a href="">Edit this ad</a><br />
-                        <a href="" class="text-danger">Report this ad</a><br />
+                    	<h4>Ad from <a href="">John Doe</a> <small><span class="text-muted">(Registered: 2015-01-01)</span></small></h4>
                     </div>
+                    <hr>
+                    
+                    <div class="ad_detail_panel">
+                    
+                        <button class="btn btn-default btn-block">Print this ad</button>
+                        <button class="btn btn-default btn-block">Edit this ad</button>
+                        <button class="btn btn-danger btn-block">Report this ad</button>
+                        
+                    </div>
+                    <hr>
                     
                     <div class="ad_detail_panel">
                         <img src="images/banner300x250.gif" class="img-responsive center-block">
@@ -277,4 +313,32 @@
                 </div>
             </div>
         </div>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{asset('js/fancybox/jquery.fancybox.css')}}" />
+@endsection
+
+@section('js')
+    <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=true&language=en"></script>
+	<script type="text/javascript">
+		var latlng = new google.maps.LatLng(<?=trim($ad_detail->ad_lat_lng, '()')?>);
+		var myOptions = {
+		  zoom: 16,
+		  center: latlng,
+		  mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("gmap_detail"), myOptions);
+		marker = new google.maps.Marker({
+		  map: map,
+		  draggable:true,
+		  position: latlng
+		});
+	</script>
+	<script type="text/javascript">
+    	$(document).ready(function() {
+    		$(".fancybox").fancybox();
+    	});
+    </script>
 @endsection

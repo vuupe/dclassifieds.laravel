@@ -92,17 +92,32 @@ function drawAddressInfo( _address )
 	});
 }
 
-$(document).ready(function(){
-	init();
-	
+function initFancyBox()
+{
 	location_name = $('#location_id option:selected').text().trim();
 	location_id = $('#location_id').val();
-	if(location_name && location_id != 0){
+	location_selected = $('#ad_address').val().trim();
+	if(location_selected){
+		drawAddressInfo( location_selected );
+	} else if(location_name && location_id != 0){
 		drawAddressInfo( location_name );
 	} else {
 		detectUserLocation();
 	}
+}
 
+$(document).ready(function(){
+	init();
+	
+	$('#ad_address_show_map').click(function(){
+		$.fancybox([{ href : '#google_map_container', 
+			beforeShow: function () {
+				google.maps.event.trigger(map, "resize");
+				initFancyBox();
+			} 
+		}]);
+	});
+	
 	$('#location_find').click(function(){
 		location_address = $("#address").val().trim();
 		if(location_address){

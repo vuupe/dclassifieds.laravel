@@ -282,7 +282,7 @@ class AdController extends Controller
     	}
     	
     	$ad->orderBy('ad_publish_date', 'desc');
-    	$ad_list = $ad->paginate(2);
+    	$ad_list = $ad->paginate(3);
     	//echo count($ad_list);
     	//print_r($ad_list);
     	//exit;
@@ -312,7 +312,7 @@ class AdController extends Controller
         //get ad info
         $ad_detail = Ad::select('ad.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
                 'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
-                'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name')
+                'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
         
             ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
             ->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id')
@@ -329,11 +329,16 @@ class AdController extends Controller
             ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
             ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
             ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
+            ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id')
             
             ->where('ad_active', 1)
             ->findOrFail($ad_id);
         
 //         print_r($ad_detail);
+//         exit;
+        if(!empty($ad_detail->ad_video)){
+            $ad_detail->ad_video_fixed = Util::getVideoReady($ad_detail->ad_video);
+        }
        
         
         //get ad pics
@@ -521,11 +526,7 @@ class AdController extends Controller
                 })->save($destination_path . '1000_' . $file_name);
     			
     			if(!$first_image_uploaded){
-    			    if($img->width() > 740){
-    				    $img->fit(740)->save($destination_path . '740_' . $file_name);
-    			    } else {
-    			        $img->resizeCanvas(740, 740, 'center')->save($destination_path . '740_' . $file_name);
-    			    }
+   			        $img->resizeCanvas(740, 740, 'center')->save($destination_path . '740_' . $file_name);
     				$ad->ad_pic = $file_name;
     				$ad->save();
     				$first_image_uploaded = 1;
@@ -555,7 +556,7 @@ class AdController extends Controller
 
     	//send control mail
         Mail::send('emails.control_ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
-            $m->from('test@mylove.bg', '[CONTROL] dclasssifieds');
+            $m->from('test@mylove.bg', '[CONTROL] dclassifieds');
             $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds new ad');
         });
 //         exit;

@@ -601,7 +601,7 @@
                             <label for="ad_video" class="col-md-2 control-label">Video</label>
                             <div class="col-md-5">
                             	<input type="text" class="form-control" id="ad_video" name="ad_video" value="{{ old('ad_video') }}" >
-                            	<span id="helpBlock" class="help-block">Insert link to video from youtube.com or vimeo.com</span>
+                            	<span id="helpBlock" class="help-block">Insert link to youtube.com video</span>
                             </div>
                         </div>
                         

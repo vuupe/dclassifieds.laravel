@@ -61,4 +61,23 @@ class Util
     
         return $ret;
     }
+    
+    static function getVideoReady( $_video_link )
+    {
+        //youtube video template
+        $youtube_video_template = '<iframe class="embed-responsive-item" src="http://www.youtube.com/embed/%s" frameborder="0" allowfullscreen></iframe>';
+    
+        //vimeo video template
+        $vimeo_video_template = '<iframe src="http://player.vimeo.com/video/%s?title=0&amp;byline=0&amp;portrait=0" class="embed-responsive-item" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+    
+        //container
+        $video = '';
+    
+        //is youtube video
+        if(preg_match('/https:\/\/(www.)?youtube.com\/watch\?v=([a-zA-Z0-9_-]+[^&])/', $_video_link, $matches)){
+            $video = sprintf($youtube_video_template, $matches[2]);
+        }
+    
+        return $video;
+    }
 }
