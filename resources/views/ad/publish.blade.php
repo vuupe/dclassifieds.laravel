@@ -504,11 +504,24 @@
                             </div>
                         </div>
                         
-                        <div class="form-group">
+                        <?
+                        $file_has_error = 0;
+                        for($i = 1; $i < 6; $i++){
+                            if($errors->has('ad_image.' . ($i-1))){
+                                $file_has_error = 1;
+                            }        
+                        }
+                        ?>
+                        <div class="form-group {{ $file_has_error ? ' has-error' : '' }}">
                         	<label for="ad_image" class="col-md-2 control-label">Pics</label>
                             <div class="col-md-5">
                             	<?for($i = 1; $i < 6; $i++){?>
-                                <input type="file" name="ad_image[]">
+                                    <input type="file" name="ad_image[]">
+                                    @if ($errors->has('ad_image.' . ($i-1)))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('ad_image.' . ($i-1)) }}</strong>
+                                        </span>
+                                    @endif
                                 <?}//end of for?>
                             </div>
                         </div>

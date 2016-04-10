@@ -55,7 +55,9 @@
                     <hr>
                     
                     <div class="row ad_detail_detail_info">
+                        <?if(!empty($ad_detail->condition_id)){?>
                     	<div class="col-md-6"><span class="text-muted">Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_condition_name}}</strong></span></div>
+                    	<?}?>
                     	<div class="col-md-6"><span class="text-muted">Ad Type:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_type_name}}</strong></span></div>
                     	
                     	<!-- estate info -->

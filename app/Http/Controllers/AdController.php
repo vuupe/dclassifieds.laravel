@@ -269,6 +269,7 @@ class AdController extends Controller
     	
     	//get normal ads
     	$ad = DB::table('ad');
+    	$ad->select('ad.*', 'L.location_name');
     	$ad->where('ad_active', 1);
     	if($lid > 0){
     	    $ad->where('location_id', $lid);
@@ -280,6 +281,8 @@ class AdController extends Controller
     	if(!empty($search_text)){
     	    $ad->whereRaw('match(ad_title, ad_description) against(?)', [$search_text]);
     	}
+    	
+    	$ad->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id');
     	
     	$ad->orderBy('ad_publish_date', 'desc');
     	$ad_list = $ad->paginate(3);
@@ -526,7 +529,7 @@ class AdController extends Controller
                 })->save($destination_path . '1000_' . $file_name);
     			
     			if(!$first_image_uploaded){
-   			        $img->resizeCanvas(740, 740, 'center')->save($destination_path . '740_' . $file_name);
+   			        $img->resizeCanvas(740, 740, 'top')->save($destination_path . '740_' . $file_name);
     				$ad->ad_pic = $file_name;
     				$ad->save();
     				$first_image_uploaded = 1;
