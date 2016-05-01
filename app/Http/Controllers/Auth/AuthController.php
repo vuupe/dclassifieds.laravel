@@ -87,8 +87,8 @@ class AuthController extends Controller
         
         $user = $this->create($request->all());
         
-        Mail::send('emails.activation', ['user' => $user], function ($m) use ($user) {
-        	$m->from('test@mylove.bg', 'dclasssifieds activation');
+        Mail::send('emails.activation', ['user' => $user, 'password' => $request->password], function ($m) use ($user) {
+        	$m->from('test@mylove.bg', 'dclassifieds activation');
         	$m->to($user->email)->subject('Activate your account!');
         });
         

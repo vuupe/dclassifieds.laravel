@@ -1,5 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
+@media (min-width: 1200px) {
+    .container{
+        max-width: 970px;
+    }
+}
 .top_nav		{
 				margin-bottom: 40px;
 }

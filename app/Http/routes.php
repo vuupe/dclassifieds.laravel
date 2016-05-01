@@ -24,6 +24,15 @@ Route::get('/', 'AdController@index')->name('home');
 Route::get('/{ad_slug}-ad{ad_id}.html', 'AdController@detail')
         ->name('ad_detail')
         ->where(['ad_slug' => '.*', 'ad_id' => '\d+']);
+        
+Route::get('/ad/contact/{ad_id}', 'AdController@getAdContact')
+        ->name('ad_contact')
+        ->where(['ad_id' => '\d+']);
+
+Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
+        ->name('post_ad_contact')
+        ->where(['ad_id' => '\d+']);
+        
 
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
@@ -59,6 +68,8 @@ Route::get('/proxy', 'AdController@proxy')->name('proxy');
 /**
  * search routes
  */
+Route::get('/search', 'AdController@search')->name('search');
+
 //category + location + search string
 Route::get('/{category_slug}/l-{location_slug}/q-{search_text}', 'AdController@search')
 	->name('category_location_search_text')

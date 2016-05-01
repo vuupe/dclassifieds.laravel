@@ -30,6 +30,10 @@ use Image;
 use App\AdPic;
 use Mail;
 use DB;
+use Auth;
+use App\User;
+use App\UserMail;
+use App\UserMailStatus;
 
 class AdController extends Controller
 {
@@ -88,8 +92,8 @@ class AdController extends Controller
     	//root url / base url
     	$root 			= $request->root();
     	
-    	//generated url if no parameters redirect to home
-    	$redirect_url 	= $root;
+    	//generated url if no parameters redirect to search
+    	$redirect_url 	= url('search'); //$root;
     	
     	//generated url parameters container
     	$url_params 	= array();
@@ -159,7 +163,24 @@ class AdController extends Controller
     public function search(Request $request)
     {
         $params = Input::all();
-    	print_r($params);
+    	print_r($params) . '<br /><br />';
+    	
+    	$request->flash();
+    	
+    	$car_model_id = array();
+    	if(old('car_brand_id')){
+    	    if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
+    	        $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+    	        if(!$car_models->isEmpty()){
+    	            $car_model_id = array(0 => 'Select Car Model');
+    	            foreach ($car_models as $k => $v){
+    	                $car_model_id[$v->car_model_id] = $v->car_model_name;
+    	            }
+    	        }
+    	    }
+    	}
+    	
+//     	echo $request->old('type_id', 'no type_id');
     	
     	echo 'category_slug: ' . $request->category_slug . '<br />';
     	echo 'location_slug: ' . $request->location_slug . '<br />';
@@ -181,10 +202,12 @@ class AdController extends Controller
     		}		
     	}
     	
-    	//if category selected get childs and generate url and breadcrump
+    	//if category selected get info, get childs and generate url and breadcrump
     	$clist = array();
     	$all_category_childs = array();
     	if($cid > 0){
+    	    $params['cid'] = $cid;
+    	    $selected_category_info = Category::where('category_id', $cid)->first();
     		$clist = $this->category->getOneLevel($cid);
     		foreach ($clist as $k => &$v){
     			$category_url_params = array();
@@ -235,7 +258,8 @@ class AdController extends Controller
     		$lid = $this->location->getIdBySlug($location_slug);
     		if (empty($lid)) {
     		    abort(404);
-    		}		
+    		}
+    		$params['lid'] = $lid;		
     	}
     	
     	//check for search text
@@ -247,6 +271,7 @@ class AdController extends Controller
     	
     	if(!empty($search_text_tmp) && mb_strlen($search_text_tmp, 'utf-8') > 3){
     		$search_text = preg_replace('/-/', ' ', $search_text_tmp);
+    		$params['search_text'] = $search_text;
     	}
     	
     	//get promo ads
@@ -254,7 +279,7 @@ class AdController extends Controller
     	$ad->where('ad_promo', 1);
     	$ad->where('ad_active', 1);
     	if($lid > 0){
-    	    $ad->where('location_id', $lid);
+    	    $ad->where('ad.location_id', $lid);
     	}
     	if($cid > 0){
     	    $ad->whereIn('category_id', $all_category_childs);
@@ -272,7 +297,7 @@ class AdController extends Controller
     	$ad->select('ad.*', 'L.location_name');
     	$ad->where('ad_active', 1);
     	if($lid > 0){
-    	    $ad->where('location_id', $lid);
+    	    $ad->where('ad.location_id', $lid);
     	}
     	if($cid > 0){
     	    $ad->whereIn('category_id', $all_category_childs);
@@ -294,17 +319,37 @@ class AdController extends Controller
 //     	$query = DB::getQueryLog();
 //     	print_r($query);
 //     	exit;
-    	
-    	
-    	return view('ad.search', [	'c' => $this->category->getAllHierarhy(),
+
+    	$view_params = array('c' => $this->category->getAllHierarhy(),
     						 		'l' => $this->location->getAllHierarhy(),
+    	                            'params' => $params,
     								'cid' => $cid,
     								'lid' => $lid,
     								'search_text' => $search_text,
     								'clist' => $clist,
     								'breadcrump' => $breadcrump,
     	                            'promo_ad_list' => $promo_ad_list,
-    	                            'ad_list' => $ad_list]);
+    	                            'ad_list' => $ad_list,
+    	                            
+    	                            //filter vars
+                        	        'at' => AdType::all(),
+                        	        'ac' => AdCondition::all(),
+                        	        'estate_construction_type' => EstateConstructionType::all(),
+                        	        'estate_furnishing_type' => EstateFurnishingType::all(),
+                        	        'estate_heating_type' => EstateHeatingType::all(),
+                        	        'estate_type' => EstateType::all(),
+                        	        'car_brand_id' => CarBrand::all(),
+                        	        'car_model_id' => $car_model_id,
+                        	        'car_engine_id' => CarEngine::all(),
+                        	        'car_transmission_id' => CarTransmission::all(),
+                        	        'car_condition_id' => CarCondition::all(),
+                        	        'car_modification_id' => CarModification::all(),
+    	                            );
+    	if($cid > 0){
+    	    $view_params['selected_category_info'] = $selected_category_info;
+    	}
+    	
+    	return view('ad.search', $view_params);
     }
     
     public function detail(Request $request)
@@ -336,19 +381,68 @@ class AdController extends Controller
             
             ->where('ad_active', 1)
             ->findOrFail($ad_id);
+            
+        $ad_detail->increment('ad_view', 1);
         
 //         print_r($ad_detail);
 //         exit;
         if(!empty($ad_detail->ad_video)){
             $ad_detail->ad_video_fixed = Util::getVideoReady($ad_detail->ad_video);
         }
-       
         
         //get ad pics
         $ad_pic = AdPic::where('ad_id', $ad_id)->get();
         
+        //get this user other ads
+        $other_ads = Ad::where('user_id', $ad_detail->user_id)->where('ad_active', 1)->where('ad_id', '!=', $ad_detail->ad_id)->orderBy('ad_publish_date', 'desc')->take(5)->get();
         
-        return view('ad.detail', ['ad_detail' => $ad_detail, 'ad_pic' => $ad_pic]);
+        //last view
+        $last_view_ad = array('ad_id' => $ad_detail->ad_id,
+                'ad_title' => $ad_detail->ad_title,
+                'location_name' => $ad_detail->location_name,
+                'ad_price' => $ad_detail->ad_price,
+                'ad_pic' => $ad_detail->ad_pic
+        );
+        
+        if(session()->has('last_view')){
+            $last_view_array = session('last_view');
+            $last_view_array[] = $last_view_ad;
+            if(count($last_view_array) > 4){
+                //reindex the array
+                $last_view_array = array_values($last_view_array);
+                //remove oldest ad
+                unset($last_view_array[0]);
+            }
+            session()->put('last_view', $last_view_array);
+        } else {
+            $last_view_array = array();
+            $last_view_array[] = $last_view_ad;
+            session()->put('last_view', $last_view_array);
+        }
+        
+//         session()->forget('last_view');
+//         print_r(session()->all());
+//         exit;
+
+        $breadcrump = array();
+        $breadcrump_data = $this->category->getParentsByIdFlat($ad_detail->category_id);
+        if(!empty($breadcrump_data)){
+            foreach ($breadcrump_data as $k => &$v){
+                $category_url_params = array();
+                $category_url_params[] = $this->category->getCategoryFullPathById($v['category_id']);
+                if(session()->has('location_slug')){
+                    $category_url_params[] = 'l-' . session()->get('location_slug');
+                }
+        
+                if(!empty($category_url_params)){
+                    $v['category_url'] = Util::buildUrl($category_url_params);
+                }
+            }
+            //category part of breadcrump
+            $breadcrump['c'] = array_reverse($breadcrump_data);
+        }
+        
+        return view('ad.detail', ['ad_detail' => $ad_detail, 'ad_pic' => $ad_pic, 'other_ads' => $other_ads, 'breadcrump' => $breadcrump]);
     }
     
     public function getPublish()
@@ -621,6 +715,161 @@ class AdController extends Controller
         }
         session()->flash('message', $message);
         return view('common.info_page');
+    }
+    
+    public function getAdContact(Request $request)
+    {
+        //get ad id
+        $ad_id = $request->ad_id;
+    
+        //get ad info
+        $ad_detail = Ad::select('ad.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
+                'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
+                'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
+    
+                ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
+                ->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id')
+                ->leftJoin('ad_condition AS AC', 'AC.ad_condition_id' , '=', 'ad.condition_id')
+                ->leftJoin('ad_type AS AT', 'AT.ad_type_id' , '=', 'ad.type_id')
+    
+                ->leftJoin('estate_type AS ET', 'ET.estate_type_id' , '=', 'ad.estate_type_id')
+                ->leftJoin('estate_construction_type AS ECT', 'ECT.estate_construction_type_id' , '=', 'ad.estate_construction_type_id')
+                ->leftJoin('estate_heating_type AS EHT', 'EHT.estate_heating_type_id' , '=', 'ad.estate_heating_type_id')
+                ->leftJoin('estate_furnishing_type AS EFT', 'EFT.estate_furnishing_type_id' , '=', 'ad.estate_furnishing_type_id')
+    
+                ->leftJoin('car_brand AS CB', 'CB.car_brand_id' , '=', 'ad.car_brand_id')
+                ->leftJoin('car_model AS CM', 'CM.car_model_id' , '=', 'ad.car_model_id')
+                ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
+                ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
+                ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
+                ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id')
+    
+                ->where('ad_active', 1)
+                ->findOrFail($ad_id);
+    
+                $breadcrump = array();
+                $breadcrump_data = $this->category->getParentsByIdFlat($ad_detail->category_id);
+                if(!empty($breadcrump_data)){
+                    foreach ($breadcrump_data as $k => &$v){
+                        $category_url_params = array();
+                        $category_url_params[] = $this->category->getCategoryFullPathById($v['category_id']);
+                        if(session()->has('location_slug')){
+                            $category_url_params[] = 'l-' . session()->get('location_slug');
+                        }
+    
+                        if(!empty($category_url_params)){
+                            $v['category_url'] = Util::buildUrl($category_url_params);
+                        }
+                    }
+                    //category part of breadcrump
+                    $breadcrump['c'] = array_reverse($breadcrump_data);
+                }
+    
+                return view('ad.contact', ['ad_detail' => $ad_detail, 'breadcrump' => $breadcrump]);
+    }
+    
+    public function postAdContact(Request $request)
+    {
+        //get ad id
+        $ad_id = $request->ad_id;
+    
+        //get ad info
+        $ad_detail = Ad::where('ad_active', 1)
+                ->findOrFail($ad_id);
+        
+        //validate form
+        $rules = [
+            'contact_message' => 'required|min:20'
+        ];
+         
+        $validator = Validator::make($request->all(), $rules);
+        $validator->sometimes(['contact_name'], 'required|string|max:255', function($request){
+            if(Auth::check()){
+                return false;
+            }
+            return true;
+        });
+        $validator->sometimes(['contact_mail'], 'required|email|max:255', function($request){
+            if(Auth::check()){
+                return false;
+            }
+            return true;
+        });
+        
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        
+//         exit;
+        
+        $current_user_id = 0;
+        if(Auth::check()){
+            $current_user_id = $request->user()->user_id;    
+        } else {
+            //check this mail for registered user
+            try{
+                $user = User::where('email', $request->contact_mail)->firstOrFail();
+            } catch (\Exception $e) { 
+                //no user create one
+                //generate password
+                $password = str_random(10);
+                $user = new User();
+                $user->name = $request->contact_name;
+                $user->email = $request->contact_mail;
+                $user->password = bcrypt($password);
+                $user->user_activation_token = str_random(30);
+                $user->save();
+                
+                //send activation mail
+                Mail::send('emails.activation', ['user' => $user, 'password' => $password], function ($m) use ($user) {
+                    $m->from('test@mylove.bg', 'dclassifieds activation');
+                    $m->to($user->email)->subject('Activate your account!');
+                });
+            }
+            $current_user_id = $user->user_id;
+        }
+        
+        //if user save message
+        if($current_user_id > 0){
+            
+            //generate conversation hash
+            $hash_array = array($current_user_id, $ad_detail->user_id);
+            sort($hash_array);
+            
+            //save message
+            $userMail = new UserMail();
+            $userMail->user_id_from = $current_user_id;
+            $userMail->user_id_to = $ad_detail->user_id;
+            $userMail->mail_text = strip_tags(nl2br($request->contact_message));
+            $userMail->mail_date = date('Y-m-d H:i:s');
+            $userMail->mail_hash = md5(join('-', $hash_array));
+            $userMail->save();
+            
+            //save message status
+            $userMailStatus = new UserMailStatus();
+            $userMailStatus->mail_id = $userMail->mail_id;
+            $userMailStatus->user_id = $ad_detail->user_id;
+            $userMailStatus->mail_status = 0; //new unread message
+            $userMailStatus->mail_deleted = 0;
+            $userMailStatus->save();
+            
+            //save status for the other user
+            $userMailStatus = new UserMailStatus();
+            $userMailStatus->mail_id = $userMail->mail_id;
+            $userMailStatus->user_id = $current_user_id;
+            $userMailStatus->mail_status = 1; //send
+            $userMailStatus->mail_deleted = 0;
+            $userMailStatus->save();
+            
+            //set flash message and return
+            session()->flash('message', 'Your message was send.');
+        } else {
+            //set error flash message and return
+            session()->flash('message', 'Ups something is wrong, please try again later or contact our team.');
+        }
+        return redirect()->back();
     }
     
     public function axgetcarmodels(Request $request)

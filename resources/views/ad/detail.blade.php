@@ -5,16 +5,18 @@
         	<div class="row">
             	<div class="col-md-12">
                     <ol class="breadcrumb">
-                    	  <li><a href="#">Home</a></li>
-                          <li><a href="#">Fashion</a></li>
-                          <li><a href="#">Shoes</a></li>
-                          <li><a href="#">London</a></li>
-                          <li class="active">Buffalo Shoes</li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a></li>
+                        <?if(isset($breadcrump['c']) && !empty($breadcrump['c'])){?>
+                            <?foreach ($breadcrump['c'] as $k => $v){?>
+                                <li><a href="{{ $v['category_url'] }}"><?=$v['category_title']?></a></li>
+                            <?}//end of foreach?>
+                        <?}//end of if?>
+                        <li class="active">{{ $ad_detail->ad_title }}</li>
                     </ol>
                 </div>
             </div>
         </div>
-        
         
         <div class="container ad_detail_container">
         	<div class="row">
@@ -24,7 +26,7 @@
                 <div class="col-md-12"><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a> | <span class="text-muted">Added on {{ $ad_detail->ad_publish_date }}.</span></div>
             </div>
             <div class="row ad_detail_ad_info">
-                <div class="col-md-12"><span class="text-muted">Ad Id: {{ $ad_detail->ad_id }} | Views: 500</span></div>
+                <div class="col-md-12"><span class="text-muted">Ad Id: {{ $ad_detail->ad_id }} | Views: {{ $ad_detail->ad_view }}</span></div>
             </div>
             
             <div class="row">
@@ -138,8 +140,6 @@
                     
                     <hr>
                     
-                    
-                    
                     <?if(!empty($ad_detail->ad_video)){?>
                     <div class="row">
                         <div class="col-md-12">
@@ -152,54 +152,39 @@
                     <hr>
                     <?}?>
                     
-                    <div class="row">
-                    	<div class="col-md-12">
-                        	<h4>Send Message</h4>
-                        </div>
-                    </div>
-                    
                     <div class="row margin_bottom_15">   
                         <div class="col-md-12">
-                            <form>
-                                <div class="form-group">
-                                    <textarea class="form-control"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </form>
+                            <a href=""><img src="{{ asset('images/728x90.png') }}" class="center-block img-responsive"></a>    
                         </div>
                     </div>
+                    <hr />
                     
+                    <?if(!$other_ads->isEmpty()){?>
                     <div class="row">
                     	<div class="col-md-12">
                         	<h4>Other Classifieds from this user</h4>
                         </div>
                     </div>
                     
+                    <?foreach($other_ads as $k => $v){
+                        $link = url(str_slug($v->ad_title) . '-' . 'ad' . $v->ad_id . '.html');
+                        ?>
                     <div class="row margin_bottom_15">
                     	<div class="col-md-2">
-                        	<a href=""><img src="data/ad.jpg" class="img-responsive"></a>
+                        	<a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" class="img-responsive"></a>
                         </div>
                         <div class="col-md-6">
-                        	<a href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet porttitor turpis</a>
+                        	<a href="<?=$link?>">{{ str_limit($v->ad_description, 200) }}</a>
                         </div>
                         <div class="col-md-4">
-                        	150&euro;
+                        	<?=$v->ad_price ? $v->ad_price . '&euro;' : '&nbsp;'?>
                         </div>
                     </div>
+                    <hr />
+                    <?}//end of foreach?>
+                    <?}//end of if?>
                     
-                    <div class="row margin_bottom_15">
-                    	<div class="col-md-2">
-                        	<a href=""><img src="data/ad.jpg" class="img-responsive"></a>
-                        </div>
-                        <div class="col-md-6">
-                        	<a href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet porttitor turpis</a>
-                        </div>
-                        <div class="col-md-4">
-                        	150&euro;
-                        </div>
-                    </div>
-                    
-                    
+                    <?if(session()->has('last_view') && !empty(session('last_view'))){?>
                     <div class="row">
                     	<div class="col-md-12">
                         	<h4>Last Viewed</h4>
@@ -207,31 +192,26 @@
                     </div>
                     
                     <div class="row">
+                        <?
+                        $last_view_array = array_reverse(session('last_view'));
+                        foreach($last_view_array as $k => $v){
+                            $link = url(str_slug($v['ad_title']) . '-' . 'ad' . $v['ad_id'] . '.html');
+                            ?>
                     	<!-- ad -->
                         <div class="col-md-3">
                             <div class="thumbnail">
-                                <a href="#"><img src="data/ad.jpg" alt=""></a>
-                                <div class="caption">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                                    <p>Lorem ipsum dolor sit amet</p>
-                                    <h3>25000&euro;</h2>
-                                </div>
+                                <a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v['ad_pic']);?>" alt=""></a>
+                            	<div class="caption">
+                                    <h4><a href="<?=$link?>"><?=str_limit($v['ad_title'], 23)?></a></h4>
+                                    <p><?=$v['location_name']?></p>
+                                    <h3><?=$v['ad_price'] ? $v['ad_price'] . '&euro;' : '&nbsp;'?></h2>
+                            	</div>
                             </div>
                         </div>
                         <!-- end of ad-->
-                        <!-- ad -->
-                        <div class="col-md-3">
-                            <div class="thumbnail">
-                                <a href="#"><img src="data/ad.jpg" alt=""></a>
-                                <div class="caption">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet ...</a></h4>
-                                    <p>Lorem ipsum dolor sit amet</p>
-                                    <h3>25000&euro;</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end of ad-->
+                        <?}//end of foreach?>
                     </div>
+                    <?}//end of if session?>
                     
                     
                 </div>
@@ -247,6 +227,35 @@
                 	</div>
                 	<hr>
                 	
+                	<div class="ad_detail_panel">
+                    	<h4>Ad from <a href="">John Doe</a> <small><span class="text-muted">(Registered: 2015-01-01)</span></small></h4>
+                    </div>
+                    <hr>
+                    
+                    <div class="ad_detail_panel">
+                        
+                        <a href="{{ route('ad_contact', ['ad_id' => $ad_detail->ad_id]) }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-envelope-o" aria-hidden="true"></span> Send Message</a>
+                        
+                        <?if(!empty($ad_detail->ad_phone)){?>
+                        <a href="callto:{{ $ad_detail->ad_phone }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-phone" aria-hidden="true"></span> {{ $ad_detail->ad_phone }}</a>
+                        <?}?>
+                        
+                        <?if(!empty($ad_detail->ad_skype)){?>
+                        <a href="callto:{{ $ad_detail->ad_skype }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-skype"></span> {{ $ad_detail->ad_skype }}</a>
+                        <?}?>
+                    
+                    </div>
+                    <hr>
+                    
+                    <div class="ad_detail_panel">
+                        
+                        <button class="btn btn-default btn-block btn-sm"><span class="fa fa-print"></span> Print this ad</button>
+                        <button class="btn btn-default btn-block btn-sm"><span class="fa fa-pencil-square-o"></span> Edit this ad</button>
+                        <button class="btn btn-danger btn-block btn-sm"><span class="fa fa-exclamation-triangle"></span> Report this ad</button>
+                        
+                    </div>
+                    <hr>
+                	
                 	<?if(!empty($ad_detail->ad_lat_lng)){?>
                     <div class="row">
                         <div class="col-md-12">
@@ -257,41 +266,13 @@
                     <hr>
                     <?}?>
                     
-                    <div class="ad_detail_panel">
-                    	<h4>Ad from <a href="">John Doe</a> <small><span class="text-muted">(Registered: 2015-01-01)</span></small></h4>
-                    </div>
-                    <hr>
                     
-                    <div class="ad_detail_panel">
-                    
-                        <button class="btn btn-default btn-block">Print this ad</button>
-                        <button class="btn btn-default btn-block">Edit this ad</button>
-                        <button class="btn btn-danger btn-block">Report this ad</button>
-                        
-                    </div>
-                    <hr>
                     
                     <div class="ad_detail_panel">
                         <img src="images/banner300x250.gif" class="img-responsive center-block">
                     </div>
                 
                 
-                </div>
-            </div>
-            
-            
-        </div>
-        
-        
-        
-        
-        <div class="container home_info_panel">
-        	<div class="row">
-            	<div class="col-md-10">
-                	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer commodo ac purus a cursus. Fusce elementum purus sit amet orci lobortis mattis. Sed sodales velit quis tortor tempor pulvinar. Morbi finibus sem neque, eu suscipit ante suscipit id. Suspendisse laoreet et dolor vel aliquet. Nam eu nisi nec nibh malesuada consectetur. Sed vestibulum consectetur tincidunt. Nulla posuere sapien nec sapien sodales, et posuere dui feugiat. Aenean a odio rutrum sapien faucibus finibus vel ut erat. Cras dignissim vitae ante at molestie. 
-                </div>
-                <div class="col-md-2">
-                	<div class="fb-like" data-href="https://www.facebook.com/Bitak.net" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
                 </div>
             </div>
         </div>
