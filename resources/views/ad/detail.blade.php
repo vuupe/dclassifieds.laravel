@@ -251,7 +251,7 @@
                         
                         <button class="btn btn-default btn-block btn-sm"><span class="fa fa-print"></span> Print this ad</button>
                         <button class="btn btn-default btn-block btn-sm"><span class="fa fa-pencil-square-o"></span> Edit this ad</button>
-                        <button class="btn btn-danger btn-block btn-sm"><span class="fa fa-exclamation-triangle"></span> Report this ad</button>
+                        <button class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-target="#report_modal"><span class="fa fa-exclamation-triangle"></span> Report this ad</button>
                         
                     </div>
                     <hr>
@@ -296,6 +296,73 @@
                 </div>
             </div>
         </div>
+        
+        
+        <div class="modal fade" id="report_modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Report this ad</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="report_form" name="report_form">
+                            {!! csrf_field() !!}
+                            <input type="hidden" name="report_ad_id" id="report_ad_id" value="{{ $ad_detail->ad_id }}">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="report_radio" id="report_radio_1" value="1">
+                                    Spam
+                                </label>
+                            </div>
+                            
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="report_radio" id="report_radio_2" value="2">
+                                    Scam
+                                </label>
+                            </div>
+                            
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="report_radio" id="report_radio_3" value="3">
+                                    Wrong category
+                                </label>
+                            </div>
+                            
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="report_radio" id="report_radio_4" value="4">
+                                    Prohibited goods or services
+                                </label>
+                            </div>
+                            
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="report_radio" id="report_radio_5" value="5">
+                                    Ad outdated
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">More information</label>
+                                <textarea name="report_more_info" id="report_more_info" class="form-control" rows="3"></textarea>
+                            </div>
+                        </form>
+                        
+                        <div class="alert alert-info" role="alert" id="report_result_info" style="display:none;"></div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn_send_report" data-loading-text="Sending Report...">Send Report</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        
 @endsection
 
 @section('styles')
@@ -322,6 +389,34 @@
 	<script type="text/javascript">
     	$(document).ready(function() {
     		$(".fancybox").fancybox();
+
+    		$('#btn_send_report').click(function(){
+    			var token = $('input[name=_token]').val();
+    			var btn = $(this).button('loading');
+    			var checked = $("input[name='report_radio']:checked").val();
+    			$('#report_result_info').hide();
+    			if(checked){
+        			$.ajax({
+        				url: '{{ url('axreportad') }}',
+        				headers: {'X-CSRF-TOKEN': token},
+        				type: 'POST',
+        				data: {'form_data': $('#report_form').serialize()},
+        				dataType: "json",
+        	     		success: function( data ) {
+        	     			$("input[name='report_radio']:checked").prop('checked',false);
+        	     			$('#report_more_info').val('');
+        	     			btn.button('reset');
+        	     			$('#report_result_info').html(data.message);
+                		    $('#report_result_info').show();
+        				}
+        			});
+        		} else {
+        			btn.button('reset');
+        		    $('#report_result_info').html('Please select reason for your report.');
+        		    $('#report_result_info').show();
+        		}
+        		return false;
+        	});
     	});
     </script>
 @endsection

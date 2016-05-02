@@ -34,6 +34,7 @@ use Auth;
 use App\User;
 use App\UserMail;
 use App\UserMailStatus;
+use App\AdReport;
 
 class AdController extends Controller
 {
@@ -863,6 +864,12 @@ class AdController extends Controller
             $userMailStatus->mail_deleted = 0;
             $userMailStatus->save();
             
+            //send mail to ad publisher
+            Mail::send('emails.ad_contact', ['user' => $ad_detail, 'userMail' => $userMail], function ($m) use ($ad_detail) {
+                $m->from('test@mylove.bg', 'dclassifieds ad contact');
+                $m->to($ad_detail->ad_email)->subject('You have new message in DClassifieds');
+            });
+            
             //set flash message and return
             session()->flash('message', 'Your message was send.');
         } else {
@@ -890,5 +897,31 @@ class AdController extends Controller
     		} 	
     	}
     	echo json_encode($ret);	
+    }
+    
+    public function axreportad(Request $request)
+    {
+        $ret = array('code' => 400);
+        parse_str($request->form_data, $form_data);
+        if(isset($form_data['report_ad_id']) && is_numeric($form_data['report_ad_id']) && isset($form_data['report_radio']) && is_numeric($form_data['report_radio'])){
+            $ad_report = new AdReport();
+            $ad_report->report_ad_id = $form_data['report_ad_id'];
+            $ad_report->report_type_id = $form_data['report_radio'];
+            $ad_report->report_info = nl2br($form_data['report_more_info']);
+            $ad_report->report_date = date('Y-m-d H:i:s');
+            if(Auth::check()){
+                $ad_report->report_user_id = $request->user()->user_id;
+            }
+            try{
+                $ad_report->save();
+                $ret['code'] = 200;
+                $ret['message'] = 'Thanks, The report is send.';
+            } catch (\Exception $e){
+                $ret['message'] = 'Ups, something is wrong, please try again.';
+            }
+        } else {
+            $ret['message'] = 'Ups, something is wrong, please try again.';
+        }
+        echo json_encode($ret);
     }
 }

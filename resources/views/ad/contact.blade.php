@@ -65,7 +65,7 @@
                     
                     <div class="row margin_bottom_15">   
                         <div class="col-md-12">
-                            <form method="POST" >
+                            <form method="POST">
                                 {!! csrf_field() !!}
                                 
                                 <?if(!Auth::check()){?>

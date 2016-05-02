@@ -37,6 +37,7 @@ Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
 Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
+Route::post('/axreportad', 'AdController@axreportad');
 Route::get('/publish/activate/{token}', 'AdController@activate');
 Route::get('/delete/{token}', 'AdController@delete');
 
