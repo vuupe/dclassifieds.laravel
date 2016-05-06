@@ -7,9 +7,6 @@ use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use App\Repositories\CategoryRepository;
-use App\Repositories\LocationRepository;
-use App\Repositories\AdRepository;
 use App\Http\Dc\Util;
 use App\Category;
 use App\Location;
@@ -44,7 +41,7 @@ class AdController extends Controller
 	protected $location;
 	protected $ad;
 	
-	public function __construct(CategoryRepository $_category, LocationRepository $_location, AdRepository $_ad)
+	public function __construct(Category $_category, Location $_location, Ad $_ad)
 	{
 		$this->category = $_category;
 		$this->location = $_location;
