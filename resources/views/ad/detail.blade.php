@@ -152,13 +152,6 @@
                     <hr>
                     <?}?>
                     
-                    <div class="row margin_bottom_15">   
-                        <div class="col-md-12">
-                            <a href=""><img src="{{ asset('images/728x90.png') }}" class="center-block img-responsive"></a>    
-                        </div>
-                    </div>
-                    <hr />
-                    
                     <?if(!$other_ads->isEmpty()){?>
                     <div class="row">
                     	<div class="col-md-12">
@@ -228,7 +221,8 @@
                 	<hr>
                 	
                 	<div class="ad_detail_panel">
-                    	<h4>Ad from <a href="">John Doe</a> <small><span class="text-muted">(Registered: 2015-01-01)</span></small></h4>
+                    	<h4>Ad from <a href="{{ url('ad/user/' . $ad_detail->user_id) }}">{{ $ad_detail->name}}</a></h4>
+                    	<small><span class="text-muted">(Registered: {{ $ad_detail->created_at }})</span></small>
                     </div>
                     <hr>
                     
@@ -248,9 +242,20 @@
                     <hr>
                     
                     <div class="ad_detail_panel">
+                        <?if($ad_fav){?>
+                        <a href="#" id="add_to_fav" class="btn btn-default btn-block btn-sm" data-loading-text="Saving..." data-addfav-text='<span class="fa fa-star"></span> Add to favorites' data-removefav-text='<span class="fa fa-star"></span> Remove from favorites'>
+                            <span class="fa fa-star"></span> Remove from favorites
+                        </a>
+                        <?} else {?>
+                        <a href="#" id="add_to_fav" class="btn btn-default btn-block btn-sm" data-loading-text="Saving..." data-addfav-text='<span class="fa fa-star"></span> Add to favorites' data-removefav-text='<span class="fa fa-star"></span> Remove from favorites'>
+                            <span class="fa fa-star"></span> Add to favorites
+                        </a>
+                        <?}?>
                         
-                        <button class="btn btn-default btn-block btn-sm"><span class="fa fa-print"></span> Print this ad</button>
-                        <button class="btn btn-default btn-block btn-sm"><span class="fa fa-pencil-square-o"></span> Edit this ad</button>
+                        <a href="#" onclick="window.print(); return false;" class="btn btn-default btn-block btn-sm"><span class="fa fa-print"></span> Print this ad</a>
+                        <?if(Auth::check() && Auth::user()->user_id == $ad_detail->user_id){?>
+                            <a href="{{ url('ad/edit/' . $ad_detail->ad_id) }}" class="btn btn-default btn-block btn-sm"><span class="fa fa-pencil-square-o"></span> Edit this ad</a>
+                        <?}?>
                         <button class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-target="#report_modal"><span class="fa fa-exclamation-triangle"></span> Report this ad</button>
                         
                     </div>
@@ -266,10 +271,8 @@
                     <hr>
                     <?}?>
                     
-                    
-                    
                     <div class="ad_detail_panel">
-                        <img src="images/banner300x250.gif" class="img-responsive center-block">
+                        <img src="{{ asset('images/banner300x250.gif') }}" class="img-responsive center-block">
                     </div>
                 
                 
@@ -415,6 +418,27 @@
         		    $('#report_result_info').html('Please select reason for your report.');
         		    $('#report_result_info').show();
         		}
+        		return false;
+        	});
+
+    		$('#add_to_fav').click(function(){
+    			var token = $('input[name=_token]').val();
+    			var btn = $(this).button('loading');
+    		    $.ajax({
+    				url: '{{ url('axsavetofav') }}',
+    				headers: {'X-CSRF-TOKEN': token},
+    				type: 'POST',
+    				data: {'ad_id': $('#report_ad_id').val()},
+    				dataType: "json",
+    	     		success: function( data ) {
+    	     			if(data.code == 200){
+    	     				btn.button('removefav');
+    	     			}
+    	     			if(data.code == 201){
+    	     				btn.button('addfav');
+    	     			}
+    				}
+    			});
         		return false;
         	});
     	});

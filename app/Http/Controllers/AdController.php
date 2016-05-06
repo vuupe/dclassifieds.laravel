@@ -35,6 +35,8 @@ use App\User;
 use App\UserMail;
 use App\UserMailStatus;
 use App\AdReport;
+use Cookie;
+use App\AdFav;
 
 class AdController extends Controller
 {
@@ -359,10 +361,11 @@ class AdController extends Controller
         $ad_id = $request->ad_id;
         
         //get ad info
-        $ad_detail = Ad::select('ad.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
+        $ad_detail = Ad::select('ad.*', 'U.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
                 'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
                 'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
         
+            ->leftJoin('user AS U', 'U.user_id' , '=', 'ad.user_id')
             ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
             ->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id')
             ->leftJoin('ad_condition AS AC', 'AC.ad_condition_id' , '=', 'ad.condition_id')
@@ -443,7 +446,22 @@ class AdController extends Controller
             $breadcrump['c'] = array_reverse($breadcrump_data);
         }
         
-        return view('ad.detail', ['ad_detail' => $ad_detail, 'ad_pic' => $ad_pic, 'other_ads' => $other_ads, 'breadcrump' => $breadcrump]);
+        //check if ad is in favorites
+        $ad_fav = 0;
+        $fav_ads_info = array();
+        //is there user
+        if(Auth::check()){
+            $adFavModel = new AdFav();
+            $fav_ads_info = $adFavModel->getFavAds($request->user()->user_id);
+        } else if(Cookie::has('__dclassifieds_fav_ads')) {
+            //no user check cookie
+            $fav_ads_info = $request->cookie('__dclassifieds_fav_ads', array());
+        }
+        if(isset($fav_ads_info[$ad_id])){
+            $ad_fav = 1;
+        }
+        
+        return view('ad.detail', ['ad_detail' => $ad_detail, 'ad_pic' => $ad_pic, 'other_ads' => $other_ads, 'breadcrump' => $breadcrump, 'ad_fav' => $ad_fav]);
     }
     
     public function getPublish()
@@ -923,5 +941,57 @@ class AdController extends Controller
             $ret['message'] = 'Ups, something is wrong, please try again.';
         }
         echo json_encode($ret);
+    }
+    
+    public function axsavetofav(Request $request)
+    {
+        $ret = array('code' => 400);
+        $ad_id = $request->ad_id;
+        
+        if(isset($ad_id) && is_numeric($ad_id)){
+            $fav_ads_info = $request->cookie('__dclassifieds_fav_ads', array());
+            if(Auth::check()){
+                //registered user save/remove to/from db
+                $adFavModel = new AdFav();
+                $user_id = $request->user()->user_id;
+                $fav_ads_db = $adFavModel->getFavAds($user_id);
+                if(isset($fav_ads_db[$ad_id])){
+                    //remove from db
+                    $adFavModel->where('ad_id', $ad_id)->where('user_id', $user_id)->delete();
+                    $ret['code'] = 201;
+                } else {
+                    //remove all favs from db for this user
+                    $adFavModel->where('user_id', $user_id)->delete();
+                    
+                    $fav_ads_info[$ad_id] = $ad_id;
+                    $fav_to_save = array_replace($fav_ads_info, $fav_ads_db);
+                    
+                    //save to db, if there is cookie info save it too
+                    foreach ($fav_to_save as $k){
+                        $adFavModel = new AdFav();
+                        $adFavModel->ad_id = $k;
+                        $adFavModel->user_id = $user_id;
+                        $adFavModel->save();
+                    }
+                    $ret['code'] = 200;
+                }
+                
+                //remove cookie, data is saved to db
+                $fav_ads_info = array();
+            } else {
+                //not registered user save/remove ad to/from cookie
+                if(isset($fav_ads_info[$ad_id])){
+                    unset($fav_ads_info[$ad_id]);
+                    $ret['code'] = 201;
+                } else {
+                    $fav_ads_info[$ad_id] = $ad_id;
+                    $ret['code'] = 200;
+                }
+            }
+            $cookie = Cookie::forever('__dclassifieds_fav_ads', $fav_ads_info);
+            Cookie::queue($cookie);
+        }
+        
+        return response()->json($ret);
     }
 }
