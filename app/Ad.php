@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Cache;
 
 class Ad extends Model
 {
@@ -32,5 +34,45 @@ class Ad extends Model
     public function pics()
     {
         return $this->hasMany('App\AdPic', 'ad_id', 'ad_id');
+    }
+    
+    public function getAdList($_where = array(), $_order = array(), $_limit = 0, $_order_raw = '')
+    {
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
+        $ret = Cache::get($cache_key, new Collection());
+        if($ret->isEmpty()){
+            $q = $this->newQuery();
+            
+            $q->select('ad.ad_id', 'ad.ad_title', 'ad.ad_pic', 'ad.ad_price', 'ad.ad_free', 'ad.ad_promo', 'L.location_name');
+            
+            if(!empty($_where)){
+                foreach ($_where as $k => $v){
+                    $q->where($k, $v);
+                }
+            }
+            
+            if(!empty($_order)){
+                foreach($_order as $k => $v){
+                    $q->orderBy($k, $v);
+                }
+            }
+            
+            if(!empty($_order_raw)){
+                $q->orderByRaw($_order_raw);
+            }
+            
+            if($_limit > 0){
+                $q->take($_limit);
+            }
+            
+            $q->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id');
+            
+            $res = $q->get();
+            if(!$res->isEmpty()){
+                $ret = $res;
+                Cache::put($cache_key, $ret, config('dc.cache_expire'));
+            }
+        }
+        return $ret;
     }
 }

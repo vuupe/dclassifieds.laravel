@@ -80,4 +80,9 @@ class Util
     
         return $video;
     }
+    
+    static function formatPrice( $_price )
+    {
+        return number_format($_price, 2, '.', ' ');    
+    }
 }

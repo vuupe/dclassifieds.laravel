@@ -69,16 +69,14 @@ class AdController extends Controller
     		}
     	}
     	
-    	//get home page ads
-    	$ad = DB::table('ad');
-    	$ad->where('ad_promo', 1);
-    	$ad->where('ad_active', 1);
+    	//get home page promo ads
+    	$where = ['ad_promo' => 0, 'ad_active' => 1];
     	if($lid > 0){
-    	    $ad->where('location_id', $lid);
+    	    $where['location_id'] = $lid;
     	}
-    	
-    	$ad->orderBy('ad_publish_date', 'desc');
-    	$promo_ad_list = $ad->get();
+    	$order = ['ad_publish_date' => 'desc'];
+    	$limit = 12;
+    	$promo_ad_list = $this->ad->getAdList($where, $order, $limit);
     	
     	return view('ad.home', ['c' => $this->category->getAllHierarhy(),
     							'l' => $this->location->getAllHierarhy(),
