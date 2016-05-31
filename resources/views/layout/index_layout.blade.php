@@ -7,6 +7,9 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>dclassifieds html template</title>
         
+        <script src="{{ asset('js/pace/pace.min.js') }}"></script>
+        <link href="{{ asset('js/pace/themes/red/pace-theme-minimal.css') }}" rel="stylesheet" />
+        
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->

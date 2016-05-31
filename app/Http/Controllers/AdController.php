@@ -70,7 +70,7 @@ class AdController extends Controller
     	}
     	
     	//get home page promo ads
-    	$where = ['ad_promo' => 0, 'ad_active' => 1];
+    	$where = ['ad_promo' => 1, 'ad_active' => 1];
     	if($lid > 0){
     	    $where['location_id'] = $lid;
     	}
@@ -147,6 +147,10 @@ class AdController extends Controller
     	//check if there are parameters for query string
     	$query_string = '';
     	if(!empty($params)){
+    	    //clear token var if exist
+    	    if(isset($params['_token'])){
+    	        unset($params['_token']);
+    	    }
     		$query_string = Util::getQueryStringFromArray($params);
     	}
     	
@@ -272,46 +276,160 @@ class AdController extends Controller
     		$params['search_text'] = $search_text;
     	}
     	
-    	//get promo ads
-    	$ad = DB::table('ad');
-    	$ad->where('ad_promo', 1);
-    	$ad->where('ad_active', 1);
-    	if($lid > 0){
-    	    $ad->where('ad.location_id', $lid);
+    	/*
+    	 * init where vars
+    	 */
+    	$where = [];
+    	$order = [];
+    	$limit = 0;
+    	$orderRaw = '';
+    	$whereIn = [];
+    	$whereRaw = [];
+    	$paginate = 0;
+    	$page = 1;
+    	
+    	/*
+    	 * get common params and set them in where array
+    	 */
+    	if(isset($params['condition_id']) && is_numeric($params['condition_id']) && $params['condition_id'] > 0){
+    	    $where['ad_condition_id'] = $params['condition_id'];    
     	}
-    	if($cid > 0){
-    	    $ad->whereIn('category_id', $all_category_childs);
+    	
+    	if(isset($params['type_id']) && is_numeric($params['type_id']) && $params['type_id'] > 0){
+    	    $where['ad_type_id'] = $params['ad_type_id'];
     	}
-    	if(!empty($search_text)){
-    	    $ad->whereRaw('match(ad_title, ad_description) against(?)', [$search_text]);
+    	
+    	if(isset($params['price_from']) && is_numeric($params['price_from']) && $params['price_from'] > 0){
+    	    $where['ad_price'] = ['>=', $params['price_from']];
+    	}
+    	
+    	if(isset($params['price_to']) && is_numeric($params['price_to']) && $params['price_to'] > 0){
+    	    $where['ad_price'] = ['<=', $params['price_to']];
+    	}
+    	
+    	//type 2 filters - real estates
+    	if(isset($params['estate_type_id']) && is_numeric($params['estate_type_id']) && $params['estate_type_id'] > 0){
+    	    $where['estate_type_id'] = $params['estate_type_id'];
+    	}
+    	
+    	if(isset($params['estate_sq_m_from']) && is_numeric($params['estate_sq_m_from']) && $params['estate_sq_m_from'] > 0){
+    	    $where['estate_sq_m'] = ['>=', $params['estate_sq_m_from']];
+    	}
+    	
+    	if(isset($params['estate_sq_m_to']) && is_numeric($params['estate_sq_m_to']) && $params['estate_sq_m_to'] > 0){
+    	    $where['estate_sq_m'] = ['<=', $params['estate_sq_m_to']];
+    	}
+    	
+    	if(isset($params['estate_year_from']) && is_numeric($params['estate_year_from']) && $params['estate_year_from'] > 0){
+    	    $where['estate_year'] = ['>=', $params['estate_year_from']];
     	}
     	 
-    	$ad->take(4);
-    	$ad->orderByRaw('rand()');
-    	$promo_ad_list = $ad->get();
+    	if(isset($params['estate_year_to']) && is_numeric($params['estate_year_to']) && $params['estate_year_to'] > 0){
+    	    $where['estate_year'] = ['<=', $params['estate_year_to']];
+    	}
     	
-    	//get normal ads
-    	$ad = DB::table('ad');
-    	$ad->select('ad.*', 'L.location_name');
-    	$ad->where('ad_active', 1);
+    	if(isset($params['estate_construction_type_id']) && is_numeric($params['estate_construction_type_id']) && $params['estate_construction_type_id'] > 0){
+    	    $where['estate_construction_type_id'] = $params['estate_construction_type_id'];
+    	}
+    	
+    	if(isset($params['estate_heating_type_id']) && is_numeric($params['estate_heating_type_id']) && $params['estate_heating_type_id'] > 0){
+    	    $where['estate_heating_type_id'] = $params['estate_heating_type_id'];
+    	}
+    	
+    	if(isset($params['estate_floor_from']) && is_numeric($params['estate_floor_from']) && $params['estate_floor_from'] > 0){
+    	    $where['estate_floor'] = ['>=', $params['estate_floor_from']];
+    	}
+    	
+    	if(isset($params['estate_floor_to']) && is_numeric($params['estate_floor_to']) && $params['estate_floor_to'] > 0){
+    	    $where['estate_floor'] = ['<=', $params['estate_floor_to']];
+    	}
+    	
+    	if(isset($params['estate_num_floors_in_building']) && is_numeric($params['estate_num_floors_in_building']) && $params['estate_num_floors_in_building'] > 0){
+    	    $where['estate_num_floors_in_building'] = $params['estate_num_floors_in_building'];
+    	}
+    	
+    	if(isset($params['estate_furnishing_type_id']) && is_numeric($params['estate_furnishing_type_id']) && $params['estate_furnishing_type_id'] > 0){
+    	    $where['estate_furnishing_type_id'] = $params['estate_furnishing_type_id'];
+    	}
+    	
+    	//type 3 filters - cars
+    	if(isset($params['car_engine_id']) && is_numeric($params['car_engine_id']) && $params['car_engine_id'] > 0){
+    	    $where['car_engine_id'] = $params['car_engine_id'];
+    	}
+    	
+    	if(isset($params['car_brand_id']) && is_numeric($params['car_brand_id']) && $params['car_brand_id'] > 0){
+    	    $where['car_brand_id'] = $params['car_brand_id'];
+    	}
+    	
+    	if(isset($params['car_model_id']) && is_numeric($params['car_model_id']) && $params['car_model_id'] > 0){
+    	    $where['car_model_id'] = $params['car_model_id'];
+    	}
+    	
+    	if(isset($params['car_transmission_id']) && is_numeric($params['car_transmission_id']) && $params['car_transmission_id'] > 0){
+    	    $where['car_transmission_id'] = $params['car_transmission_id'];
+    	}
+    	
+    	if(isset($params['car_modification_id']) && is_numeric($params['car_modification_id']) && $params['car_modification_id'] > 0){
+    	    $where['car_modification_id'] = $params['car_modification_id'];
+    	}
+    	
+    	if(isset($params['car_year_from']) && is_numeric($params['car_year_from']) && $params['car_year_from'] > 0){
+    	    $where['car_year'] = ['>=', $params['car_year_from']];
+    	}
+    	 
+    	if(isset($params['car_year_to']) && is_numeric($params['car_year_to']) && $params['car_year_to'] > 0){
+    	    $where['car_year'] = ['<=', $params['car_year_to']];
+    	}
+    	
+    	if(isset($params['car_kilometeres_from']) && is_numeric($params['car_kilometeres_from']) && $params['car_kilometeres_from'] > 0){
+    	    $where['car_kilometeres'] = ['>=', $params['car_kilometeres_from']];
+    	}
+    	
+    	if(isset($params['car_kilometeres_to']) && is_numeric($params['car_kilometeres_to']) && $params['car_kilometeres_to'] > 0){
+    	    $where['car_kilometeres'] = ['<=', $params['car_kilometeres_to']];
+    	}
+    	
+    	if(isset($params['car_condition_id']) && is_numeric($params['car_condition_id']) && $params['car_condition_id'] > 0){
+    	    $where['car_condition_id'] = $params['car_condition_id'];
+    	}
+    	
+    	/*
+    	 * get promo ads
+    	 */
+    	$where['ad_promo'] = 1;
+    	$where['ad_active'] = 1;
     	if($lid > 0){
-    	    $ad->where('ad.location_id', $lid);
+    	    $where['location_id'] = $lid;
     	}
     	if($cid > 0){
-    	    $ad->whereIn('category_id', $all_category_childs);
-//     	    $ad->where('category_id', 500);
+    	    $whereIn['category_id'] = $all_category_childs;
     	}
     	if(!empty($search_text)){
-    	    $ad->whereRaw('match(ad_title, ad_description) against(?)', [$search_text]);
+    	    $whereRaw['match(ad_title, ad_description) against(?)'] = [$search_text];
     	}
+    	$orderRaw = 'rand()';
+    	$limit = 4;
+    	$promo_ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate);
     	
-    	$ad->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id');
+    	/*
+    	 * get normal ads 
+    	 */
+        $where['ad_promo'] = 0;
+        $limit = 0;
+        $orderRaw = '';
+        $order = ['ad_publish_date' => 'desc'];
+        $paginate = 4;
+        if (isset($params['page']) && is_numeric($params['page'])) {
+            $page = $params['page'];
+        }
+
+    	$ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
     	
-    	$ad->orderBy('ad_publish_date', 'desc');
-    	$ad_list = $ad->paginate(3);
-    	//echo count($ad_list);
-    	//print_r($ad_list);
-    	//exit;
+    	
+    	
+//     	echo count($ad_list);
+//     	print_r($ad_list);
+//     	exit;
     	
     	
 //     	$query = DB::getQueryLog();

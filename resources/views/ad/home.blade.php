@@ -46,27 +46,13 @@
 @endsection
 
 @section('content')
-		<div class="container category_panel">
-            <?
-            $i = 1;
-            $closed = 0;
-            foreach ($clist as $k => $v){?>
-            	<?if($i == 1){?>
-            		<div class="row">
-            	<?}?>
+
+        <div class="container category_panel">
+            <div class="row">
+            <?foreach ($clist as $k => $v){?>
             	<div class="col-md-3 padding_top_bottom_15"><a href="{{ $v->category_url }}"><img src="{{ asset('images/icons/' . $v->category_img) }}" /> <?=$v->category_title?></a></div>
-            	<?
-				$i++;
-				if($i > 4){
-					$closed = 1;
-					$i = 1;
-					?></div><?
-				}
-			}//end foreach
-			
-			if(!$closed){?>
-				</div>
-			<?}?>
+            <?}//end foreach?>
+			</div>
         </div>
         
         <div class="container home_promo_ads_panel">

@@ -348,7 +348,7 @@
             
             <!-- ad row-->
             <div class="row margin_bottom_15">
-                <?if(isset($promo_ad_list) && !empty($promo_ad_list)){?>
+                <?if(isset($promo_ad_list) && !$promo_ad_list->isEmpty()){?>
                     <?foreach ($promo_ad_list as $k => $v){?>
                         @include('common.ad_list')
                     <?}?>
@@ -367,7 +367,7 @@
             
             <!-- ad row-->
             <div class="row margin_bottom_15">
-                <?if(isset($ad_list) && count($ad_list) > 0){?>
+                <?if(isset($ad_list) && !$ad_list->isEmpty()){?>
                     <?foreach ($ad_list as $k => $v){?>
                         @include('common.ad_list')
                     <?}?>
@@ -380,6 +380,7 @@
             <!--end of ad row -->
         </div>
         
+        <?if(isset($ad_list) && !$ad_list->isEmpty()){?>
         <div class="container">
         	<div class="row">
             	<div class="col-md-12">
@@ -389,6 +390,7 @@
                 </div>
             </div>
         </div>
+        <?}//end of if?>
         
         <div class="container home_info_panel">
         	<div class="row">
