@@ -85,4 +85,26 @@ class Util
     {
         return number_format($_price, 2, '.', ' ');    
     }
+    
+    static function getOldOrModelValue($_name, $_model = '')
+    {
+        $old = session()->get('_old_input');
+        if(isset($old[$_name])){
+            return $old[$_name];
+        }
+        
+        if(!empty($_model) && isset($_model->$_name) && !empty($_model->$_name)){
+            return $_model->$_name;
+        }
+    }
+    
+    static function br2nl($_text)
+    {
+        return str_replace('<br />', "\n", $_text);
+    }
+    
+    static function nl2br($_text)
+    {
+        return str_replace("\r\n","<br />", $_text);
+    }
 }

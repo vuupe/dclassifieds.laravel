@@ -61,7 +61,7 @@
 	                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
 	                            
 	                            <ul class="dropdown-menu">
-	                                <li><a href="{{ url('profile') }}">My Profile</a></li>
+	                                <li><a href="{{ url('myprofile') }}">My Profile</a></li>
 	                                <li><a href="{{ url('myads') }}">My Classifieds</a></li>
 	                                <li role="separator" class="divider"></li>
 	                                <li><a href="{{ url('logout') }}">Exit</a></li>

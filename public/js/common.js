@@ -7,6 +7,12 @@ $(document).ready(function(){
 	
 	$(".chosen_select").chosen({'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true});
 	
+	$('.need_confirm').click(function(){
+		if(!confirm('Are you sure, you want to do that?')){
+			return false;
+		} 
+	});
+	
 	/**
 	 * ad publish
 	 */

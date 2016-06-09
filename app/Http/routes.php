@@ -41,14 +41,18 @@ Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 Route::post('/axreportad', 'AdController@axreportad');
 Route::post('/axsavetofav', 'AdController@axsavetofav');
 
-
 Route::get('/publish/activate/{token}', 'AdController@activate');
-Route::get('/delete/{token}', 'AdController@delete');
+Route::get('/delete/{token}', 'AdController@delete')->name('delete');
+
+Route::get('/myads', 'AdController@myads')->name('myads');
+Route::get('/republish/{token}', 'AdController@republish')->name('republish');
+Route::get('/ad/edit/{ad_id}', 'AdController@edit')->name('adedit')->where(['ad_id' => '\d+']);
+Route::post('/ad/edit/{ad_id}', 'AdController@postAdEdit')->name('postAdEdit')->where(['ad_id' => '\d+']);
 
 /**
  * user actions
  */
-Route::get('/profile', 'UserController@profile')->name('profile');
+Route::get('/myprofile', 'UserController@myprofile')->name('profile');
 
 // Authentication Routes...
 Route::get('login', 'Auth\AuthController@getLogin');

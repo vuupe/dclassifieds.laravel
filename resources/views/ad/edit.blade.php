@@ -5,8 +5,9 @@
         	<div class="row">
             	<div class="col-md-12">
                     <ol class="breadcrumb">
-                    	  <li><a href="#">Home</a></li>
-                          <li class="active">Post an ad</li>
+                    	  <li><a href="{{ route('home') }}">Home</a></li>
+                    	  <li><a href="{{ route('myads') }}">My Classifieds</a></li>
+                          <li class="active">Edit ad #{{ $ad_detail->ad_id }}</li>
                     </ol>
                 </div>
             </div>
@@ -24,18 +25,19 @@
                     <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                     
                     	{!! csrf_field() !!}
-                    	<input type="hidden" id="category_type" name="category_type" value="{{ old('category_type') ? old('category_type') : 0 }}" />
+                    	<input type="hidden" id="category_type" name="category_type" value="{{ Util::getOldOrModelValue('category_type', $ad_detail) ? Util::getOldOrModelValue('category_type', $ad_detail) : 0 }}" />
+                    	<input type="hidden" id="ad_id" name="ad_id" value="{{ $ad_detail->ad_id }}" />
                     
                     	<div class="row">
                             <div class="col-md-offset-4 col-md-8">
-                                <h2>Post an ad</h2>
+                                <h2>Edit ad #{{ $ad_detail->ad_id }}</h2>
                             </div>
                         </div>
                     
                         <div class="form-group required {{ $errors->has('ad_title') ? ' has-error' : '' }}">
                             <label for="ad_title" class="col-md-4 control-label">Ad Title</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ old('ad_title') }}" maxlength="255"/>
+                            	<input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ Util::getOldOrModelValue('ad_title', $ad_detail) }}" maxlength="255"/>
                             	
                             	@if ($errors->has('ad_title'))
                                     <span class="help-block">
@@ -54,7 +56,7 @@
 		                   			@foreach ($c as $k => $v)
 		                   				<optgroup label="{{$v['title']}}">
 		                   					@if(isset($v['c']) && !empty($v['c'])){
-		                   						@include('common.cselect', ['c' => $v['c'], 'cid' => old('category_id')])
+		                   						@include('common.cselect', ['c' => $v['c'], 'cid' => Util::getOldOrModelValue('category_id', $ad_detail)])
 		                   					@endif
 		                   				</optgroup>
 		                   			@endforeach
@@ -72,7 +74,7 @@
                         <div class="form-group required {{ $errors->has('ad_description') ? ' has-error' : '' }}">
                             <label for="ad_description" class="col-md-4 control-label">Ad Description</label>
                             <div class="col-md-5">
-                            	<textarea class="form-control" name="ad_description" id="ad_description" rows="{{ config('dc.num_rows_ad_description_textarea') }}">{{ old('ad_description') }}</textarea>
+                            	<textarea class="form-control" name="ad_description" id="ad_description" rows="{{ config('dc.num_rows_ad_description_textarea') }}"><?=Util::getOldOrModelValue('ad_description', $ad_detail) ?></textarea>
                             	
                             	@if ($errors->has('ad_description'))
                                     <span class="help-block">
@@ -90,9 +92,9 @@
                         <div class="form-group required {{ $errors->has('ad_price_type_1') ? ' has-error' : '' }}" style="margin-bottom: 0px;">
                             <label for="ad_price_type_1" class="col-md-4 control-label">Price</label>
                             <div class="col-md-5">
-                            	<div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ old('price_radio') == 1 ? 'checked' : '' }}></div>
+                            	<div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ Util::getOldOrModelValue('price_radio', $ad_detail) == 1 ? 'checked' : '' }}></div>
                             	<div class="pull-left" style="margin-left:5px;">
-                            		<input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ old('ad_price_type_1') }}" />
+                            		<input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ Util::getOldOrModelValue('ad_price_type_1', $ad_detail) }}" />
                             	</div>
                             	
                             	@if ($errors->has('ad_price_type_1'))
@@ -107,7 +109,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                           		<label class="radio-inline">
-                            		<input type="radio" name="price_radio" id="price_radio" value="2" {{ old('price_radio') == 2 ? 'checked' : '' }}> Free
+                            		<input type="radio" name="price_radio" id="price_radio" value="2" {{ Util::getOldOrModelValue('price_radio', $ad_detail) == 2 ? 'checked' : '' }}> Free
                             	</label>
                             </div>
                         </div>
@@ -119,7 +121,7 @@
 		                   		<select name="condition_id_type_1" id="condition_id_type_1" class="form-control chosen_select" data-placeholder="Select Condition">
 		                   			<option value="0"></option>
 		                   			@foreach ($ac as $k => $v)
-		                   				@if(old('condition_id_type_1') == $v->ad_condition_id)
+		                   				@if(Util::getOldOrModelValue('condition_id_type_1', $ad_detail) == $v->ad_condition_id)
 											<option value="{{ $v->ad_condition_id }}" selected>{{ $v->ad_condition_name }}</option>
 										@else
 											<option value="{{ $v->ad_condition_id }}">{{ $v->ad_condition_name }}</option>
@@ -146,7 +148,7 @@
                         <div class="form-group required {{ $errors->has('ad_price_type_2') ? ' has-error' : '' }}">
                             <label for="ad_price_type_2" class="col-md-4 control-label">Price</label>
                             <div class="col-md-5">
-                            	<div><input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ old('ad_price_type_2') }}" /></div>
+                            	<div><input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ Util::getOldOrModelValue('ad_price_type_2', $ad_detail) }}" /></div>
                             	@if ($errors->has('ad_price_type_2'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_price_type_2') }}</strong>
@@ -162,7 +164,7 @@
 		                   		<select name="estate_type_id" id="estate_type_id" class="form-control chosen_select" data-placeholder="Select Estate Type">
 		                   			<option value="0"></option>
 		                   			@foreach ($estate_type as $k => $v)
-		                   				@if(old('estate_type_id') == $v->estate_type_id)
+		                   				@if(Util::getOldOrModelValue('estate_type_id', $ad_detail) == $v->estate_type_id)
 											<option value="{{ $v->estate_type_id }}" selected>{{ $v->estate_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_type_id }}">{{ $v->estate_type_name }}</option>
@@ -181,7 +183,7 @@
                         <div class="form-group required {{ $errors->has('estate_sq_m') ? ' has-error' : '' }}">
                             <label for="estate_sq_m" class="col-md-4 control-label">Estate sq. m.</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="estate_sq_m" name="estate_sq_m" value="{{ old('estate_sq_m') }}" />
+                            	<input type="text" class="form-control" id="estate_sq_m" name="estate_sq_m" value="{{ Util::getOldOrModelValue('estate_sq_m', $ad_detail) }}" />
                             	@if ($errors->has('estate_sq_m'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('estate_sq_m') }}</strong>
@@ -193,7 +195,7 @@
                         <div class="form-group">
                             <label for="estate_year" class="col-md-4 control-label">Estate year of construction</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="estate_year" name="estate_year" value="{{ old('estate_year') }}" />
+                            	<input type="text" class="form-control" id="estate_year" name="estate_year" value="{{ Util::getOldOrModelValue('estate_year', $ad_detail) }}" />
                             </div>
                         </div>
                         
@@ -204,7 +206,7 @@
 		                   		<select name="estate_construction_type_id" id="estate_construction_type_id" class="form-control chosen_select" data-placeholder="Select Estate Construction Type">
 		                   			<option value="0"></option>
 		                   			@foreach ($estate_construction_type as $k => $v)
-		                   				@if(old('estate_construction_type_id') == $v->estate_construction_type_id)
+		                   				@if(Util::getOldOrModelValue('estate_construction_type_id', $ad_detail) == $v->estate_construction_type_id)
 											<option value="{{ $v->estate_construction_type_id }}" selected>{{ $v->estate_construction_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_construction_type_id }}">{{ $v->estate_construction_type_name }}</option>
@@ -218,14 +220,14 @@
                         <div class="form-group">
                             <label for="estate_floor" class="col-md-4 control-label">Estate floor</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="estate_floor" name="estate_floor" value="{{ old('estate_floor') }}" />
+                            	<input type="text" class="form-control" id="estate_floor" name="estate_floor" value="{{ Util::getOldOrModelValue('estate_floor', $ad_detail) }}" />
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="estate_num_floors_in_building" class="col-md-4 control-label">Num Floors in Building</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="estate_num_floors_in_building" name="estate_num_floors_in_building" value="{{ old('estate_num_floors_in_building') }}" />
+                            	<input type="text" class="form-control" id="estate_num_floors_in_building" name="estate_num_floors_in_building" value="{{ Util::getOldOrModelValue('estate_num_floors_in_building', $ad_detail) }}" />
                             </div>
                         </div>
                         
@@ -236,7 +238,7 @@
 		                   		<select name="estate_heating_type_id" id="estate_heating_type_id" class="form-control chosen_select" data-placeholder="Select Estate Heating">
 		                   			<option value="0"></option>
 		                   			@foreach ($estate_heating_type as $k => $v)
-		                   				@if(old('estate_heating_type_id') == $v->estate_heating_type_id)
+		                   				@if(Util::getOldOrModelValue('estate_heating_type_id', $ad_detail) == $v->estate_heating_type_id)
 											<option value="{{ $v->estate_heating_type_id }}" selected>{{ $v->estate_heating_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_heating_type_id }}">{{ $v->estate_heating_type_name }}</option>
@@ -254,7 +256,7 @@
 		                   		<select name="estate_furnishing_type_id" id="estate_furnishing_type_id" class="form-control chosen_select" data-placeholder="Select Estate Furnishing">
 		                   			<option value="0"></option>
 		                   			@foreach ($estate_furnishing_type as $k => $v)
-		                   				@if(old('estate_furnishing_type_id') == $v->estate_furnishing_type_id)
+		                   				@if(Util::getOldOrModelValue('estate_furnishing_type_id', $ad_detail) == $v->estate_furnishing_type_id)
 											<option value="{{ $v->estate_furnishing_type_id }}" selected>{{ $v->estate_furnishing_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_furnishing_type_id }}">{{ $v->estate_furnishing_type_name }}</option>
@@ -279,7 +281,7 @@
 		                   		<select name="car_brand_id" id="car_brand_id" class="form-control chosen_select" data-placeholder="Select Car Brand">
 		                   			<option value="0"></option>
 		                   			@foreach ($car_brand_id as $k => $v)
-		                   				@if(old('car_brand_id') == $v->car_brand_id)
+		                   				@if(Util::getOldOrModelValue('car_brand_id', $ad_detail) == $v->car_brand_id)
 											<option value="{{ $v->car_brand_id }}" selected>{{ $v->car_brand_name }}</option>
 										@else
 											<option value="{{ $v->car_brand_id }}">{{ $v->car_brand_name }}</option>
@@ -302,7 +304,7 @@
                             	<?if(isset($car_model_id) && !empty($car_model_id)){?>
     		                   		<select name="car_model_id" id="car_model_id" class="form-control chosen_select" data-placeholder="Select Car Model">
                            			    <?foreach ($car_model_id as $k => $v){?>
-                           			        <?if(old('car_model_id') == $k){?>
+                           			        <?if(Util::getOldOrModelValue('car_model_id', $ad_detail) == $k){?>
                            			            <option value="<?=$k?>" selected><?=$v?></option>
                            			        <?} else {?>
                            			            <option value="<?=$k?>"><?=$v?></option>
@@ -332,7 +334,7 @@
 		                   		<select name="car_engine_id" id="car_engine_id" class="form-control chosen_select" data-placeholder="Select Car Engine">
 		                   			<option value="0"></option>
 		                   			@foreach ($car_engine_id as $k => $v)
-		                   				@if(old('car_engine_id') == $v->car_engine_id)
+		                   				@if(Util::getOldOrModelValue('car_engine_id', $ad_detail) == $v->car_engine_id)
 											<option value="{{ $v->car_engine_id }}" selected>{{ $v->car_engine_name }}</option>
 										@else
 											<option value="{{ $v->car_engine_id }}">{{ $v->car_engine_name }}</option>
@@ -355,7 +357,7 @@
 		                   		<select name="car_transmission_id" id="car_transmission_id" class="form-control chosen_select" data-placeholder="Select Car Tranmission">
 		                   			<option value="0"></option>
 		                   			@foreach ($car_transmission_id as $k => $v)
-		                   				@if(old('car_transmission_id') == $v->car_transmission_id)
+		                   				@if(Util::getOldOrModelValue('car_transmission_id', $ad_detail) == $v->car_transmission_id)
 											<option value="{{ $v->car_transmission_id }}" selected>{{ $v->car_transmission_name }}</option>
 										@else
 											<option value="{{ $v->car_transmission_id }}">{{ $v->car_transmission_name }}</option>
@@ -378,7 +380,7 @@
 		                   		<select name="car_modification_id" id="car_modification_id" class="form-control chosen_select" data-placeholder="Select Car Modification">
 		                   			<option value="0"></option>
 		                   			@foreach ($car_modification_id as $k => $v)
-		                   				@if(old('car_modification_id') == $v->car_modification_id)
+		                   				@if(Util::getOldOrModelValue('car_modification_id', $ad_detail) == $v->car_modification_id)
 											<option value="{{ $v->car_modification_id }}" selected>{{ $v->car_modification_name }}</option>
 										@else
 											<option value="{{ $v->car_modification_id }}">{{ $v->car_modification_name }}</option>
@@ -397,7 +399,7 @@
                         <div class="form-group required {{ $errors->has('car_year') ? ' has-error' : '' }}">
                             <label for="car_year" class="col-md-4 control-label">Car Year</label>
                             <div class="col-md-5">
-                            	<div><input type="text" class="form-control" id="car_year" name="car_year" value="{{ old('car_year') }}" /></div>
+                            	<div><input type="text" class="form-control" id="car_year" name="car_year" value="{{ Util::getOldOrModelValue('car_year', $ad_detail) }}" /></div>
                             	@if ($errors->has('car_year'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('car_year') }}</strong>
@@ -409,7 +411,7 @@
                         <div class="form-group required {{ $errors->has('car_kilometeres') ? ' has-error' : '' }}">
                             <label for="car_kilometeres" class="col-md-4 control-label">Car Kilometers</label>
                             <div class="col-md-5">
-                            	<div><input type="text" class="form-control" id="car_kilometeres" name="car_kilometeres" value="{{ old('car_kilometeres') }}" /></div>
+                            	<div><input type="text" class="form-control" id="car_kilometeres" name="car_kilometeres" value="{{ Util::getOldOrModelValue('car_kilometeres', $ad_detail) }}" /></div>
                             	@if ($errors->has('car_kilometeres'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('car_kilometeres') }}</strong>
@@ -425,7 +427,7 @@
 		                   		<select name="condition_id_type_3" id="condition_id_type_3" class="form-control chosen_select" data-placeholder="Select Condition">
 		                   			<option value="0"></option>
 		                   			@foreach ($ac as $k => $v)
-		                   				@if(old('condition_id_type_3') == $v->ad_condition_id)
+		                   				@if(Util::getOldOrModelValue('condition_id_type_3', $ad_detail) == $v->ad_condition_id)
 											<option value="{{ $v->ad_condition_id }}" selected>{{ $v->ad_condition_name }}</option>
 										@else
 											<option value="{{ $v->ad_condition_id }}">{{ $v->ad_condition_name }}</option>
@@ -449,7 +451,7 @@
 		                   		<select name="car_condition_id" id="car_condition_id" class="form-control chosen_select" data-placeholder="Select Car Condition">
 		                   			<option value="0"></option>
 		                   			@foreach ($car_condition_id as $k => $v)
-		                   				@if(old('car_condition_id') == $v->car_condition_id)
+		                   				@if(Util::getOldOrModelValue('car_condition_id', $ad_detail) == $v->car_condition_id)
 											<option value="{{ $v->car_condition_id }}" selected>{{ $v->car_condition_name }}</option>
 										@else
 											<option value="{{ $v->car_condition_id }}">{{ $v->car_condition_name }}</option>
@@ -468,7 +470,7 @@
                         <div class="form-group required {{ $errors->has('ad_price_type_3') ? ' has-error' : '' }}">
                             <label for="ad_price_type_3" class="col-md-4 control-label">Price</label>
                             <div class="col-md-5">
-                            	<div><input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ old('ad_price_type_3') }}" /></div>
+                            	<div><input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ Util::getOldOrModelValue('ad_price_type_3', $ad_detail) }}" /></div>
                             	@if ($errors->has('ad_price_type_3'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_price_type_3') }}</strong>
@@ -488,7 +490,7 @@
 		                   		<select name="type_id" id="type_id" class="form-control chosen_select" data-placeholder="Please Select">
 		                   			<option value="0"></option>
 		                   			@foreach ($at as $k => $v)
-		                   				@if(old('type_id') == $v->ad_type_id)
+		                   				@if(Util::getOldOrModelValue('type_id', $ad_detail) == $v->ad_type_id)
 											<option value="{{ $v->ad_type_id }}" selected>{{ $v->ad_type_name }}</option>
 										@else
 											<option value="{{ $v->ad_type_id }}">{{ $v->ad_type_name }}</option>
@@ -513,6 +515,7 @@
                             }        
                         }
                         ?>
+                        
                         <div class="form-group {{ $file_has_error ? ' has-error' : '' }}">
                         	<label for="ad_image" class="col-md-4 control-label">Pics</label>
                             <div class="col-md-5">
@@ -538,7 +541,7 @@
 		                   			@foreach ($l as $k => $v)
 		                   				<optgroup label="{{$v['title']}}">
 		                   					@if(isset($v['c']) && !empty($v['c'])){
-		                   						@include('common.lselect', ['c' => $v['c'], 'lid' => old('location_id')])
+		                   						@include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('location_id', $ad_detail)])
 		                   					@endif
 		                   				</optgroup>
 		                   			@endforeach
@@ -555,7 +558,7 @@
                         <div class="form-group required {{ $errors->has('ad_puslisher_name') ? ' has-error' : '' }}">
                             <label for="ad_puslisher_name" class="col-md-4 control-label">Contact Name</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_puslisher_name" name="ad_puslisher_name" value="{{ old('ad_puslisher_name') }}" />
+                            	<input type="text" class="form-control" id="ad_puslisher_name" name="ad_puslisher_name" value="{{ Util::getOldOrModelValue('ad_puslisher_name', $ad_detail) }}" />
                             	@if ($errors->has('ad_puslisher_name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_puslisher_name') }}</strong>
@@ -567,7 +570,7 @@
                         <div class="form-group required {{ $errors->has('ad_email') ? ' has-error' : '' }}">
                             <label for="ad_email" class="col-md-4 control-label">E-Mail</label>
                             <div class="col-md-5">
-                            	<input type="email" class="form-control" id="ad_email" name="ad_email" value="{{ old('ad_email') }}" />
+                            	<input type="email" class="form-control" id="ad_email" name="ad_email" value="{{ Util::getOldOrModelValue('ad_email', $ad_detail) }}" />
                             	@if ($errors->has('ad_email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_email') }}</strong>
@@ -579,14 +582,14 @@
                         <div class="form-group">
                             <label for="ad_phone" class="col-md-4 control-label">Phone</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_phone" name="ad_phone" value="{{ old('ad_phone') }}" >
+                            	<input type="text" class="form-control" id="ad_phone" name="ad_phone" value="{{ Util::getOldOrModelValue('ad_phone', $ad_detail) }}" >
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="ad_skype" class="col-md-4 control-label">Skype</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ old('ad_skype') }}" >
+                            	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ Util::getOldOrModelValue('ad_skype', $ad_detail) }}" >
                             </div>
                         </div>
                         
@@ -594,19 +597,19 @@
                             <label for="ad_address" class="col-md-4 control-label">Address</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ old('ad_address') }}" >
+                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ Util::getOldOrModelValue('ad_address', $ad_detail) }}" >
                                 	<span class="input-group-btn">
                                         <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
                                     </span>
                                 </div>
-                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ old('ad_lat_lng') }}" >
+                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ Util::getOldOrModelValue('ad_lat_lng', $ad_detail) }}" >
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="ad_link" class="col-md-4 control-label">Web Site</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_link" name="ad_link" value="{{ old('ad_link') }}" >
+                            	<input type="text" class="form-control" id="ad_link" name="ad_link" value="{{ Util::getOldOrModelValue('ad_link', $ad_detail) }}" >
                             	<span id="helpBlock" class="help-block">Insert link to your site in this format: http://www.site.com</span>
                             </div>
                         </div>
@@ -614,7 +617,7 @@
                         <div class="form-group">
                             <label for="ad_video" class="col-md-4 control-label">Video</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_video" name="ad_video" value="{{ old('ad_video') }}" >
+                            	<input type="text" class="form-control" id="ad_video" name="ad_video" value="{{ Util::getOldOrModelValue('ad_video', $ad_detail) }}" >
                             	<span id="helpBlock" class="help-block">Insert link to youtube.com video</span>
                             </div>
                         </div>
@@ -624,7 +627,7 @@
                             <div class="col-md-8">
 	                            <div class="checkbox">
 		                            <label>
-		                            	<input type="checkbox" name="policy_agree" {{ old('policy_agree') ? 'checked' : '' }}> I agree with <a href="">"Privacy Policy"</a>
+		                            	<input type="checkbox" name="policy_agree" {{ Util::getOldOrModelValue('policy_agree', $ad_detail) ? 'checked' : '' }}> I agree with <a href="">"Privacy Policy"</a>
 		                            </label>
 		                            @if ($errors->has('policy_agree'))
 	                                    <span class="help-block">
@@ -638,7 +641,7 @@
                         
                         <div class="form-group">
                             <div class="col-md-offset-4 col-md-8">
-                            	<button type="submit" class="btn btn-primary">Publish</button>
+                            	<button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </form>

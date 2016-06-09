@@ -34,6 +34,7 @@ use App\UserMailStatus;
 use App\AdReport;
 use Cookie;
 use App\AdFav;
+use Cache;
 
 class AdController extends Controller
 {
@@ -474,31 +475,9 @@ class AdController extends Controller
         $ad_id = $request->ad_id;
         
         //get ad info
-        $ad_detail = Ad::select('ad.*', 'U.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
-                'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
-                'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
+        $ad_detail = $this->ad->getAdDetail($ad_id);
+            
         
-            ->leftJoin('user AS U', 'U.user_id' , '=', 'ad.user_id')
-            ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
-            ->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id')
-            ->leftJoin('ad_condition AS AC', 'AC.ad_condition_id' , '=', 'ad.condition_id')
-            ->leftJoin('ad_type AS AT', 'AT.ad_type_id' , '=', 'ad.type_id')
-            
-            ->leftJoin('estate_type AS ET', 'ET.estate_type_id' , '=', 'ad.estate_type_id')
-            ->leftJoin('estate_construction_type AS ECT', 'ECT.estate_construction_type_id' , '=', 'ad.estate_construction_type_id')
-            ->leftJoin('estate_heating_type AS EHT', 'EHT.estate_heating_type_id' , '=', 'ad.estate_heating_type_id')
-            ->leftJoin('estate_furnishing_type AS EFT', 'EFT.estate_furnishing_type_id' , '=', 'ad.estate_furnishing_type_id')
-            
-            ->leftJoin('car_brand AS CB', 'CB.car_brand_id' , '=', 'ad.car_brand_id')
-            ->leftJoin('car_model AS CM', 'CM.car_model_id' , '=', 'ad.car_model_id')
-            ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
-            ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
-            ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
-            ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id')
-            
-            ->where('ad_active', 1)
-            ->findOrFail($ad_id);
-            
         $ad_detail->increment('ad_view', 1);
         
 //         print_r($ad_detail);
@@ -615,7 +594,7 @@ class AdController extends Controller
     		'category_id' => 'required|integer|not_in:0',
     		'ad_description' => 'required|min:50',
     		'type_id' => 'required|integer|not_in:0',
-    		//'ad_image' => 'require_one_of_array',
+    		'ad_image' => 'require_one_of_array',
     		'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
     		'location_id' => 'required|integer|not_in:0',
     		'ad_puslisher_name' => 'required|string|max:255',
@@ -698,8 +677,6 @@ class AdController extends Controller
             );
         }
         
-//      exit;
-    	
     	$ad_data = $request->all();
     	
     	//fill aditional fields
@@ -707,7 +684,7 @@ class AdController extends Controller
     	$ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
     	$ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
     	$ad_data['ad_ip'] = Util::getRemoteAddress();
-    	$ad_data['ad_description'] = strip_tags($ad_data['ad_description']);
+    	$ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
     	
     	switch ($ad_data['category_type']){
     	    case 1:
@@ -853,51 +830,29 @@ class AdController extends Controller
     {
         //get ad id
         $ad_id = $request->ad_id;
-    
+        
         //get ad info
-        $ad_detail = Ad::select('ad.*', 'C.category_title', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
-                'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
-                'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
-    
-                ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
-                ->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id')
-                ->leftJoin('ad_condition AS AC', 'AC.ad_condition_id' , '=', 'ad.condition_id')
-                ->leftJoin('ad_type AS AT', 'AT.ad_type_id' , '=', 'ad.type_id')
-    
-                ->leftJoin('estate_type AS ET', 'ET.estate_type_id' , '=', 'ad.estate_type_id')
-                ->leftJoin('estate_construction_type AS ECT', 'ECT.estate_construction_type_id' , '=', 'ad.estate_construction_type_id')
-                ->leftJoin('estate_heating_type AS EHT', 'EHT.estate_heating_type_id' , '=', 'ad.estate_heating_type_id')
-                ->leftJoin('estate_furnishing_type AS EFT', 'EFT.estate_furnishing_type_id' , '=', 'ad.estate_furnishing_type_id')
-    
-                ->leftJoin('car_brand AS CB', 'CB.car_brand_id' , '=', 'ad.car_brand_id')
-                ->leftJoin('car_model AS CM', 'CM.car_model_id' , '=', 'ad.car_model_id')
-                ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
-                ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
-                ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
-                ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id')
-    
-                ->where('ad_active', 1)
-                ->findOrFail($ad_id);
-    
-                $breadcrump = array();
-                $breadcrump_data = $this->category->getParentsByIdFlat($ad_detail->category_id);
-                if(!empty($breadcrump_data)){
-                    foreach ($breadcrump_data as $k => &$v){
-                        $category_url_params = array();
-                        $category_url_params[] = $this->category->getCategoryFullPathById($v['category_id']);
-                        if(session()->has('location_slug')){
-                            $category_url_params[] = 'l-' . session()->get('location_slug');
-                        }
-    
-                        if(!empty($category_url_params)){
-                            $v['category_url'] = Util::buildUrl($category_url_params);
-                        }
-                    }
-                    //category part of breadcrump
-                    $breadcrump['c'] = array_reverse($breadcrump_data);
+        $ad_detail = $this->ad->getAdDetail($ad_id);
+        
+        $breadcrump = array();
+        $breadcrump_data = $this->category->getParentsByIdFlat($ad_detail->category_id);
+        if(!empty($breadcrump_data)){
+            foreach ($breadcrump_data as $k => &$v){
+                $category_url_params = array();
+                $category_url_params[] = $this->category->getCategoryFullPathById($v['category_id']);
+                if(session()->has('location_slug')){
+                    $category_url_params[] = 'l-' . session()->get('location_slug');
                 }
-    
-                return view('ad.contact', ['ad_detail' => $ad_detail, 'breadcrump' => $breadcrump]);
+        
+                if(!empty($category_url_params)){
+                    $v['category_url'] = Util::buildUrl($category_url_params);
+                }
+            }
+            //category part of breadcrump
+            $breadcrump['c'] = array_reverse($breadcrump_data);
+        }
+        
+        return view('ad.contact', ['ad_detail' => $ad_detail, 'breadcrump' => $breadcrump]);
     }
     
     public function postAdContact(Request $request)
@@ -1106,5 +1061,278 @@ class AdController extends Controller
         }
         
         return response()->json($ret);
+    }
+    
+    public function myads(Request $request)
+    {
+        $where = ['user_id' => $request->user()->user_id];
+        $order = ['ad_publish_date' => 'desc'];
+        $my_ad_list = $this->ad->getAdList($where, $order);
+        return view('ad.myads', ['my_ad_list' => $my_ad_list]);
+    }
+    
+    public function republish(Request $request)
+    {
+        $code = $request->token;
+        $message = '';
+        if(!empty($code)){
+            $ad = Ad::where('code', $code)->first();
+            if(!empty($ad)){
+                $ad->ad_publish_date = date('Y-m-d H:i:s');
+                $ad->ad_valid_until = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
+                $ad->save();
+                Cache::flush();
+            } 
+        }
+        return redirect(url('myads'));
+    }
+    
+    public function edit(Request $request)
+    {
+        //get ad id
+        $ad_id = $request->ad_id;
+    
+        //get ad info
+        $ad_detail = $this->ad->getAdDetail($ad_id);
+        
+        if($ad_detail->user_id != request()->user()->user_id){
+            return redirect(route('myads'));
+        }
+        
+        $ad_detail->ad_price_type_1 = $ad_detail->ad_price_type_2 = $ad_detail->ad_price_type_3 = $ad_detail->ad_price;
+        $ad_detail->condition_id_type_1 = $ad_detail->condition_id_type_3 = $ad_detail->condition_id;
+        $ad_detail->ad_description = Util::br2nl($ad_detail->ad_description);
+        
+        //get ad pics
+        $ad_pic = AdPic::where('ad_id', $ad_id)->get();
+        
+        $car_model_id = array();
+        if(old('car_brand_id')){
+            if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
+                $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+                if(!$car_models->isEmpty()){
+                    $car_model_id = array(0 => 'Select Car Model');
+                    foreach ($car_models as $k => $v){
+                        $car_model_id[$v->car_model_id] = $v->car_model_name;
+                    }
+                }
+            }
+        }
+        
+    	return view('ad.edit', [	'ad_detail' => $ad_detail,
+    	                            'ad_pic' => $ad_pic,
+    	                            'c' => $this->category->getAllHierarhy(),
+    							   	'l' => $this->location->getAllHierarhy(),
+    							   	'at' => AdType::all(),
+    							   	'ac' => AdCondition::all(),
+    							   	'estate_construction_type' => EstateConstructionType::all(),
+    								'estate_furnishing_type' => EstateFurnishingType::all(),
+    								'estate_heating_type' => EstateHeatingType::all(),
+    								'estate_type' => EstateType::all(),
+    								'car_brand_id' => CarBrand::all(),
+    	                            'car_model_id' => $car_model_id,
+    								'car_engine_id' => CarEngine::all(),
+    								'car_transmission_id' => CarTransmission::all(),
+    								'car_condition_id' => CarCondition::all(),
+    	                            'car_modification_id' => CarModification::all(),]);
+    }
+    
+    public function postAdEdit(Request $request)
+    {
+        $rules = [
+            'ad_title' => 'required|max:255',
+            'category_id' => 'required|integer|not_in:0',
+            'ad_description' => 'required|min:50',
+            'type_id' => 'required|integer|not_in:0',
+            //'ad_image' => 'require_one_of_array',
+            'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
+            'location_id' => 'required|integer|not_in:0',
+            'ad_puslisher_name' => 'required|string|max:255',
+            'ad_email' => 'required|email|max:255',
+            'policy_agree' => 'required',
+        ];
+         
+        $messages = [
+            'require_one_of_array' => 'You need to upload at least one ad pic.',
+        ];
+         
+        $validator = Validator::make($request->all(), $rules, $messages);
+         
+        /**
+         * type 1 common ads validation
+        */
+        $validator->sometimes(['ad_price_type_1'], 'required|numeric|not_in:0', function($input){
+            if($input->category_type == 1 && $input->price_radio == 1){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['condition_id_type_1'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 1 ? 1 : 0;
+        });
+             
+        /**
+         * type 2 estate ads validation
+        */
+        $validator->sometimes(['ad_price_type_2'], 'required|numeric|not_in:0', function($input){
+            if($input->category_type == 2){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['estate_type_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 2 ? 1 : 0;
+        });
+        $validator->sometimes(['estate_sq_m'], 'required|numeric|not_in:0', function($input){
+            return $input->category_type == 2 ? 1 : 0;
+        });
+    
+        /**
+         * type 3 cars ads validation
+        */
+        $validator->sometimes(['car_brand_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_model_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_engine_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_transmission_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_modification_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_year'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_kilometeres'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['car_condition_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['condition_id_type_3'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+        $validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
+            return $input->category_type == 3 ? 1 : 0;
+        });
+                     
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $ad_data = $request->all();
+         
+        //fill aditional fields
+        $ad_data['user_id'] = $request->user()->user_id;
+        $ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
+        $ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
+        $ad_data['ad_ip'] = Util::getRemoteAddress();
+        $ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
+         
+        switch ($ad_data['category_type']){
+            case 1:
+                if($ad_data['price_radio'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_1'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                $ad_data['condition_id'] = $ad_data['condition_id_type_1'];
+                break;
+            case 2:
+                $ad_data['ad_price'] = $ad_data['ad_price_type_2'];
+                break;
+            case 3:
+                $ad_data['ad_price'] = $ad_data['ad_price_type_3'];
+                $ad_data['condition_id'] = $ad_data['condition_id_type_3'];
+                break;
+        }
+         
+        $ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
+         
+         
+        //save ad
+        $ad = Ad::find($ad_data['ad_id']);
+        $ad->update($ad_data);
+         
+        //upload and fix ad images
+        $ad_image = Input::file('ad_image');
+        if(!empty(array_filter($ad_image))){
+            
+            //delete current image
+            if(!empty($ad->ad_pic)){
+                @unlink(public_path('uf/adata/') . '740_' . $ad->ad_pic);
+                @unlink(public_path('uf/adata/') . '1000_' . $ad->ad_pic);
+            }
+        
+            $more_pics = AdPic::where('ad_id', $ad->ad_id)->get();
+            if(!$more_pics->isEmpty()){
+                foreach ($more_pics as $k => $v){
+                    @unlink(public_path('uf/adata/') . '740_' . $v->ad_pic);
+                    @unlink(public_path('uf/adata/') . '1000_' . $v->ad_pic);
+                    $v->delete();
+                }
+            }
+            
+            //save new images
+            $destination_path = public_path('uf/adata/');
+            $first_image_uploaded = 0;
+            foreach ($ad_image as $k){
+                if(!empty($k) && $k->isValid()){
+                    $file_name = $ad->ad_id . '_' .md5(time() + rand(0,9999)) . '.' . $k->getClientOriginalExtension();
+                    $k->move($destination_path, $file_name);
+                     
+                    $img = Image::make($destination_path . $file_name);
+                    $img->widen(1000, function ($constraint) {
+                        $constraint->upsize();
+                    })->save($destination_path . '1000_' . $file_name);
+                     
+                    if(!$first_image_uploaded){
+                        $img->resizeCanvas(740, 740, 'top')->save($destination_path . '740_' . $file_name);
+                        $ad->ad_pic = $file_name;
+                        $ad->save();
+                        $first_image_uploaded = 1;
+                    } else {
+                        $adPic = new AdPic();
+                        $adPic->ad_id = $ad->ad_id;
+                        $adPic->ad_pic = $file_name;
+                        $adPic->save();
+                    }
+                     
+                    @unlink($destination_path . $file_name);
+                }
+            }
+        }
+         
+        $ad->ad_category_info = $this->category->getParentsByIdFlat($ad->category_id);
+        $ad->ad_location_info = $this->location->getParentsByIdFlat($ad->location_id);
+        $ad->pics = AdPic::where('ad_id', $ad->ad_id)->get();
+        $ad->same_ads = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
+         
+        //send info mail
+        Mail::send('emails.ad_edit', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
+            $m->from('test@mylove.bg', 'dclassifieds ad edit');
+            $m->to($request->user()->email)->subject('Your ad is edited!');
+        });
+
+        //send control mail
+        Mail::send('emails.control_ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
+            $m->from('test@mylove.bg', '[CONTROL] dclassifieds');
+            $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds ad edit');
+        });
+        
+        Cache::flush();
+                 
+        //set flash message and return
+        session()->flash('message', 'Your ad is saved.');
+        return redirect()->back();
     }
 }
