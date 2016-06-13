@@ -48,11 +48,13 @@ Route::get('/myads', 'AdController@myads')->name('myads');
 Route::get('/republish/{token}', 'AdController@republish')->name('republish');
 Route::get('/ad/edit/{ad_id}', 'AdController@edit')->name('adedit')->where(['ad_id' => '\d+']);
 Route::post('/ad/edit/{ad_id}', 'AdController@postAdEdit')->name('postAdEdit')->where(['ad_id' => '\d+']);
+Route::get('/ad/user/{user_id}', 'AdController@userads')->name('userads')->where(['user_id' => '\d+']);
 
 /**
  * user actions
  */
 Route::get('/myprofile', 'UserController@myprofile')->name('profile');
+Route::post('/myprofile', 'UserController@myprofilesave')->name('profilesave');
 
 // Authentication Routes...
 Route::get('login', 'Auth\AuthController@getLogin');

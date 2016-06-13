@@ -221,8 +221,25 @@
                 	<hr>
                 	
                 	<div class="ad_detail_panel">
-                    	<h4>Ad from <a href="{{ url('ad/user/' . $ad_detail->user_id) }}">{{ $ad_detail->name}}</a></h4>
-                    	<small><span class="text-muted">(Registered: {{ $ad_detail->created_at }})</span></small>
+                	
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="{{ url('ad/user/' . $ad_detail->user_id) }}" class="thumbnail">
+                                    <?if(empty(Auth::user()->avatar)){?>
+                                        <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" alt="{{ Auth::user()->name }}">
+                                    <?} else {?>
+                                        <img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}">
+                                    <?}?>
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <h4>Ad from <a href="{{ url('ad/user/' . $ad_detail->user_id) }}">{{ Auth::user()->name }}</a></h4>
+                    	        <small><span class="text-muted">(Registered: {{ Auth::user()->created_at }})</span></small>
+                            </div>
+                        </div>
+                	
+                	
+                    	
                     </div>
                     <hr>
                     

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Cache;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -34,7 +35,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'user_activation_token'];
+    protected $fillable = ['name', 'avatar', 'email', 'password', 'user_activation_token'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -53,5 +54,17 @@ class User extends Model implements AuthenticatableContract,
     	$this->user_activated = 1;
     	$this->user_activation_token = null;
     	$this->save();
+    }
+    
+    public function getUserById($_user_id)
+    {
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
+        $ret = Cache::get($cache_key, '');
+        if(empty($ret)){
+            $q = $this->newQuery();
+            $ret = $q->findOrFail($_user_id);
+            Cache::put($cache_key, $ret, config('dc.cache_expire'));
+        }
+        return $ret;
     }
 }

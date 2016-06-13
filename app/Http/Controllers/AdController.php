@@ -41,12 +41,14 @@ class AdController extends Controller
 	protected $category;
 	protected $location;
 	protected $ad;
+	protected $user;
 	
-	public function __construct(Category $_category, Location $_location, Ad $_ad)
+	public function __construct(Category $_category, Location $_location, Ad $_ad, User $_user)
 	{
 		$this->category = $_category;
 		$this->location = $_location;
 		$this->ad = $_ad;
+		$this->user = $_user;
 	}
 	
     public function index(Request $request)
@@ -1334,5 +1336,13 @@ class AdController extends Controller
         //set flash message and return
         session()->flash('message', 'Your ad is saved.');
         return redirect()->back();
+    }
+    
+    public function userads(Request $request)
+    {
+        $user = $this->user->getUserById($request->user_id);
+        $where = ['user_id' => $user->user_id, 'ad_active' => 1];
+        $user_ad_list = $this->ad->getAdList($where);
+        return view('ad.user', ['user' => $user, 'user_ad_list' => $user_ad_list]);
     }
 }
