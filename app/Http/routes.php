@@ -53,6 +53,11 @@ Route::get('/ad/user/{user_id}', 'AdController@userads')->name('userads')->where
 /**
  * user actions
  */
+Route::get('/mymail', 'UserController@mymail')->name('mymail');
+Route::get('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailview')->name('mailview')->where(['user_id_from' => '\d+', 'ad_id' => '\d+']);
+Route::post('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailviewsave')->name('mailviewsave')->where(['user_id_from' => '\d+', 'ad_id' => '\d+']);
+Route::get('/maildelete/{mail_id}', 'UserController@maildelete')->name('maildelete');
+
 Route::get('/myprofile', 'UserController@myprofile')->name('profile');
 Route::post('/myprofile', 'UserController@myprofilesave')->name('profilesave');
 

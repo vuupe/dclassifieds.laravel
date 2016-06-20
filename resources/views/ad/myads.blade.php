@@ -17,6 +17,7 @@
                     <ul class="nav nav-pills">
                       <li role="presentation"><a href="{{ url('myprofile') }}">My Profile</a></li>
                       <li role="presentation" class="active"><a href="{{ url('myads') }}">My Classifieds</a></li>
+                      <li role="presentation"><a href="{{ url('mymail') }}">My Messages</a></li>
                     </ul>
                 </div>
             </div>
@@ -41,6 +42,7 @@
                                         <th>#</th>
                                         <th style="max-width: 100px;">Image</th>
                                         <th>Title</th>
+                                        <th>Views</th>
                                         <th>Price</th>
                                         <th>Promo</th>
                                         <th>Publish date</th>
@@ -57,6 +59,7 @@
                                             <a href="{{ $link }}" target="_blank"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" class="img-responsive" /></a>
                                         </td>
                                         <td><a href="{{ $link }}" target="_blank">{{ $v->ad_title }}</a></td>
+                                        <td>{{ $v->ad_view }}</td>
                                         <td><?=$v->ad_price ? Util::formatPrice($v->ad_price) . '&euro;' : 'Free'?></td>
                                         <td>{!! $v->ad_promo ? '<span style="color:#CFB53B; font-weight:bold;">Promo</span>' : '' !!}</td>
                                         <td>{{ $v->ad_publish_date }}</td>

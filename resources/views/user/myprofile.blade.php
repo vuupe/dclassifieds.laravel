@@ -12,6 +12,18 @@
             </div>
         </div>
         
+        <div class="container">
+        	<div class="row">
+            	<div class="col-md-12">
+                    <ul class="nav nav-pills">
+                      <li role="presentation" class="active"><a href="{{ url('myprofile') }}">My Profile</a></li>
+                      <li role="presentation"><a href="{{ url('myads') }}">My Classifieds</a></li>
+                      <li role="presentation"><a href="{{ url('mymail') }}">My Messages</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
         
         <div class="container">
         	<div class="row">

@@ -6,6 +6,6 @@
 </head>
 <body>
     <h1>You have new message in DClassifieds</h1>
-    <p><a href="{{ url('message/view/' . $userMail->mail_hash) }}">Click here to see your message.</a></p>
+    <p><a href="{{ route('mailview', ['hash' => $userMail->mail_hash, 'user_id_from' => $userMail->user_id_from, 'mail_id' => $userMail->ad_id]) }}">Click here to see your message.</a></p>
 </body>
 </html>

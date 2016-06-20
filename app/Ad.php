@@ -44,7 +44,7 @@ class Ad extends Model
             $q = $this->newQuery();
             
             $q->select('ad.ad_id', 'ad.ad_title', 'ad.ad_pic', 'ad.ad_price', 'ad.ad_free', 'ad.ad_promo', 
-                    'ad.ad_publish_date', 'ad.ad_valid_until', 'ad.ad_active', 'ad.code', 'L.location_name');
+                    'ad.ad_publish_date', 'ad.ad_valid_until', 'ad.ad_active', 'ad.code', 'ad.ad_view', 'L.location_name');
             
             if(!empty($_where)){
                 foreach ($_where as $k => $v){
@@ -108,7 +108,7 @@ class Ad extends Model
         $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
         $ret = Cache::get($cache_key, '');
         if(empty($ret)){
-            $ret = Ad::select('ad.*', 'U.*', 'C.category_title', 'C.category_type', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
+            $ret = Ad::select('ad.*', 'U.*', 'U.created_at AS user_register_date', 'C.category_title', 'C.category_type', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
                     'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
                     'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
             
