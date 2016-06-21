@@ -311,7 +311,7 @@ class AdController extends Controller
     	}
     	
     	if(isset($params['type_id']) && is_numeric($params['type_id']) && $params['type_id'] > 0){
-    	    $where['ad_type_id'] = $params['ad_type_id'];
+    	    $where['type_id'] = $params['type_id'];
     	}
     	
     	if(isset($params['price_from']) && is_numeric($params['price_from']) && $params['price_from'] > 0){
