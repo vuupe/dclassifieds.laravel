@@ -83,8 +83,14 @@ class AdController extends Controller
     		$where['location_id'] = $lid;
     	}
     	$order = ['ad_publish_date' => 'desc'];
-    	$limit = 12;
+    	$limit = config('dc.num_promo_ads_home_page');
     	$promo_ad_list = $this->ad->getAdList($where, $order, $limit);
+    	
+    	if($promo_ad_list->count() < config('dc.num_promo_ads_home_page')){
+    		$where['ad_promo'] = 0;
+    		$limit = config('dc.num_promo_ads_home_page') - $promo_ad_list->count();
+    		$promo_ad_list = $promo_ad_list->merge($this->ad->getAdList($where, $order, $limit));	
+    	}
     	
 		return view('ad.home',[
 			'c'=>$this->category->getAllHierarhy(),
@@ -176,7 +182,7 @@ class AdController extends Controller
     public function search(Request $request)
     {
         $params = Input::all();
-    	print_r($params) . '<br /><br />';
+//     	print_r($params) . '<br /><br />';
     	
     	$request->flash();
     	
@@ -408,7 +414,7 @@ class AdController extends Controller
     	$where['ad_promo'] = 1;
     	$where['ad_active'] = 1;
     	if($lid > 0){
-    	    $where['location_id'] = $lid;
+    	    $where['L.location_id'] = $lid;
     	}
     	if($cid > 0){
     	    $whereIn['category_id'] = $all_category_childs;
@@ -727,9 +733,18 @@ class AdController extends Controller
     			$k->move($destination_path, $file_name);
     			
     			$img = Image::make($destination_path . $file_name);
-    			$img->widen(1000, function ($constraint) {
-                    $constraint->upsize();
-                })->save($destination_path . '1000_' . $file_name);
+    			$width = $img->width();
+    			$height = $img->height();
+    			
+    			if($width == $height || $width > $height){
+    				$img->heighten(1000, function ($constraint) {
+    					$constraint->upsize();
+    				})->save($destination_path . '1000_' . $file_name);
+    			} else {
+    				$img->widen(1000, function ($constraint) {
+    					$constraint->upsize();
+    				})->save($destination_path . '1000_' . $file_name);
+    			}
     			
     			if(!$first_image_uploaded){
    			        $img->resizeCanvas(740, 740, 'top')->save($destination_path . '740_' . $file_name);
@@ -763,7 +778,6 @@ class AdController extends Controller
             $m->from('test@mylove.bg', '[CONTROL] dclassifieds');
             $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds new ad');
         });
-//         exit;
     	
     	//set flash message and return
     	session()->flash('message', 'Your ad is in moderation mode, please activate it.');
@@ -780,6 +794,7 @@ class AdController extends Controller
                 $ad->ad_active = 1;
                 $ad->save();
                 $message = 'Your ad is active now';
+                Cache::flush();
             } else {
                 $message = 'Ups something is wrong.';
             }
@@ -1256,9 +1271,18 @@ class AdController extends Controller
                     $k->move($destination_path, $file_name);
                      
                     $img = Image::make($destination_path . $file_name);
-                    $img->widen(1000, function ($constraint) {
-                        $constraint->upsize();
-                    })->save($destination_path . '1000_' . $file_name);
+	                $width = $img->width();
+	    			$height = $img->height();
+	    			
+	    			if($width == $height || $width > $height){
+	    				$img->heighten(1000, function ($constraint) {
+	    					$constraint->upsize();
+	    				})->save($destination_path . '1000_' . $file_name);
+	    			} else {
+	    				$img->widen(1000, function ($constraint) {
+	    					$constraint->upsize();
+	    				})->save($destination_path . '1000_' . $file_name);
+	    			}
                      
                     if(!$first_image_uploaded){
                         $img->resizeCanvas(740, 740, 'top')->save($destination_path . '740_' . $file_name);

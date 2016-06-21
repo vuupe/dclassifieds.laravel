@@ -38,7 +38,7 @@ class Ad extends Model
     
     public function getAdList($_where = [], $_order = [], $_limit = 0, $_orderRaw = '', $_whereIn = [], $_whereRaw = [], $_paginate = 0, $_page = 1)
     {
-        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
         $ret = Cache::get($cache_key, new Collection());
         if($ret->isEmpty()){
             $q = $this->newQuery();
@@ -105,7 +105,7 @@ class Ad extends Model
     
     public function getAdDetail($_ad_id)
     {
-        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
         $ret = Cache::get($cache_key, '');
         if(empty($ret)){
             $ret = Ad::select('ad.*', 'U.*', 'U.created_at AS user_register_date', 'C.category_title', 'C.category_type', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',

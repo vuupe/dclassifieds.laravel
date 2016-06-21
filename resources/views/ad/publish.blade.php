@@ -105,7 +105,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-offset-4 col-md-6">
                           		<label class="radio-inline">
                             		<input type="radio" name="price_radio" id="price_radio" value="2" {{ old('price_radio') == 2 ? 'checked' : '' }}> Free
                             	</label>
@@ -512,6 +512,9 @@
                                 $file_has_error = 1;
                             }        
                         }
+                        if($errors->has('ad_image')){
+                        	$file_has_error = 1;
+                        }
                         ?>
                         <div class="form-group {{ $file_has_error ? ' has-error' : '' }}">
                         	<label for="ad_image" class="col-md-4 control-label">Pics</label>
@@ -524,6 +527,13 @@
                                         </span>
                                     @endif
                                 <?}//end of for?>
+                            </div>
+                            <div class="col-md-offset-4 col-md-5">
+                                    @if ($errors->has('ad_image'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('ad_image') }}</strong>
+                                        </span>
+                                    @endif
                             </div>
                         </div>
                         
@@ -653,36 +663,7 @@
         
         
         
-        <div class="container home_info_panel">
-        	<div class="row">
-            	<div class="col-md-10">
-                	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer commodo ac purus a cursus. Fusce elementum purus sit amet orci lobortis mattis. Sed sodales velit quis tortor tempor pulvinar. Morbi finibus sem neque, eu suscipit ante suscipit id. Suspendisse laoreet et dolor vel aliquet. Nam eu nisi nec nibh malesuada consectetur. Sed vestibulum consectetur tincidunt. Nulla posuere sapien nec sapien sodales, et posuere dui feugiat. Aenean a odio rutrum sapien faucibus finibus vel ut erat. Cras dignissim vitae ante at molestie. 
-                </div>
-                <div class="col-md-2">
-                	<div class="fb-like" data-href="https://www.facebook.com/Bitak.net" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
-                </div>
-            </div>
-        </div>
         
-        <div class="container home_info_link_panel">
-        	<div class="row">
-            	<div class="col-md-12">
-                    <ol class="breadcrumb">
-                          <li class="active">Main Cateegories</li>
-                          <li><a href="#">Real Estates</a></li>
-                          <li><a href="#">Cars and Parts</a></li>
-                          <li><a href="#">Electronics</a></li>
-                          <li><a href="#">Sport, Books, Hobby</a></li>
-                          <li><a href="#">Home and Garden</a></li>
-                          <li><a href="#">Fashion</a></li>
-                          <li><a href="#">Baby and Kids</a></li>
-                          <li><a href="#">Тourism</a></li>
-                          <li><a href="#">Business, Services</a></li>
-                          <li><a href="#">Job</a></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
         
         <div id="google_map_container" style="display:none;">
             <div style="margin:10px 0px 20px 0px">

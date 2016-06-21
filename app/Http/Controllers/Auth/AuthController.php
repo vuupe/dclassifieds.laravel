@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-	protected $redirectTo = '/profile';
+	protected $redirectTo = '/myprofile';
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller

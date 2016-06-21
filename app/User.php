@@ -58,7 +58,7 @@ class User extends Model implements AuthenticatableContract,
     
     public function getUserById($_user_id)
     {
-        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
         $ret = Cache::get($cache_key, '');
         if(empty($ret)){
             $q = $this->newQuery();

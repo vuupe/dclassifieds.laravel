@@ -59,7 +59,7 @@
         	<div class="row margin_bottom_15">
             	<div class="col-md-12">
                     <h2>Promo Classifieds</h2>
-                    <a href="">promote your ad</a> | <a href="">view all promo ads</a>
+<!--                     <a href="">promote your ad</a> | <a href="">view all promo ads</a> -->
                 </div>
             </div>
             

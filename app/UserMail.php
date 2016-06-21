@@ -17,7 +17,7 @@ class UserMail extends Model
     
     public function getMailList($_current_user_id, $_where = [], $_order = [], $_limit = 0, $_orderRaw = '', $_whereIn = [], $_whereRaw = [], $_paginate = 0, $_page = 1)
     {
-        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_name') . serialize(func_get_args()));
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
         $ret = Cache::get($cache_key, new Collection());
         if($ret->isEmpty()){
             $q = $this->newQuery();

@@ -19,23 +19,20 @@ DB::enableQueryLog();
  */
 Route::get('/', 'AdController@index')->name('home');
 
-//Route::get('/detail/{id}', 'AdController@detail')->name('detail');
-
 Route::get('/{ad_slug}-ad{ad_id}.html', 'AdController@detail')
-        ->name('ad_detail')
-        ->where(['ad_slug' => '.*', 'ad_id' => '\d+']);
-        
+	->name('ad_detail')
+	->where(['ad_slug' => '.*', 'ad_id' => '\d+']);
+
 Route::get('/ad/contact/{ad_id}', 'AdController@getAdContact')
-        ->name('ad_contact')
-        ->where(['ad_id' => '\d+']);
+	->name('ad_contact')
+	->where(['ad_id' => '\d+']);
 
 Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
-        ->name('post_ad_contact')
-        ->where(['ad_id' => '\d+']);
+	->name('post_ad_contact')
+	->where(['ad_id' => '\d+']);
         
-
-Route::get('/publish', 'AdController@getPublish')->name('publish');
-Route::post('/publish', 'AdController@postPublish')->name('postPublish');
+Route::get('/publish', 'AdController@getPublish')->name('publish')->middleware('auth');
+Route::post('/publish', 'AdController@postPublish')->name('postPublish')->middleware('auth');
 
 Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 Route::post('/axreportad', 'AdController@axreportad');
@@ -44,27 +41,37 @@ Route::post('/axsavetofav', 'AdController@axsavetofav');
 Route::get('/publish/activate/{token}', 'AdController@activate');
 Route::get('/delete/{token}', 'AdController@delete')->name('delete');
 
-Route::get('/myads', 'AdController@myads')->name('myads');
+Route::get('/myads', 'AdController@myads')->name('myads')->middleware('auth');
 Route::get('/republish/{token}', 'AdController@republish')->name('republish');
-Route::get('/ad/edit/{ad_id}', 'AdController@edit')->name('adedit')->where(['ad_id' => '\d+']);
-Route::post('/ad/edit/{ad_id}', 'AdController@postAdEdit')->name('postAdEdit')->where(['ad_id' => '\d+']);
-Route::get('/ad/user/{user_id}', 'AdController@userads')->name('userads')->where(['user_id' => '\d+']);
+Route::get('/ad/edit/{ad_id}', 'AdController@edit')->name('adedit')->where(['ad_id' => '\d+'])->middleware('auth');
+Route::post('/ad/edit/{ad_id}', 'AdController@postAdEdit')->name('postAdEdit')->where(['ad_id' => '\d+'])->middleware('auth');
+Route::get('/ad/user/{user_id}', 'AdController@userads')->name('userads')->where(['user_id' => '\d+'])->middleware('auth');
+
+Route::get('/proxy', 'AdController@proxy')->name('proxy');
 
 /**
  * user actions
  */
-Route::get('/mymail', 'UserController@mymail')->name('mymail');
-Route::get('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailview')->name('mailview')->where(['user_id_from' => '\d+', 'ad_id' => '\d+']);
-Route::post('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailviewsave')->name('mailviewsave')->where(['user_id_from' => '\d+', 'ad_id' => '\d+']);
-Route::get('/maildelete/{mail_id}', 'UserController@maildelete')->name('maildelete');
+Route::get('/mymail', 'UserController@mymail')->name('mymail')->middleware('auth');
+Route::get('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailview')
+	->name('mailview')
+	->where(['user_id_from' => '\d+', 'ad_id' => '\d+'])
+	->middleware('auth');
+	
+Route::post('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailviewsave')
+	->name('mailviewsave')
+	->where(['user_id_from' => '\d+', 'ad_id' => '\d+'])
+	->middleware('auth');
+	
+Route::get('/maildelete/{mail_id}', 'UserController@maildelete')->name('maildelete')->middleware('auth');
 
-Route::get('/myprofile', 'UserController@myprofile')->name('profile');
-Route::post('/myprofile', 'UserController@myprofilesave')->name('profilesave');
+Route::get('/myprofile', 'UserController@myprofile')->name('profile')->middleware('auth');
+Route::post('/myprofile', 'UserController@myprofilesave')->name('profilesave')->middleware('auth');
 
 // Authentication Routes...
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
-Route::get('logout', 'Auth\AuthController@getLogout');
+Route::get('logout', 'Auth\AuthController@getLogout')->middleware('auth');
 
 // Registration Routes...
 Route::get('register', 'Auth\AuthController@getRegister');
@@ -79,7 +86,7 @@ Route::post('lostpassword', 'Auth\PasswordController@postEmail');
 Route::get('reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('reset', 'Auth\PasswordController@postReset');
 
-Route::get('/proxy', 'AdController@proxy')->name('proxy');
+
 
 /**
  * search routes
@@ -120,11 +127,5 @@ Route::get('/{category_slug}/q-{search_text}', 'AdController@search')
 Route::get('/{category_slug}', 'AdController@search')
 	->name('category_slug')
 	->where(['category_slug' => '.*']);
-
-
-
-
-
-
-
-
+	
+	
