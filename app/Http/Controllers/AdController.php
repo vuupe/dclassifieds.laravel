@@ -80,7 +80,7 @@ class AdController extends Controller
     	//get home page promo ads
     	$where = ['ad_promo' => 1, 'ad_active' => 1];
     	if($lid > 0){
-    		$where['location_id'] = $lid;
+    		$where['ad.location_id'] = $lid;
     	}
     	$order = ['ad_publish_date' => 'desc'];
     	$limit = config('dc.num_promo_ads_home_page');
@@ -414,7 +414,7 @@ class AdController extends Controller
     	$where['ad_promo'] = 1;
     	$where['ad_active'] = 1;
     	if($lid > 0){
-    	    $where['L.location_id'] = $lid;
+    	    $where['ad.location_id'] = $lid;
     	}
     	if($cid > 0){
     	    $whereIn['category_id'] = $all_category_childs;
