@@ -548,7 +548,7 @@
 		                   			@foreach ($l as $k => $v)
 		                   				<optgroup label="{{$v['title']}}">
 		                   					@if(isset($v['c']) && !empty($v['c'])){
-		                   						@include('common.lselect', ['c' => $v['c'], 'lid' => old('location_id')])
+		                   						@include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('location_id', $user, 'user_location_id')])
 		                   					@endif
 		                   				</optgroup>
 		                   			@endforeach
@@ -562,10 +562,23 @@
                             </div>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="ad_address" class="col-md-4 control-label">Address</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ Util::getOldOrModelValue('ad_address', $user, 'user_address') }}" >
+                                	<span class="input-group-btn">
+                                        <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
+                                    </span>
+                                </div>
+                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ Util::getOldOrModelValue('ad_lat_lng', $user, 'user_lat_lng') }}" >
+                            </div>
+                        </div>
+                        
                         <div class="form-group required {{ $errors->has('ad_puslisher_name') ? ' has-error' : '' }}">
                             <label for="ad_puslisher_name" class="col-md-4 control-label">Contact Name</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_puslisher_name" name="ad_puslisher_name" value="{{ old('ad_puslisher_name') }}" />
+                            	<input type="text" class="form-control" id="ad_puslisher_name" name="ad_puslisher_name" value="{{ Util::getOldOrModelValue('ad_puslisher_name', $user, 'name') }}" />
                             	@if ($errors->has('ad_puslisher_name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_puslisher_name') }}</strong>
@@ -577,7 +590,7 @@
                         <div class="form-group required {{ $errors->has('ad_email') ? ' has-error' : '' }}">
                             <label for="ad_email" class="col-md-4 control-label">E-Mail</label>
                             <div class="col-md-5">
-                            	<input type="email" class="form-control" id="ad_email" name="ad_email" value="{{ old('ad_email') }}" />
+                            	<input type="email" class="form-control" id="ad_email" name="ad_email" value="{{ Util::getOldOrModelValue('ad_email', $user, 'email') }}" />
                             	@if ($errors->has('ad_email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_email') }}</strong>
@@ -589,34 +602,21 @@
                         <div class="form-group">
                             <label for="ad_phone" class="col-md-4 control-label">Phone</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_phone" name="ad_phone" value="{{ old('ad_phone') }}" >
+                            	<input type="text" class="form-control" id="ad_phone" name="ad_phone" value="{{ Util::getOldOrModelValue('ad_phone', $user, 'user_phone') }}" >
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="ad_skype" class="col-md-4 control-label">Skype</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ old('ad_skype') }}" >
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="ad_address" class="col-md-4 control-label">Address</label>
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ old('ad_address') }}" >
-                                	<span class="input-group-btn">
-                                        <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
-                                    </span>
-                                </div>
-                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ old('ad_lat_lng') }}" >
+                            	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ Util::getOldOrModelValue('ad_skype', $user, 'user_phone') }}" >
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="ad_link" class="col-md-4 control-label">Web Site</label>
                             <div class="col-md-5">
-                            	<input type="text" class="form-control" id="ad_link" name="ad_link" value="{{ old('ad_link') }}" >
+                            	<input type="text" class="form-control" id="ad_link" name="ad_link" value="{{ Util::getOldOrModelValue('ad_link', $user, 'user_site') }}" >
                             	<span id="helpBlock" class="help-block">Insert link to your site in this format: http://www.site.com</span>
                             </div>
                         </div>

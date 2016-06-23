@@ -12,7 +12,7 @@
                                 <li><a href="{{ $v['category_url'] }}"><?=$v['category_title']?></a></li>
                             <?}//end of foreach?>
                         <?}//end of if?>
-                        <li class="active">{{ $ad_detail->ad_title }}</li>
+                        <li class="active wrap">{{ $ad_detail->ad_title }}</li>
                     </ol>
                 </div>
             </div>
@@ -20,7 +20,7 @@
         
         <div class="container ad_detail_container">
         	<div class="row">
-            	<div class="col-md-12"><h1>{{ $ad_detail->ad_title }}</h1></div>
+            	<div class="col-md-12"><h1 class="wrap">{{ $ad_detail->ad_title }}</h1></div>
             </div>
             <div class="row ad_detail_publish_info">
                 <div class="col-md-12"><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a> | <span class="text-muted">Added on {{ $ad_detail->ad_publish_date }}.</span></div>
@@ -133,7 +133,7 @@
                     <hr>
                     
                     <div class="row ad_detail_ad_text">
-                    	<div class="col-md-12">
+                    	<div class="col-md-12 wrap">
                 			{!! $ad_detail->ad_description !!} 
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                             <div class="thumbnail">
                                 <a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v['ad_pic']);?>" alt=""></a>
                             	<div class="caption">
-                                    <h4><a href="<?=$link?>"><?=str_limit($v['ad_title'], 23)?></a></h4>
+                                    <h4 class="ad_list_title"><a href="<?=$link?>"><?=str_limit($v['ad_title'], 23)?></a></h4>
                                     <p><?=$v['location_name']?></p>
                                     <h3><?=$v['ad_price'] ? $v['ad_price'] . '&euro;' : '&nbsp;'?></h2>
                             	</div>

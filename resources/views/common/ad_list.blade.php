@@ -4,7 +4,7 @@
     <div class="thumbnail">
     	<a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" alt=""></a>
     	<div class="caption">
-            <h4><a href="<?=$link?>"><?=str_limit($v->ad_title, 20)?></a></h4>
+            <h4 class="ad_list_title"><a href="<?=$link?>"><?=str_limit($v->ad_title, 20)?></a></h4>
             <p><?=$v->location_name?></p>
             <h3><?=$v->ad_price ? Util::formatPrice($v->ad_price) . '&euro;' : 'Free'?></h3>
     	</div>

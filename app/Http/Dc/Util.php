@@ -86,15 +86,18 @@ class Util
         return number_format($_price, 2, '.', ' ');    
     }
     
-    static function getOldOrModelValue($_name, $_model = '')
+    static function getOldOrModelValue($_name, $_model = '', $_model_name = '')
     {
+    	if(empty($_model_name)){
+    		$_model_name = $_name;
+    	}
         $old = session()->get('_old_input');
         if(isset($old[$_name])){
             return $old[$_name];
         }
         
-        if(!empty($_model) && isset($_model->$_name) && !empty($_model->$_name)){
-            return $_model->$_name;
+        if(!empty($_model) && isset($_model->$_model_name) && !empty($_model->$_model_name)){
+            return $_model->$_model_name;
         }
     }
     

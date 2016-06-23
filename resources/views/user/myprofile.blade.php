@@ -84,6 +84,72 @@
                         
                         <div class="row">
                             <div class="col-md-offset-2 col-md-8">
+                                <h4>If you want fill your contact info</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group {{ $errors->has('user_location_id') ? ' has-error' : '' }}">
+                            <label for="user_location_id" class="col-md-4 control-label">Location</label>
+                            <div class="col-md-5">
+                            	@if(isset($l) && !empty($l))
+		                   		<select name="user_location_id" id="user_location_id" class="form-control lid_select">
+		                   			<option value="0"></option>
+		                   			@foreach ($l as $k => $v)
+		                   				<optgroup label="{{$v['title']}}">
+		                   					@if(isset($v['c']) && !empty($v['c'])){
+		                   						@include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('user_location_id', $user)])
+		                   					@endif
+		                   				</optgroup>
+		                   			@endforeach
+		                   		</select>
+		                   		@endif
+		                   		@if ($errors->has('user_location_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('user_location_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="user_address" class="col-md-4 control-label">Address</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                	<input type="text" class="form-control" id="user_address" name="user_address" value="{{ Util::getOldOrModelValue('user_address', $user) }}" maxlength="255" />
+                                	<span class="input-group-btn">
+                                        <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
+                                    </span>
+                                </div>
+                            	<input type="hidden" class="form-control" id="user_lat_lng" name="user_lat_lng" value="{{ Util::getOldOrModelValue('user_lat_lng', $user) }}" >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="user_phone" class="col-md-4 control-label">Phone</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="user_phone" name="user_phone" value="{{ Util::getOldOrModelValue('user_phone', $user) }}" maxlength="255" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="user_skype" class="col-md-4 control-label">Skype</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="user_skype" name="user_skype" value="{{ Util::getOldOrModelValue('user_skype', $user) }}" maxlength="255" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="user_site" class="col-md-4 control-label">Web Site</label>
+                            <div class="col-md-5">
+                            	<input type="text" class="form-control" id="user_site" name="user_site" value="{{ Util::getOldOrModelValue('user_site', $user) }}" maxlength="255" />
+                            	<span id="helpBlock" class="help-block">Insert link to your site in this format: http://www.site.com</span>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-8">
                                 <h4>If you want to change your password, type new one, if not leave blank</h4>
                             </div>
                         </div>
@@ -126,4 +192,40 @@
                 </div>
             </div>
         </div>
+        
+        
+        
+        <div id="google_map_container" style="display:none;">
+            <div style="margin:10px 0px 20px 0px">
+        		<form class="form-inline">
+        		    <div class="form-group">
+            			<input type="text" name="address" id="address" class="form-control" style="width:445px;"/>
+            			<input type="hidden" name="lat" id="lat"/>
+            			<button type="button" name="location_find" id="location_find" class="btn btn-primary">
+            			    <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Find on the map
+            			</button>
+            			<button type="button" name="location_ok" id="location_ok" class="btn btn-success">
+            			    <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> Yes, this is my location
+            			</button>
+        			</div>
+        		</form>
+        	</div>
+        	<div style="width: 800px; height:400px;" id="map_canvas"></div>
+        </div>
+        
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{asset('js/fancybox/jquery.fancybox.css')}}" />
+@endsection
+
+@section('js')
+    <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=true&language=en"></script>
+    <script>
+    	var __LOCATION_FIELD_ID = 'user_location_id';
+    	var __ADDESS_FIELD_ID = 'user_address';
+    	var __LAT_LNG_FIELD_ID = 'user_lat_lng';
+    </script>
+    <script src="{{asset('js/google.map.js')}}"></script>
 @endsection

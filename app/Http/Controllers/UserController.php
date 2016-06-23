@@ -12,8 +12,9 @@ use App\Ad;
 use App\UserMail;
 use App\UserMailStatus;
 use App\Http\Dc\Util;
-use Validator;
+use App\Location;
 
+use Validator;
 use Image;
 use Cache;
 use Mail;
@@ -22,18 +23,22 @@ class UserController extends Controller
 {
     protected $user;
     protected $mail;
+    protected $location;
     
-    public function __construct(User $_user, UserMail $_mail)
+    public function __construct(User $_user, UserMail $_mail, Location $_location)
     {
         $this->user = $_user;
         $this->mail = $_mail;
+        $this->location = $_location;
     }
     
 	public function myprofile(Request $request)
     {
         $user = $this->user->find($request->user()->user_id);
         $user->password = '';
-    	return view('user.myprofile', ['user' => $user]);
+    	return view('user.myprofile', [
+    		'user' => $user,
+    		'l' => $this->location->getAllHierarhy()]);
     }
     
     public function myprofilesave(Request $request)

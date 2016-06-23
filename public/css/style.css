@@ -105,6 +105,14 @@
   				color:red;
 }
 
+h4.ad_list_title{
+				word-wrap: break-word;
+}
+
+.wrap			{
+				word-wrap: break-word;
+}
+
 
 
 

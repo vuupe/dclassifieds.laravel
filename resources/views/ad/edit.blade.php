@@ -92,9 +92,9 @@
                         <div class="form-group required {{ $errors->has('ad_price_type_1') ? ' has-error' : '' }}" style="margin-bottom: 0px;">
                             <label for="ad_price_type_1" class="col-md-4 control-label">Price</label>
                             <div class="col-md-5">
-                            	<div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ Util::getOldOrModelValue('price_radio', $ad_detail) == 1 ? 'checked' : '' }}></div>
+                            	<div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ Util::getOldOrModelValue('price_radio', $ad_detail, 'ad_price') > 0 ? 'checked' : '' }}></div>
                             	<div class="pull-left" style="margin-left:5px;">
-                            		<input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ Util::getOldOrModelValue('ad_price_type_1', $ad_detail) }}" />
+                            		<input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ Util::getOldOrModelValue('ad_price_type_1', $ad_detail, 'ad_price') }}" />
                             	</div>
                             	
                             	@if ($errors->has('ad_price_type_1'))
@@ -109,7 +109,11 @@
                         <div class="form-group">
                             <div class="col-md-offset-4 col-md-6">
                           		<label class="radio-inline">
-                            		<input type="radio" name="price_radio" id="price_radio" value="2" {{ Util::getOldOrModelValue('price_radio', $ad_detail) == 2 ? 'checked' : '' }}> Free
+                          			<?if(empty(old('price_radio')) && $ad_detail->ad_free == 1){?>
+                          				<input type="radio" name="price_radio" id="price_radio" value="2" checked> Free
+                          			<?} else {?>
+                            			<input type="radio" name="price_radio" id="price_radio" value="2" {{ Util::getOldOrModelValue('price_radio', $ad_detail) == 2 ? 'checked' : '' }}> Free
+                            		<?}?>
                             	</label>
                             </div>
                         </div>
@@ -565,6 +569,19 @@
                             </div>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="ad_address" class="col-md-4 control-label">Address</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ Util::getOldOrModelValue('ad_address', $ad_detail) }}" >
+                                	<span class="input-group-btn">
+                                        <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
+                                    </span>
+                                </div>
+                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ Util::getOldOrModelValue('ad_lat_lng', $ad_detail) }}" >
+                            </div>
+                        </div>
+                        
                         <div class="form-group required {{ $errors->has('ad_puslisher_name') ? ' has-error' : '' }}">
                             <label for="ad_puslisher_name" class="col-md-4 control-label">Contact Name</label>
                             <div class="col-md-5">
@@ -600,19 +617,6 @@
                             <label for="ad_skype" class="col-md-4 control-label">Skype</label>
                             <div class="col-md-5">
                             	<input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ Util::getOldOrModelValue('ad_skype', $ad_detail) }}" >
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="ad_address" class="col-md-4 control-label">Address</label>
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                	<input type="text" class="form-control" id="ad_address" name="ad_address" value="{{ Util::getOldOrModelValue('ad_address', $ad_detail) }}" >
-                                	<span class="input-group-btn">
-                                        <input type="button" class="btn btn-info" id="ad_address_show_map" name="ad_address_show_map" value="Find on Map" >
-                                    </span>
-                                </div>
-                            	<input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ Util::getOldOrModelValue('ad_lat_lng', $ad_detail) }}" >
                             </div>
                         </div>
                         

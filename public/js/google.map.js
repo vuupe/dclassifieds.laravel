@@ -1,5 +1,5 @@
 var initialLocation;
-var browserSupportFlag =  new Boolean();
+var browserSupportFlag = new Boolean();
 var map;
 var geocoder;
 var markersArray = [];
@@ -92,11 +92,11 @@ function drawAddressInfo( _address )
 	});
 }
 
-function initFancyBox()
+function initFancyBox(location_field_id, address_field_id)
 {
-	location_name = $('#location_id option:selected').text().trim();
-	location_id = $('#location_id').val();
-	location_selected = $('#ad_address').val().trim();
+	location_name = $('#' + location_field_id + ' option:selected').text().trim();
+	location_id = $('#' + location_field_id).val();
+	location_selected = $('#' + address_field_id).val().trim();
 	if(location_selected){
 		drawAddressInfo( location_selected );
 	} else if(location_name && location_id != 0){
@@ -106,6 +106,18 @@ function initFancyBox()
 	}
 }
 
+if (typeof __LOCATION_FIELD_ID === 'undefined') {
+	var __LOCATION_FIELD_ID = 'location_id';
+}
+
+if (typeof __ADDESS_FIELD_ID === 'undefined') {
+	var __ADDESS_FIELD_ID = 'ad_address';
+}
+
+if (typeof __LAT_LNG_FIELD_ID === 'undefined') {
+	var __LAT_LNG_FIELD_ID = 'ad_lat_lng';
+}
+
 $(document).ready(function(){
 	init();
 	
@@ -113,7 +125,7 @@ $(document).ready(function(){
 		$.fancybox([{ href : '#google_map_container', 
 			beforeShow: function () {
 				google.maps.event.trigger(map, "resize");
-				initFancyBox();
+				initFancyBox(__LOCATION_FIELD_ID, __ADDESS_FIELD_ID);
 			} 
 		}]);
 	});
@@ -130,8 +142,8 @@ $(document).ready(function(){
 		selected_address = $('#address').val().trim();
 		selected_address_lat = $('#lat').val().trim();
 		if(selected_address && selected_address_lat){
-			$('#ad_address').val(selected_address);
-			$('#ad_lat_lng').val(selected_address_lat);
+			$('#' + __ADDESS_FIELD_ID).val(selected_address);
+			$('#' + __LAT_LNG_FIELD_ID).val(selected_address_lat);
 		}
 		$.fancybox.close();
 	});

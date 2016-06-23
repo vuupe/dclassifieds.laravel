@@ -589,7 +589,8 @@ class AdController extends Controller
 			'car_engine_id' => CarEngine::all(),
 			'car_transmission_id' => CarTransmission::all(),
 			'car_condition_id' => CarCondition::all(),
-			'car_modification_id' => CarModification::all()
+			'car_modification_id' => CarModification::all(),
+    		'user' => $this->user->find(Auth::user()->user_id)
     	]);
     }
     
