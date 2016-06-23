@@ -31,8 +31,8 @@ Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
 	->name('post_ad_contact')
 	->where(['ad_id' => '\d+']);
         
-Route::get('/publish', 'AdController@getPublish')->name('publish')->middleware('auth');
-Route::post('/publish', 'AdController@postPublish')->name('postPublish')->middleware('auth');
+Route::get('/publish', 'AdController@getPublish')->name('publish');
+Route::post('/publish', 'AdController@postPublish')->name('postPublish');
 
 Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 Route::post('/axreportad', 'AdController@axreportad');

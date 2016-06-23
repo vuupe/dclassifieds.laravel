@@ -2,10 +2,10 @@ $(document).ready(function(){
 	/**
 	 * commmon
 	 */
-	$(".cid_select").chosen({'placeholder_text_single' : 'All Categories', 'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true});
-	$(".lid_select").chosen({'placeholder_text_single' : 'All Locations', 'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true});
+	$(".cid_select").chosen({'placeholder_text_single' : 'All Categories', 'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
+	$(".lid_select").chosen({'placeholder_text_single' : 'All Locations', 'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
 	
-	$(".chosen_select").chosen({'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true});
+	$(".chosen_select").chosen({'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
 	
 	$('.need_confirm').click(function(){
 		if(!confirm('Are you sure, you want to do that?')){

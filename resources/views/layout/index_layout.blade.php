@@ -77,11 +77,7 @@
                         <?}?>	
                         <li>
                         	<p class="navbar-btn" style="margin:0px;">
-                        		<?if (Auth::check()){?>
-                        			<a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a>
-                        		<?} else {?>
-                        			<a href="{{ url('login') }}" class="btn btn-danger navbar-btn">Post an ad</a>
-                        		<?}?>
+                     			<a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">Post an ad</a>
                         	</p>
                         </li>
                     </ul>

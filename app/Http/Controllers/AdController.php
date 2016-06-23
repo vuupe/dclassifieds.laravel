@@ -575,6 +575,11 @@ class AdController extends Controller
             }
         }
         
+        $user = new \stdClass();
+        if(Auth::check()){
+        	$user = Auth::user();
+        }
+        
     	return view('ad.publish', [	
     		'c' => $this->category->getAllHierarhy(),
 			'l' => $this->location->getAllHierarhy(),
@@ -590,7 +595,7 @@ class AdController extends Controller
 			'car_transmission_id' => CarTransmission::all(),
 			'car_condition_id' => CarCondition::all(),
 			'car_modification_id' => CarModification::all(),
-    		'user' => $this->user->find(Auth::user()->user_id)
+    		'user' => $user
     	]);
     }
     
@@ -686,8 +691,44 @@ class AdController extends Controller
         
     	$ad_data = $request->all();
     	
+    	//get user info by ad email or create new user
+    	$current_user_id = 0;
+    	if(Auth::check()){
+    		$current_user_id = Auth::user()->user_id;
+    		$user = Auth::user();
+    	} else {
+    		//check this mail for registered user
+    		try{
+    			$user = User::where('email', $ad_data['ad_email'])->firstOrFail();
+    		} catch (\Exception $e) {
+    			//no user create one
+    			//generate password
+    			$password = str_random(10);
+    			
+    			$user = new User();
+    			$user->name = $ad_data['ad_puslisher_name'];
+    			$user->email = $ad_data['ad_email'];
+    			$user->user_phone = $ad_data['ad_phone'];
+    			$user->user_skype = $ad_data['ad_skype'];
+    			$user->user_site = $ad_data['ad_link'];
+    			$user->user_location_id = $ad_data['location_id'];
+    			$user->user_address = $ad_data['ad_address'];
+    			$user->user_lat_lng = $ad_data['ad_lat_lng'];
+    			$user->password = bcrypt($password);
+    			$user->user_activation_token = str_random(30);
+    			$user->save();
+    	
+    			//send activation mail
+    			Mail::send('emails.activation', ['user' => $user, 'password' => $password], function ($m) use ($user) {
+    				$m->from('test@mylove.bg', 'dclassifieds activation');
+    				$m->to($user->email)->subject('Activate your account!');
+    			});
+    		}
+    		$current_user_id = $user->user_id;
+    	}
+    	
     	//fill aditional fields
-    	$ad_data['user_id'] = $request->user()->user_id;
+    	$ad_data['user_id'] = $current_user_id;
     	$ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
     	$ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
     	$ad_data['ad_ip'] = Util::getRemoteAddress();
@@ -714,7 +755,6 @@ class AdController extends Controller
     	}
     	
     	$ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
-    	
     	
     	//generate ad unique code
     	do{
@@ -769,13 +809,13 @@ class AdController extends Controller
     	$ad->same_ads = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
     	
     	//send info and activation mail
-    	Mail::send('emails.ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
+    	Mail::send('emails.ad_activation', ['user' => $user, 'ad' => $ad], function ($m) use ($user){
     		$m->from('test@mylove.bg', 'dclassifieds ad activation');
-    		$m->to($request->user()->email)->subject('Activate your ad!');
+    		$m->to($user->email)->subject('Activate your ad!');
     	});
 
     	//send control mail
-        Mail::send('emails.control_ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
+        Mail::send('emails.control_ad_activation', ['user' => $user, 'ad' => $ad], function ($m){
             $m->from('test@mylove.bg', '[CONTROL] dclassifieds');
             $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds new ad');
         });
