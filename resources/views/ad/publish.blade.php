@@ -265,6 +265,30 @@
                             </div>
                         </div>
                         
+                        <div class="form-group {{ $errors->has('condition_id_type_2') ? ' has-error' : '' }}">
+                            <label for="condition_id_type_2" class="col-md-4 control-label">Estate Condition</label>
+                            <div class="col-md-5">
+                            	@if(!$ac->isEmpty())
+		                   		<select name="condition_id_type_2" id="condition_id_type_2" class="form-control chosen_select" data-placeholder="Select Condition">
+		                   			<option value="0"></option>
+		                   			@foreach ($ac as $k => $v)
+		                   				@if(old('condition_id_type_2') == $v->ad_condition_id)
+											<option value="{{ $v->ad_condition_id }}" selected>{{ $v->ad_condition_name }}</option>
+										@else
+											<option value="{{ $v->ad_condition_id }}">{{ $v->ad_condition_name }}</option>
+										@endif
+		                   			@endforeach
+		                   		</select>
+		                   		@endif
+		                   		
+		                   		@if ($errors->has('condition_id_type_2'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('condition_id_type_2') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
                         <hr>
                         <!-- end of type 2 -->
                         </div>
