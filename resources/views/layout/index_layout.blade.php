@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('js/chosen/chosen.css') }}" />
         <link rel="stylesheet" href="{{ asset('js/chosen/chosen-bootstrap.css') }}" />
+        <link rel="stylesheet" href="{{ asset('js/bootstrap-multiselect/bootstrap-multiselect.css') }}" />
         
         @yield('styles')
         
@@ -114,6 +115,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         
         <script src="{{ asset('js/chosen/chosen.jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
         
         @yield('js')

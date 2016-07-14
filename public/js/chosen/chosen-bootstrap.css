@@ -92,8 +92,8 @@ select.form-control + .chosen-container .chosen-results li.group-result {
 select.form-control + .chosen-container-multi .chosen-choices {
     display: block;
     width: 100%;
-    min-height: 34px;
-    padding: 6px;
+    height: 34px;
+    padding: 2px 12px;
     font-size: 14px;
     line-height: 1.428571429;
     color: #555;

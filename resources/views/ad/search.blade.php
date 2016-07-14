@@ -3,7 +3,7 @@
 @section('search_filter')
         <div class="container search_panel">
             <form method="GET" action="{{ url('proxy') }}" class="form">
-                <div class="row">
+                <div class="row row_equal_height">
                     {!! csrf_field() !!}
                     <div class="col-md-3 padding_bottom_15">
                     	<input type="text" name="search_text" id="search_text" class="form-control" placeholder="1 000 000 Ads" value="{{ isset($params['search_text']) ? stripslashes($params['search_text']) : ''}}"/>
@@ -41,10 +41,9 @@
                     
                     <div class="col-md-3 padding_bottom_15">
                     	@if(!$ac->isEmpty())
-                   		<select name="condition_id" id="condition_id" class="form-control chosen_select" data-placeholder="Condition">
-                   			<option value="0"></option>
+                   		<select name="condition_id[]" id="condition_id" class="form-control multi_select" data-placeholder="Condition" multiple="multiple">
                    			@foreach ($ac as $k => $v)
-                   				@if(old('condition_id') == $v->ad_condition_id)
+                   				@if(in_array($v->ad_condition_id, old('condition_id', [])))
 									<option value="{{ $v->ad_condition_id }}" selected>{{ $v->ad_condition_name }}</option>
 								@else
 									<option value="{{ $v->ad_condition_id }}">{{ $v->ad_condition_name }}</option>
@@ -56,10 +55,9 @@
                     
                     <div class="col-md-3 padding_bottom_15">
                     	@if(!$at->isEmpty())
-                   		<select name="type_id" id="type_id" class="form-control chosen_select" data-placeholder="Private/Business Ad">
-                   			<option value="0"></option>
+                   		<select name="type_id[]" id="type_id" class="form-control multi_select" data-placeholder="Private/Business Ad" multiple="multiple">
                    			@foreach ($at as $k => $v)
-                   				@if(old('type_id') == $v->ad_type_id)
+                   				@if(in_array($v->ad_type_id, old('type_id', [])))
 									<option value="{{ $v->ad_type_id }}" selected>{{ $v->ad_type_name }}</option>
 								@else
 									<option value="{{ $v->ad_type_id }}">{{ $v->ad_type_name }}</option>
@@ -82,10 +80,9 @@
                         
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$estate_type->isEmpty())
-		                   		<select name="estate_type_id" id="estate_type_id" class="form-control chosen_select" data-placeholder="Estate Type">
-		                   			<option value="0"></option>
+		                   		<select name="estate_type_id[]" id="estate_type_id" class="form-control multi_select" data-placeholder="Estate Type" multiple="multiple">
 		                   			@foreach ($estate_type as $k => $v)
-		                   				@if(old('estate_type_id') == $v->estate_type_id)
+		                   				@if(in_array($v->estate_type_id, old('estate_type_id', [])))
 											<option value="{{ $v->estate_type_id }}" selected>{{ $v->estate_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_type_id }}">{{ $v->estate_type_name }}</option>
@@ -113,10 +110,9 @@
                             
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$estate_construction_type->isEmpty())
-		                   		<select name="estate_construction_type_id" id="estate_construction_type_id" class="form-control chosen_select" data-placeholder="Estate Construction Type">
-		                   			<option value="0"></option>
+		                   		<select name="estate_construction_type_id[]" id="estate_construction_type_id" class="form-control multi_select" data-placeholder="Estate Construction Type" multiple="multiple">
 		                   			@foreach ($estate_construction_type as $k => $v)
-		                   				@if(old('estate_construction_type_id') == $v->estate_construction_type_id)
+		                   				@if(in_array($v->estate_construction_type_id, old('estate_construction_type_id', [])))
 											<option value="{{ $v->estate_construction_type_id }}" selected>{{ $v->estate_construction_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_construction_type_id }}">{{ $v->estate_construction_type_name }}</option>
@@ -128,10 +124,9 @@
                             
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$estate_heating_type->isEmpty())
-		                   		<select name="estate_heating_type_id" id="estate_heating_type_id" class="form-control chosen_select" data-placeholder="Estate Heating">
-		                   			<option value="0"></option>
+		                   		<select name="estate_heating_type_id[]" id="estate_heating_type_id" class="form-control multi_select" data-placeholder="Estate Heating" multiple="multiple">
 		                   			@foreach ($estate_heating_type as $k => $v)
-		                   				@if(old('estate_heating_type_id') == $v->estate_heating_type_id)
+		                   				@if(in_array($v->estate_heating_type_id, old('estate_heating_type_id', [])))
 											<option value="{{ $v->estate_heating_type_id }}" selected>{{ $v->estate_heating_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_heating_type_id }}">{{ $v->estate_heating_type_name }}</option>
@@ -155,10 +150,9 @@
                             
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$estate_furnishing_type->isEmpty())
-		                   		<select name="estate_furnishing_type_id" id="estate_furnishing_type_id" class="form-control chosen_select" data-placeholder="Estate Furnishing">
-		                   			<option value="0"></option>
+		                   		<select name="estate_furnishing_type_id[]" id="estate_furnishing_type_id" class="form-control multi_select" data-placeholder="Estate Furnishing" multiple="multiple">
 		                   			@foreach ($estate_furnishing_type as $k => $v)
-		                   				@if(old('estate_furnishing_type_id') == $v->estate_furnishing_type_id)
+		                   				@if(in_array($v->estate_furnishing_type_id, old('estate_furnishing_type_id', [])))
 											<option value="{{ $v->estate_furnishing_type_id }}" selected>{{ $v->estate_furnishing_type_name }}</option>
 										@else
 											<option value="{{ $v->estate_furnishing_type_id }}">{{ $v->estate_furnishing_type_name }}</option>
@@ -172,10 +166,9 @@
                         <?if($selected_category_info['category_type'] == 3){?>
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$car_engine_id->isEmpty())
-		                   		<select name="car_engine_id" id="car_engine_id" class="form-control chosen_select" data-placeholder="Car Engine">
-		                   			<option value="0"></option>
+		                   		<select name="car_engine_id[]" id="car_engine_id" class="form-control multi_select" data-placeholder="Car Engine" multiple="multiple">
 		                   			@foreach ($car_engine_id as $k => $v)
-		                   				@if(old('car_engine_id') == $v->car_engine_id)
+		                   				@if(in_array($v->car_engine_id, old('car_engine_id', [])))
 											<option value="{{ $v->car_engine_id }}" selected>{{ $v->car_engine_name }}</option>
 										@else
 											<option value="{{ $v->car_engine_id }}">{{ $v->car_engine_name }}</option>
@@ -221,10 +214,9 @@
                             
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$car_transmission_id->isEmpty())
-		                   		<select name="car_transmission_id" id="car_transmission_id" class="form-control chosen_select" data-placeholder="Car Tranmission">
-		                   			<option value="0"></option>
+		                   		<select name="car_transmission_id[]" id="car_transmission_id" class="form-control multi_select" data-placeholder="Car Tranmission" multiple="multiple">
 		                   			@foreach ($car_transmission_id as $k => $v)
-		                   				@if(old('car_transmission_id') == $v->car_transmission_id)
+		                   				@if(in_array($v->car_transmission_id, old('car_transmission_id', [])))
 											<option value="{{ $v->car_transmission_id }}" selected>{{ $v->car_transmission_name }}</option>
 										@else
 											<option value="{{ $v->car_transmission_id }}">{{ $v->car_transmission_name }}</option>
@@ -236,10 +228,9 @@
                             
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$car_modification_id->isEmpty())
-		                   		<select name="car_modification_id" id="car_modification_id" class="form-control chosen_select" data-placeholder="Car Modification">
-		                   			<option value="0"></option>
+		                   		<select name="car_modification_id[]" id="car_modification_id" class="form-control multi_select" data-placeholder="Car Modification" multiple="multiple">
 		                   			@foreach ($car_modification_id as $k => $v)
-		                   				@if(old('car_modification_id') == $v->car_modification_id)
+		                   				@if(in_array($v->car_modification_id, old('car_modification_id', [])))
 											<option value="{{ $v->car_modification_id }}" selected>{{ $v->car_modification_name }}</option>
 										@else
 											<option value="{{ $v->car_modification_id }}">{{ $v->car_modification_name }}</option>
@@ -267,10 +258,9 @@
                             
                             <div class="col-md-3 padding_bottom_15">
                             	@if(!$car_condition_id->isEmpty())
-		                   		<select name="car_condition_id" id="car_condition_id" class="form-control chosen_select" data-placeholder="Car Condition">
-		                   			<option value="0"></option>
+		                   		<select name="car_condition_id[]" id="car_condition_id" class="form-control multi_select" data-placeholder="Car Condition" multiple="multiple">
 		                   			@foreach ($car_condition_id as $k => $v)
-		                   				@if(old('car_condition_id') == $v->car_condition_id)
+		                   				@if(in_array($v->car_condition_id, old('car_condition_id', [])))
 											<option value="{{ $v->car_condition_id }}" selected>{{ $v->car_condition_name }}</option>
 										@else
 											<option value="{{ $v->car_condition_id }}">{{ $v->car_condition_name }}</option>
@@ -284,7 +274,7 @@
                         <?}?>
                     <?}?>
                     
-                    <div class="col-md-3 pull-right padding_bottom_15">
+                    <div class="col-md-3 pull-right padding_bottom_15" style="margin-left:auto;">
                         <button type="submit" class="btn btn-primary" style="width: 100%;">
                             <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
                         </button>

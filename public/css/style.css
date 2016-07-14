@@ -113,6 +113,36 @@ h4.ad_list_title{
 				word-wrap: break-word;
 }
 
+/*equal height with flexbox*/
+@media (min-width: 992px) {
+	.row_equal_height{
+					display: -webkit-box;
+					display: -webkit-flex;
+					display: -ms-flexbox;
+					display: flex;
+					flex-wrap: wrap;
+	}
+	.row_equal_height > [class*='col-'] {
+					display: flex;
+					flex-direction: column;
+	}
+}
+
+/*bootstrap multyselect fix*/
+.align-left		{
+				text-align:left;
+}
+
+.multiselect-container{
+				width:100%;
+}
+
+.caret 			{
+				position: absolute;
+				right: 8px;
+				top: 45%;
+}
+
 
 
 

@@ -116,6 +116,9 @@ class AdController extends Controller
     	//get incoming parameters
     	$params = Input::all();
     	
+    	//print_r($params);
+    	//exit;
+    	
     	//check for category selection
     	$cid = 0;
     	if(isset($params['cid']) && $params['cid'] > 0){
@@ -182,7 +185,7 @@ class AdController extends Controller
     public function search(Request $request)
     {
         $params = Input::all();
-//     	print_r($params) . '<br /><br />';
+    	//print_r($params) . '<br /><br />';
     	
     	$request->flash();
     	
@@ -306,12 +309,12 @@ class AdController extends Controller
     	/*
     	 * get common params and set them in where array
     	 */
-    	if(isset($params['condition_id']) && is_numeric($params['condition_id']) && $params['condition_id'] > 0){
-    		$where['ad_condition_id'] = $params['condition_id'];    
+    	if(isset($params['condition_id']) && !empty($params['condition_id']) && is_array($params['condition_id'])){
+    		$whereIn['condition_id'] = $params['condition_id'];    
     	}
     	
-    	if(isset($params['type_id']) && is_numeric($params['type_id']) && $params['type_id'] > 0){
-    	    $where['type_id'] = $params['type_id'];
+    	if(isset($params['type_id']) && !empty($params['type_id']) && is_array($params['type_id'])){
+    	    $whereIn['type_id'] = $params['type_id'];
     	}
     	
     	if(isset($params['price_from']) && is_numeric($params['price_from']) && $params['price_from'] > 0){
@@ -323,8 +326,8 @@ class AdController extends Controller
     	}
     	
     	//type 2 filters - real estates
-    	if(isset($params['estate_type_id']) && is_numeric($params['estate_type_id']) && $params['estate_type_id'] > 0){
-    	    $where['estate_type_id'] = $params['estate_type_id'];
+    	if(isset($params['estate_type_id']) && !empty($params['estate_type_id']) && is_array($params['estate_type_id'])){
+    	    $whereIn['estate_type_id'] = $params['estate_type_id'];
     	}
     	
     	if(isset($params['estate_sq_m_from']) && is_numeric($params['estate_sq_m_from']) && $params['estate_sq_m_from'] > 0){
@@ -343,12 +346,12 @@ class AdController extends Controller
     	    $where['estate_year'] = ['<=', $params['estate_year_to']];
     	}
     	
-    	if(isset($params['estate_construction_type_id']) && is_numeric($params['estate_construction_type_id']) && $params['estate_construction_type_id'] > 0){
-    	    $where['estate_construction_type_id'] = $params['estate_construction_type_id'];
+    	if(isset($params['estate_construction_type_id']) && !empty($params['estate_construction_type_id']) && is_array($params['estate_construction_type_id'])){
+    	    $whereIn['estate_construction_type_id'] = $params['estate_construction_type_id'];
     	}
     	
-    	if(isset($params['estate_heating_type_id']) && is_numeric($params['estate_heating_type_id']) && $params['estate_heating_type_id'] > 0){
-    	    $where['estate_heating_type_id'] = $params['estate_heating_type_id'];
+    	if(isset($params['estate_heating_type_id']) && !empty($params['estate_heating_type_id']) && is_array($params['estate_heating_type_id'])){
+    	    $whereIn['estate_heating_type_id'] = $params['estate_heating_type_id'];
     	}
     	
     	if(isset($params['estate_floor_from']) && is_numeric($params['estate_floor_from']) && $params['estate_floor_from'] > 0){
@@ -363,13 +366,13 @@ class AdController extends Controller
     	    $where['estate_num_floors_in_building'] = $params['estate_num_floors_in_building'];
     	}
     	
-    	if(isset($params['estate_furnishing_type_id']) && is_numeric($params['estate_furnishing_type_id']) && $params['estate_furnishing_type_id'] > 0){
-    	    $where['estate_furnishing_type_id'] = $params['estate_furnishing_type_id'];
+    	if(isset($params['estate_furnishing_type_id']) && !empty($params['estate_furnishing_type_id']) && is_array($params['estate_furnishing_type_id'])){
+    	    $whereIn['estate_furnishing_type_id'] = $params['estate_furnishing_type_id'];
     	}
     	
     	//type 3 filters - cars
-    	if(isset($params['car_engine_id']) && is_numeric($params['car_engine_id']) && $params['car_engine_id'] > 0){
-    	    $where['car_engine_id'] = $params['car_engine_id'];
+    	if(isset($params['car_engine_id']) && !empty($params['car_engine_id']) && is_array($params['car_engine_id'])){
+    	    $whereIn['car_engine_id'] = $params['car_engine_id'];
     	}
     	
     	if(isset($params['car_brand_id']) && is_numeric($params['car_brand_id']) && $params['car_brand_id'] > 0){
@@ -380,12 +383,12 @@ class AdController extends Controller
     	    $where['car_model_id'] = $params['car_model_id'];
     	}
     	
-    	if(isset($params['car_transmission_id']) && is_numeric($params['car_transmission_id']) && $params['car_transmission_id'] > 0){
-    	    $where['car_transmission_id'] = $params['car_transmission_id'];
+    	if(isset($params['car_transmission_id']) && !empty($params['car_transmission_id']) && is_array($params['car_transmission_id'])){
+    	    $whereIn['car_transmission_id'] = $params['car_transmission_id'];
     	}
     	
-    	if(isset($params['car_modification_id']) && is_numeric($params['car_modification_id']) && $params['car_modification_id'] > 0){
-    	    $where['car_modification_id'] = $params['car_modification_id'];
+    	if(isset($params['car_modification_id']) && !empty($params['car_modification_id']) && is_array($params['car_modification_id'])){
+    	    $whereIn['car_modification_id'] = $params['car_modification_id'];
     	}
     	
     	if(isset($params['car_year_from']) && is_numeric($params['car_year_from']) && $params['car_year_from'] > 0){
@@ -404,8 +407,8 @@ class AdController extends Controller
     	    $where['car_kilometeres'] = ['<=', $params['car_kilometeres_to']];
     	}
     	
-    	if(isset($params['car_condition_id']) && is_numeric($params['car_condition_id']) && $params['car_condition_id'] > 0){
-    	    $where['car_condition_id'] = $params['car_condition_id'];
+    	if(isset($params['car_condition_id']) && !empty($params['car_condition_id']) && is_array($params['car_condition_id'])){
+    	    $whereIn['car_condition_id'] = $params['car_condition_id'];
     	}
     	
     	/*
@@ -439,6 +442,9 @@ class AdController extends Controller
         }
 
     	$ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
+    	
+//     	debug db queries
+//     	dd(DB::getQueryLog());
 
     	$view_params = [
     		'c' => $this->category->getAllHierarhy(),

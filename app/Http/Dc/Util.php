@@ -30,10 +30,17 @@ class Util
     {
     	$ret = array();
     	foreach ($_params as $k => $v){
-    		if(!$_remove_zero){
-    			$ret[] = $k . '=' . $v;
-    		} elseif ($v > 0) {
-    			$ret[] = $k . '=' . $v;
+    		if(is_array($v) && !empty($v)){
+    			//$ret[] = $k . '[]=' . join('&', $v);
+    			foreach ($v as $ak => $av){
+    				$ret[] = $k . '[]=' . $av;
+    			}
+    		} else {
+	    		if(!$_remove_zero){
+	    			$ret[] = $k . '=' . $v;
+	    		} elseif ($v > 0) {
+	    			$ret[] = $k . '=' . $v;
+	    		}
     		}
     	}
     	if(!empty($ret)){

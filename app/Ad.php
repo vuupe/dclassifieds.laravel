@@ -86,8 +86,6 @@ class Ad extends Model
                 $q->take($_limit);
             }
             
-            
-            
             $q->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id');
             
             if($_paginate > 0){
