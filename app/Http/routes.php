@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\DB;
 DB::enableQueryLog();
 
 /*
+ * admin routes
+ */
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function()
+{
+	// Controllers Within The "App\Http\Controllers\Admin" Namespace
+	Route::get('/admin', 'AdminController@dashboard');
+});
+/*
+ * end of admin routes
+ */
+
+/*
  * ads actions
  */
 Route::get('/', 'AdController@index')->name('home');

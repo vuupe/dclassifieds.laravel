@@ -68,4 +68,9 @@ class User extends Model implements AuthenticatableContract,
         }
         return $ret;
     }
+    
+    public function isAdmin()
+    {
+    	return $this->is_admin;
+    }
 }

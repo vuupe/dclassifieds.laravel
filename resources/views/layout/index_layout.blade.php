@@ -65,6 +65,12 @@
 	                                <li><a href="{{ url('myprofile') }}">My Profile</a></li>
 	                                <li><a href="{{ url('myads') }}">My Classifieds</a></li>
 	                                <li><a href="{{ url('mymail') }}">My Messages</a></li>
+	                                
+	                                <?if(Auth::check() && Auth::user()->isAdmin()){?>
+	                                	<li role="separator" class="divider"></li>
+	                                	<li><a href="{{ url('admin') }}">Admin</a></li>
+	                                <?}?>
+	                                
 	                                <li role="separator" class="divider"></li>
 	                                <li><a href="{{ url('logout') }}">Exit</a></li>
 	                            </ul>

@@ -137,10 +137,11 @@ h4.ad_list_title{
 				width:100%;
 }
 
-.caret 			{
+.multiselect-caret 			{
 				position: absolute;
 				right: 8px;
 				top: 45%;
+				color: #888888;
 }
 
 

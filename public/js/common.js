@@ -79,6 +79,12 @@ $(document).ready(function(){
 	$('#ad_price_type_1').keydown(function(){
 		$('#price_radio').prop("checked", true);
 	});
+	
+	$('.clear').click(function(){
+		_id = $(this).data("id");
+		document.getElementById('ad_image_' + _id).value = '';
+		return false;
+	});
 });
 
 //show ad publish fields on category change and document ready

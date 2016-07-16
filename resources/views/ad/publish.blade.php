@@ -528,6 +528,8 @@
                             </div>
                         </div>
                         
+                        <hr>
+                        
                         <?
                         $num_image = config('dc.ad_num_images');
                         $file_has_error = 0;
@@ -544,7 +546,7 @@
                         	<label for="ad_image" class="col-md-4 control-label">Pics</label>
                             <div class="col-md-5">
                             	<?for($i = 1; $i <= $num_image; $i++){?>
-                                    <input type="file" name="ad_image[]">
+                                    <div style="margin-bottom:5px;"><input type="file" name="ad_image[]" id="ad_image_<?=$i?>" style="display:inline;"> <button class="btn btn-danger btn-xs clear" data-id="<?=$i?>">Clear</button></div>
                                     @if ($errors->has('ad_image.' . ($i-1)))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('ad_image.' . ($i-1)) }}</strong>

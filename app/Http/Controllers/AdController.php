@@ -1277,6 +1277,7 @@ class AdController extends Controller
                 break;
             case 2:
                 $ad_data['ad_price'] = $ad_data['ad_price_type_2'];
+                $ad_data['condition_id'] = $ad_data['condition_id_type_2'];
                 break;
             case 3:
                 $ad_data['ad_price'] = $ad_data['ad_price_type_3'];
