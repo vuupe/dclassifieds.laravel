@@ -21,6 +21,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 {
 	// Controllers Within The "App\Http\Controllers\Admin" Namespace
 	Route::get('/admin', 'AdminController@dashboard');
+	
+	//Locations
+	Route::get('/admin/location', 'LocationController@index');
 });
 /*
  * end of admin routes

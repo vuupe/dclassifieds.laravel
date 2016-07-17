@@ -2,14 +2,14 @@
 
 @section('search_filter')
         <div class="container search_panel">
-            <form method="GET" action="{{url('proxy')}}" class="form">
+            <form method="GET" action="{{url('proxy')}}" class="form" id="search_form">
                 <div class="row">
                     <div class="col-md-3 padding_bottom_15">
                     	<input type="text" name="search_text" id="search_text" class="form-control" placeholder="1 000 000 Ads" value="{{isset($search_text) ? stripslashes($search_text) : ''}}"/>
                     </div>
                     <div class="col-md-3 padding_bottom_15">
                     	@if(isset($c) && !empty($c))
-                   		<select name="cid" id="cid" class="form-control cid_select">
+                   		<select name="cid" id="cid" class="form-control cid_select" onchange="$('#search_form').submit();">
                    			<option value="0"></option>
                    			@foreach ($c as $k => $v)
                    				<optgroup label="{{$v['title']}}">

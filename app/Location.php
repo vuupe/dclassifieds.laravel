@@ -32,7 +32,11 @@ class Location extends Model
     	
     	if(!empty($locationCollection)){
     		foreach ($locationCollection as $k => $v){
-    			$ret[$v->location_id] = array('lid' => $v->location_id, 'title' => $v->location_name, 'level' => $_level);
+    			$ret[$v->location_id] = array('lid' => $v->location_id, 
+    				'title' => $v->location_name,
+    				'slug' => $v->location_slug,
+    				'active' => $v->location_active, 
+    				'level' => $_level);
     			if($v->children->count() > 0){
     				$ret[$v->location_id]['c'] = $this->getAllHierarhy($v->location_id, $_level);
     			}

@@ -57,26 +57,20 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                    	<?if(Auth::check() && Auth::user()->isAdmin()){?>
+                        	<li><a href="{{ url('admin') }}">Admin Panel</a></li>
+	                    <?}?>
                        	<?if (Auth::check()){?>
                         	<li class="dropdown">
 	                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
-	                            
 	                            <ul class="dropdown-menu">
 	                                <li><a href="{{ url('myprofile') }}">My Profile</a></li>
 	                                <li><a href="{{ url('myads') }}">My Classifieds</a></li>
 	                                <li><a href="{{ url('mymail') }}">My Messages</a></li>
-	                                
-	                                <?if(Auth::check() && Auth::user()->isAdmin()){?>
-	                                	<li role="separator" class="divider"></li>
-	                                	<li><a href="{{ url('admin') }}">Admin</a></li>
-	                                <?}?>
-	                                
 	                                <li role="separator" class="divider"></li>
 	                                <li><a href="{{ url('logout') }}">Exit</a></li>
 	                            </ul>
-	                            
 	                        </li>
-                        	
                         <?} else {?>
 	                        <li>
 	                        	<a href="{{ url('login') }}">My Profile</a>

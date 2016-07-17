@@ -2,7 +2,7 @@
 
 @section('search_filter')
         <div class="container search_panel">
-            <form method="GET" action="{{ url('proxy') }}" class="form">
+            <form method="GET" action="{{ url('proxy') }}" class="form" id="search_form">
                 <div class="row row_equal_height">
                     {!! csrf_field() !!}
                     <div class="col-md-3 padding_bottom_15">
@@ -11,7 +11,7 @@
                     
                     <div class="col-md-3 padding_bottom_15">
                     	@if(isset($c) && !empty($c))
-                   		<select name="cid" id="cid" class="form-control cid_select">
+                   		<select name="cid" id="cid" class="form-control cid_select" onchange="$('#search_form').submit();">
                    			<option value="0"></option>
                    			@foreach ($c as $k => $v)
                    				<optgroup label="{{$v['title']}}">

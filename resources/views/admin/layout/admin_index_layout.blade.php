@@ -16,6 +16,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  
+  @yield('styles')
+  
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -138,6 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="header">Main Menu</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="{{ route('home') }}"><i class="fa fa-link"></i> <span>Site Home</span></a></li>
+        <li><a href="{{ url('admin/location') }}"><i class="fa fa-globe"></i> <span>Locations</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -146,25 +150,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Page Header
-        <small>Optional description</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
-      </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
-      <!-- Your Page Content Here -->
-
-    </section>
-    <!-- /.content -->
+	@yield('content')
   </div>
   <!-- /.content-wrapper -->
 
@@ -186,6 +172,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('adminlte/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{ asset('adminlte/bootstrap/js/bootstrap.min.js') }}"></script>
+
+@yield('js')
+
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/app.min.js') }}"></script>
 
