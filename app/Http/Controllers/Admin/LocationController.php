@@ -83,6 +83,7 @@ class LocationController extends Controller
     			$location->location_name = $request->location_name;
     			$location->location_slug = $request->location_slug;
     			$location->location_post_code = $request->location_post_code;
+    			$location->location_ord = $request->location_ord;
     			$location->location_active = 0;
     			if($request->location_active){
     				$location->location_active = 1;
@@ -213,6 +214,10 @@ class LocationController extends Controller
 							
 							if(isset($v[3]) && !empty($v[3])){
 								$data_to_save['location_post_code'] = trim($v[3]);
+							}
+							
+							if(isset($v[4]) && !empty($v[4])){
+								$data_to_save['location_ord'] = trim($v[4]);
 							}
 							
 							//check if all fields are here

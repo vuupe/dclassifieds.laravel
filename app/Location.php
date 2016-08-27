@@ -12,7 +12,7 @@ class Location extends Model
     protected $primaryKey = 'location_id';
     public $timestamps = false;
     
-    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug', 'location_post_code'];
+    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug', 'location_post_code', 'location_ord'];
     
     public function parents()
     {
@@ -33,6 +33,7 @@ class Location extends Model
 	    	
 	    	$lquery = $this->where('location_parent_id', $_parent_id)
 	    							->with('children')
+	    							->orderBy('location_ord', 'asc')
 	    							->orderBy('location_name', 'asc');
 	    	
 	    	if($_active){
@@ -47,7 +48,8 @@ class Location extends Model
 	    				'title' => $v->location_name,
 	    				'slug' => $v->location_slug,
 	    				'active' => $v->location_active,
-	    				'post_code' => $v->location_post_code, 
+	    				'post_code' => $v->location_post_code,
+	    				'ord' => $v->location_ord, 
 	    				'level' => $_level,
 	    				'ad_count' => Ad::where('location_id', $v->location_id)->count()
 	    			);

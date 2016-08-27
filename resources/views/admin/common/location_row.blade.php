@@ -10,6 +10,7 @@
 	</td>
 	<td>{{ $v['slug'] }}</td>
 	<td>{{ $v['post_code'] }}</td>
+	<td>{{ $v['ord'] }}</td>
 	<td>
 		<?if($v['active'] == 1){?>
 			<span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
