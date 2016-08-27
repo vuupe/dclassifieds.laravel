@@ -3,12 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Ad;
+use Cache;
 
 class Location extends Model
 {
     protected $table = 'location';
     protected $primaryKey = 'location_id';
     public $timestamps = false;
+    
+    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug'];
     
     public function parents()
     {
@@ -20,27 +24,38 @@ class Location extends Model
     	return $this->hasMany('App\Location', 'location_parent_id');
     }
     
-    public function getAllHierarhy($_parent_id = null, $_level = 0)
+    public function getAllHierarhy($_parent_id = null, $_level = 0, $_active = 1)
     {
-    	$ret = array();
-    	$_level++;
-    	$locationCollection = $this->where('location_parent_id', $_parent_id)
-    							->where('location_active', '=', 1)
-    							->with('children')
-    							->orderBy('location_name', 'asc')
-    							->get();
-    	
-    	if(!empty($locationCollection)){
-    		foreach ($locationCollection as $k => $v){
-    			$ret[$v->location_id] = array('lid' => $v->location_id, 
-    				'title' => $v->location_name,
-    				'slug' => $v->location_slug,
-    				'active' => $v->location_active, 
-    				'level' => $_level);
-    			if($v->children->count() > 0){
-    				$ret[$v->location_id]['c'] = $this->getAllHierarhy($v->location_id, $_level);
-    			}
-    		}
+    	$cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+    	$ret = Cache::get($cache_key, []);
+    	if(empty($ret)){
+	    	$_level++;
+	    	
+	    	$lquery = $this->where('location_parent_id', $_parent_id)
+	    							->with('children')
+	    							->orderBy('location_name', 'asc');
+	    	
+	    	if($_active){
+	    		$lquery->where('location_active', '=', 1);	
+	    	}
+	    	
+	    	$locationCollection = $lquery->get();
+	    	
+	    	if(!empty($locationCollection)){
+	    		foreach ($locationCollection as $k => $v){
+	    			$ret[$v->location_id] = array('lid' => $v->location_id, 
+	    				'title' => $v->location_name,
+	    				'slug' => $v->location_slug,
+	    				'active' => $v->location_active, 
+	    				'level' => $_level,
+	    				'ad_count' => Ad::where('location_id', $v->location_id)->count()
+	    			);
+	    			if($v->children->count() > 0){
+	    				$ret[$v->location_id]['c'] = $this->getAllHierarhy($v->location_id, $_level, $_active);
+	    			}
+	    		}
+	    		Cache::put($cache_key, $ret, config('dc.cache_expire'));
+	    	}
     	}
     	return $ret;
     }

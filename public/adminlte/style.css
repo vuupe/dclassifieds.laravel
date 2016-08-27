@@ -1,0 +1,9 @@
+.controls {
+	padding: 5px 10px;
+	border-bottom: 1px solid #f4f4f4;
+}
+
+.form-group.required .control-label:after {
+	content:"*";
+	color:red;
+}

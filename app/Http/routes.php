@@ -24,6 +24,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 	
 	//Locations
 	Route::get('/admin/location', 'LocationController@index');
+	Route::any('/admin/location/edit/{id?}', 'LocationController@edit');
+	Route::any('/admin/location/delete/{id?}', 'LocationController@delete');
+	Route::any('/admin/location/import', 'LocationController@import');
+	
 });
 /*
  * end of admin routes
