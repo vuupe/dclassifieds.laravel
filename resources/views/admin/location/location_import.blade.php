@@ -76,13 +76,13 @@
 		            <!-- /.box-header -->
 			        <div class="box-body">
 			        	<p class="help-block">CSV must be comma separed/delimeted, without header, not quoted</p>
-						<p class="help-block">Location slug must be unique</p>
-						<p class="help-block">CSV Fields: Location name, Location Slug, Location Active (0 = Not Active, 1 = Active)</p>
+						<p class="help-block">Location slug must be unique, Location Post Code is optional</p>
+						<p class="help-block">CSV Fields: Location name, Location Slug, Location Active (0 = Not Active, 1 = Active), Location Post Code</p>
 						<p class="help-block"><strong>Example:</strong><br /> 
-							Location name, location_slug, 1<br /> 
-							Location name 1, location_slug_1, 1<br /> 
-							Location name 2, location_slug_2, 1<br /> 
-							Location name 3, location_slug_3, 1<br /> 
+							Location name, location_slug, 1, 10000<br /> 
+							Location name 1, location_slug_1, 1, 12000<br /> 
+							Location name 2, location_slug_2, 1, 13000<br /> 
+							Location name 3, location_slug_3, 1, 14000<br /> 
 						</p>
 			        </div>
 			        <!-- /.box-body -->

@@ -12,7 +12,7 @@ class Location extends Model
     protected $primaryKey = 'location_id';
     public $timestamps = false;
     
-    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug'];
+    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug', 'location_post_code'];
     
     public function parents()
     {
@@ -46,10 +46,16 @@ class Location extends Model
 	    			$ret[$v->location_id] = array('lid' => $v->location_id, 
 	    				'title' => $v->location_name,
 	    				'slug' => $v->location_slug,
-	    				'active' => $v->location_active, 
+	    				'active' => $v->location_active,
+	    				'post_code' => $v->location_post_code, 
 	    				'level' => $_level,
 	    				'ad_count' => Ad::where('location_id', $v->location_id)->count()
 	    			);
+	    			
+	    			if(!empty($v->location_post_code)){
+	    				$ret[$v->location_id]['title'] = $v->location_name . ' [ZIP:' . $v->location_post_code . ']';
+	    			}
+	    			
 	    			if($v->children->count() > 0){
 	    				$ret[$v->location_id]['c'] = $this->getAllHierarhy($v->location_id, $_level, $_active);
 	    			}

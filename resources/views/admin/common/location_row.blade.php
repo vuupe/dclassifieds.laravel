@@ -9,6 +9,7 @@
 		<?if(count($parent) > 0){?><?echo join('&nbsp;/&nbsp;', $parent) . '&nbsp;/&nbsp;';?><?}?>{{ $v['title'] }}
 	</td>
 	<td>{{ $v['slug'] }}</td>
+	<td>{{ $v['post_code'] }}</td>
 	<td>
 		<?if($v['active'] == 1){?>
 			<span class="fa fa-check" aria-hidden="true" style="color:green;"></span>

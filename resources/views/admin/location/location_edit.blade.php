@@ -66,6 +66,11 @@
                                 @endif
 							</div>
 							
+							<div class="form-group">
+								<label for="location_post_code" class="control-label">Location Post Code</label>
+								<input type="text" class="form-control" name="location_post_code" id="location_post_code" placeholder="Location Post Code" value="{{ Util::getOldOrModelValue('location_post_code', $modelData) }}">
+							</div>
+							
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" name="location_active" id="location_active" {{ Util::getOldOrModelValue('location_active', $modelData) > 0 ? 'checked' : '' }}> Location Active

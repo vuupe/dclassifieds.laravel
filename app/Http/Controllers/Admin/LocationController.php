@@ -82,6 +82,7 @@ class LocationController extends Controller
     			$location = new Location();
     			$location->location_name = $request->location_name;
     			$location->location_slug = $request->location_slug;
+    			$location->location_post_code = $request->location_post_code;
     			$location->location_active = 0;
     			if($request->location_active){
     				$location->location_active = 1;
@@ -96,6 +97,9 @@ class LocationController extends Controller
     				$data['location_active'] = 1;
     			} else {
     				$data['location_active'] = 0;
+    			}
+    			if($data['location_parent_id'] == 0){
+    				unset($data['location_parent_id']);
     			}
     			$modelData->update($data);
     		}
@@ -207,8 +211,12 @@ class LocationController extends Controller
 								$data_to_save['location_active'] = 1;
 							}
 							
+							if(isset($v[3]) && !empty($v[3])){
+								$data_to_save['location_post_code'] = trim($v[3]);
+							}
+							
 							//check if all fields are here
-							if(count($data_to_save) == 3){
+							if(count($data_to_save) >= 3){
 								if($location_parent_id > 0 && is_numeric($location_parent_id)){
 									$data_to_save['location_parent_id'] = $location_parent_id;
 								}

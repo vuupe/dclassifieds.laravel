@@ -57,6 +57,7 @@
 	                  <th>#Id</th>
 	                  <th>Location Name</th>
 	                  <th>Location Slug</th>
+	                  <th>Location Post Code</th>
 	                  <th>Active</th>
 	                  <th>Ad Count</th>
 	                  <th>Edit</th>
@@ -103,6 +104,7 @@
             "pageLength": 25,
             "columns": [
                         { "orderable": false },
+                        null,
                         null,
                         null,
                         null,
