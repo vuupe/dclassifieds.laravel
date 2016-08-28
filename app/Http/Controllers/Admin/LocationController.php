@@ -175,7 +175,7 @@ class LocationController extends Controller
     			//read csv
     			$csv_data = [];
 				if (($handle = fopen(storage_path() . '/app/' . $tmp_import_name, "r")) !== FALSE) {
-					while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+					while (($data = fgetcsv($handle, 1000, ",", '"')) !== FALSE) {
 						$csv_data[] = $data;
 					}
 					fclose($handle);

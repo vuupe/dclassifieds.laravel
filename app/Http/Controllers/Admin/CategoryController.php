@@ -201,7 +201,7 @@ class CategoryController extends Controller
     			//read csv
     			$csv_data = [];
 				if (($handle = fopen(storage_path() . '/app/' . $tmp_import_name, "r")) !== FALSE) {
-					while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+					while (($data = fgetcsv($handle, 1000, ",", '"')) !== FALSE) {
 						$csv_data[] = $data;
 					}
 					fclose($handle);
@@ -238,9 +238,15 @@ class CategoryController extends Controller
 							if(isset($v[4]) && !empty($v[4])){
 								$data_to_save['category_ord'] = trim($v[4]);
 							}
+							if(isset($v[5]) && !empty($v[5])){
+								$data_to_save['category_description'] = trim($v[5]);
+							}
+							if(isset($v[6]) && !empty($v[6])){
+								$data_to_save['category_keywords'] = trim($v[6]);
+							}
 							
 							//check if all fields are here
-							if(count($data_to_save) == 5){
+							if(count($data_to_save) >= 5){
 								if($category_parent_id > 0 && is_numeric($category_parent_id)){
 									$data_to_save['category_parent_id'] = $category_parent_id;
 								}

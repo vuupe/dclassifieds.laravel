@@ -75,15 +75,17 @@
 		            </div>
 		            <!-- /.box-header -->
 			        <div class="box-body">
-			        	<p class="help-block">CSV must be comma separed/delimeted, without header, not quoted</p>
+			        	<p class="help-block">CSV must be comma separed/delimeted, without header, quoted with "</p>
 						<p class="help-block">Category slug must be unique</p>
 						<p class="help-block">Category types: 1 - Common Type, 2 - Real Estate Type, 3 - Cars Type</p>
-						<p class="help-block">CSV Fields: Category Type, Category Title, Category Slug, Category Active (0 = Not Active, 1 = Active), Category Order</p>
-						<p class="help-block"><strong>Example:</strong><br /> 
-							1, Category Title , category_slug, 1, 10<br /> 
-							1, Category Title , category_slug_1, 1, 20<br />
-							2, Category Title , category_slug_2, 1, 30<br />
-							3, Category Title , category_slug_3, 1, 40<br />
+						<p class="help-block">Category Description and Category Keywords are optional</p>
+						<p class="help-block">CSV Fields: Category Type, Category Title, Category Slug, Category Active (0 = Not Active, 1 = Active), Category Order, Category Description, Category Keywords</p>
+						<p class="help-block">
+							<strong>Example:</strong><br /> 
+							"1", "Category Title" , "category_slug", "1", "10", "Category Description", "keywords,keywords,keywords"<br /> 
+							"2", "Category Title" , "category_slug1", "1", "20", "Category Description", "keywords,keywords,keywords"<br />
+							"3", "Category Title" , "category_slug2", "1", "30", "Category Description", "keywords,keywords,keywords"<br />
+							"1", "Category Title" , "category_slug3", "1", "40", "Category Description", "keywords,keywords,keywords"<br />
 						</p>
 			        </div>
 			        <!-- /.box-body -->
