@@ -72,7 +72,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="location_post_code" class="control-label">Location Order</label>
+								<label for="location_ord" class="control-label">Location Order</label>
 								<input type="text" class="form-control" name="location_ord" id="location_ord" placeholder="Location Order" value="{{ Util::getOldOrModelValue('location_ord', $modelData) }}">
 							</div>
 							
@@ -86,7 +86,7 @@
 			            <!-- /.box-body -->
 			            
 			            <div class="box-footer">
-							<button type="submit" class="btn btn-primary">Add/Edit Location</button>
+							<button type="submit" class="btn btn-primary">Add/Save Location</button>
 						</div>
 					</form>
 					

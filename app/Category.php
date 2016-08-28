@@ -14,6 +14,9 @@ class Category extends Model
     protected $primaryKey = 'category_id';
     public $timestamps = false;
     
+    protected $fillable = ['category_parent_id', 'category_type', 'category_title', 
+    	'category_slug', 'category_description', 'category_keywords', 'category_img', 'category_active', 'category_ord'];
+    
     public function parents()
     {
     	return $this->belongsTo('App\Category', 'category_parent_id');
@@ -24,21 +27,34 @@ class Category extends Model
     	return $this->hasMany('App\Category', 'category_parent_id');
     }
     
-    public function getAllHierarhy($_parent_id = null, $_level = 0)
+    public function getAllHierarhy($_parent_id = null, $_level = 0, $_active = 1)
     {
     	$ret = array();
     	$_level++;
-    	$categoryCollection = $this->where('category_parent_id', $_parent_id)
-    							->where('category_active', '=', 1)
+    	
+    	$query = $this->where('category_parent_id', $_parent_id)
     							->with('children')
-    							->orderBy('category_ord', 'asc')
-    							->get();
+    							->orderBy('category_ord', 'asc');
+    	
+    	if($_active){
+    		$query->where('category_active', '=', 1);
+    	}
+    	
+    	$categoryCollection = $query->get();
     	
     	if(!empty($categoryCollection)){
     		foreach ($categoryCollection as $k => $v){
-    			$ret[$v->category_id] = array('cid' => $v->category_id, 'title' => $v->category_title, 'level' => $_level, 'category_type' => $v->category_type);
+    			$ret[$v->category_id] = array('cid' => $v->category_id, 
+    				'title' => $v->category_title, 
+    				'level' => $_level, 
+    				'category_type' => $v->category_type,
+    				'ord' => $v->category_ord,
+    				'slug' => $v->category_slug,
+    				'active' => $v->category_active,
+    				'ad_count' => Ad::where('category_id', $v->category_id)->count()
+    			);
     			if($v->children->count() > 0){
-    				$ret[$v->category_id]['c'] = $this->getAllHierarhy($v->category_id, $_level);
+    				$ret[$v->category_id]['c'] = $this->getAllHierarhy($v->category_id, $_level, $_active);
     			}
     		}
     	}

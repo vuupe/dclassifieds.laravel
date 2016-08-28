@@ -144,6 +144,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="{{ route('home') }}"><i class="fa fa-link"></i> <span>Site Home</span></a></li>
         <li><a href="{{ url('admin/location') }}"><i class="fa fa-globe"></i> <span>Locations</span></a></li>
+        <li><a href="{{ url('admin/category') }}"><i class="fa fa-sitemap"></i> <span>Categories</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

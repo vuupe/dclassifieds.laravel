@@ -50,7 +50,7 @@
         <div class="container category_panel">
             <div class="row">
             <?foreach ($clist as $k => $v){?>
-            	<div class="col-md-3 padding_top_bottom_15"><a href="{{ $v->category_url }}"><img src="{{ asset('images/icons/' . $v->category_img) }}" /> <?=$v->category_title?></a></div>
+            	<div class="col-md-3 padding_top_bottom_15"><a href="{{ $v->category_url }}"><img src="{{ asset('uf/cicons/' . $v->category_img) }}" /> <?=$v->category_title?></a></div>
             <?}//end foreach?>
 			</div>
         </div>

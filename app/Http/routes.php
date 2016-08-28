@@ -28,6 +28,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 	Route::any('/admin/location/delete/{id?}', 'LocationController@delete');
 	Route::any('/admin/location/import', 'LocationController@import');
 	
+	//Categories
+	Route::get('/admin/category', 'CategoryController@index');
+	Route::any('/admin/category/edit/{id?}', 'CategoryController@edit');
+	Route::any('/admin/category/delete/{id?}', 'CategoryController@delete');
+	Route::any('/admin/category/import', 'CategoryController@import');
+	
 });
 /*
  * end of admin routes

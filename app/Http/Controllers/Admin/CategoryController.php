@@ -8,28 +8,31 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Location;
+use App\Category;
 
 use Validator;
 use Cache;
 
-class LocationController extends Controller
+class CategoryController extends Controller
 {
-	protected $location;
+	protected $category;
 	
-	public function __construct(Location $_location)
+	public function __construct(Category $_category)
     {
-    	$this->location = $_location;
+    	$this->category = $_category;
     }
     
 	public function index(Request $request)
     {
-    	return view('admin.location.location_list', ['location_list' => $this->location->getAllHierarhy(null, 0, 0)]);
+    	$categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
+    	return view('admin.category.category_list', ['category_list' => $this->category->getAllHierarhy(null, 0, 0), 'categoryType' => $categoryType]);
     }
     
     public function edit(Request $request)
     {
-    	$allLocationHierarhy = $this->location->getAllHierarhy(null, 0, 0);
+    	$allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
+    	$categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
+    	
     	$id = 0;
     	if(isset($request->id)){
     		$id = $request->id;
@@ -38,16 +41,16 @@ class LocationController extends Controller
     	$modelData = new \stdClass();
     	if($id > 0){
     		try{
-    			$modelData = Location::findOrFail($id);
+    			$modelData = Category::findOrFail($id);
     		} catch (ModelNotFoundException $e){
-    			session()->flash('message', 'Invalid Location');
-    			return redirect(url('admin/location'));
+    			session()->flash('message', 'Invalid Category');
+    			return redirect(url('admin/category'));
     		}
     	}
     	
-    	$lid = 0;
-    	if(isset($modelData->location_parent_id) && $modelData->location_parent_id > 0){
-    		$lid = $modelData->location_parent_id;
+    	$cid = 0;
+    	if(isset($modelData->category_parent_id) && $modelData->category_parent_id > 0){
+    		$cid = $modelData->category_parent_id;
     	}
     	
     	/**
@@ -59,12 +62,14 @@ class LocationController extends Controller
     		 * validate data
     		 */
     		$rules = [
-    			'location_name' => 'required|max:255',
-    			'location_slug' => 'required|max:255|unique:location,location_slug'
+    			'category_title' => 'required|max:255',
+    			'category_slug' => 'required|max:255|unique:category,category_slug',
+    			'category_type' => 'required|integer',
+    			'category_ord' => 'required|integer'
     		];
     		
-    		if(isset($modelData->location_id)){
-    			$rules['location_slug'] = 'required|max:255|unique:location,location_slug,' . $modelData->location_id  . ',location_id';
+    		if(isset($modelData->category_id)){
+    			$rules['category_slug'] = 'required|max:255|unique:category,category_slug,' . $modelData->category_id  . ',category_id';
     		}
     		 
     		$validator = Validator::make($request->all(), $rules);
@@ -80,23 +85,37 @@ class LocationController extends Controller
     		$data = $request->all();
     		
     		/**
+    		 * check for uploaded icon
+    		 */
+    		$name = '';
+    		if ($request->file('icon_file')->isValid()) {
+    			$file = Input::file('icon_file');
+    			$name = time() . '_cicon.' . $file->getClientOriginalExtension();
+    			$file->move(public_path() . '/uf/cicons', $name);
+    			$data['category_img'] = $name;
+    		}
+    		
+    		/**
     		 * save data if validated
     		 */
-    		if(isset($data['location_active'])){
-    			$data['location_active'] = 1;
+    		if(isset($data['category_active'])){
+    			$data['category_active'] = 1;
     		} else {
-    			$data['location_active'] = 0;
+    			$data['category_active'] = 0;
     		}
-    		if($data['location_parent_id'] == 0){
-    			unset($data['location_parent_id']);
+    		if($data['category_parent_id'] == 0){
+    			unset($data['category_parent_id']);
     		}
     		
     		/**
     		 * save or update
     		 */
-    		if(!isset($modelData->location_id)){
-    			Location::create($data);
+    		if(!isset($modelData->category_id)){
+    			Category::create($data);
     		} else {
+    			if(!empty($name) && !empty($modelData->category_img)){
+    				@unlink(public_path() . '/uf/cicons/' . $modelData->category_img);
+    			}
     			$modelData->update($data);
     		}
     		
@@ -104,13 +123,14 @@ class LocationController extends Controller
     		 * clear cache, set message, redirect to list
     		 */
     		Cache::flush();
-    		session()->flash('message', 'Location saved');
-    		return redirect(url('admin/location'));
+    		session()->flash('message', 'Category saved');
+    		return redirect(url('admin/category'));
     	}
     	
-    	return view('admin.location.location_edit', ['l' => $allLocationHierarhy,
+    	return view('admin.category.category_edit', ['c' => $allCategoryHierarhy,
     		'modelData' => $modelData,
-    		'lid' => $lid]);
+    		'cid' => $cid,
+    		'categoryType' => $categoryType]);
     }
     
     public function delete(Request $request)
@@ -125,26 +145,32 @@ class LocationController extends Controller
     	
     	//check for mass delete if no single delete
     	if(empty($data)){
-    		$data = $request->input('location_id');
+    		$data = $request->input('category_id');
     	}
     	
     	//delete
     	if(!empty($data)){
-    		Location::destroy($data);
+    		foreach ($data as $k => $v){
+    			$c = Category::find($v);
+    			if(!empty($c->category_img)){
+    				@unlink(public_path() . '/uf/cicons/' . $c->category_img);
+    			}
+    			$c->delete();
+    		}
     		//clear cache, set message, redirect to list
     		Cache::flush();
-    		session()->flash('message', 'Location deleted');
-    		return redirect(url('admin/location'));
+    		session()->flash('message', 'Category deleted');
+    		return redirect(url('admin/category'));
     	}
     	
     	//nothing for deletion set message and redirect
     	session()->flash('message', 'Nothing for deletion');
-    	return redirect(url('admin/location'));
+    	return redirect(url('admin/category'));
     }
     
     public function import(Request $request)
     {
-    	$allLocationHierarhy = $this->location->getAllHierarhy(null, 0, 0);
+    	$allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
     	 
     	/**
     	 * form is submitted check values and save if needed
@@ -183,7 +209,7 @@ class LocationController extends Controller
 				
 				if(!empty($csv_data)){
 					//check if locations parent is selected
-					$location_parent_id = $request->input('location_parent_id', 0);
+					$category_parent_id = $request->input('category_parent_id', 0);
 					
 					//import erros holder
 					$import_error_array = [];
@@ -194,37 +220,35 @@ class LocationController extends Controller
 							
 							//set fields to be imported
 							if(isset($v[0]) && !empty($v[0])){
-								$data_to_save['location_name'] = trim($v[0]);
+								$data_to_save['category_type'] = trim($v[0]);
 							}
 							if(isset($v[1]) && !empty($v[1])){
-								$data_to_save['location_slug'] = trim($v[1]);
+								$data_to_save['category_title'] = trim($v[1]);
+							}
+							if(isset($v[2]) && !empty($v[2])){
+								$data_to_save['category_slug'] = trim($v[2]);
 							} else {
-								$data_to_save['location_slug'] = str_slug($data_to_save['location_name']);
+								$data_to_save['category_slug'] = str_slug($data_to_save['category_title']);
 							}
-							if(isset($v[2]) && !empty($v[2]) && ($v[2] == 1 || $v[2] == 0)){
-								$data_to_save['location_active'] = $v[2];
+							if(isset($v[3]) && !empty($v[3]) && ($v[3] == 1 || $v[3] == 0)){
+								$data_to_save['category_active'] = $v[3];
 							} else {
-								$data_to_save['location_active'] = 1;
+								$data_to_save['category_active'] = 1;
 							}
-							
-							if(isset($v[3]) && !empty($v[3])){
-								$data_to_save['location_post_code'] = trim($v[3]);
-							}
-							
 							if(isset($v[4]) && !empty($v[4])){
-								$data_to_save['location_ord'] = trim($v[4]);
+								$data_to_save['category_ord'] = trim($v[4]);
 							}
 							
 							//check if all fields are here
-							if(count($data_to_save) >= 3){
-								if($location_parent_id > 0 && is_numeric($location_parent_id)){
-									$data_to_save['location_parent_id'] = $location_parent_id;
+							if(count($data_to_save) == 5){
+								if($category_parent_id > 0 && is_numeric($category_parent_id)){
+									$data_to_save['category_parent_id'] = $category_parent_id;
 								}
 								
 								try{
-									Location::create($data_to_save);
+									Category::create($data_to_save);
 								} catch (\Exception $e){
-									$import_error_array[] = 'Possible doublicate <strong>Location Slug</strong> on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
+									$import_error_array[] = 'Possible doublicate <strong>Category Slug</strong> on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
 								}
 							} else {
 								$import_error_array[] = 'Missing data line: ' . join(',', $v);
@@ -233,7 +257,7 @@ class LocationController extends Controller
 					}
 				} else {
 					session()->flash('message', 'Can\'t read the csv file.');
-					return redirect( url('admin/location') );
+					return redirect( url('admin/category') );
 				}
     		}
     
@@ -243,13 +267,13 @@ class LocationController extends Controller
     		@unlink(storage_path() . '/app/' . $tmp_import_name);
     		Cache::flush();
     		if(!empty($import_error_array)){
-    			session()->flash('message', 'Locations imported with the following errors: <br />' . join('<br />', $import_error_array));
+    			session()->flash('message', 'Categories imported with the following errors: <br />' . join('<br />', $import_error_array));
     		} else {
-    			session()->flash('message', 'Locations imported');
+    			session()->flash('message', 'Categories imported');
     		}
-    		return redirect(url('admin/location'));
+    		return redirect(url('admin/category'));
     	}
     	 
-    	return view('admin.location.location_import', ['l' => $allLocationHierarhy]);
+    	return view('admin.category.category_import', ['c' => $allCategoryHierarhy]);
     }
 }
