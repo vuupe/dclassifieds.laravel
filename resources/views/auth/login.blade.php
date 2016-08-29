@@ -36,7 +36,12 @@
                             <label for="email" class="col-md-2 control-label">E-Mail</label>
                             <div class="col-md-5">
                             	<input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                            	<p class="help-block">
+		                        	Use: test@test.com<br />
+		                        	Password: 123456
+		                        </p>
                             </div>
+                            
                         </div>
                     
                         <div class="form-group">
@@ -65,6 +70,7 @@
                             	<a href="{{ url('register') }}">Register</a> | <a href="{{ url('lostpassword') }}">Lost Password?</a>
                             </div>
                         </div>
+                        
                     </form>
                 
                 
