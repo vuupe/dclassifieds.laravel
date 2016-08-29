@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Validator;
 use Illuminate\Support\ServiceProvider;
+use App\AdminMenu;
+use App\Http\Dc\Util;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
     		
     		return false;
     	});
+    	
+    	view()->composer('admin.layout.admin_index_layout', function ($view) {
+    		$adminMenu = new AdminMenu();
+            $view->with('adminMenu', $adminMenu->getMenu());
+            $view->with('controller', Util::getController());
+        });
     }
 
     /**

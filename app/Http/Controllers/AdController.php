@@ -39,6 +39,7 @@ use Auth;
 use Cookie;
 use Cache;
 
+
 class AdController extends Controller
 {
 	protected $category;

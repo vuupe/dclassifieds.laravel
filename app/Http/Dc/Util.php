@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Dc;
+use Route;
 
 class Util
 {
@@ -116,5 +117,12 @@ class Util
     static function nl2br($_text)
     {
         return str_replace("\r\n","<br />", $_text);
+    }
+    
+    static function getController()
+    {
+    	$controller_action = class_basename(Route::current()->getAction()['controller']);
+    	list($controller, $action) = explode('@', $controller_action);
+    	return strtolower($controller);
     }
 }

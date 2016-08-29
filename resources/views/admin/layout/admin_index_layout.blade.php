@@ -139,12 +139,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
 
       <!-- Sidebar Menu -->
+      <?$controller = Util::getController();?>
       <ul class="sidebar-menu">
         <li class="header">Main Menu</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{{ route('home') }}"><i class="fa fa-link"></i> <span>Site Home</span></a></li>
-        <li><a href="{{ url('admin/location') }}"><i class="fa fa-globe"></i> <span>Locations</span></a></li>
-        <li><a href="{{ url('admin/category') }}"><i class="fa fa-sitemap"></i> <span>Categories</span></a></li>
+        @include('admin.common.main_menu')
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -161,7 +159,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      AdminLTE v.2.3.5
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2016 <a href="#">DClassifieds</a>.</strong> All rights reserved.

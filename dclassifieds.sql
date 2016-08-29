@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 24, 2016 at 10:47 PM
+-- Generation Time: Aug 29, 2016 at 11:26 AM
 -- Server version: 5.1.42
 -- PHP Version: 5.2.12
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `ad` (
   KEY `location_id` (`location_id`),
   KEY `ad_description_hash` (`ad_description_hash`),
   FULLTEXT KEY `ad_title` (`ad_title`,`ad_description`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `ad`
@@ -94,7 +94,36 @@ INSERT INTO `ad` (`ad_id`, `user_id`, `category_id`, `location_id`, `type_id`, `
 (7, 1, 13, 6, 1, 0, 'dinko359@gmail.com', '2016-06-09 15:47:23', '2016-07-09', 1, '127.0.0.1', 4450012.00, 0, '0899999999', 'Двустаен апартамент2', 'НОВА оферта на ул.''Преки път''. Луксозна сграда с Акт 16 от 2014 г. Продажба апартамент състоящ се от слънчева и функционална дневна с кухн. бокс, просторна спалня и санитарен възел. <br /><br />Жилището е с монтирани интериорни врати, РVС дограма, газов котел, алуминиеви радиатори. <br /><br />Стени - щпакловка и латекс, под - циментова замазка. Изложение - югозапад. Към апартамента са прилежащи мазе, както и идеални части от двора с регламентирано парко място. Сградата е газифицирана и оборудвана с хидравличен асансьор. Продава се и тристаен апартамент с площ от 103 кв.м. за Е 82 500. При желание може да се довърши до ключ. За прегледност на скицата ап.2. ', 'ebd86214936e6388cfa8c9e29f2a92f5', 'dinko georgiev', 'qco5EsBzNlXfaHlx2Xktx3jLnE766r', 0, NULL, '', '', '(51.4541617, -2.5879761999999573)', 'skype', 'East Tucker Street, Bristol, City of Bristol BS1 6FS, UK', '7_389cc50ae20a54dc0687f99626798078.jpg', 203, 4, 57, 2005, 1, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-09 18:47:31', '2016-06-09 15:47:30'),
 (9, 1, 19, 5, 1, 1, 'dinko359@gmail.com', '2016-06-22 19:39:26', '2016-07-22', 1, '127.0.0.1', 123.00, 0, '', 'test ad', 'Докато обществото гледа назад, икономиката и държавата ни не могат да тръгнат напред. 25 години спорим по едни и същи теми, които не могат да доведат до реално отражение в бъдещето ни. Правителствата водят политика на нулева приемственост, а без определяне на национална кауза няма как да продължим развитието си. Усеща се тежка липса на важен дебат, която се замаскира и замества от дребни махленски караници.<br /><br />Прочети още на: http://www.dnes.bg/politika/2016/06/21/sporim-za-gei-parada-a-nacionalna-kauza.306361<br /><br />', '8fdfe08686666e3e0b8a11376b310d21', 'Ivan Ivanov', 'iQLMaNkPjQenXd2RhPkCZ8JOJRtpCZ', 0, NULL, '', '', '', '', '', '9_f8809969d6f416a7f671b7f62286eac7.jpg', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-22 23:08:35', '2016-06-22 20:08:34'),
 (10, 3, 13, 5, 2, 0, 'noreply@mylove.bg', '2016-06-23 18:16:29', '2016-07-23', 1, '127.0.0.1', 1000.00, 0, 'phone', 'ad title', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', 'bb1ae33a0a9d01394c152ad4d3c6c40d', 'Zombi', '4YAWbtDbGtHr1oJCbtPfjlVI1kNhPL', 0, NULL, '', '', '', 'skype', '', '10_cafb2edd9636d00714abb9fdcbdd6f4b.jpg', 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-23 21:20:16', '2016-06-23 18:20:16'),
-(11, 1, 17, 5, 1, 1, 'dinko359@gmail.com', '2016-06-23 18:18:18', '2016-07-23', 1, '127.0.0.1', 0.00, 1, 'phone1', 'Where does it come from?', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'RavI4skVQxKY6TYJ1e348Wr5RjF4vG', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '11_e01f2dd6d7b6e97986f750ef853aec29.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-23 21:20:35', '2016-06-23 18:20:35');
+(11, 1, 17, 5, 1, 1, 'dinko359@gmail.com', '2016-06-23 18:18:18', '2016-07-23', 1, '127.0.0.1', 0.00, 1, 'phone1', 'Where does it come from?', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'RavI4skVQxKY6TYJ1e348Wr5RjF4vG', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '11_e01f2dd6d7b6e97986f750ef853aec29.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-23 21:20:35', '2016-06-23 18:20:35'),
+(12, 1, 13, 5, 1, 1, 'dinko359@gmail.com', '2016-07-14 18:05:33', '2016-08-14', 0, '127.0.0.1', 100.00, 0, 'phone1', 'asd', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'E3Xy3HqSXwdKsmeylLx5gksCvKlAop', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '12_1d065a0fa7dcbf468bd756a348b7022c.jpg', 0, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-07-14 21:05:34', '2016-07-14 18:05:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_menu`
+--
+
+CREATE TABLE IF NOT EXISTS `admin_menu` (
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_title_key` varchar(255) NOT NULL,
+  `menu_icon` varchar(255) DEFAULT NULL,
+  `menu_link` varchar(255) NOT NULL,
+  `menu_controller` varchar(255) NOT NULL,
+  `menu_ord` int(11) NOT NULL,
+  `menu_active` tinyint(1) NOT NULL,
+  `menu_external_link` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `admin_menu`
+--
+
+INSERT INTO `admin_menu` (`menu_id`, `menu_title_key`, `menu_icon`, `menu_link`, `menu_controller`, `menu_ord`, `menu_active`, `menu_external_link`) VALUES
+(1, 'dashboard', 'fa fa-link', 'admin', 'admincontroller', 10, 1, 0),
+(2, 'locations', 'fa fa-globe', 'admin/location', 'locationcontroller', 20, 1, 0),
+(3, 'categories', 'fa fa-sitemap', 'admin/category', 'categorycontroller', 30, 1, 0),
+(4, 'ads', 'fa fa-edit', 'admin/ad', 'adcontroller', 40, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2288,7 +2317,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `category_ord` int(11) DEFAULT NULL,
   PRIMARY KEY (`category_id`),
   UNIQUE KEY `category_slug` (`category_slug`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `category`
@@ -2413,34 +2442,41 @@ CREATE TABLE IF NOT EXISTS `location` (
   `location_active` tinyint(4) DEFAULT NULL,
   `location_name` varchar(255) DEFAULT NULL,
   `location_slug` varchar(255) NOT NULL,
-  PRIMARY KEY (`location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+  `location_post_code` varchar(255) DEFAULT NULL,
+  `location_ord` int(11) DEFAULT '0',
+  PRIMARY KEY (`location_id`),
+  UNIQUE KEY `location_slug` (`location_slug`),
+  KEY `post_code` (`location_post_code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
 --
 -- Dumping data for table `location`
 --
 
-INSERT INTO `location` (`location_id`, `location_parent_id`, `location_active`, `location_name`, `location_slug`) VALUES
-(1, NULL, 1, 'England', 'england'),
-(2, NULL, 1, 'Northern Ireland', 'northern-ireland'),
-(3, NULL, 1, 'Scotland', 'scotland'),
-(4, NULL, 1, 'Wales', 'wales'),
-(5, 1, 1, 'Birmingham', 'birmingham'),
-(6, 1, 1, 'Bristol', 'bristol'),
-(7, 1, 1, 'Liverpool', 'liverpool'),
-(8, 1, 1, 'London', 'london'),
-(9, 2, 1, 'Belfast', 'belfast'),
-(10, 2, 1, 'Castlereagh', 'castlereagh'),
-(11, 2, 1, 'Lisburn', 'lisburn'),
-(12, 2, 1, 'Newtownabbey', 'newtownabbey'),
-(13, 3, 1, 'Dundee', 'dundee'),
-(14, 3, 1, 'Edinburgh', 'edinburgh'),
-(15, 3, 1, 'Glasgow', 'glasgow'),
-(16, 3, 1, 'Livingston', 'livingston'),
-(17, 4, 1, 'Cardiff', 'cardiff'),
-(18, 4, 1, 'Cwmbran', 'cwmbran'),
-(19, 4, 1, 'Newport', 'newport'),
-(20, 4, 1, 'Rhondda', 'rhondda');
+INSERT INTO `location` (`location_id`, `location_parent_id`, `location_active`, `location_name`, `location_slug`, `location_post_code`, `location_ord`) VALUES
+(1, NULL, 1, 'England', 'england', '1234', 0),
+(2, NULL, 1, 'Northern Ireland', 'northern-ireland', NULL, 0),
+(3, NULL, 1, 'Scotland', 'scotland', NULL, 0),
+(4, NULL, 1, 'Wales', 'wales', NULL, 0),
+(5, 1, 1, 'Birmingham', 'birmingham', NULL, 0),
+(6, 1, 1, 'Bristol', 'bristol', NULL, 0),
+(7, 1, 1, 'Liverpool', 'liverpool', NULL, 0),
+(8, 1, 1, 'London', 'london', NULL, 0),
+(9, 2, 1, 'Belfast', 'belfast', NULL, 0),
+(10, 2, 1, 'Castlereagh', 'castlereagh', NULL, 0),
+(11, 2, 1, 'Lisburn', 'lisburn', NULL, 0),
+(12, 2, 1, 'Newtownabbey', 'newtownabbey', NULL, 0),
+(13, 3, 1, 'Dundee', 'dundee', NULL, 0),
+(14, 3, 1, 'Edinburgh', 'edinburgh', NULL, 0),
+(15, 3, 1, 'Glasgow', 'glasgow', NULL, 0),
+(16, 3, 1, 'Livingston', 'livingston', NULL, 0),
+(17, 4, 1, 'Cardiff', 'cardiff', NULL, 0),
+(18, 4, 1, 'Cwmbran', 'cwmbran', NULL, 0),
+(19, 4, 1, 'Newport', 'newport', NULL, 0),
+(20, 4, 1, 'Rhondda', 'rhondda', NULL, 0),
+(21, 5, 1, 'level3', 'level3', NULL, 0),
+(22, 21, 1, 'level4', 'level4', NULL, 0),
+(23, 22, 1, 'level5', 'level5', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2570,6 +2606,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_lat_lng` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_site` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_admin` tinyint(4) DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`user_id`),
@@ -2580,10 +2617,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `name`, `avatar`, `email`, `password`, `remember_token`, `user_activated`, `user_activation_token`, `user_location_id`, `user_phone`, `user_skype`, `user_address`, `user_lat_lng`, `user_site`, `created_at`, `updated_at`) VALUES
-(1, 'dinko1 georgiev1', '1_f2ac6ef22c16c7e2f97abe9ab134c283.jpg', 'dinko359@gmail.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'FsLrJHEhKTLDsGxDazk9Ir4EhtKHYByPqLJG3PWvg7xIytYfnUGbhUbPNQbP', 1, NULL, 5, 'phone1', 'skype1', '451-499 24th St N, Birmingham, AL 35203, USA', '(33.5206313, -86.80255310000001)', 'web site1', '2016-05-01 14:18:20', '2016-06-23 08:29:24'),
-(2, 'Ivan Ivanov', NULL, 'webmaster@silabg.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'ZsGZV0Dzu67KfivfPfP2hI1xdZF5nmwnTaZDeppsrrW1lzeBrJ1R4VBI6ru9', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2016-05-01 14:23:22', '2016-06-21 14:05:12'),
-(3, 'Zombi', NULL, 'noreply@mylove.bg', '$2y$10$6R4j9WVregF5MIyW7SPYgupVzl3I/wdE1tmkO07DS1F7xi/agW7F2', NULL, 0, 'pxXmciClL4g1cbtvgOiMPmMTebMHn7', 5, 'phone', 'skype', '', '', '', '2016-06-23 18:16:27', '2016-06-23 18:16:27');
+INSERT INTO `user` (`user_id`, `name`, `avatar`, `email`, `password`, `remember_token`, `user_activated`, `user_activation_token`, `user_location_id`, `user_phone`, `user_skype`, `user_address`, `user_lat_lng`, `user_site`, `is_admin`, `created_at`, `updated_at`) VALUES
+(1, 'dinko1 georgiev1', '1_f2ac6ef22c16c7e2f97abe9ab134c283.jpg', 'dinko359@gmail.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'FsLrJHEhKTLDsGxDazk9Ir4EhtKHYByPqLJG3PWvg7xIytYfnUGbhUbPNQbP', 1, NULL, 5, 'phone1', 'skype1', '451-499 24th St N, Birmingham, AL 35203, USA', '(33.5206313, -86.80255310000001)', 'web site1', 1, '2016-05-01 14:18:20', '2016-06-23 08:29:24'),
+(2, 'Ivan Ivanov', NULL, 'webmaster@silabg.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'ZsGZV0Dzu67KfivfPfP2hI1xdZF5nmwnTaZDeppsrrW1lzeBrJ1R4VBI6ru9', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2016-05-01 14:23:22', '2016-06-21 14:05:12'),
+(3, 'Zombi', NULL, 'noreply@mylove.bg', '$2y$10$6R4j9WVregF5MIyW7SPYgupVzl3I/wdE1tmkO07DS1F7xi/agW7F2', NULL, 0, 'pxXmciClL4g1cbtvgOiMPmMTebMHn7', 5, 'phone', 'skype', '', '', '', 0, '2016-06-23 18:16:27', '2016-06-23 18:16:27');
 
 -- --------------------------------------------------------
 
