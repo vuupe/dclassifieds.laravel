@@ -34,6 +34,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 	Route::any('/admin/category/delete/{id?}', 'CategoryController@delete');
 	Route::any('/admin/category/import', 'CategoryController@import');
 	
+	//Ads
+	Route::get('/admin/ad', 'AdController@index');
+	Route::any('/admin/ad/edit/{id?}', 'AdController@edit');
+	Route::any('/admin/ad/delete/{id?}', 'AdController@delete');
+	Route::any('/admin/ad/axlist', 'AdController@axlist');
+	
 });
 /*
  * end of admin routes
