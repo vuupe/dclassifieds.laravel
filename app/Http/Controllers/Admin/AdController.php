@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Ad;
+use App\AdPic;
 
 use Validator;
 use Cache;
@@ -37,11 +38,16 @@ class AdController extends Controller
     	if(isset($params['ad_id_search']) && !empty($params['ad_id_search'])){
     		$where['ad_id'] = ['=', $params['ad_id_search']];
     	}
+    	
+    	if(isset($params['ad_ip']) && !empty($params['ad_ip'])){
+    		$where['ad_ip'] = ['like', $params['ad_ip'] . '%'];
+    	}
+    	
     	if(isset($params['location_name']) && !empty($params['location_name'])){
     		$where['location_name'] = ['like', $params['location_name'] . '%'];
     	}
     	if(isset($params['ad_title']) && !empty($params['ad_title'])){
-    		$whereRaw['match(ad_title, ad_description) against(?)'] = [$params['ad_title']];
+    		$where['ad_title'] = ['like', $params['ad_title'] . '%'];
     	}
     	if(isset($params['user_id']) && !empty($params['user_id'])){
     		$where['user_id'] = ['=', $params['user_id']];
@@ -177,8 +183,6 @@ class AdController extends Controller
     
     public function delete(Request $request)
     {
-    	echo 'ad delete action';
-    	exit;
     	//locations to be deleted
     	$data = [];
     	
@@ -189,76 +193,43 @@ class AdController extends Controller
     	
     	//check for mass delete if no single delete
     	if(empty($data)){
-    		$data = $request->input('category_id');
+    		$data = $request->input('ad_id');
     	}
     	
     	//delete
     	if(!empty($data)){
     		foreach ($data as $k => $v){
-    			$c = Category::find($v);
-    			if(!empty($c->category_img)){
-    				@unlink(public_path() . '/uf/cicons/' . $c->category_img);
-    			}
-    			$c->delete();
+    			$ad = Ad::where('ad_id', $v)->first();
+    			if(!empty($ad)){
+    				//delete images
+    				if(!empty($ad->ad_pic)){
+    					@unlink(public_path('uf/adata/') . '740_' . $ad->ad_pic);
+    					@unlink(public_path('uf/adata/') . '1000_' . $ad->ad_pic);
+    				}
+    			
+    				$more_pics = AdPic::where('ad_id', $ad->ad_id)->get();
+    				if(!$more_pics->isEmpty()){
+    					foreach ($more_pics as $km => $vm){
+    						@unlink(public_path('uf/adata/') . '740_' . $vm->ad_pic);
+    						@unlink(public_path('uf/adata/') . '1000_' . $vm->ad_pic);
+    						$vm->delete();
+    					}
+    				}
+    			
+    				$ad->delete();
+    				$message = 'Your ad is deleted';
+    			} else {
+    				$message = 'Ups something is wrong.';
+    			}	
     		}
     		//clear cache, set message, redirect to list
     		Cache::flush();
-    		session()->flash('message', 'Category deleted');
-    		return redirect(url('admin/category'));
+    		session()->flash('message', 'Ads deleted');
+    		return redirect(url('admin/ad'));
     	}
     	
     	//nothing for deletion set message and redirect
     	session()->flash('message', 'Nothing for deletion');
-    	return redirect(url('admin/category'));
-    }
-    
-    public function axlist(Request $request)
-    {
-    	$ret = ['data' => []];
-    	$draw = 1;
-    	if(isset($request->draw)){
-    		$draw = (int)$request->draw;
-    	}
-    	$start = 1;
-    	if(isset($request->start)){
-    		$start = (int)$request->start;
-    	}
-    	$length = 10;
-    	if(isset($request->length)){
-    		$length = (int)$request->length;
-    	}
-    	$page = $start / $length;
-    	if($page < 0){
-    		$page = 0;
-    	}
-    	$page++;
-    	$request->request->add(['page' => $page]); 
-    	
-    	$adList = $this->ad->getAdList([], ['ad_id' => 'desc'], 0, '', [], [], $length, $page);
-    	if(!$adList->isEmpty()){
-    		$ret['draw'] = (int)$request->draw;
-    		$ret['recordsTotal'] = $this->ad->count();
-    		$ret['recordsFiltered'] = $this->ad->count();
-    		
-    		foreach ($adList as $k => $v){
-    			$active = '<span class="fa fa-close" aria-hidden="true" style="color:red;"></span>';
-    			if($v->ad_active == 1){
-    				$active = '<span class="fa fa-check" aria-hidden="true" style="color:green;"></span>';
-    			}
-    			$ret['data'][] = [
-    				'<input type="checkbox" name="ad_id[]" value="' . $v->ad_id . '">',
-    				$v->ad_id,
-    				$v->location_name,
-    				$v->ad_title,
-    				$v->ad_promo,
-    				$v->ad_publish_date,
-    				$active,
-    				$v->ad_view,
-    				'<a href="' . url('admin/ad/edit/' . $v->ad_id) . '"><i class="fa fa-edit"></i> Edit',
-    				'<a href="' . url('admin/ad/delete/' . $v->ad_id) . '" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a>'
-    			];
-    		}
-    	}
-    	echo json_encode($ret);
+    	return redirect(url('admin/ad'));
     }
 }

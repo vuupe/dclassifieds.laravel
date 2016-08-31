@@ -3,6 +3,7 @@
 		<input type="checkbox" name="ad_id[]" value="<?=$v->ad_id?>">
 	</td>
 	<td>{{ $v->ad_id }}</td>
+	<td>{{ $v->ad_ip }}</td>
 	<td>{{ $v->location_name }}</td>
 	<td>{{ $v->ad_title }}</td>
 	<td>{{ $v->user_id }}</td>

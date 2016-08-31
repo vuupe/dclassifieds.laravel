@@ -38,7 +38,6 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 	Route::get('/admin/ad', 'AdController@index');
 	Route::any('/admin/ad/edit/{id?}', 'AdController@edit');
 	Route::any('/admin/ad/delete/{id?}', 'AdController@delete');
-	Route::any('/admin/ad/axlist', 'AdController@axlist');
 	
 });
 /*
