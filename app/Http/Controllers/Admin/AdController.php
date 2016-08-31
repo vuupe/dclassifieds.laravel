@@ -24,7 +24,50 @@ class AdController extends Controller
     
 	public function index(Request $request)
     {
-    	return view('admin.ad.ad_list');
+    	$params 	= Input::all();
+    	$where 		= [];
+    	$order 		= ['ad_id' => 'desc'];
+    	$limit 		= 0;
+    	$orderRaw 	= '';
+    	$whereIn 	= [];
+    	$whereRaw 	= [];
+    	$paginate 	= 2;
+    	$page 		= 1;
+    	
+    	if(isset($params['ad_id_search']) && !empty($params['ad_id_search'])){
+    		$where['ad_id'] = ['=', $params['ad_id_search']];
+    	}
+    	if(isset($params['location_name']) && !empty($params['location_name'])){
+    		$where['location_name'] = ['like', $params['location_name'] . '%'];
+    	}
+    	if(isset($params['ad_title']) && !empty($params['ad_title'])){
+    		$whereRaw['match(ad_title, ad_description) against(?)'] = [$params['ad_title']];
+    	}
+    	if(isset($params['user_id']) && !empty($params['user_id'])){
+    		$where['user_id'] = ['=', $params['user_id']];
+    	}
+    	if(isset($params['ad_puslisher_name']) && !empty($params['ad_puslisher_name'])){
+    		$where['ad_puslisher_name'] = ['like', $params['ad_puslisher_name'] . '%'];
+    	}
+    	if(isset($params['ad_email']) && !empty($params['ad_email'])){
+    		$where['ad_email'] = ['like', $params['ad_email'] . '%'];
+    	}
+    	if(isset($params['ad_promo']) && !empty($params['ad_promo'])){
+    		$where['ad_promo'] = ['=', $params['ad_promo']];
+    	}
+    	if(isset($params['ad_active']) && !empty($params['ad_active'])){
+    		$where['ad_active'] = ['=', $params['ad_active']];
+    	}
+    	if(isset($params['ad_view']) && !empty($params['ad_view'])){
+    		$where['ad_view'] = ['=', $params['ad_view']];
+    	}
+    	
+    	if (isset($params['page']) && is_numeric($params['page'])) {
+    		$page = $params['page'];
+    	}
+    	
+    	$adList = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
+    	return view('admin.ad.ad_list', ['adList' => $adList, 'params' => $params]);
     }
     
     public function edit(Request $request)
@@ -134,6 +177,8 @@ class AdController extends Controller
     
     public function delete(Request $request)
     {
+    	echo 'ad delete action';
+    	exit;
     	//locations to be deleted
     	$data = [];
     	

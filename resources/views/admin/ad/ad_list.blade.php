@@ -24,8 +24,9 @@
 		{!! session('message') !!}
 	</div>
 	@endif
-    
-	
+    <?if($adList->isEmpty()){?>
+    	There are no ads.
+    <?} else {?>
     	<div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">All Ads</h3>
@@ -33,13 +34,13 @@
             </div>
             <!-- /.box-header -->
             
-            <form method="post" name="list_form" id="list_form" action="{{ url('admin/category/delete') }}">
+            <form method="get" name="list_form" id="list_form">
             {!! csrf_field() !!}
             
 	            <div class="controls">
 	            	<div class="btn-group">
 	            		<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-	            		<button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
+	            		<button type="submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad/delete') }}');" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
 	            	</div>
 	            </div>
 	              
@@ -52,6 +53,9 @@
 	                  	<th>#Id</th>
 	                  	<th>Location</th>
 	                  	<th>Ad Title</th>
+	                  	<th>User #Id</th>
+	                  	<th>User Name</th>
+	                  	<th>User E-Mail</th>
 	                  	<th>Ad Promo</th>
 	                  	<th>Publish Date</th>
 	                  	<th>Active</th>
@@ -59,11 +63,41 @@
 	                  	<th></th>
 	                  	<th></th>
 	                </tr>
+	                <tr>
+	                	<td></td>
+	                  	<td><input type="text" class="form-control" name="ad_id_search" id="ad_id_search" value="{{ isset($params['ad_id_search']) ? $params['ad_id_search'] : ''}}" /></td>
+	                  	<td><input type="text" class="form-control" name="location_name" id="location_name" value="{{ isset($params['location_name']) ? $params['location_name'] : ''}}" /></td>
+	                  	<td width="280px;"><input type="text" class="form-control" name="ad_title" id="ad_title" value="{{ isset($params['ad_title']) ? $params['ad_title'] : ''}}" /></td>
+	                  	<td><input type="text" class="form-control" name="user_id" id="user_id" value="{{ isset($params['user_id']) ? $params['user_id'] : ''}}" /></td>
+	                  	<td><input type="text" class="form-control" name="ad_puslisher_name" id="ad_puslisher_name" value="{{ isset($params['ad_puslisher_name']) ? $params['ad_puslisher_name'] : ''}}" /></td>
+	                  	<td><input type="text" class="form-control" name="ad_email" id="ad_email" value="{{ isset($params['ad_email']) ? $params['ad_email'] : ''}}" /></td>
+	                  	<td><input type="text" class="form-control" name="ad_promo" id="ad_promo" value="{{ isset($params['ad_promo']) ? $params['ad_promo'] : ''}}" /></td>
+	                  	<td></td>
+	                  	<td><input type="text" class="form-control" name="ad_active" id="ad_active" value="{{ isset($params['ad_active']) ? $params['ad_active'] : ''}}" /></td>
+	                  	<td><input type="text" class="form-control" name="ad_view" id="ad_view" value="{{ isset($params['ad_view']) ? $params['ad_view'] : ''}}" /></td>
+	                  	<td colspan="2">
+	                  		<button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="onclick="$('#list_form').attr('action', '{{ url('admin/ad') }}');"">
+                            	<span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                        	</button>
+                        </td>
+	                </tr>
 	                </thead>
 	                <tbody>
 	                
+	                <?foreach($adList as $k => $v){?>
+	                	@include('admin.common.ad_row')
+	                <?}//end of foreach?>
+	                
 	                </tbody>
 	              </table>
+	              
+	              <div class="row">
+		            	<div class="col-md-12">
+		                    <nav>
+		                        <?=$adList->appends($params)->links()?>
+		                    </nav>
+		                </div>
+		            </div>
 	              
 	            </div>
             <!-- /.box-body -->
@@ -72,6 +106,9 @@
             
          </div>
          <!-- /.box -->
+         
+         
+    <?}//end of if adlist?>
     
 
     </section>
@@ -94,24 +131,6 @@
     
     <script>
     $(function () {
-        $('#ad_list_table').DataTable({"order": [], 
-            "pageLength": 10,
-           	"ajax": '<?=url('admin/ad/axlist')?>',
-           	"serverSide": true,
-           	"columns": [
-                        { "orderable": false },
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        { "orderable": false },
-                        { "orderable": false }
-                      ]
-        });
-
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"]').iCheck({
