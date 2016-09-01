@@ -102,12 +102,12 @@ class Ad extends Model
         return $ret;
     }
     
-    public function getAdDetail($_ad_id)
+    public function getAdDetail($_ad_id, $_active = 1)
     {
         $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
         $ret = Cache::get($cache_key, '');
         if(empty($ret)){
-            $ret = Ad::select('ad.*', 'U.*', 'U.created_at AS user_register_date', 'C.category_title', 'C.category_type', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
+            $q = Ad::select('ad.*', 'U.*', 'U.created_at AS user_register_date', 'C.category_title', 'C.category_type', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
                     'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
                     'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
             
@@ -127,10 +127,11 @@ class Ad extends Model
                     ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
                     ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
                     ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
-                    ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id')
-            
-                    ->where('ad_active', 1)
-                    ->findOrFail($_ad_id);
+                    ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id');
+            if($_active){
+            	$q->where('ad_active', 1);
+            }
+            $ret = $q->findOrFail($_ad_id);
             Cache::put($cache_key, $ret, config('dc.cache_expire'));
         }
         return $ret;

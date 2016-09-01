@@ -8,8 +8,25 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Dc\Util;
+
 use App\Ad;
+use App\AdType;
+use App\AdCondition;
+use App\EstateConstructionType;
+use App\EstateFurnishingType;
+use App\EstateHeatingType;
+use App\EstateType;
+use App\CarBrand;
+use App\CarModel;
+use App\CarEngine;
+use App\CarTransmission;
+use App\CarCondition;
+use App\CarModification;
 use App\AdPic;
+use App\Category;
+use App\Location;
+use App\User;
 
 use Validator;
 use Cache;
@@ -17,10 +34,16 @@ use Cache;
 class AdController extends Controller
 {
 	protected $ad;
+	protected $category;
+	protected $location;
+	protected $user;
 	
-	public function __construct(Ad $_ad)
+	public function __construct(Ad $_ad, Category $_category, Location $_location, User $_user)
     {
     	$this->ad = $_ad;
+    	$this->category = $_category;
+    	$this->location = $_location;
+    	$this->user = $_user;
     }
     
 	public function index(Request $request)
@@ -78,107 +101,188 @@ class AdController extends Controller
     
     public function edit(Request $request)
     {
-    	$allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
-    	$categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
-    	
-    	$id = 0;
-    	if(isset($request->id)){
-    		$id = $request->id;
-    	}
-    	
-    	$modelData = new \stdClass();
-    	if($id > 0){
-    		try{
-    			$modelData = Category::findOrFail($id);
-    		} catch (ModelNotFoundException $e){
-    			session()->flash('message', 'Invalid Category');
-    			return redirect(url('admin/category'));
-    		}
-    	}
-    	
-    	$cid = 0;
-    	if(isset($modelData->category_parent_id) && $modelData->category_parent_id > 0){
-    		$cid = $modelData->category_parent_id;
-    	}
-    	
+    	//get ad id
+        $ad_id = $request->id;
+        
+        //get ad info
+        $ad_detail = $this->ad->getAdDetail($ad_id, 0);
+        $ad_detail->ad_price_type_1 = $ad_detail->ad_price_type_2 = $ad_detail->ad_price_type_3 = $ad_detail->ad_price;
+        $ad_detail->condition_id_type_1 = $ad_detail->condition_id_type_3 = $ad_detail->condition_id;
+        $ad_detail->ad_description = Util::br2nl($ad_detail->ad_description);
+        
+        //get ad pics
+        $ad_pic = AdPic::where('ad_id', $ad_id)->get();
+        
+        $car_model_id = array();
+        if(old('car_brand_id')){
+            if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
+                $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+                if(!$car_models->isEmpty()){
+                    $car_model_id = array(0 => 'Select Car Model');
+                    foreach ($car_models as $k => $v){
+                        $car_model_id[$v->car_model_id] = $v->car_model_name;
+                    }
+                }
+            }
+        }
+        
+        $ad_detail->ad_category_info = $this->category->getParentsByIdFlat($ad_detail->category_id);
+        
+        return view('admin.ad.ad_edit', [
+        	'ad_detail' => $ad_detail,
+        	'ad_pic' => $ad_pic,
+        	'c' => $this->category->getAllHierarhy(),
+        	'l' => $this->location->getAllHierarhy(),
+        	'at' => AdType::all(),
+        	'ac' => AdCondition::all(),
+        	'estate_construction_type' => EstateConstructionType::all(),
+        	'estate_furnishing_type' => EstateFurnishingType::all(),
+        	'estate_heating_type' => EstateHeatingType::all(),
+        	'estate_type' => EstateType::all(),
+        	'car_brand_id' => CarBrand::all(),
+        	'car_model_id' => $car_model_id,
+        	'car_engine_id' => CarEngine::all(),
+        	'car_transmission_id' => CarTransmission::all(),
+        	'car_condition_id' => CarCondition::all(),
+        	'car_modification_id' => CarModification::all()
+        ]);
+    }
+    
+    public function save(Request $request)
+    {
+    	$rules = [
+    		'ad_title' => 'required|max:255',
+    		'category_id' => 'required|integer|not_in:0',
+    		'ad_description' => 'required|min:50',
+    		'type_id' => 'required|integer|not_in:0',
+    		'location_id' => 'required|integer|not_in:0',
+    		'ad_puslisher_name' => 'required|string|max:255',
+    		'ad_email' => 'required|email|max:255'
+    	];
+    	 
+    	$validator = Validator::make($request->all(), $rules);
+    	 
     	/**
-    	 * form is submitted check values and save if needed
-    	 */
-    	if ($request->isMethod('post')) {
-    		
-    		/**
-    		 * validate data
-    		 */
-    		$rules = [
-    			'category_title' => 'required|max:255',
-    			'category_slug' => 'required|max:255|unique:category,category_slug',
-    			'category_type' => 'required|integer',
-    			'category_ord' => 'required|integer'
-    		];
-    		
-    		if(isset($modelData->category_id)){
-    			$rules['category_slug'] = 'required|max:255|unique:category,category_slug,' . $modelData->category_id  . ',category_id';
+    	 * type 1 common ads validation
+    	*/
+    	$validator->sometimes(['ad_price_type_1'], 'required|numeric|not_in:0', function($input){
+    		if($input->category_type == 1 && $input->price_radio == 1){
+    			return true;
     		}
+    		return false;
+    	});
+    	$validator->sometimes(['condition_id_type_1'], 'required|integer|not_in:0', function($input){
+    		return $input->category_type == 1 ? 1 : 0;
+    	});
     		 
-    		$validator = Validator::make($request->all(), $rules);
-    		if ($validator->fails()) {
-    			$this->throwValidationException(
-    				$request, $validator
-    			);
-    		}
-    		
     		/**
-    		 * get data from form
-    		 */
-    		$data = $request->all();
-    		
-    		/**
-    		 * check for uploaded icon
-    		 */
-    		$name = '';
-    		if ($request->file('icon_file')->isValid()) {
-    			$file = Input::file('icon_file');
-    			$name = time() . '_cicon.' . $file->getClientOriginalExtension();
-    			$file->move(public_path() . '/uf/cicons', $name);
-    			$data['category_img'] = $name;
-    		}
-    		
-    		/**
-    		 * save data if validated
-    		 */
-    		if(isset($data['category_active'])){
-    			$data['category_active'] = 1;
-    		} else {
-    			$data['category_active'] = 0;
-    		}
-    		if($data['category_parent_id'] == 0){
-    			unset($data['category_parent_id']);
-    		}
-    		
-    		/**
-    		 * save or update
-    		 */
-    		if(!isset($modelData->category_id)){
-    			Category::create($data);
-    		} else {
-    			if(!empty($name) && !empty($modelData->category_img)){
-    				@unlink(public_path() . '/uf/cicons/' . $modelData->category_img);
+    		 * type 2 estate ads validation
+    		*/
+    		$validator->sometimes(['ad_price_type_2'], 'required|numeric|not_in:0', function($input){
+    			if($input->category_type == 2){
+    				return true;
     			}
-    			$modelData->update($data);
-    		}
-    		
-    		/**
-    		 * clear cache, set message, redirect to list
-    		 */
-    		Cache::flush();
-    		session()->flash('message', 'Category saved');
-    		return redirect(url('admin/category'));
-    	}
-    	
-    	return view('admin.category.category_edit', ['c' => $allCategoryHierarhy,
-    		'modelData' => $modelData,
-    		'cid' => $cid,
-    		'categoryType' => $categoryType]);
+    			return false;
+    		});
+    		$validator->sometimes(['estate_type_id'], 'required|integer|not_in:0', function($input){
+    			return $input->category_type == 2 ? 1 : 0;
+    		});
+    		$validator->sometimes(['estate_sq_m'], 'required|numeric|not_in:0', function($input){
+    			return $input->category_type == 2 ? 1 : 0;
+    		});
+    
+    			/**
+    			 * type 3 cars ads validation
+    			*/
+    			$validator->sometimes(['car_brand_id'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_model_id'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_engine_id'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_transmission_id'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_modification_id'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_year'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_kilometeres'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['car_condition_id'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['condition_id_type_3'], 'required|integer|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    			$validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
+    				return $input->category_type == 3 ? 1 : 0;
+    			});
+    				 
+    				if ($validator->fails()) {
+    					$this->throwValidationException(
+    						$request, $validator
+    					);
+    				}
+    
+    				$ad_data = $request->all();
+    				 
+    				//fill aditional fields
+    				$ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
+    				if(!isset($ad_data['ad_active'])){
+    					$ad_data['ad_active'] = 0;
+    				} else {
+    					$ad_data['ad_active'] = 1;
+    				}
+    				if(!isset($ad_data['ad_promo'])){
+    					$ad_data['ad_promo'] = 0;
+    					$ad_data['ad_promo_until'] = NULL;
+    				} else {
+    					$ad_data['ad_promo'] = 1;
+    				}
+    				 
+    				switch ($ad_data['category_type']){
+    					case 1:
+    						if($ad_data['price_radio'] == 1){
+    							$ad_data['ad_price'] = $ad_data['ad_price_type_1'];
+    							$ad_data['ad_free'] = 0;
+    						} else {
+    							$ad_data['ad_price'] = 0;
+    							$ad_data['ad_free'] = 1;
+    						}
+    						$ad_data['condition_id'] = $ad_data['condition_id_type_1'];
+    						break;
+    					case 2:
+    						$ad_data['ad_price'] = $ad_data['ad_price_type_2'];
+    						$ad_data['condition_id'] = $ad_data['condition_id_type_2'];
+    						break;
+    					case 3:
+    						$ad_data['ad_price'] = $ad_data['ad_price_type_3'];
+    						$ad_data['condition_id'] = $ad_data['condition_id_type_3'];
+    						break;
+    				}
+    				 
+    				$ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
+    				 
+    				 
+    				//save ad
+    				$ad = Ad::find($ad_data['ad_id']);
+    				$ad->update($ad_data);
+    				 
+    				
+    				 
+    				/**
+    				 * clear cache, set message, redirect to list
+    				 */
+    				Cache::flush();
+    				session()->flash('message', 'Ad saved');
+    				return redirect(url('admin/ad'));
     }
     
     public function delete(Request $request)

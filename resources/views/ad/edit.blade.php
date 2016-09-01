@@ -51,7 +51,7 @@
                             <label for="category_id" class="col-md-4 control-label">Category</label>
                             <div class="col-md-5">
                             	@if(isset($c) && !empty($c))
-		                   		<select name="category_id" id="category_id" class="form-control cid_select">
+		                   		<select name="category_id" id="category_id" class="form-control cid_select" disabled>
 		                   			<option value="0"></option>
 		                   			@foreach ($c as $k => $v)
 		                   				<optgroup label="{{$v['title']}}">
@@ -68,6 +68,21 @@
                                         <strong>{{ $errors->first('category_id') }}</strong>
                                     </span>
                                 @endif
+                                <span id="helpBlock" class="help-block">
+                                <?
+							    $ad_detail->ad_category_info = array_reverse($ad_detail->ad_category_info);
+							    $category_array = array();
+							    $slug = '';
+							    foreach ($ad_detail->ad_category_info as $k => $v){
+							        $slug .= $v['category_slug'] . '/';
+							        $link_tpl = '<a href="%s" target="_blank">%s</a>';
+							        $category_array[] = sprintf($link_tpl, url($slug), $v['category_title']);
+							    }//end of foreach
+							    echo join(' / ', $category_array);
+							    ?>
+							    </span>
+							    
+                                <input type="hidden" name="category_id" id="category_id" value="{{ Util::getOldOrModelValue('category_id', $ad_detail) }}">
                             </div>
                         </div>
                         

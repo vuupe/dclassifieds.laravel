@@ -7,3 +7,15 @@
 	content:"*";
 	color:red;
 }
+
+.common_fields_container{
+	display:none;
+}
+
+#car_model_loader{
+				display:none; 
+				z-index:100; 
+				position:absolute; 
+				left:10px; 
+				top:32px;
+}

@@ -179,6 +179,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/app.min.js') }}"></script>
 
+<script>
+var __AX_GET_CAR_MODELS = '<?=url('axgetcarmodels');?>';
+</script>
+
 <!-- dclassifieds common -->
 <script src="{{ asset('adminlte/common.js') }}"></script>
 

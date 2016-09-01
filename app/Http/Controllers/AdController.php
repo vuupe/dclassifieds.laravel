@@ -1146,6 +1146,8 @@ class AdController extends Controller
             }
         }
         
+        $ad_detail->ad_category_info = $this->category->getParentsByIdFlat($ad_detail->category_id);
+        
     	return view('ad.edit', [
     		'ad_detail' => $ad_detail,
 			'ad_pic' => $ad_pic,
