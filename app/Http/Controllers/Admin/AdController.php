@@ -127,6 +127,7 @@ class AdController extends Controller
         }
         
         $ad_detail->ad_category_info = $this->category->getParentsByIdFlat($ad_detail->category_id);
+        $ad_detail->pics = AdPic::where('ad_id', $ad_detail->ad_id)->get();
         
         return view('admin.ad.ad_edit', [
         	'ad_detail' => $ad_detail,
@@ -164,7 +165,7 @@ class AdController extends Controller
     	 
     	/**
     	 * type 1 common ads validation
-    	*/
+    	 */
     	$validator->sometimes(['ad_price_type_1'], 'required|numeric|not_in:0', function($input){
     		if($input->category_type == 1 && $input->price_radio == 1){
     			return true;
@@ -175,114 +176,114 @@ class AdController extends Controller
     		return $input->category_type == 1 ? 1 : 0;
     	});
     		 
-    		/**
-    		 * type 2 estate ads validation
-    		*/
-    		$validator->sometimes(['ad_price_type_2'], 'required|numeric|not_in:0', function($input){
-    			if($input->category_type == 2){
-    				return true;
-    			}
-    			return false;
-    		});
-    		$validator->sometimes(['estate_type_id'], 'required|integer|not_in:0', function($input){
-    			return $input->category_type == 2 ? 1 : 0;
-    		});
-    		$validator->sometimes(['estate_sq_m'], 'required|numeric|not_in:0', function($input){
-    			return $input->category_type == 2 ? 1 : 0;
-    		});
+		/**
+		 * type 2 estate ads validation
+		 */
+		$validator->sometimes(['ad_price_type_2'], 'required|numeric|not_in:0', function($input){
+			if($input->category_type == 2){
+				return true;
+			}
+			return false;
+		});
+		$validator->sometimes(['estate_type_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 2 ? 1 : 0;
+		});
+		$validator->sometimes(['estate_sq_m'], 'required|numeric|not_in:0', function($input){
+			return $input->category_type == 2 ? 1 : 0;
+		});
     
-    			/**
-    			 * type 3 cars ads validation
-    			*/
-    			$validator->sometimes(['car_brand_id'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_model_id'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_engine_id'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_transmission_id'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_modification_id'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_year'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_kilometeres'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['car_condition_id'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['condition_id_type_3'], 'required|integer|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
-    			$validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
-    				return $input->category_type == 3 ? 1 : 0;
-    			});
+		/**
+		 * type 3 cars ads validation
+		 */
+		$validator->sometimes(['car_brand_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_model_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_engine_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_transmission_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_modification_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_year'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_kilometeres'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['car_condition_id'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['condition_id_type_3'], 'required|integer|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
+		$validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
+			return $input->category_type == 3 ? 1 : 0;
+		});
     				 
-    				if ($validator->fails()) {
-    					$this->throwValidationException(
-    						$request, $validator
-    					);
-    				}
+		if ($validator->fails()) {
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
     
-    				$ad_data = $request->all();
+		$ad_data = $request->all();
+		 
+		//fill aditional fields
+		$ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
+		if(!isset($ad_data['ad_active'])){
+			$ad_data['ad_active'] = 0;
+		} else {
+			$ad_data['ad_active'] = 1;
+		}
+		if(!isset($ad_data['ad_promo'])){
+			$ad_data['ad_promo'] = 0;
+			$ad_data['ad_promo_until'] = NULL;
+		} else {
+			$ad_data['ad_promo'] = 1;
+		}
+		 
+		switch ($ad_data['category_type']){
+			case 1:
+				if($ad_data['price_radio'] == 1){
+					$ad_data['ad_price'] = $ad_data['ad_price_type_1'];
+					$ad_data['ad_free'] = 0;
+				} else {
+					$ad_data['ad_price'] = 0;
+					$ad_data['ad_free'] = 1;
+				}
+				$ad_data['condition_id'] = $ad_data['condition_id_type_1'];
+				break;
+			case 2:
+				$ad_data['ad_price'] = $ad_data['ad_price_type_2'];
+				$ad_data['condition_id'] = $ad_data['condition_id_type_2'];
+				break;
+			case 3:
+				$ad_data['ad_price'] = $ad_data['ad_price_type_3'];
+				$ad_data['condition_id'] = $ad_data['condition_id_type_3'];
+				break;
+		}
+		 
+		$ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
     				 
-    				//fill aditional fields
-    				$ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
-    				if(!isset($ad_data['ad_active'])){
-    					$ad_data['ad_active'] = 0;
-    				} else {
-    					$ad_data['ad_active'] = 1;
-    				}
-    				if(!isset($ad_data['ad_promo'])){
-    					$ad_data['ad_promo'] = 0;
-    					$ad_data['ad_promo_until'] = NULL;
-    				} else {
-    					$ad_data['ad_promo'] = 1;
-    				}
     				 
-    				switch ($ad_data['category_type']){
-    					case 1:
-    						if($ad_data['price_radio'] == 1){
-    							$ad_data['ad_price'] = $ad_data['ad_price_type_1'];
-    							$ad_data['ad_free'] = 0;
-    						} else {
-    							$ad_data['ad_price'] = 0;
-    							$ad_data['ad_free'] = 1;
-    						}
-    						$ad_data['condition_id'] = $ad_data['condition_id_type_1'];
-    						break;
-    					case 2:
-    						$ad_data['ad_price'] = $ad_data['ad_price_type_2'];
-    						$ad_data['condition_id'] = $ad_data['condition_id_type_2'];
-    						break;
-    					case 3:
-    						$ad_data['ad_price'] = $ad_data['ad_price_type_3'];
-    						$ad_data['condition_id'] = $ad_data['condition_id_type_3'];
-    						break;
-    				}
-    				 
-    				$ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
-    				 
-    				 
-    				//save ad
-    				$ad = Ad::find($ad_data['ad_id']);
-    				$ad->update($ad_data);
-    				 
-    				
-    				 
-    				/**
-    				 * clear cache, set message, redirect to list
-    				 */
-    				Cache::flush();
-    				session()->flash('message', 'Ad saved');
-    				return redirect(url('admin/ad'));
+		//save ad
+		$ad = Ad::find($ad_data['ad_id']);
+		$ad->update($ad_data);
+		 
+		
+		 
+		/**
+		 * clear cache, set message, redirect to list
+		 */
+		Cache::flush();
+		session()->flash('message', 'Ad saved');
+		return redirect(url('admin/ad'));
     }
     
     public function delete(Request $request)
