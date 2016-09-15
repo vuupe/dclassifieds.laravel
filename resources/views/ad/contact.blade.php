@@ -34,12 +34,12 @@
                 	
                 	<div style="display:none;" id="ad_info">
                         <div class="row">
-                        	<div class="col-md-12">
-                        	    <?if(!empty($ad_detail->ad_pic)){?>
-                    			<a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
-                    			<?} else {?>
-                    			<img src="" class="img-responsive thumbnail">
-                    			<?}?>
+                            <div class="col-md-12">
+                                <?if(!empty($ad_detail->ad_pic)){?>
+                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
+                                <?} else {?>
+                                <img src="" class="img-responsive thumbnail">
+                                <?}?>
                             </div>
                         </div>
                         <hr>

@@ -39,6 +39,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 	Route::get('/admin/ad/edit/{id}', 'AdController@edit');
 	Route::post('/admin/ad/save/{id?}', 'AdController@save');
 	Route::any('/admin/ad/delete/{id?}', 'AdController@delete');
+	Route::get('/admin/ad/deletemainimg/{id}', 'AdController@deletemainimg');
+    Route::get('/admin/ad/deleteimg/{id}/{ad_id}', 'AdController@deleteimg');
 	
 });
 /*

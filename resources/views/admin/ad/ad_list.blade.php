@@ -11,12 +11,12 @@
         <li class="active">Ads</li>
       </ol>
     </section>
-    
-    
+
+
 
     <!-- Main content -->
     <section class="content">
-    
+
     @if (session()->has('message'))
     <div class="alert alert-info alert-dismissible">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -30,22 +30,22 @@
     	<div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">All Ads</h3>
-              
+
             </div>
             <!-- /.box-header -->
-            
+
             <form method="get" name="list_form" id="list_form">
             {!! csrf_field() !!}
-            
+
 	            <div class="controls">
 	            	<div class="btn-group">
 	            		<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
 	            		<button type="submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad/delete') }}');" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
 	            	</div>
 	            </div>
-	              
+
 	            <div class="box-body">
-	              
+
 	              <table id="ad_list_table" class="table table-bordered table-striped table-hover">
 	                <thead>
 	                <tr>

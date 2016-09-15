@@ -663,6 +663,7 @@
 							        <a href="<?=asset('uf/adata/1000_' . $ad_detail->ad_pic)?>" target="_blank">
 							        	<img src="<?=asset('uf/adata/740_' . $ad_detail->ad_pic)?>" class="img-thumbnail" />
 							        </a>
+                                    <a href="{{ url('admin/ad/deletemainimg/' . $ad_detail->ad_id) }}" class="btn btn-danger btn-block btn-sm need_confirm">Delete</a>
 						        </div>
 					        </div>
 					    <?}?>
@@ -676,6 +677,7 @@
 						            <a href="<?=asset('uf/adata/1000_' . $v->ad_pic)?>" target="_blank">
 						            	<img src="<?=asset('uf/adata/1000_' . $v->ad_pic)?>" class="img-thumbnail" />
 						            </a>
+                                    <a href="{{ url('admin/ad/deleteimg/' . $v->ad_pic_id . '/' . $ad_detail->ad_id) }}" class="btn btn-danger btn-block btn-sm need_confirm">Delete</a>
 					            </div>
 					        <?}//?>
 					        </div>
