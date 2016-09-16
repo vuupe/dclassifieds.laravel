@@ -3,5 +3,6 @@ return [
 	'dashboard' => 'Dashboard',
 	'locations' => 'Locations',
 	'categories' => 'Categories',
-	'ads' => 'Ads'
+	'ads' => 'Ads',
+    'users' => 'Users'
 ];

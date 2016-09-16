@@ -19,7 +19,7 @@
 
     @if (session()->has('message'))
     <div class="alert alert-info alert-dismissible">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		<h4><i class="icon fa fa-info"></i> Information</h4>
 		{!! session('message') !!}
 	</div>
@@ -36,8 +36,7 @@
 
             <form method="get" name="list_form" id="list_form">
             {!! csrf_field() !!}
-
-	            <div class="controls">
+                <div class="controls">
 	            	<div class="btn-group">
 	            		<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
 	            		<button type="submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad/delete') }}');" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
@@ -46,60 +45,88 @@
 
 	            <div class="box-body">
 
-	              <table id="ad_list_table" class="table table-bordered table-striped table-hover">
-	                <thead>
-	                <tr>
-	                	<th></th>
-	                  	<th>#Id</th>
-	                  	<th>Ad IP</th>
-	                  	<th>Location</th>
-	                  	<th>Ad Title</th>
-	                  	<th>User #Id</th>
-	                  	<th>User Name</th>
-	                  	<th>User E-Mail</th>
-	                  	<th>Ad Promo</th>
-	                  	<th>Publish Date</th>
-	                  	<th>Active</th>
-	                  	<th>Num Views</th>
-	                  	<th></th>
-	                  	<th></th>
-	                </tr>
-	                <tr>
-	                	<td></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_id_search" id="ad_id_search" value="{{ isset($params['ad_id_search']) ? $params['ad_id_search'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_ip" id="ad_ip" value="{{ isset($params['ad_ip']) ? $params['ad_ip'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="location_name" id="location_name" value="{{ isset($params['location_name']) ? $params['location_name'] : ''}}" /></td>
-	                  	<td width="280px;"><input type="text" class="form-control filter_field" name="ad_title" id="ad_title" value="{{ isset($params['ad_title']) ? $params['ad_title'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="user_id" id="user_id" value="{{ isset($params['user_id']) ? $params['user_id'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_puslisher_name" id="ad_puslisher_name" value="{{ isset($params['ad_puslisher_name']) ? $params['ad_puslisher_name'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_email" id="ad_email" value="{{ isset($params['ad_email']) ? $params['ad_email'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_promo" id="ad_promo" value="{{ isset($params['ad_promo']) ? $params['ad_promo'] : ''}}" /></td>
-	                  	<td></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_active" id="ad_active" value="{{ isset($params['ad_active']) ? $params['ad_active'] : ''}}" /></td>
-	                  	<td><input type="text" class="form-control filter_field" name="ad_view" id="ad_view" value="{{ isset($params['ad_view']) ? $params['ad_view'] : ''}}" /></td>
-	                  	<td colspan="2">
-	                  		<button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="onclick="$('#list_form').attr('action', '{{ url('admin/ad') }}');"">
-                            	<span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                        	</button>
-                        </td>
-	                </tr>
-	                </thead>
-	                <tbody>
-	                
-	                <?foreach($adList as $k => $v){?>
-	                	@include('admin.common.ad_row')
-	                <?}//end of foreach?>
-	                
-	                </tbody>
-	              </table>
+                    <table id="ad_list_table" class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>#Id</th>
+                                <th>Ad IP</th>
+                                <th>Location</th>
+                                <th>Ad Title</th>
+                                <th>User #Id</th>
+                                <th>User Name</th>
+                                <th>User E-Mail</th>
+                                <th>Ad Promo</th>
+                                <th>Publish Date</th>
+                                <th>Active</th>
+                                <th>Num Views</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="text" class="form-control filter_field" name="ad_id_search" id="ad_id_search" value="{{ isset($params['ad_id_search']) ? $params['ad_id_search'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="ad_ip" id="ad_ip" value="{{ isset($params['ad_ip']) ? $params['ad_ip'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="location_name" id="location_name" value="{{ isset($params['location_name']) ? $params['location_name'] : ''}}" /></td>
+                                <td width="200px;"><input type="text" class="form-control filter_field" name="ad_title" id="ad_title" value="{{ isset($params['ad_title']) ? $params['ad_title'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="user_id" id="user_id" value="{{ isset($params['user_id']) ? $params['user_id'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="ad_puslisher_name" id="ad_puslisher_name" value="{{ isset($params['ad_puslisher_name']) ? $params['ad_puslisher_name'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="ad_email" id="ad_email" value="{{ isset($params['ad_email']) ? $params['ad_email'] : ''}}" /></td>
+                                <td width="85px;">
+                                    <select class="form-control filter_field" name="ad_promo" id="ad_promo">
+                                        <?foreach($yesnoselect as $k => $v){?>
+                                            <?if(isset($params['ad_promo']) && is_numeric($params['ad_promo'])){?>
+                                                <?if($params['ad_promo'] == $k){?>
+                                                    <option value="{{ $k }}" selected>{{ $v }}</option>
+                                                <?} else {?>
+                                                    <option value="{{ $k }}">{{ $v }}</option>
+                                                <?}?>
+                                            <?} else {?>
+                                                <option value="{{ $k }}">{{ $v }}</option>
+                                            <?}?>
+                                        <?}?>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td width="85px;">
+                                    <select class="form-control filter_field" name="ad_active" id="ad_active">
+                                        <?foreach($yesnoselect as $k => $v){?>
+                                            <?if(isset($params['ad_active']) && is_numeric($params['ad_active'])){?>
+                                                <?if($params['ad_active'] == $k){?>
+                                                    <option value="{{ $k }}" selected>{{ $v }}</option>
+                                                <?} else {?>
+                                                    <option value="{{ $k }}">{{ $v }}</option>
+                                                <?}?>
+                                            <?} else {?>
+                                                <option value="{{ $k }}">{{ $v }}</option>
+                                            <?}?>
+                                        <?}?>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control filter_field" name="ad_view" id="ad_view" value="{{ isset($params['ad_view']) ? $params['ad_view'] : ''}}" /></td>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad') }}');">
+                                        <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                    </button>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <?foreach($adList as $k => $v){?>
+                            @include('admin.common.ad_row')
+                        <?}//end of foreach?>
+
+                        </tbody>
+                    </table>
 	              
-	              <div class="row">
-		            	<div class="col-md-12">
-		                    <nav>
-		                        <?=$adList->appends($params)->links()?>
-		                    </nav>
-		                </div>
-		            </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav>
+                                <?=$adList->appends($params)->links()?>
+                            </nav>
+                        </div>
+                    </div>
 	              
 	            </div>
             <!-- /.box-body -->

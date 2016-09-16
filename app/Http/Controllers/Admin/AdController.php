@@ -69,24 +69,31 @@ class AdController extends Controller
 		if(isset($params['location_name']) && !empty($params['location_name'])){
 			$where['location_name'] = ['like', $params['location_name'] . '%'];
 		}
+
 		if(isset($params['ad_title']) && !empty($params['ad_title'])){
 			$where['ad_title'] = ['like', $params['ad_title'] . '%'];
 		}
+
 		if(isset($params['user_id']) && !empty($params['user_id'])){
 			$where['user_id'] = ['=', $params['user_id']];
 		}
+
 		if(isset($params['ad_puslisher_name']) && !empty($params['ad_puslisher_name'])){
 			$where['ad_puslisher_name'] = ['like', $params['ad_puslisher_name'] . '%'];
 		}
+
 		if(isset($params['ad_email']) && !empty($params['ad_email'])){
 			$where['ad_email'] = ['like', $params['ad_email'] . '%'];
 		}
-		if(isset($params['ad_promo']) && !empty($params['ad_promo'])){
+
+		if(isset($params['ad_promo']) && is_numeric($params['ad_promo']) && ($params['ad_promo'] == 0 || $params['ad_promo'] == 1)){
 			$where['ad_promo'] = ['=', $params['ad_promo']];
 		}
-		if(isset($params['ad_active']) && !empty($params['ad_active'])){
+
+		if(isset($params['ad_active']) && is_numeric($params['ad_active']) && ($params['ad_active'] == 0 || $params['ad_active'] == 1)){
 			$where['ad_active'] = ['=', $params['ad_active']];
 		}
+
 		if(isset($params['ad_view']) && !empty($params['ad_view'])){
 			$where['ad_view'] = ['=', $params['ad_view']];
 		}
@@ -96,7 +103,7 @@ class AdController extends Controller
 		}
 
 		$adList = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
-		return view('admin.ad.ad_list', ['adList' => $adList, 'params' => $params]);
+		return view('admin.ad.ad_list', ['adList' => $adList, 'params' => $params, 'yesnoselect' => ['_' => '', 0 => 'No', 1 => 'Yes']]);
 	}
 
 	public function edit(Request $request)
