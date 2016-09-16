@@ -19,31 +19,31 @@ DB::enableQueryLog();
  */
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function()
 {
-	// Controllers Within The "App\Http\Controllers\Admin" Namespace
-	Route::get('/admin', 'AdminController@dashboard');
-	
-	//Locations
-	Route::get('/admin/location', 'LocationController@index');
-	Route::any('/admin/location/edit/{id?}', 'LocationController@edit');
-	Route::any('/admin/location/delete/{id?}', 'LocationController@delete');
-	Route::any('/admin/location/import', 'LocationController@import');
-	
-	//Categories
-	Route::get('/admin/category', 'CategoryController@index');
-	Route::any('/admin/category/edit/{id?}', 'CategoryController@edit');
-	Route::any('/admin/category/delete/{id?}', 'CategoryController@delete');
-	Route::any('/admin/category/import', 'CategoryController@import');
-	
-	//Ads
-	Route::get('/admin/ad', 'AdController@index');
-	Route::get('/admin/ad/edit/{id}', 'AdController@edit');
-	Route::post('/admin/ad/save/{id?}', 'AdController@save');
-	Route::any('/admin/ad/delete/{id?}', 'AdController@delete');
-	Route::get('/admin/ad/deletemainimg/{id}', 'AdController@deletemainimg');
+    // Controllers Within The "App\Http\Controllers\Admin" Namespace
+    Route::get('/admin', 'AdminController@dashboard');
+
+    //Locations
+    Route::get('/admin/location', 'LocationController@index');
+    Route::any('/admin/location/edit/{id?}', 'LocationController@edit');
+    Route::any('/admin/location/delete/{id?}', 'LocationController@delete');
+    Route::any('/admin/location/import', 'LocationController@import');
+
+    //Categories
+    Route::get('/admin/category', 'CategoryController@index');
+    Route::any('/admin/category/edit/{id?}', 'CategoryController@edit');
+    Route::any('/admin/category/delete/{id?}', 'CategoryController@delete');
+    Route::any('/admin/category/import', 'CategoryController@import');
+
+    //Ads
+    Route::get('/admin/ad', 'AdController@index');
+    Route::get('/admin/ad/edit/{id}', 'AdController@edit');
+    Route::post('/admin/ad/save/{id?}', 'AdController@save');
+    Route::any('/admin/ad/delete/{id?}', 'AdController@delete');
+    Route::get('/admin/ad/deletemainimg/{id}', 'AdController@deletemainimg');
     Route::get('/admin/ad/deleteimg/{id}/{ad_id}', 'AdController@deleteimg');
 
-	//Users
-	Route::get('/admin/user', 'UserController@index');
+    //Users
+    Route::get('/admin/user', 'UserController@index');
 });
 /*
  * end of admin routes
@@ -55,16 +55,16 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 Route::get('/', 'AdController@index')->name('home');
 
 Route::get('/{ad_slug}-ad{ad_id}.html', 'AdController@detail')
-	->name('ad_detail')
-	->where(['ad_slug' => '.*', 'ad_id' => '\d+']);
+    ->name('ad_detail')
+    ->where(['ad_slug' => '.*', 'ad_id' => '\d+']);
 
 Route::get('/ad/contact/{ad_id}', 'AdController@getAdContact')
-	->name('ad_contact')
-	->where(['ad_id' => '\d+']);
+    ->name('ad_contact')
+    ->where(['ad_id' => '\d+']);
 
 Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
-	->name('post_ad_contact')
-	->where(['ad_id' => '\d+']);
+    ->name('post_ad_contact')
+    ->where(['ad_id' => '\d+']);
         
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
@@ -89,15 +89,15 @@ Route::get('/proxy', 'AdController@proxy')->name('proxy');
  */
 Route::get('/mymail', 'UserController@mymail')->name('mymail')->middleware('auth');
 Route::get('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailview')
-	->name('mailview')
-	->where(['user_id_from' => '\d+', 'ad_id' => '\d+'])
-	->middleware('auth');
-	
+    ->name('mailview')
+    ->where(['user_id_from' => '\d+', 'ad_id' => '\d+'])
+    ->middleware('auth');
+
 Route::post('/mailview/{hash}/{user_id_from}/{ad_id}', 'UserController@mailviewsave')
-	->name('mailviewsave')
-	->where(['user_id_from' => '\d+', 'ad_id' => '\d+'])
-	->middleware('auth');
-	
+    ->name('mailviewsave')
+    ->where(['user_id_from' => '\d+', 'ad_id' => '\d+'])
+    ->middleware('auth');
+
 Route::get('/maildelete/{mail_id}', 'UserController@maildelete')->name('maildelete')->middleware('auth');
 
 Route::get('/myprofile', 'UserController@myprofile')->name('profile')->middleware('auth');
@@ -130,37 +130,37 @@ Route::get('/search', 'AdController@search')->name('search');
 
 //category + location + search string
 Route::get('/{category_slug}/l-{location_slug}/q-{search_text}', 'AdController@search')
-	->name('category_location_search_text')
-	->where(['category_slug' => '.*', 'location_slug' => '.*', 'search_text' => '.*']);
+    ->name('category_location_search_text')
+    ->where(['category_slug' => '.*', 'location_slug' => '.*', 'search_text' => '.*']);
 
 //location + search string
 Route::get('/l-{location_slug}/q-{search_text}', 'AdController@search')
-	->name('location_search_text')
-	->where(['location_slug' => '.*', 'search_text' => '.*']);
-	
+    ->name('location_search_text')
+    ->where(['location_slug' => '.*', 'search_text' => '.*']);
+
 //location
 Route::get('/l-{location_slug}', 'AdController@search')
-	->name('location_slug')
-	->where(['location_slug' => '.*']);
+    ->name('location_slug')
+    ->where(['location_slug' => '.*']);
 
 //search string
 Route::get('/q-{search_text}', 'AdController@search')
-	->name('search_text')
-	->where(['search_text' => '.*']);	
+    ->name('search_text')
+    ->where(['search_text' => '.*']);
 
 //category + location
 Route::get('/{category_slug}/l-{location_slug?}', 'AdController@search')
-	->name('category_location_slug')
-	->where(['category_slug' => '.*', 'location_slug' => '.*']);
-	
+    ->name('category_location_slug')
+    ->where(['category_slug' => '.*', 'location_slug' => '.*']);
+
 //category + search string
 Route::get('/{category_slug}/q-{search_text}', 'AdController@search')
-	->name('category_search_text')
-	->where(['category_slug' => '.*', 'search_text' => '.*']);	
-	
+    ->name('category_search_text')
+    ->where(['category_slug' => '.*', 'search_text' => '.*']);
+
 //category	
 Route::get('/{category_slug}', 'AdController@search')
-	->name('category_slug')
-	->where(['category_slug' => '.*']);
-	
-	
+    ->name('category_slug')
+    ->where(['category_slug' => '.*']);
+
+
