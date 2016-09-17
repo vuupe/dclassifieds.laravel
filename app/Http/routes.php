@@ -50,9 +50,13 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 
     //Ad Types
     Route::get('/admin/adtype', 'AdTypeController@index');
+    Route::any('/admin/adtype/edit/{id?}', 'AdTypeController@edit');
+    Route::any('/admin/adtype/delete/{id?}', 'AdTypeController@delete');
 
     //Ad Conditions
     Route::get('/admin/adcondition', 'AdConditionController@index');
+    Route::any('/admin/adcondition/edit/{id?}', 'AdConditionController@edit');
+    Route::any('/admin/adcondition/delete/{id?}', 'AdConditionController@delete');
 });
 /*
  * end of admin routes

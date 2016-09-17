@@ -28,7 +28,7 @@ class Ad extends Model
      */
     public function user()
     {
-    	return $this->belongsTo('App\User', 'user_id', 'user_id');
+        return $this->belongsTo('App\User', 'user_id', 'user_id');
     }
     
     public function pics()
@@ -45,7 +45,7 @@ class Ad extends Model
             
             $q->select('ad.ad_id', 'ad.ad_title', 'ad.ad_pic', 'ad.ad_price', 'ad.ad_free', 'ad.ad_promo', 
                     'ad.ad_publish_date', 'ad.ad_valid_until', 'ad.ad_active', 'ad.code', 'ad.ad_view', 'L.location_name',
-            		'ad.user_id', 'ad.ad_puslisher_name', 'ad.ad_email', 'ad.ad_ip');
+                    'ad.user_id', 'ad.ad_puslisher_name', 'ad.ad_email', 'ad.ad_ip');
             
             if(!empty($_where)){
                 foreach ($_where as $k => $v){
@@ -129,7 +129,7 @@ class Ad extends Model
                     ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
                     ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id');
             if($_active){
-            	$q->where('ad_active', 1);
+                $q->where('ad_active', 1);
             }
             $ret = $q->findOrFail($_ad_id);
             Cache::put($cache_key, $ret, config('dc.cache_expire'));
