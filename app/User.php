@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Collection;
 use Cache;
+use DB;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -28,7 +29,7 @@ class User extends Model implements AuthenticatableContract,
     
     public function ad()
     {
-    	return $this->hasMany('App\Ad', 'user_id', 'user_id');
+        return $this->hasMany('App\Ad', 'user_id', 'user_id');
     }
 
     /**
@@ -37,7 +38,7 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $fillable = ['name', 'avatar', 'email', 'password', 'user_activation_token', 'user_location_id', 'user_phone', 
-    	'user_skype', 'user_address', 'user_lat_lng', 'user_site'];
+        'user_skype', 'user_address', 'user_lat_lng', 'user_site', 'user_activated', 'is_admin'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -53,9 +54,9 @@ class User extends Model implements AuthenticatableContract,
      */
     public function confirmEmail()
     {
-    	$this->user_activated = 1;
-    	$this->user_activation_token = null;
-    	$this->save();
+        $this->user_activated = 1;
+        $this->user_activation_token = null;
+        $this->save();
     }
     
     public function getUserById($_user_id)
@@ -72,7 +73,7 @@ class User extends Model implements AuthenticatableContract,
     
     public function isAdmin()
     {
-    	return $this->is_admin;
+        return $this->is_admin;
     }
 
     public function getUserList($_where = [], $_order = [], $_limit = 0, $_orderRaw = '', $_whereIn = [], $_whereRaw = [], $_paginate = 0, $_page = 1)
@@ -82,7 +83,7 @@ class User extends Model implements AuthenticatableContract,
         if($ret->isEmpty()){
             $q = $this->newQuery();
 
-            $q->select('user.*', 'L.location_name');
+            $q->select('user.*', 'L.location_name', DB::raw('(SELECT count(ad_id) FROM ad WHERE ad.user_id = user.user_id) AS user_ad_count'));
 
             if(!empty($_where)){
                 foreach ($_where as $k => $v){

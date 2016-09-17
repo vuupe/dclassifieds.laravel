@@ -44,6 +44,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 
     //Users
     Route::get('/admin/user', 'UserController@index');
+    Route::any('/admin/user/edit/{id?}', 'UserController@edit');
+    Route::any('/admin/user/delete/{id?}', 'UserController@delete');
+    Route::any('/admin/user/deleteavatar/{id?}', 'UserController@deleteavatar');
 });
 /*
  * end of admin routes

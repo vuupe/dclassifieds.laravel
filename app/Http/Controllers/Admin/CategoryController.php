@@ -15,271 +15,271 @@ use Cache;
 
 class CategoryController extends Controller
 {
-	protected $category;
-	
-	public function __construct(Category $_category)
+    protected $category;
+
+    public function __construct(Category $_category)
     {
-    	$this->category = $_category;
+        $this->category = $_category;
     }
     
-	public function index(Request $request)
+    public function index(Request $request)
     {
-    	$categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
-    	return view('admin.category.category_list', ['category_list' => $this->category->getAllHierarhy(null, 0, 0), 'categoryType' => $categoryType]);
+        $categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
+        return view('admin.category.category_list', ['category_list' => $this->category->getAllHierarhy(null, 0, 0), 'categoryType' => $categoryType]);
     }
     
     public function edit(Request $request)
     {
-    	$allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
-    	$categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
-    	
-    	$id = 0;
-    	if(isset($request->id)){
-    		$id = $request->id;
-    	}
-    	
-    	$modelData = new \stdClass();
-    	if($id > 0){
-    		try{
-    			$modelData = Category::findOrFail($id);
-    		} catch (ModelNotFoundException $e){
-    			session()->flash('message', 'Invalid Category');
-    			return redirect(url('admin/category'));
-    		}
-    	}
-    	
-    	$cid = 0;
-    	if(isset($modelData->category_parent_id) && $modelData->category_parent_id > 0){
-    		$cid = $modelData->category_parent_id;
-    	}
-    	
-    	/**
-    	 * form is submitted check values and save if needed
-    	 */
-    	if ($request->isMethod('post')) {
-    		
-    		/**
-    		 * validate data
-    		 */
-    		$rules = [
-    			'category_title' => 'required|max:255',
-    			'category_slug' => 'required|max:255|unique:category,category_slug',
-    			'category_type' => 'required|integer',
-    			'category_ord' => 'required|integer'
-    		];
-    		
-    		if(isset($modelData->category_id)){
-    			$rules['category_slug'] = 'required|max:255|unique:category,category_slug,' . $modelData->category_id  . ',category_id';
-    		}
-    		 
-    		$validator = Validator::make($request->all(), $rules);
-    		if ($validator->fails()) {
-    			$this->throwValidationException(
-    				$request, $validator
-    			);
-    		}
-    		
-    		/**
-    		 * get data from form
-    		 */
-    		$data = $request->all();
-    		
-    		/**
-    		 * check for uploaded icon
-    		 */
-    		$name = '';
-    		if ($request->file('icon_file')->isValid()) {
-    			$file = Input::file('icon_file');
-    			$name = time() . '_cicon.' . $file->getClientOriginalExtension();
-    			$file->move(public_path() . '/uf/cicons', $name);
-    			$data['category_img'] = $name;
-    		}
-    		
-    		/**
-    		 * save data if validated
-    		 */
-    		if(isset($data['category_active'])){
-    			$data['category_active'] = 1;
-    		} else {
-    			$data['category_active'] = 0;
-    		}
-    		if($data['category_parent_id'] == 0){
-    			unset($data['category_parent_id']);
-    		}
-    		
-    		/**
-    		 * save or update
-    		 */
-    		if(!isset($modelData->category_id)){
-    			Category::create($data);
-    		} else {
-    			if(!empty($name) && !empty($modelData->category_img)){
-    				@unlink(public_path() . '/uf/cicons/' . $modelData->category_img);
-    			}
-    			$modelData->update($data);
-    		}
-    		
-    		/**
-    		 * clear cache, set message, redirect to list
-    		 */
-    		Cache::flush();
-    		session()->flash('message', 'Category saved');
-    		return redirect(url('admin/category'));
-    	}
-    	
-    	return view('admin.category.category_edit', ['c' => $allCategoryHierarhy,
-    		'modelData' => $modelData,
-    		'cid' => $cid,
-    		'categoryType' => $categoryType]);
+        $allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
+        $categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
+
+        $id = 0;
+        if(isset($request->id)){
+            $id = $request->id;
+        }
+
+        $modelData = new \stdClass();
+        if($id > 0){
+            try{
+                $modelData = Category::findOrFail($id);
+            } catch (ModelNotFoundException $e){
+                session()->flash('message', 'Invalid Category');
+                return redirect(url('admin/category'));
+            }
+        }
+
+        $cid = 0;
+        if(isset($modelData->category_parent_id) && $modelData->category_parent_id > 0){
+            $cid = $modelData->category_parent_id;
+        }
+
+        /**
+         * form is submitted check values and save if needed
+         */
+        if ($request->isMethod('post')) {
+
+            /**
+             * validate data
+             */
+            $rules = [
+                'category_title' => 'required|max:255',
+                'category_slug' => 'required|max:255|unique:category,category_slug',
+                'category_type' => 'required|integer',
+                'category_ord' => 'required|integer'
+            ];
+
+            if(isset($modelData->category_id)){
+                $rules['category_slug'] = 'required|max:255|unique:category,category_slug,' . $modelData->category_id  . ',category_id';
+            }
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                $this->throwValidationException(
+                    $request, $validator
+                );
+            }
+
+            /**
+             * get data from form
+             */
+            $data = $request->all();
+
+            /**
+             * check for uploaded icon
+             */
+            $name = '';
+            if ($request->file('icon_file')->isValid()) {
+                $file = Input::file('icon_file');
+                $name = time() . '_cicon.' . $file->getClientOriginalExtension();
+                $file->move(public_path() . '/uf/cicons', $name);
+                $data['category_img'] = $name;
+            }
+
+            /**
+             * save data if validated
+             */
+            if(isset($data['category_active'])){
+                $data['category_active'] = 1;
+            } else {
+                $data['category_active'] = 0;
+            }
+            if($data['category_parent_id'] == 0){
+                unset($data['category_parent_id']);
+            }
+
+            /**
+             * save or update
+             */
+            if(!isset($modelData->category_id)){
+                Category::create($data);
+            } else {
+                if(!empty($name) && !empty($modelData->category_img)){
+                    @unlink(public_path() . '/uf/cicons/' . $modelData->category_img);
+                }
+                $modelData->update($data);
+            }
+
+            /**
+             * clear cache, set message, redirect to list
+             */
+            Cache::flush();
+            session()->flash('message', 'Category saved');
+            return redirect(url('admin/category'));
+        }
+
+        return view('admin.category.category_edit', ['c' => $allCategoryHierarhy,
+            'modelData' => $modelData,
+            'cid' => $cid,
+            'categoryType' => $categoryType]);
     }
     
     public function delete(Request $request)
     {
-    	//locations to be deleted
-    	$data = [];
-    	
-    	//check for single delete
-    	if(isset($request->id)){
-    		$data[] = $request->id;
-    	}
-    	
-    	//check for mass delete if no single delete
-    	if(empty($data)){
-    		$data = $request->input('category_id');
-    	}
-    	
-    	//delete
-    	if(!empty($data)){
-    		foreach ($data as $k => $v){
-    			$c = Category::find($v);
-    			if(!empty($c->category_img)){
-    				@unlink(public_path() . '/uf/cicons/' . $c->category_img);
-    			}
-    			$c->delete();
-    		}
-    		//clear cache, set message, redirect to list
-    		Cache::flush();
-    		session()->flash('message', 'Category deleted');
-    		return redirect(url('admin/category'));
-    	}
-    	
-    	//nothing for deletion set message and redirect
-    	session()->flash('message', 'Nothing for deletion');
-    	return redirect(url('admin/category'));
+        //locations to be deleted
+        $data = [];
+
+        //check for single delete
+        if(isset($request->id)){
+            $data[] = $request->id;
+        }
+
+        //check for mass delete if no single delete
+        if(empty($data)){
+            $data = $request->input('category_id');
+        }
+
+        //delete
+        if(!empty($data)){
+            foreach ($data as $k => $v){
+                $c = Category::find($v);
+                if(!empty($c->category_img)){
+                    @unlink(public_path() . '/uf/cicons/' . $c->category_img);
+                }
+                $c->delete();
+            }
+            //clear cache, set message, redirect to list
+            Cache::flush();
+            session()->flash('message', 'Category deleted');
+            return redirect(url('admin/category'));
+        }
+
+        //nothing for deletion set message and redirect
+        session()->flash('message', 'Nothing for deletion');
+        return redirect(url('admin/category'));
     }
     
     public function import(Request $request)
     {
-    	$allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
-    	 
-    	/**
-    	 * form is submitted check values and save if needed
-    	 */
-    	if ($request->isMethod('post')) {
-    		
-    		/**
-    		 * validate data
-    		 */
-    		$rules = ['csv_file' => 'required'];
-    		$validator = Validator::make($request->all(), $rules);
-    		if ($validator->fails()) {
-    			$this->throwValidationException(
-    				$request, $validator
-    			);
-    		}
+        $allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
+
+        /**
+         * form is submitted check values and save if needed
+         */
+        if ($request->isMethod('post')) {
+
+            /**
+             * validate data
+             */
+            $rules = ['csv_file' => 'required'];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                $this->throwValidationException(
+                    $request, $validator
+                );
+            }
     
-    		/**
-    		 * save data if validated
-    		 */
-    		if ($request->file('csv_file')->isValid()) {
-    			
-    			//rename and move uploaded file
-    			$csv_file = Input::file('csv_file');
-    			$tmp_import_name = time() . '_location_import_.' . $csv_file->getClientOriginalExtension();
-    			$csv_file->move(storage_path() . '/app', $tmp_import_name);
-    			
-    			//read csv
-    			$csv_data = [];
-				if (($handle = fopen(storage_path() . '/app/' . $tmp_import_name, "r")) !== FALSE) {
-					while (($data = fgetcsv($handle, 1000, ",", '"')) !== FALSE) {
-						$csv_data[] = $data;
-					}
-					fclose($handle);
-				}
-				
-				if(!empty($csv_data)){
-					//check if locations parent is selected
-					$category_parent_id = $request->input('category_parent_id', 0);
-					
-					//import erros holder
-					$import_error_array = [];
-					
-					foreach ($csv_data as $k => $v){
-						if(is_array($v)){
-							$data_to_save = [];
-							
-							//set fields to be imported
-							if(isset($v[0]) && !empty($v[0])){
-								$data_to_save['category_type'] = trim($v[0]);
-							}
-							if(isset($v[1]) && !empty($v[1])){
-								$data_to_save['category_title'] = trim($v[1]);
-							}
-							if(isset($v[2]) && !empty($v[2])){
-								$data_to_save['category_slug'] = trim($v[2]);
-							} else {
-								$data_to_save['category_slug'] = str_slug($data_to_save['category_title']);
-							}
-							if(isset($v[3]) && !empty($v[3]) && ($v[3] == 1 || $v[3] == 0)){
-								$data_to_save['category_active'] = $v[3];
-							} else {
-								$data_to_save['category_active'] = 1;
-							}
-							if(isset($v[4]) && !empty($v[4])){
-								$data_to_save['category_ord'] = trim($v[4]);
-							}
-							if(isset($v[5]) && !empty($v[5])){
-								$data_to_save['category_description'] = trim($v[5]);
-							}
-							if(isset($v[6]) && !empty($v[6])){
-								$data_to_save['category_keywords'] = trim($v[6]);
-							}
-							
-							//check if all fields are here
-							if(count($data_to_save) >= 5){
-								if($category_parent_id > 0 && is_numeric($category_parent_id)){
-									$data_to_save['category_parent_id'] = $category_parent_id;
-								}
-								
-								try{
-									Category::create($data_to_save);
-								} catch (\Exception $e){
-									$import_error_array[] = 'Possible doublicate <strong>Category Slug</strong> on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
-								}
-							} else {
-								$import_error_array[] = 'Missing data line: ' . join(',', $v);
-							}
-						}
-					}
-				} else {
-					session()->flash('message', 'Can\'t read the csv file.');
-					return redirect( url('admin/category') );
-				}
-    		}
+            /**
+             * save data if validated
+             */
+            if ($request->file('csv_file')->isValid()) {
+
+                //rename and move uploaded file
+                $csv_file = Input::file('csv_file');
+                $tmp_import_name = time() . '_location_import_.' . $csv_file->getClientOriginalExtension();
+                $csv_file->move(storage_path() . '/app', $tmp_import_name);
+
+                //read csv
+                $csv_data = [];
+                if (($handle = fopen(storage_path() . '/app/' . $tmp_import_name, "r")) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ",", '"')) !== FALSE) {
+                        $csv_data[] = $data;
+                    }
+                    fclose($handle);
+                }
+
+                if(!empty($csv_data)){
+                    //check if locations parent is selected
+                    $category_parent_id = $request->input('category_parent_id', 0);
+
+                    //import erros holder
+                    $import_error_array = [];
+
+                    foreach ($csv_data as $k => $v){
+                        if(is_array($v)){
+                            $data_to_save = [];
+
+                            //set fields to be imported
+                            if(isset($v[0]) && !empty($v[0])){
+                                $data_to_save['category_type'] = trim($v[0]);
+                            }
+                            if(isset($v[1]) && !empty($v[1])){
+                                $data_to_save['category_title'] = trim($v[1]);
+                            }
+                            if(isset($v[2]) && !empty($v[2])){
+                                $data_to_save['category_slug'] = trim($v[2]);
+                            } else {
+                                $data_to_save['category_slug'] = str_slug($data_to_save['category_title']);
+                            }
+                            if(isset($v[3]) && !empty($v[3]) && ($v[3] == 1 || $v[3] == 0)){
+                                $data_to_save['category_active'] = $v[3];
+                            } else {
+                                $data_to_save['category_active'] = 1;
+                            }
+                            if(isset($v[4]) && !empty($v[4])){
+                                $data_to_save['category_ord'] = trim($v[4]);
+                            }
+                            if(isset($v[5]) && !empty($v[5])){
+                                $data_to_save['category_description'] = trim($v[5]);
+                            }
+                            if(isset($v[6]) && !empty($v[6])){
+                                $data_to_save['category_keywords'] = trim($v[6]);
+                            }
+
+                            //check if all fields are here
+                            if(count($data_to_save) >= 5){
+                                if($category_parent_id > 0 && is_numeric($category_parent_id)){
+                                    $data_to_save['category_parent_id'] = $category_parent_id;
+                                }
+
+                                try{
+                                    Category::create($data_to_save);
+                                } catch (\Exception $e){
+                                    $import_error_array[] = 'Possible doublicate <strong>Category Slug</strong> on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
+                                }
+                            } else {
+                                $import_error_array[] = 'Missing data line: ' . join(',', $v);
+                            }
+                        }
+                    }
+                } else {
+                    session()->flash('message', 'Can\'t read the csv file.');
+                    return redirect( url('admin/category') );
+                }
+            }
     
-    		/**
-    		 * delete temp file, clear cache, set message, redirect to list
-    		 */
-    		@unlink(storage_path() . '/app/' . $tmp_import_name);
-    		Cache::flush();
-    		if(!empty($import_error_array)){
-    			session()->flash('message', 'Categories imported with the following errors: <br />' . join('<br />', $import_error_array));
-    		} else {
-    			session()->flash('message', 'Categories imported');
-    		}
-    		return redirect(url('admin/category'));
-    	}
-    	 
-    	return view('admin.category.category_import', ['c' => $allCategoryHierarhy]);
+            /**
+             * delete temp file, clear cache, set message, redirect to list
+             */
+            @unlink(storage_path() . '/app/' . $tmp_import_name);
+            Cache::flush();
+            if(!empty($import_error_array)){
+                session()->flash('message', 'Categories imported with the following errors: <br />' . join('<br />', $import_error_array));
+            } else {
+                session()->flash('message', 'Categories imported');
+            }
+            return redirect(url('admin/category'));
+        }
+
+        return view('admin.category.category_import', ['c' => $allCategoryHierarhy]);
     }
 }

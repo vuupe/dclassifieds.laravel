@@ -53,6 +53,7 @@
                             <th>Mail</th>
                             <th>Activated</th>
                             <th>Location</th>
+                            <th>Num Ads</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -77,6 +78,7 @@
                                 </select>
                             </td>
                             <td><input type="text" class="form-control filter_field" name="location_name" id="location_name" value="{{ isset($params['location_name']) ? $params['location_name'] : ''}}" /></td>
+                            <td></td>
                             <td colspan="2">
                                 <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/user') }}');">
                                     <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search

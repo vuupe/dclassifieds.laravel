@@ -1,9 +1,9 @@
 @extends('layout.index_layout')
 
 @section('content')
-		<div class="container">
-        	<div class="row">
-            	<div class="col-md-12">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
                     <ol class="breadcrumb">
                         <li><a href="{{ route('home') }}">Home</a></li>
                         <li><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a></li>
@@ -19,8 +19,8 @@
         </div>
         
         <div class="container ad_detail_container">
-        	<div class="row">
-            	<div class="col-md-12"><h1 class="wrap">{{ $ad_detail->ad_title }}</h1></div>
+            <div class="row">
+                <div class="col-md-12"><h1 class="wrap">{{ $ad_detail->ad_title }}</h1></div>
             </div>
             <div class="row ad_detail_publish_info">
                 <div class="col-md-12"><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a> | <span class="text-muted">Added on {{ $ad_detail->ad_publish_date }}.</span></div>
@@ -31,24 +31,24 @@
             
             <div class="row">
                 <div class="col-md-8">
-                	
+
                     <div class="row">
-                    	<div class="col-md-12">
-                    	    <?if(!empty($ad_detail->ad_pic)){?>
-                			<a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
-                			<?} else {?>
-                			<img src="" class="img-responsive thumbnail">
-                			<?}?>
+                        <div class="col-md-12">
+                            <?if(!empty($ad_detail->ad_pic)){?>
+                            <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
+                            <?} else {?>
+                            <img src="" class="img-responsive thumbnail">
+                            <?}?>
                         </div>
                     </div>
                     
                     <?if(isset($ad_pic) && !$ad_pic->isEmpty()){?>
                     <div class="row">
                         <?foreach($ad_pic as $k => $v){?>
-                    	<div class="col-md-3">
-                			<a href="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="fancybox" rel="group">
-                			    <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive thumbnail" class="fancybox" rel="group" />
-                			</a>
+                        <div class="col-md-3">
+                            <a href="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="fancybox" rel="group">
+                                <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive thumbnail" class="fancybox" rel="group" />
+                            </a>
                         </div>
                         <?}//end of foreach?>
                     </div>
@@ -58,83 +58,83 @@
                     
                     <div class="row ad_detail_detail_info">
                         <?if(!empty($ad_detail->condition_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_condition_name}}</strong></span></div>
-                    	<?}?>
-                    	<div class="col-md-6"><span class="text-muted">Ad Type:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_type_name}}</strong></span></div>
-                    	
-                    	<!-- estate info -->
-                    	<?if(!empty($ad_detail->estate_type_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate Type:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_type_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_sq_m)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate sq. m.:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_sq_m}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_year)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate year of construction:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_year}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_construction_type_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate Construction Type:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_construction_type_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_floor)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate floor:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_floor}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_num_floors_in_building)){?>
-                    	<div class="col-md-6"><span class="text-muted">Num Floors in Building:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_num_floors_in_building}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_heating_type_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate Heating:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_heating_type_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->estate_furnishing_type_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Estate Furnishing:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_furnishing_type_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<!-- cars info -->
-                    	<?if(!empty($ad_detail->car_brand_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Brand:</span> <span class="text-primary"><strong>{{ $ad_detail->car_brand_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_model_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Model:</span> <span class="text-primary"><strong>{{ $ad_detail->car_model_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_modification_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Modification:</span> <span class="text-primary"><strong>{{ $ad_detail->car_modification_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_engine_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Engine:</span> <span class="text-primary"><strong>{{ $ad_detail->car_engine_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_transmission_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Transmission:</span> <span class="text-primary"><strong>{{ $ad_detail->car_transmission_name}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_year)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Year:</span> <span class="text-primary"><strong>{{ $ad_detail->car_year}}</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_kilometeres)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Kilometers:</span> <span class="text-primary"><strong>{{ $ad_detail->car_kilometeres}}km.</strong></span></div>
-                    	<?}?>
-                    	
-                    	<?if(!empty($ad_detail->car_condition_id)){?>
-                    	<div class="col-md-6"><span class="text-muted">Car Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->car_condition_name}}</strong></span></div>
-                    	<?}?>
-                    	
+                        <div class="col-md-6"><span class="text-muted">Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_condition_name}}</strong></span></div>
+                        <?}?>
+                        <div class="col-md-6"><span class="text-muted">Ad Type:</span> <span class="text-primary"><strong>{{ $ad_detail->ad_type_name}}</strong></span></div>
+
+                        <!-- estate info -->
+                        <?if(!empty($ad_detail->estate_type_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate Type:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_type_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_sq_m)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate sq. m.:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_sq_m}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_year)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate year of construction:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_year}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_construction_type_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate Construction Type:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_construction_type_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_floor)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate floor:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_floor}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_num_floors_in_building)){?>
+                        <div class="col-md-6"><span class="text-muted">Num Floors in Building:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_num_floors_in_building}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_heating_type_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate Heating:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_heating_type_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->estate_furnishing_type_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Estate Furnishing:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_furnishing_type_name}}</strong></span></div>
+                        <?}?>
+
+                        <!-- cars info -->
+                        <?if(!empty($ad_detail->car_brand_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Brand:</span> <span class="text-primary"><strong>{{ $ad_detail->car_brand_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_model_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Model:</span> <span class="text-primary"><strong>{{ $ad_detail->car_model_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_modification_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Modification:</span> <span class="text-primary"><strong>{{ $ad_detail->car_modification_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_engine_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Engine:</span> <span class="text-primary"><strong>{{ $ad_detail->car_engine_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_transmission_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Transmission:</span> <span class="text-primary"><strong>{{ $ad_detail->car_transmission_name}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_year)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Year:</span> <span class="text-primary"><strong>{{ $ad_detail->car_year}}</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_kilometeres)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Kilometers:</span> <span class="text-primary"><strong>{{ $ad_detail->car_kilometeres}}km.</strong></span></div>
+                        <?}?>
+
+                        <?if(!empty($ad_detail->car_condition_id)){?>
+                        <div class="col-md-6"><span class="text-muted">Car Condition:</span> <span class="text-primary"><strong>{{ $ad_detail->car_condition_name}}</strong></span></div>
+                        <?}?>
+
                     </div>
                     
                     <hr>
                     
                     <div class="row ad_detail_ad_text">
-                    	<div class="col-md-12 wrap">
-                			{!! $ad_detail->ad_description !!} 
+                        <div class="col-md-12 wrap">
+                            {!! $ad_detail->ad_description !!}
                         </div>
                     </div>
                     
@@ -143,8 +143,8 @@
                     <?if(!empty($ad_detail->ad_video)){?>
                     <div class="row">
                         <div class="col-md-12">
-                        	<div class="embed-responsive embed-responsive-16by9">
-                    			{!! $ad_detail->ad_video_fixed !!} 
+                            <div class="embed-responsive embed-responsive-16by9">
+                                {!! $ad_detail->ad_video_fixed !!}
                             </div>
                         </div>
                     </div>
@@ -154,8 +154,8 @@
                     
                     <?if(!$other_ads->isEmpty()){?>
                     <div class="row">
-                    	<div class="col-md-12">
-                        	<h4>Other Classifieds from this user</h4>
+                        <div class="col-md-12">
+                            <h4>Other Classifieds from this user</h4>
                         </div>
                     </div>
                     
@@ -163,14 +163,14 @@
                         $link = url(str_slug($v->ad_title) . '-' . 'ad' . $v->ad_id . '.html');
                         ?>
                     <div class="row margin_bottom_15">
-                    	<div class="col-md-2">
-                        	<a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" class="img-responsive"></a>
+                        <div class="col-md-2">
+                            <a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v->ad_pic);?>" class="img-responsive"></a>
                         </div>
                         <div class="col-md-6">
-                        	<a href="<?=$link?>">{{ str_limit($v->ad_description, 200) }}</a>
+                            <a href="<?=$link?>">{{ str_limit($v->ad_description, 200) }}</a>
                         </div>
                         <div class="col-md-4">
-                        	<?=$v->ad_price ? $v->ad_price . '&euro;' : '&nbsp;'?>
+                            <?=$v->ad_price ? $v->ad_price . '&euro;' : '&nbsp;'?>
                         </div>
                     </div>
                     <hr />
@@ -179,8 +179,8 @@
                     
                     <?if(session()->has('last_view') && !empty(session('last_view'))){?>
                     <div class="row">
-                    	<div class="col-md-12">
-                        	<h4>Last Viewed</h4>
+                        <div class="col-md-12">
+                            <h4>Last Viewed</h4>
                         </div>
                     </div>
                     
@@ -190,15 +190,15 @@
                         foreach($last_view_array as $k => $v){
                             $link = url(str_slug($v['ad_title']) . '-' . 'ad' . $v['ad_id'] . '.html');
                             ?>
-                    	<!-- ad -->
+                        <!-- ad -->
                         <div class="col-md-3">
                             <div class="thumbnail">
                                 <a href="<?=$link?>"><img src="<?=asset('uf/adata/' . '740_' . $v['ad_pic']);?>" alt=""></a>
-                            	<div class="caption">
+                                <div class="caption">
                                     <h4 class="ad_list_title"><a href="<?=$link?>"><?=str_limit($v['ad_title'], 23)?></a></h4>
                                     <p><?=$v['location_name']?></p>
                                     <h3><?=$v['ad_price'] ? $v['ad_price'] . '&euro;' : '&nbsp;'?></h2>
-                            	</div>
+                                </div>
                             </div>
                         </div>
                         <!-- end of ad-->
@@ -209,19 +209,19 @@
                     
                 </div>
                 <div class="col-md-4">
-                	<div class="ad_detail_price text-center">
-                	    <h2>
-                	        <?if($ad_detail->ad_free){
-                	            echo 'free';
-                	        } else {
+                    <div class="ad_detail_price text-center">
+                        <h2>
+                            <?if($ad_detail->ad_free){
+                                echo 'free';
+                            } else {
                                 echo number_format($ad_detail->ad_price, 2, '.', '') . '&euro;';
                             }?>
-                	    </h2>
-                	</div>
-                	<hr>
-                	
-                	<div class="ad_detail_panel">
-                	
+                        </h2>
+                    </div>
+                    <hr>
+
+                    <div class="ad_detail_panel">
+
                         <div class="row">
                             <div class="col-md-4">
                                 <a href="{{ url('ad/user/' . $ad_detail->user_id) }}" class="thumbnail">
@@ -234,12 +234,12 @@
                             </div>
                             <div class="col-md-8">
                                 <h4>Ad from <a href="{{ url('ad/user/' . $ad_detail->user_id) }}">{{ $ad_detail->name }}</a></h4>
-                    	        <small><span class="text-muted">(Registered: {{ $ad_detail->user_register_date }})</span></small>
+                                <small><span class="text-muted">(Registered: {{ $ad_detail->user_register_date }})</span></small>
                             </div>
                         </div>
-                	
-                	
-                    	
+
+
+
                     </div>
                     <hr>
                     
@@ -277,12 +277,12 @@
                         
                     </div>
                     <hr>
-                	
-                	<?if(!empty($ad_detail->ad_lat_lng)){?>
+
+                    <?if(!empty($ad_detail->ad_lat_lng)){?>
                     <div class="row">
                         <div class="col-md-12">
-                        	<div id="gmap_detail" style="width: 100%; height:300px;"></div>
-        		        </div>
+                            <div id="gmap_detail" style="width: 100%; height:300px;"></div>
+                        </div>
                     </div>
                     
                     <hr>
@@ -298,8 +298,8 @@
         </div>
         
         <div class="container home_info_link_panel">
-        	<div class="row">
-            	<div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
                     <ol class="breadcrumb">
                           <li class="active">Main Cateegories</li>
                           <li><a href="#">Real Eastates</a></li>
@@ -392,72 +392,72 @@
 @section('js')
     <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=true&language=en"></script>
-	<script type="text/javascript">
-		var latlng = new google.maps.LatLng(<?=trim($ad_detail->ad_lat_lng, '()')?>);
-		var myOptions = {
-		  zoom: 16,
-		  center: latlng,
-		  mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-		map = new google.maps.Map(document.getElementById("gmap_detail"), myOptions);
-		marker = new google.maps.Marker({
-		  map: map,
-		  draggable:true,
-		  position: latlng
-		});
-	</script>
-	<script type="text/javascript">
-    	$(document).ready(function() {
-    		$(".fancybox").fancybox();
+    <script type="text/javascript">
+        var latlng = new google.maps.LatLng(<?=trim($ad_detail->ad_lat_lng, '()')?>);
+        var myOptions = {
+          zoom: 16,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("gmap_detail"), myOptions);
+        marker = new google.maps.Marker({
+          map: map,
+          draggable:true,
+          position: latlng
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
 
-    		$('#btn_send_report').click(function(){
-    			var token = $('input[name=_token]').val();
-    			var btn = $(this).button('loading');
-    			var checked = $("input[name='report_radio']:checked").val();
-    			$('#report_result_info').hide();
-    			if(checked){
-        			$.ajax({
-        				url: '{{ url('axreportad') }}',
-        				headers: {'X-CSRF-TOKEN': token},
-        				type: 'POST',
-        				data: {'form_data': $('#report_form').serialize()},
-        				dataType: "json",
-        	     		success: function( data ) {
-        	     			$("input[name='report_radio']:checked").prop('checked',false);
-        	     			$('#report_more_info').val('');
-        	     			btn.button('reset');
-        	     			$('#report_result_info').html(data.message);
-                		    $('#report_result_info').show();
-        				}
-        			});
-        		} else {
-        			btn.button('reset');
-        		    $('#report_result_info').html('Please select reason for your report.');
-        		    $('#report_result_info').show();
-        		}
-        		return false;
-        	});
+            $('#btn_send_report').click(function(){
+                var token = $('input[name=_token]').val();
+                var btn = $(this).button('loading');
+                var checked = $("input[name='report_radio']:checked").val();
+                $('#report_result_info').hide();
+                if(checked){
+                    $.ajax({
+                        url: '{{ url('axreportad') }}',
+                        headers: {'X-CSRF-TOKEN': token},
+                        type: 'POST',
+                        data: {'form_data': $('#report_form').serialize()},
+                        dataType: "json",
+                        success: function( data ) {
+                            $("input[name='report_radio']:checked").prop('checked',false);
+                            $('#report_more_info').val('');
+                            btn.button('reset');
+                            $('#report_result_info').html(data.message);
+                            $('#report_result_info').show();
+                        }
+                    });
+                } else {
+                    btn.button('reset');
+                    $('#report_result_info').html('Please select reason for your report.');
+                    $('#report_result_info').show();
+                }
+                return false;
+            });
 
-    		$('#add_to_fav').click(function(){
-    			var token = $('input[name=_token]').val();
-    			var btn = $(this).button('loading');
-    		    $.ajax({
-    				url: '{{ url('axsavetofav') }}',
-    				headers: {'X-CSRF-TOKEN': token},
-    				type: 'POST',
-    				data: {'ad_id': $('#report_ad_id').val()},
-    				dataType: "json",
-    	     		success: function( data ) {
-    	     			if(data.code == 200){
-    	     				btn.button('removefav');
-    	     			}
-    	     			if(data.code == 201){
-    	     				btn.button('addfav');
-    	     			}
-    				}
-    			});
-        		return false;
-        	});
-    	});
+            $('#add_to_fav').click(function(){
+                var token = $('input[name=_token]').val();
+                var btn = $(this).button('loading');
+                $.ajax({
+                    url: '{{ url('axsavetofav') }}',
+                    headers: {'X-CSRF-TOKEN': token},
+                    type: 'POST',
+                    data: {'ad_id': $('#report_ad_id').val()},
+                    dataType: "json",
+                    success: function( data ) {
+                        if(data.code == 200){
+                            btn.button('removefav');
+                        }
+                        if(data.code == 201){
+                            btn.button('addfav');
+                        }
+                    }
+                });
+                return false;
+            });
+        });
     </script>
 @endsection
