@@ -16,24 +16,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-    	Validator::extend('require_one_of_array', function($attribute, $value, $parameters, $validator) {
-    		if(!is_array($value)){
-    			return false;
-    		}
-    		
-    		foreach ($value as $k => $v){
-    			if(!empty($v)){
-    				return true;
-    			}
-    		}
-    		
-    		return false;
-    	});
-    	
-    	view()->composer('admin.layout.admin_index_layout', function ($view) {
-    		$adminMenu = new AdminMenu();
+        Validator::extend('require_one_of_array', function($attribute, $value, $parameters, $validator) {
+            if(!is_array($value)){
+                return false;
+            }
+
+            foreach ($value as $k => $v){
+                if(!empty($v)){
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+        view()->composer('admin.layout.admin_index_layout', function ($view) {
+            $adminMenu = new AdminMenu();
             $view->with('adminMenu', $adminMenu->getMenu());
-            $view->with('controller', Util::getController());
+            $controller = Util::getController();
+            $view->with('controller', $controller);
+            $view->with('controller_parent_id', $adminMenu->getParent($controller));
         });
     }
 

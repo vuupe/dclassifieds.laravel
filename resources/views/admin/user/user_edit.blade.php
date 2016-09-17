@@ -8,7 +8,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/user') }}">Ads</a></li>
+            <li><a href="{{ url('admin/user') }}">Users</a></li>
             <li class="active">Edit</li>
         </ol>
     </section>

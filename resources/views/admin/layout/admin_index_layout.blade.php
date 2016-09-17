@@ -16,9 +16,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  
+
   @yield('styles')
-  
+
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -26,7 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         apply the skin class to the body tag so the changes take effect.
   -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/skin-red.min.css') }}">
-  
+
   <link rel="stylesheet" href="{{ asset('adminlte/style.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,22 +65,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-				<?if(!empty(Auth::user()->avatar)){?>
-					<img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" class="user-image">
-				<?} else {?>
-					<img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="user-image">
-				<?}?>
+                <?if(!empty(Auth::user()->avatar)){?>
+                    <img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" class="user-image">
+                <?} else {?>
+                    <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="user-image">
+                <?}?>
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{ Auth::user()->name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-				<?if(!empty(Auth::user()->avatar)){?>
-					<img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="img-circle">
-				<?} else {?>
-					<img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="img-circle">
-				<?}?>
+                <?if(!empty(Auth::user()->avatar)){?>
+                    <img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="img-circle">
+                <?} else {?>
+                    <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="img-circle">
+                <?}?>
                 <p>
                   {{ Auth::user()->name }}
                   <small>Member since {{ Auth::user()->created_at }}</small>
@@ -125,11 +125,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-		<?if(!empty(Auth::user()->avatar)){?>
-			<img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" class="img-circle">
-		<?} else {?>
-			<img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="img-circle">
-		<?}?>
+        <?if(!empty(Auth::user()->avatar)){?>
+            <img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" class="img-circle">
+        <?} else {?>
+            <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="img-circle">
+        <?}?>
         </div>
         <div class="pull-left info">
           <p>{{ Auth::user()->name }}</p>
@@ -151,7 +151,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-	@yield('content')
+    @yield('content')
   </div>
   <!-- /.content-wrapper -->
 

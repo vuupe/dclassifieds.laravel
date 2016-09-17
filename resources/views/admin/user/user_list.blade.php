@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Ads
+            Users
             <small>List</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">User</li>
+            <li class="active">Users</li>
         </ol>
     </section>
 
