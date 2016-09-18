@@ -2,14 +2,14 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Ad Types
-        <small>List</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Ad Types</li>
-      </ol>
+        <h1>
+            Heating Types
+            <small>List</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Heating Types</li>
+        </ol>
     </section>
     
     
@@ -27,12 +27,12 @@
     
     <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">All Locations</h3>
+          <h3 class="box-title">Heating Types</h3>
 
         </div>
         <!-- /.box-header -->
 
-        <form method="post" name="list_form" id="list_form" action="{{ url('admin/adtype/delete') }}">
+        <form method="post" name="list_form" id="list_form" action="{{ url('admin/estateheating/delete') }}">
         {!! csrf_field() !!}
 
             <div class="controls">
@@ -41,7 +41,7 @@
                     <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
                 </div>
 
-                <a href="{{ url('admin/adtype/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Ad Type</a>
+                <a href="{{ url('admin/estateheating/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Heating Type</a>
             </div>
 
             <div class="box-body">
@@ -51,21 +51,21 @@
                     <tr>
                         <th></th>
                         <th>#Id</th>
-                        <th>Ad Type</th>
+                        <th>Heating Type</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
             <tbody>
-                <?foreach($ad_type as $k => $v){?>
+                <?foreach($modelData as $k => $v){?>
                     <tr>
                         <td>
-                            <input type="checkbox" name="ad_type_id[]" value="<?=$v['ad_type_id']?>">
+                            <input type="checkbox" name="estate_heating_type_id[]" value="<?=$v['estate_heating_type_id']?>">
                         </td>
-                        <td>{{ $v['ad_type_id'] }}</td>
-                        <td>{{ $v['ad_type_name'] }}</td>
-                        <td><a href="{{ url('admin/adtype/edit/' . $v['ad_type_id']) }}"><i class="fa fa-edit"></i> Edit</a></td>
-                        <td><a href="{{ url('admin/adtype/delete/' . $v['ad_type_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a></td>
+                        <td>{{ $v['estate_heating_type_id'] }}</td>
+                        <td>{{ $v['estate_heating_type_name'] }}</td>
+                        <td><a href="{{ url('admin/estateheating/edit/' . $v['estate_heating_type_id']) }}"><i class="fa fa-edit"></i> Edit</a></td>
+                        <td><a href="{{ url('admin/estateheating/delete/' . $v['estate_heating_type_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a></td>
                     </tr>
                 <?}//end of foreach?>
             </tbody>

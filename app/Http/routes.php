@@ -57,6 +57,26 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/adcondition', 'AdConditionController@index');
     Route::any('/admin/adcondition/edit/{id?}', 'AdConditionController@edit');
     Route::any('/admin/adcondition/delete/{id?}', 'AdConditionController@delete');
+
+    //Estate Construction Types
+    Route::get('/admin/estateconstruction', 'EstateConstructionController@index');
+    Route::any('/admin/estateconstruction/edit/{id?}', 'EstateConstructionController@edit');
+    Route::any('/admin/estateconstruction/delete/{id?}', 'EstateConstructionController@delete');
+
+    //Estate Furnishing Types
+    Route::get('/admin/estatefurnishing', 'EstateFurnishingController@index');
+    Route::any('/admin/estatefurnishing/edit/{id?}', 'EstateFurnishingController@edit');
+    Route::any('/admin/estatefurnishing/delete/{id?}', 'EstateFurnishingController@delete');
+
+    //Estate Heating Types
+    Route::get('/admin/estateheating', 'EstateHeatingController@index');
+    Route::any('/admin/estateheating/edit/{id?}', 'EstateHeatingController@edit');
+    Route::any('/admin/estateheating/delete/{id?}', 'EstateHeatingController@delete');
+
+    //Estate Types
+    Route::get('/admin/estatetype', 'EstateTypeController@index');
+    Route::any('/admin/estatetype/edit/{id?}', 'EstateTypeController@edit');
+    Route::any('/admin/estatetype/delete/{id?}', 'EstateTypeController@delete');
 });
 /*
  * end of admin routes

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 29, 2016 at 11:26 AM
+-- Generation Time: Sep 18, 2016 at 05:03 PM
 -- Server version: 5.1.42
 -- PHP Version: 5.2.12
 
@@ -78,23 +78,20 @@ CREATE TABLE IF NOT EXISTS `ad` (
   KEY `location_id` (`location_id`),
   KEY `ad_description_hash` (`ad_description_hash`),
   FULLTEXT KEY `ad_title` (`ad_title`,`ad_description`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `ad`
 --
 
 INSERT INTO `ad` (`ad_id`, `user_id`, `category_id`, `location_id`, `type_id`, `condition_id`, `ad_email`, `ad_publish_date`, `ad_valid_until`, `ad_active`, `ad_ip`, `ad_price`, `ad_free`, `ad_phone`, `ad_title`, `ad_description`, `ad_description_hash`, `ad_puslisher_name`, `code`, `ad_promo`, `ad_promo_until`, `ad_link`, `ad_video`, `ad_lat_lng`, `ad_skype`, `ad_address`, `ad_pic`, `ad_view`, `estate_type_id`, `estate_sq_m`, `estate_year`, `estate_construction_type_id`, `estate_floor`, `estate_num_floors_in_building`, `estate_heating_type_id`, `estate_furnishing_type_id`, `car_brand_id`, `car_model_id`, `car_engine_id`, `car_transmission_id`, `car_modification_id`, `car_condition_id`, `car_year`, `car_kilometeres`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 7, 1, 0, 'dinko359@gmail.com', '2016-06-05 18:32:30', '2016-07-05', 1, '127.0.0.1', 6000.00, 0, '', 'audi a6 kombi', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate vulputate efficitur. Curabitur lacinia id orci id hendrerit. Nam volutpat interdum sapien ut porttitor. Curabitur a blandit magna, eu viverra dolor. Donec eu orci dolor. Proin imperdiet turpis vitae sollicitudin euismod. Curabitur consectetur sapien nec nibh vehicula, mattis tempor nisi blandit. Quisque rutrum dui nisl, ac dapibus lorem dignissim nec. Proin eget lectus consequat, consequat ligula quis, gravida nisi. Nam placerat, felis vitae tempus cursus, lorem tellus facilisis purus, a facilisis tellus dolor et massa. In ultrices convallis risus, et imperdiet metus pellentesque vel. Duis pharetra lacus eu purus pellentesque mattis. Maecenas sit amet dui a turpis tincidunt faucibus. Aenean placerat est diam, sed euismod justo condimentum id. Duis sit amet quam at urna sagittis accumsan.\r\n\r\nAliquam erat volutpat. Mauris tempor metus nec felis aliquam, vitae semper nisi lobortis. Maecenas sem diam, pharetra fringilla aliquam a, semper sit amet velit. Nullam enim ex, auctor ullamcorper tellus id, vestibulum vestibulum nunc. Donec ante ex, dignissim ac dapibus vitae, fringilla quis ligula. Morbi eget dapibus diam, vitae volutpat lacus. Nullam elementum libero faucibus suscipit facilisis. Mauris posuere lorem lectus, at tempor orci viverra id. Sed pretium convallis elit id pharetra. Nullam malesuada erat nec imperdiet posuere. Quisque suscipit metus sit amet nunc rhoncus, mattis pretium sapien aliquet. Fusce condimentum diam in odio ultrices aliquet. Sed commodo ornare diam nec aliquam. Pellentesque ac viverra ligula, ac auctor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nMauris convallis malesuada metus nec scelerisque. Aliquam congue ac elit et condimentum. Nullam velit erat, malesuada a lacus quis, ultrices venenatis tortor. Praesent sodales quis augue sit amet scelerisque. Quisque iaculis, elit in porttitor rutrum, sem velit efficitur neque, id viverra nibh urna et erat. Aenean id metus finibus, sagittis ante sit amet, pretium libero. Etiam elementum ipsum ac dolor tempus, a efficitur ligula sodales. Nunc condimentum massa vitae nulla finibus, vehicula cursus arcu interdum. Curabitur pulvinar tincidunt urna, vel faucibus odio tincidunt at. ', '263b60d9715e8a90541b1ced03b5702d', 'Ivan Ivanov', 'KUwDgm3fUgjAwjacOLLZeOCjBsGOIC', 1, NULL, NULL, NULL, NULL, '', NULL, '1_111aa13e56468dfeef73451725fea2ce.jpg', 49, 0, 0, 0, 0, 0, 0, 0, 0, 6, 56, 2, 2, 0, 1, 2003, 201000, '2016-06-20 18:00:12', '2016-06-20 15:00:12'),
+(1, 1, 15, 7, 1, 0, 'dinko359@gmail.com', '2016-06-05 18:32:30', '2016-07-05', 1, '127.0.0.1', 6000.00, 0, '', 'audi a6 kombi', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate vulputate efficitur. Curabitur lacinia id orci id hendrerit. Nam volutpat interdum sapien ut porttitor. Curabitur a blandit magna, eu viverra dolor. Donec eu orci dolor. Proin imperdiet turpis vitae sollicitudin euismod. Curabitur consectetur sapien nec nibh vehicula, mattis tempor nisi blandit. Quisque rutrum dui nisl, ac dapibus lorem dignissim nec. Proin eget lectus consequat, consequat ligula quis, gravida nisi. Nam placerat, felis vitae tempus cursus, lorem tellus facilisis purus, a facilisis tellus dolor et massa. In ultrices convallis risus, et imperdiet metus pellentesque vel. Duis pharetra lacus eu purus pellentesque mattis. Maecenas sit amet dui a turpis tincidunt faucibus. Aenean placerat est diam, sed euismod justo condimentum id. Duis sit amet quam at urna sagittis accumsan.\r\n\r\nAliquam erat volutpat. Mauris tempor metus nec felis aliquam, vitae semper nisi lobortis. Maecenas sem diam, pharetra fringilla aliquam a, semper sit amet velit. Nullam enim ex, auctor ullamcorper tellus id, vestibulum vestibulum nunc. Donec ante ex, dignissim ac dapibus vitae, fringilla quis ligula. Morbi eget dapibus diam, vitae volutpat lacus. Nullam elementum libero faucibus suscipit facilisis. Mauris posuere lorem lectus, at tempor orci viverra id. Sed pretium convallis elit id pharetra. Nullam malesuada erat nec imperdiet posuere. Quisque suscipit metus sit amet nunc rhoncus, mattis pretium sapien aliquet. Fusce condimentum diam in odio ultrices aliquet. Sed commodo ornare diam nec aliquam. Pellentesque ac viverra ligula, ac auctor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nMauris convallis malesuada metus nec scelerisque. Aliquam congue ac elit et condimentum. Nullam velit erat, malesuada a lacus quis, ultrices venenatis tortor. Praesent sodales quis augue sit amet scelerisque. Quisque iaculis, elit in porttitor rutrum, sem velit efficitur neque, id viverra nibh urna et erat. Aenean id metus finibus, sagittis ante sit amet, pretium libero. Etiam elementum ipsum ac dolor tempus, a efficitur ligula sodales. Nunc condimentum massa vitae nulla finibus, vehicula cursus arcu interdum. Curabitur pulvinar tincidunt urna, vel faucibus odio tincidunt at. ', '263b60d9715e8a90541b1ced03b5702d', 'Ivan Ivanov', 'KUwDgm3fUgjAwjacOLLZeOCjBsGOIC', 1, NULL, NULL, NULL, NULL, '', NULL, '1_111aa13e56468dfeef73451725fea2ce.jpg', 53, 0, 0, 0, 0, 0, 0, 0, 0, 6, 56, 2, 2, 0, 1, 2003, 201000, '2016-09-02 17:22:57', '2016-09-02 14:22:56'),
 (2, 1, 23, 7, 1, 1, 'dinko359@gmail.com', '2016-04-09 17:52:14', '2016-05-09', 1, '127.0.0.1', 0.00, 1, 'phone', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan congue cursus. Ut facilisis imperdiet nibh id hendrerit. Donec luctus tincidunt faucibus. Quisque gravida mi sit amet eros malesuada, id gravida libero suscipit. Sed nec lacus ex. Nulla facilisi. Proin efficitur diam ut congue sagittis. Suspendisse hendrerit eros id nisl consectetur tempor. Integer interdum quam ut ligula condimentum, at iaculis ligula tincidunt. In finibus maximus tortor eu elementum. Vivamus mollis leo elit, ut tristique mauris ultrices at.\r\n\r\nQuisque dapibus augue ac erat porttitor imperdiet. Aenean eu ipsum eros. Ut aliquet tincidunt urna. Morbi convallis, libero at laoreet egestas, est tortor ultricies felis, et tristique leo nulla vel nisi. Proin eu sapien vel justo pretium iaculis eu ac dui. Phasellus molestie dignissim lectus, at iaculis orci iaculis non. Aliquam tempus odio quis mauris bibendum eleifend. Vivamus auctor fermentum tempor. Suspendisse justo orci, euismod sit amet molestie vulputate, dignissim ut erat. Cras metus purus, varius at nisi vitae, congue mattis nisl. Cras elementum euismod odio id luctus. Maecenas non sem vitae sapien bibendum porttitor eu nec turpis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec a lobortis ligula. Ut urna neque, euismod quis auctor nec, pellentesque eget nisi.\r\n\r\nMauris tincidunt lectus ut diam porta pellentesque. Praesent pretium auctor sapien nec efficitur. Nulla facilisi. Pellentesque ut libero id ipsum euismod cursus. Praesent scelerisque porttitor erat tincidunt efficitur. Proin a nulla ligula. Praesent congue at ante sit amet volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque in bibendum nisl. Donec id tempor massa. Sed efficitur augue interdum tellus semper, a tempor eros sodales. Duis ac rhoncus justo. Nullam quis mattis purus. Etiam euismod enim in tristique aliquam. ', '64e6d55b6f47ca9d07aa9c0800b66c5f', 'Ivan Ivanov', '9uwSzi6Np3wFVisdqo3dLrcwRYePAf', 0, NULL, 'http://www.google.com', 'https://www.youtube.com/watch?v=10pmPiK8pi8&list=FLGllc6M9nVNtIgPZMFNdQWA&index=1', '(42.6745345, 23.31851329999995)', 'skype', 'ul. "Nikolay Liliev" 34, 1421 Sofia, Bulgaria', '2_c80a8414e4bbdc4477a8546a837dba81.jpg', 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-05 16:46:58', '2016-06-05 13:46:58'),
 (3, 1, 23, 5, 1, 1, 'dinko359@gmail.com', '2016-04-09 19:45:47', '2016-05-09', 1, '127.0.0.1', 5000000.00, 0, '', 'asdasdasd', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis ullamcorper lacus eget lacinia. Morbi feugiat neque ut ultricies laoreet. Donec pulvinar arcu vel augue maximus, feugiat cursus lorem feugiat. Morbi ac pellentesque sapien. In eu lacinia felis. Donec non enim a felis laoreet malesuada eget in tellus. Vestibulum congue est ac enim dapibus mollis. Nullam sed nulla id nisl varius faucibus id ac nisi. Vestibulum malesuada rhoncus dignissim. In efficitur nec augue nec porta. ', '914736644a755db69a7ef813c98a2d1e', 'asdasd', 'EwTxqMUjSeEYyytOIcnvjNIFxGEmlt', 0, NULL, '', '', '', '', '', '3_15627bac625951749154c3eec2147e92.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-04-09 22:46:09', '2016-04-09 19:45:47'),
-(4, 1, 23, 5, 2, 1, 'asdasd@asdasd.com', '2016-06-22 19:38:38', '2016-07-22', 1, '127.0.0.1', 0.00, 1, '', 'asdasd', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis ullamcorper lacus eget lacinia. Morbi feugiat neque ut ultricies laoreet. Donec pulvinar arcu vel augue maximus, feugiat cursus lorem feugiat. Morbi ac pellentesque sapien. In eu lacinia felis. Donec non enim a felis laoreet malesuada eget in tellus. Vestibulum congue est ac enim dapibus mollis. Nullam sed nulla id nisl varius faucibus id ac nisi. Vestibulum malesuada rhoncus dignissim. In efficitur nec augue nec porta. ', '914736644a755db69a7ef813c98a2d1e', 'asdasd', 'dRZg2KflWIqAVNUDEOp596NcHjIR2H', 0, NULL, '', '', '', '', '', '4_06202318a445d27a8302de0bff697fe6.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-22 22:38:38', '2016-06-22 19:38:38'),
-(8, 1, 19, 5, 1, 1, 'dinko359@gmail.com', '2016-06-21 14:25:53', '2016-07-21', 1, '127.0.0.1', 100.00, 0, '', 'ad title', 'Докато обществото гледа назад, икономиката и държавата ни не могат да тръгнат напред. 25 години спорим по едни и същи теми, които не могат да доведат до реално отражение в бъдещето ни. Правителствата водят политика на нулева приемственост, а без определяне на национална кауза няма как да продължим развитието си. Усеща се тежка липса на важен дебат, която се замаскира и замества от дребни махленски караници.<br /><br />Прочети още на: http://www.dnes.bg/politika/2016/06/21/sporim-za-gei-parada-a-nacionalna-kauza.306361<br /><br />', '8fdfe08686666e3e0b8a11376b310d21', 'dinko georgiev', '6kQb5hupEpi2iqJO49iycGzBJ2ntuy', 0, NULL, '', '', '', '', '', '8_c1498f10e11a4d16061ef734762ba6b0.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-21 17:26:35', '2016-06-21 14:26:35'),
 (6, 1, 13, 5, 1, 0, 'asdasd@asdasd.com', '2016-04-10 09:45:44', '2016-05-10', 1, '127.0.0.1', 47323.00, 0, '', 'Двустаен апартамент', 'Луксозен клас апартамент в центъра на квартал Кръстова Вада в жилищна сграда в непосредствена близост до Парадайз МОЛ с невероятна гледка към Витоша.Сградата е със собствено ограждение и видео контрол.Архитектурата е решена в съвременен стил и създава усещането за модерна визия. В проекта са вложени висококачествени материали, като тухли „Винербергер Поротерм“ по австрийски патент, луксозни асансьори на един от световните лидери в бранша и висок клас алуминиева дограма с прекъснат термомост.Апартамента е с краен срок на завършване 1.05.2016 год.В сградата се предлагат двустайни и тристайни апартаменти от 47323-до 88700 лв със ДДС , като някои от тях могат да се обединят за по големи пространства.Има възможност за закупуване на гаражи и паркоместа. ', 'e5caed09210c8a86669c8b1d66f90c10', 'asdasd', 'gIjPZSght8b6EdMtCXyH9Bp6wiEs0F', 0, NULL, '', '', '', '', '', '6_2d2062827a2ef704895a9020e4839b8f.jpg', 17, 4, 58, 0, 1, 2, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-08 23:04:30', '2016-06-08 20:04:29'),
 (7, 1, 13, 6, 1, 0, 'dinko359@gmail.com', '2016-06-09 15:47:23', '2016-07-09', 1, '127.0.0.1', 4450012.00, 0, '0899999999', 'Двустаен апартамент2', 'НОВА оферта на ул.''Преки път''. Луксозна сграда с Акт 16 от 2014 г. Продажба апартамент състоящ се от слънчева и функционална дневна с кухн. бокс, просторна спалня и санитарен възел. <br /><br />Жилището е с монтирани интериорни врати, РVС дограма, газов котел, алуминиеви радиатори. <br /><br />Стени - щпакловка и латекс, под - циментова замазка. Изложение - югозапад. Към апартамента са прилежащи мазе, както и идеални части от двора с регламентирано парко място. Сградата е газифицирана и оборудвана с хидравличен асансьор. Продава се и тристаен апартамент с площ от 103 кв.м. за Е 82 500. При желание може да се довърши до ключ. За прегледност на скицата ап.2. ', 'ebd86214936e6388cfa8c9e29f2a92f5', 'dinko georgiev', 'qco5EsBzNlXfaHlx2Xktx3jLnE766r', 0, NULL, '', '', '(51.4541617, -2.5879761999999573)', 'skype', 'East Tucker Street, Bristol, City of Bristol BS1 6FS, UK', '7_389cc50ae20a54dc0687f99626798078.jpg', 203, 4, 57, 2005, 1, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-09 18:47:31', '2016-06-09 15:47:30'),
 (9, 1, 19, 5, 1, 1, 'dinko359@gmail.com', '2016-06-22 19:39:26', '2016-07-22', 1, '127.0.0.1', 123.00, 0, '', 'test ad', 'Докато обществото гледа назад, икономиката и държавата ни не могат да тръгнат напред. 25 години спорим по едни и същи теми, които не могат да доведат до реално отражение в бъдещето ни. Правителствата водят политика на нулева приемственост, а без определяне на национална кауза няма как да продължим развитието си. Усеща се тежка липса на важен дебат, която се замаскира и замества от дребни махленски караници.<br /><br />Прочети още на: http://www.dnes.bg/politika/2016/06/21/sporim-za-gei-parada-a-nacionalna-kauza.306361<br /><br />', '8fdfe08686666e3e0b8a11376b310d21', 'Ivan Ivanov', 'iQLMaNkPjQenXd2RhPkCZ8JOJRtpCZ', 0, NULL, '', '', '', '', '', '9_f8809969d6f416a7f671b7f62286eac7.jpg', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-22 23:08:35', '2016-06-22 20:08:34'),
-(10, 3, 13, 5, 2, 0, 'noreply@mylove.bg', '2016-06-23 18:16:29', '2016-07-23', 1, '127.0.0.1', 1000.00, 0, 'phone', 'ad title', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', 'bb1ae33a0a9d01394c152ad4d3c6c40d', 'Zombi', '4YAWbtDbGtHr1oJCbtPfjlVI1kNhPL', 0, NULL, '', '', '', 'skype', '', '10_cafb2edd9636d00714abb9fdcbdd6f4b.jpg', 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-23 21:20:16', '2016-06-23 18:20:16'),
-(11, 1, 17, 5, 1, 1, 'dinko359@gmail.com', '2016-06-23 18:18:18', '2016-07-23', 1, '127.0.0.1', 0.00, 1, 'phone1', 'Where does it come from?', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'RavI4skVQxKY6TYJ1e348Wr5RjF4vG', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '11_e01f2dd6d7b6e97986f750ef853aec29.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-23 21:20:35', '2016-06-23 18:20:35'),
+(11, 1, 17, 5, 1, 1, 'dinko359@gmail.com', '2016-06-23 18:18:18', '2016-07-23', 1, '127.0.0.1', 0.00, 1, 'phone1', 'Where does it come from?', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'RavI4skVQxKY6TYJ1e348Wr5RjF4vG', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-09-15 18:03:49', '2016-09-15 15:03:49'),
 (12, 1, 13, 5, 1, 1, 'dinko359@gmail.com', '2016-07-14 18:05:33', '2016-08-14', 0, '127.0.0.1', 100.00, 0, 'phone1', 'asd', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'E3Xy3HqSXwdKsmeylLx5gksCvKlAop', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '12_1d065a0fa7dcbf468bd756a348b7022c.jpg', 0, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-07-14 21:05:34', '2016-07-14 18:05:34');
 
 -- --------------------------------------------------------
@@ -105,6 +102,8 @@ INSERT INTO `ad` (`ad_id`, `user_id`, `category_id`, `location_id`, `type_id`, `
 
 CREATE TABLE IF NOT EXISTS `admin_menu` (
   `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_parent_id` int(11) DEFAULT NULL,
+  `menu_type_id` tinyint(4) DEFAULT '1',
   `menu_title_key` varchar(255) NOT NULL,
   `menu_icon` varchar(255) DEFAULT NULL,
   `menu_link` varchar(255) NOT NULL,
@@ -113,17 +112,33 @@ CREATE TABLE IF NOT EXISTS `admin_menu` (
   `menu_active` tinyint(1) NOT NULL,
   `menu_external_link` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `admin_menu`
 --
 
-INSERT INTO `admin_menu` (`menu_id`, `menu_title_key`, `menu_icon`, `menu_link`, `menu_controller`, `menu_ord`, `menu_active`, `menu_external_link`) VALUES
-(1, 'dashboard', 'fa fa-link', 'admin', 'admincontroller', 10, 1, 0),
-(2, 'locations', 'fa fa-globe', 'admin/location', 'locationcontroller', 20, 1, 0),
-(3, 'categories', 'fa fa-sitemap', 'admin/category', 'categorycontroller', 30, 1, 0),
-(4, 'ads', 'fa fa-edit', 'admin/ad', 'adcontroller', 40, 1, 0);
+INSERT INTO `admin_menu` (`menu_id`, `menu_parent_id`, `menu_type_id`, `menu_title_key`, `menu_icon`, `menu_link`, `menu_controller`, `menu_ord`, `menu_active`, `menu_external_link`) VALUES
+(1, NULL, 1, 'dashboard', 'fa fa-link', 'admin', 'admincontroller', 10, 1, 0),
+(2, NULL, 1, 'locations', 'fa fa-globe', 'admin/location', 'locationcontroller', 20, 1, 0),
+(3, NULL, 1, 'categories', 'fa fa-sitemap', 'admin/category', 'categorycontroller', 30, 1, 0),
+(4, NULL, 1, 'ads', 'fa fa-edit', 'admin/ad', 'adcontroller', 40, 1, 0),
+(5, NULL, 1, 'users', 'fa fa-users', 'admin/user', 'usercontroller', 50, 1, 0),
+(6, NULL, 2, 'common_types', 'fa fa-gears', '', '', 60, 1, 0),
+(7, 6, 1, 'adtype', 'fa fa-circle-o', 'admin/adtype', 'adtypecontroller', 10, 1, 0),
+(8, 6, 1, 'adcondition', 'fa fa-circle-o', 'admin/adcondition', 'adconditioncontroller', 20, 1, 0),
+(9, NULL, 2, 'real_estate_types', 'fa fa-gears', '', '', 70, 1, 0),
+(10, 9, 1, 'estate_construction_type', 'fa fa-circle-o', 'admin/estateconstruction', 'estateconstructioncontroller', 10, 1, 0),
+(11, 9, 1, 'estate_furnishing_type', 'fa fa-circle-o', 'admin/estatefurnishing', 'estatefurnishingcontroller', 20, 1, 0),
+(12, 9, 1, 'estate_heating_type', 'fa fa-circle-o', 'admin/estateheating', 'estateheatingcontroller', 30, 1, 0),
+(13, 9, 1, 'estate_type', 'fa fa-circle-o', 'admin/estatetype', 'estatetypecontroller', 40, 1, 0),
+(14, NULL, 2, 'car_types', 'fa fa-gears', '', '', 80, 1, 0),
+(15, 14, 1, 'car_brand', 'fa fa-circle-o', 'admin/carbrand', 'carbrandcontroller', 10, 1, 0),
+(16, 14, 1, 'car_model', 'fa fa-circle-o', 'admin/carmodel', 'carmodelcontroller', 20, 1, 0),
+(17, 14, 1, 'car_condition', 'fa fa-circle-o', 'admin/carcondition', 'carconditioncontroller', 30, 1, 0),
+(18, 14, 1, 'car_engine', 'fa fa-circle-o', 'admin/carengine', 'carenginecontroller', 40, 1, 0),
+(19, 14, 1, 'car_modification', 'fa fa-circle-o', 'admin/carmodification', 'carmodificationcontroller', 50, 1, 0),
+(20, 14, 1, 'car_transmission', 'fa fa-circle-o', 'admin/cartransmission', 'cartransmissioncontroller', 60, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -169,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `ad_condition` (
   `ad_condition_id` int(11) NOT NULL AUTO_INCREMENT,
   `ad_condition_name` varchar(255) NOT NULL,
   PRIMARY KEY (`ad_condition_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `ad_condition`
@@ -235,10 +250,7 @@ INSERT INTO `ad_pic` (`ad_pic_id`, `ad_id`, `ad_pic`) VALUES
 (23, 7, '7_75dc160eb4444f9cb1615cf8d3440aa2.jpg'),
 (22, 7, '7_42fed772c613fdf4ce69128e2d1ab62d.jpg'),
 (21, 7, '7_686f6c8fae123d0a6393bcf44fb801ab.jpg'),
-(20, 7, '7_e77c30d0a0e5f5d7bbd2fb608912ac56.jpg'),
-(24, 10, '10_df371a6fb4c332d65ba68cf4f309696c.jpg'),
-(25, 11, '11_5e80ed0db477d03c687c9051e61e207b.jpg'),
-(26, 11, '11_f751d5cf138290047941c4c766bbd729.jpg');
+(20, 7, '7_e77c30d0a0e5f5d7bbd2fb608912ac56.jpg');
 
 -- --------------------------------------------------------
 
@@ -277,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `ad_type` (
   `ad_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `ad_type_name` varchar(255) NOT NULL,
   PRIMARY KEY (`ad_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `ad_type`
@@ -2358,7 +2370,7 @@ CREATE TABLE IF NOT EXISTS `estate_construction_type` (
   `estate_construction_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `estate_construction_type_name` varchar(255) NOT NULL,
   PRIMARY KEY (`estate_construction_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `estate_construction_type`
@@ -2378,7 +2390,7 @@ CREATE TABLE IF NOT EXISTS `estate_furnishing_type` (
   `estate_furnishing_type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `estate_furnishing_type_name` varchar(255) NOT NULL,
   PRIMARY KEY (`estate_furnishing_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `estate_furnishing_type`
@@ -2398,7 +2410,7 @@ CREATE TABLE IF NOT EXISTS `estate_heating_type` (
   `estate_heating_type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `estate_heating_type_name` varchar(255) NOT NULL,
   PRIMARY KEY (`estate_heating_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `estate_heating_type`
@@ -2418,7 +2430,7 @@ CREATE TABLE IF NOT EXISTS `estate_type` (
   `estate_type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `estate_type_name` varchar(255) NOT NULL,
   PRIMARY KEY (`estate_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `estate_type`
@@ -2611,7 +2623,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_user_email_unique` (`email`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `user`
@@ -2619,8 +2631,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `name`, `avatar`, `email`, `password`, `remember_token`, `user_activated`, `user_activation_token`, `user_location_id`, `user_phone`, `user_skype`, `user_address`, `user_lat_lng`, `user_site`, `is_admin`, `created_at`, `updated_at`) VALUES
 (1, 'dinko1 georgiev1', '1_f2ac6ef22c16c7e2f97abe9ab134c283.jpg', 'dinko359@gmail.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'FsLrJHEhKTLDsGxDazk9Ir4EhtKHYByPqLJG3PWvg7xIytYfnUGbhUbPNQbP', 1, NULL, 5, 'phone1', 'skype1', '451-499 24th St N, Birmingham, AL 35203, USA', '(33.5206313, -86.80255310000001)', 'web site1', 1, '2016-05-01 14:18:20', '2016-06-23 08:29:24'),
-(2, 'Ivan Ivanov', NULL, 'webmaster@silabg.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'ZsGZV0Dzu67KfivfPfP2hI1xdZF5nmwnTaZDeppsrrW1lzeBrJ1R4VBI6ru9', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2016-05-01 14:23:22', '2016-06-21 14:05:12'),
-(3, 'Zombi', NULL, 'noreply@mylove.bg', '$2y$10$6R4j9WVregF5MIyW7SPYgupVzl3I/wdE1tmkO07DS1F7xi/agW7F2', NULL, 0, 'pxXmciClL4g1cbtvgOiMPmMTebMHn7', 5, 'phone', 'skype', '', '', '', 0, '2016-06-23 18:16:27', '2016-06-23 18:16:27');
+(2, 'Ivan Ivanov', NULL, 'webmaster@silabg.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'ZsGZV0Dzu67KfivfPfP2hI1xdZF5nmwnTaZDeppsrrW1lzeBrJ1R4VBI6ru9', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2016-05-01 14:23:22', '2016-06-21 14:05:12');
 
 -- --------------------------------------------------------
 

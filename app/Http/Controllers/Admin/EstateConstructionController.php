@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\AdType;
+use App\EstateConstructionType;
 
 use Validator;
 use Cache;
 
-class AdTypeController extends Controller
+class EstateConstructionController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.ad_type.ad_type_list', ['modelData' => AdType::all()]);
+        return view('admin.estate_construction.estate_construction_list', ['modelData' => EstateConstructionType::all()]);
     }
 
     public function edit(Request $request)
@@ -28,10 +28,10 @@ class AdTypeController extends Controller
         $modelData = new \stdClass();
         if($id > 0){
             try{
-                $modelData = AdType::findOrFail($id);
+                $modelData = EstateConstructionType::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Ad Type');
-                return redirect(url('admin/adtype'));
+                session()->flash('message', 'Invalid Construction Type');
+                return redirect(url('admin/estateconstruction'));
             }
         }
 
@@ -44,7 +44,7 @@ class AdTypeController extends Controller
              * validate data
              */
             $rules = [
-                'ad_type_name' => 'required|max:255'
+                'estate_construction_type_name' => 'required|max:255'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -62,8 +62,8 @@ class AdTypeController extends Controller
             /**
              * save or update
              */
-            if(!isset($modelData->ad_type_id)){
-                AdType::create($data);
+            if(!isset($modelData->estate_construction_type_id)){
+                EstateConstructionType::create($data);
             } else {
                 $modelData->update($data);
             }
@@ -72,11 +72,11 @@ class AdTypeController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Ad Type saved');
-            return redirect(url('admin/adtype'));
+            session()->flash('message', 'Construction Type saved');
+            return redirect(url('admin/estateconstruction'));
         }
 
-        return view('admin.ad_type.ad_type_edit', ['modelData' => $modelData]);
+        return view('admin.estate_construction.estate_construction_edit', ['modelData' => $modelData]);
     }
 
     public function delete(Request $request)
@@ -91,20 +91,20 @@ class AdTypeController extends Controller
 
         //check for mass delete if no single delete
         if(empty($data)){
-            $data = $request->input('ad_type_id');
+            $data = $request->input('estate_construction_type_id');
         }
 
         //delete
         if(!empty($data)){
-            AdType::destroy($data);
+            EstateConstructionType::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Ad Type deleted');
-            return redirect(url('admin/adtype'));
+            session()->flash('message', 'Construction Type deleted');
+            return redirect(url('admin/estateconstruction'));
         }
 
         //nothing for deletion set message and redirect
         session()->flash('message', 'Nothing for deletion');
-        return redirect(url('admin/adtype'));
+        return redirect(url('admin/estateconstruction'));
     }
 }

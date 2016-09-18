@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Ad Conditions
+        Ad Types
         <small>List</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Ad Conditions</li>
+        <li class="active">Ad Types</li>
       </ol>
     </section>
     
@@ -25,61 +25,60 @@
     </div>
     @endif
     
-    <?if(empty($location_list)){?>
-        There are no Ad Conditions, go and add some Ad Conditions.
-    <?} else {?>
-        <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">All Locations</h3>
-              
+    <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">All Ad Types</h3>
+
+        </div>
+        <!-- /.box-header -->
+
+        <form method="post" name="list_form" id="list_form" action="{{ url('admin/adtype/delete') }}">
+        {!! csrf_field() !!}
+
+            <div class="controls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                    <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
+                </div>
+
+                <a href="{{ url('admin/adtype/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Ad Type</a>
             </div>
-            <!-- /.box-header -->
-            
-            <form method="post" name="list_form" id="list_form" action="{{ url('admin/location/delete') }}">
-            {!! csrf_field() !!}
-            
-                <div class="controls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-                        <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
-                    </div>
 
-                    <a href="{{ url('admin/location/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Location</a>
-                    <a href="{{ url('admin/location/import') }}" class="btn btn-primary btn-sm"><i class="fa fa-files-o"></i> Import Locations from csv</a>
-                </div>
+            <div class="box-body">
 
-                <div class="box-body">
-
-                  <table id="location_list_table" class="table table-bordered table-striped table-hover">
-                    <thead>
+            <table id="list_table" class="table table-bordered table-striped table-hover">
+                <thead>
                     <tr>
-                      <th></th>
-                      <th>#Id</th>
-                      <th>Location Name</th>
-                      <th>Location Slug</th>
-                      <th>Location Post Code</th>
-                      <th>Location Order</th>
-                      <th>Active</th>
-                      <th>Ad Count</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                        <th></th>
+                        <th>#Id</th>
+                        <th>Ad Type</th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?foreach($location_list as $k => $v){?>
-                        @include('admin.common.location_row', ['v' => $v, 'parent' => []])
-                    <?}//end of foreach?>
-                    </tbody>
-                  </table>
+                </thead>
+            <tbody>
+                <?foreach($modelData as $k => $v){?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="ad_type_id[]" value="<?=$v['ad_type_id']?>">
+                        </td>
+                        <td>{{ $v['ad_type_id'] }}</td>
+                        <td>{{ $v['ad_type_name'] }}</td>
+                        <td><a href="{{ url('admin/adtype/edit/' . $v['ad_type_id']) }}"><i class="fa fa-edit"></i> Edit</a></td>
+                        <td><a href="{{ url('admin/adtype/delete/' . $v['ad_type_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a></td>
+                    </tr>
+                <?}//end of foreach?>
+            </tbody>
+            </table>
 
-                </div>
-            <!-- /.box-body -->
-            </form>
-            
-            
-          </div>
-          <!-- /.box -->
-    <?}?>
+            </div>
+        <!-- /.box-body -->
+        </form>
+
+
+      </div>
+      <!-- /.box -->
+
 
     </section>
     <!-- /.content -->
@@ -101,15 +100,10 @@
     
     <script>
     $(function () {
-        $('#location_list_table').DataTable({"order": [], 
+        $('#list_table').DataTable({"order": [],
             "pageLength": 25,
             "columns": [
                         { "orderable": false },
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
                         null,
                         null,
                         { "orderable": false },
