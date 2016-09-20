@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Categories
+        Car Brands
         <small>List</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Categories</li>
+        <li class="active">Car Brands</li>
       </ol>
     </section>
     
@@ -25,61 +25,69 @@
     </div>
     @endif
     
-    <?if(empty($category_list)){?>
-        There are no categories, go and add some categories.
-    <?} else {?>
-        <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">All Categories</h3>
-              
+    <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">All Car Brands</h3>
+
+        </div>
+        <!-- /.box-header -->
+
+        <form method="post" name="list_form" id="list_form" action="{{ url('admin/carbrand/delete') }}">
+        {!! csrf_field() !!}
+
+            <div class="controls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                    <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
+                </div>
+
+                <a href="{{ url('admin/carbrand/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Car Brand</a>
+                <a href="{{ url('admin/carbrand/import') }}" class="btn btn-primary btn-sm"><i class="fa fa-files-o"></i> Import Car Brands from csv</a>
             </div>
-            <!-- /.box-header -->
-            
-            <form method="post" name="list_form" id="list_form" action="{{ url('admin/category/delete') }}">
-            {!! csrf_field() !!}
-            
-                <div class="controls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-                        <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
-                    </div>
 
-                    <a href="{{ url('admin/category/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Category</a>
-                    <a href="{{ url('admin/category/import') }}" class="btn btn-primary btn-sm"><i class="fa fa-files-o"></i> Import Categories from csv</a>
-                </div>
+            <div class="box-body">
 
-                <div class="box-body">
-
-                  <table id="category_list_table" class="table table-bordered table-striped table-hover">
-                    <thead>
+            <table id="list_table" class="table table-bordered table-striped table-hover">
+                <thead>
                     <tr>
-                      <th></th>
-                      <th>#Id</th>
-                      <th>Category Name</th>
-                      <th>Category Slug</th>
-                      <th>Category Type</th>
-                      <th>Category Order</th>
-                      <th>Active</th>
-                      <th>Ad Count</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                        <th></th>
+                        <th>#Id</th>
+                        <th>Car Brand</th>
+                        <th>Active</th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?foreach($category_list as $k => $v){?>
-                        @include('admin.common.category_row', ['v' => $v, 'parent' => []])
-                    <?}//end of foreach?>
-                    </tbody>
-                  </table>
+                </thead>
+            <tbody>
+                <?foreach($modelData as $k => $v){?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="car_brand_id[]" value="<?=$v['car_brand_id']?>">
+                        </td>
+                        <td>{{ $v['car_brand_id'] }}</td>
+                        <td>{{ $v['car_brand_name'] }}</td>
+                        <td>
+                            <?if($v['car_brand_active'] == 1){?>
+                                <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
+                            <?} else {?>
+                                <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
+                            <?}?>
+                        </td>
+                        <td><a href="{{ url('admin/carbrand/edit/' . $v['car_brand_id']) }}"><i class="fa fa-edit"></i> Edit</a></td>
+                        <td><a href="{{ url('admin/carbrand/delete/' . $v['car_brand_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a></td>
+                    </tr>
+                <?}//end of foreach?>
+            </tbody>
+            </table>
 
-                </div>
-            <!-- /.box-body -->
-            </form>
-            
-            
-          </div>
-          <!-- /.box -->
-    <?}?>
+            </div>
+        <!-- /.box-body -->
+        </form>
+
+
+      </div>
+      <!-- /.box -->
+
 
     </section>
     <!-- /.content -->
@@ -101,17 +109,13 @@
     
     <script>
     $(function () {
-        $('#category_list_table').DataTable({"order": [], 
+        $('#list_table').DataTable({"order": [],
             "pageLength": 25,
             "columns": [
                         { "orderable": false },
                         null,
                         null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
+                        { "orderable": false },
                         { "orderable": false },
                         { "orderable": false }
                       ]

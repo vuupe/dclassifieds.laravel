@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\AdCondition;
+use App\CarModification;
 
 use Validator;
 use Cache;
 
-class AdConditionController extends Controller
+class CarModificationController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.ad_condition.ad_condition_list', ['modelData' => AdCondition::all()]);
+        return view('admin.car_modification.car_modification_list', ['modelData' => CarModification::all()]);
     }
 
     public function edit(Request $request)
@@ -29,10 +29,10 @@ class AdConditionController extends Controller
         $modelData = new \stdClass();
         if($id > 0){
             try{
-                $modelData = AdCondition::findOrFail($id);
+                $modelData = CarModification::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Ad Condition');
-                return redirect(url('admin/adcondition'));
+                session()->flash('message', 'Invalid Car Modification');
+                return redirect(url('admin/carmodification'));
             }
         }
 
@@ -45,7 +45,7 @@ class AdConditionController extends Controller
              * validate data
              */
             $rules = [
-                'ad_condition_name' => 'required|max:255'
+                'car_modification_name' => 'required|max:255'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -63,8 +63,8 @@ class AdConditionController extends Controller
             /**
              * save or update
              */
-            if(!isset($modelData->ad_condition_id)){
-                AdCondition::create($data);
+            if(!isset($modelData->car_modification_id)){
+                CarModification::create($data);
             } else {
                 $modelData->update($data);
             }
@@ -73,11 +73,11 @@ class AdConditionController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Ad Condition saved');
-            return redirect(url('admin/adcondition'));
+            session()->flash('message', 'Car Modification saved');
+            return redirect(url('admin/carmodification'));
         }
 
-        return view('admin.ad_condition.ad_condition_edit', ['modelData' => $modelData]);
+        return view('admin.car_modification.car_modification_edit', ['modelData' => $modelData]);
     }
 
     public function delete(Request $request)
@@ -92,20 +92,20 @@ class AdConditionController extends Controller
 
         //check for mass delete if no single delete
         if(empty($data)){
-            $data = $request->input('ad_condition_id');
+            $data = $request->input('car_modification_id');
         }
 
         //delete
         if(!empty($data)){
-            AdCondition::destroy($data);
+            CarModification::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Ad Condition deleted');
-            return redirect(url('admin/adcondition'));
+            session()->flash('message', 'Car Modification deleted');
+            return redirect(url('admin/carmodification'));
         }
 
         //nothing for deletion set message and redirect
         session()->flash('message', 'Nothing for deletion');
-        return redirect(url('admin/adcondition'));
+        return redirect(url('admin/carmodification'));
     }
 }

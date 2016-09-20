@@ -77,6 +77,38 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/estatetype', 'EstateTypeController@index');
     Route::any('/admin/estatetype/edit/{id?}', 'EstateTypeController@edit');
     Route::any('/admin/estatetype/delete/{id?}', 'EstateTypeController@delete');
+
+    //Car Brands
+    Route::get('/admin/carbrand', 'CarBrandController@index');
+    Route::any('/admin/carbrand/edit/{id?}', 'CarBrandController@edit');
+    Route::any('/admin/carbrand/delete/{id?}', 'CarBrandController@delete');
+    Route::any('/admin/carbrand/import', 'CarBrandController@import');
+
+    //Car Models
+    Route::get('/admin/carmodel', 'CarModelController@index');
+    Route::any('/admin/carmodel/edit/{id?}', 'CarModelController@edit');
+    Route::any('/admin/carmodel/delete/{id?}', 'CarModelController@delete');
+    Route::any('/admin/carmodel/import', 'CarModelController@import');
+
+    //Car Conditions
+    Route::get('/admin/carcondition', 'CarConditionController@index');
+    Route::any('/admin/carcondition/edit/{id?}', 'CarConditionController@edit');
+    Route::any('/admin/carcondition/delete/{id?}', 'CarConditionController@delete');
+
+    //Car Engines
+    Route::get('/admin/carengine', 'CarEngineController@index');
+    Route::any('/admin/carengine/edit/{id?}', 'CarEngineController@edit');
+    Route::any('/admin/carengine/delete/{id?}', 'CarEngineController@delete');
+
+    //Car Modifications
+    Route::get('/admin/carmodification', 'CarModificationController@index');
+    Route::any('/admin/carmodification/edit/{id?}', 'CarModificationController@edit');
+    Route::any('/admin/carmodification/delete/{id?}', 'CarModificationController@delete');
+
+    //Car Transmissions
+    Route::get('/admin/cartransmission', 'CarTransmissionController@index');
+    Route::any('/admin/cartransmission/edit/{id?}', 'CarTransmissionController@edit');
+    Route::any('/admin/cartransmission/delete/{id?}', 'CarTransmissionController@delete');
 });
 /*
  * end of admin routes

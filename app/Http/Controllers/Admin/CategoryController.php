@@ -195,7 +195,7 @@ class CategoryController extends Controller
 
                 //rename and move uploaded file
                 $csv_file = Input::file('csv_file');
-                $tmp_import_name = time() . '_location_import_.' . $csv_file->getClientOriginalExtension();
+                $tmp_import_name = time() . '_category_import_.' . $csv_file->getClientOriginalExtension();
                 $csv_file->move(storage_path() . '/app', $tmp_import_name);
 
                 //read csv
