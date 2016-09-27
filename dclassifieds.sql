@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2016 at 05:03 PM
+-- Generation Time: Sep 27, 2016 at 05:42 PM
 -- Server version: 5.1.42
 -- PHP Version: 5.2.12
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `ad` (
 --
 
 INSERT INTO `ad` (`ad_id`, `user_id`, `category_id`, `location_id`, `type_id`, `condition_id`, `ad_email`, `ad_publish_date`, `ad_valid_until`, `ad_active`, `ad_ip`, `ad_price`, `ad_free`, `ad_phone`, `ad_title`, `ad_description`, `ad_description_hash`, `ad_puslisher_name`, `code`, `ad_promo`, `ad_promo_until`, `ad_link`, `ad_video`, `ad_lat_lng`, `ad_skype`, `ad_address`, `ad_pic`, `ad_view`, `estate_type_id`, `estate_sq_m`, `estate_year`, `estate_construction_type_id`, `estate_floor`, `estate_num_floors_in_building`, `estate_heating_type_id`, `estate_furnishing_type_id`, `car_brand_id`, `car_model_id`, `car_engine_id`, `car_transmission_id`, `car_modification_id`, `car_condition_id`, `car_year`, `car_kilometeres`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 7, 1, 0, 'dinko359@gmail.com', '2016-06-05 18:32:30', '2016-07-05', 1, '127.0.0.1', 6000.00, 0, '', 'audi a6 kombi', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate vulputate efficitur. Curabitur lacinia id orci id hendrerit. Nam volutpat interdum sapien ut porttitor. Curabitur a blandit magna, eu viverra dolor. Donec eu orci dolor. Proin imperdiet turpis vitae sollicitudin euismod. Curabitur consectetur sapien nec nibh vehicula, mattis tempor nisi blandit. Quisque rutrum dui nisl, ac dapibus lorem dignissim nec. Proin eget lectus consequat, consequat ligula quis, gravida nisi. Nam placerat, felis vitae tempus cursus, lorem tellus facilisis purus, a facilisis tellus dolor et massa. In ultrices convallis risus, et imperdiet metus pellentesque vel. Duis pharetra lacus eu purus pellentesque mattis. Maecenas sit amet dui a turpis tincidunt faucibus. Aenean placerat est diam, sed euismod justo condimentum id. Duis sit amet quam at urna sagittis accumsan.\r\n\r\nAliquam erat volutpat. Mauris tempor metus nec felis aliquam, vitae semper nisi lobortis. Maecenas sem diam, pharetra fringilla aliquam a, semper sit amet velit. Nullam enim ex, auctor ullamcorper tellus id, vestibulum vestibulum nunc. Donec ante ex, dignissim ac dapibus vitae, fringilla quis ligula. Morbi eget dapibus diam, vitae volutpat lacus. Nullam elementum libero faucibus suscipit facilisis. Mauris posuere lorem lectus, at tempor orci viverra id. Sed pretium convallis elit id pharetra. Nullam malesuada erat nec imperdiet posuere. Quisque suscipit metus sit amet nunc rhoncus, mattis pretium sapien aliquet. Fusce condimentum diam in odio ultrices aliquet. Sed commodo ornare diam nec aliquam. Pellentesque ac viverra ligula, ac auctor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nMauris convallis malesuada metus nec scelerisque. Aliquam congue ac elit et condimentum. Nullam velit erat, malesuada a lacus quis, ultrices venenatis tortor. Praesent sodales quis augue sit amet scelerisque. Quisque iaculis, elit in porttitor rutrum, sem velit efficitur neque, id viverra nibh urna et erat. Aenean id metus finibus, sagittis ante sit amet, pretium libero. Etiam elementum ipsum ac dolor tempus, a efficitur ligula sodales. Nunc condimentum massa vitae nulla finibus, vehicula cursus arcu interdum. Curabitur pulvinar tincidunt urna, vel faucibus odio tincidunt at. ', '263b60d9715e8a90541b1ced03b5702d', 'Ivan Ivanov', 'KUwDgm3fUgjAwjacOLLZeOCjBsGOIC', 1, NULL, NULL, NULL, NULL, '', NULL, '1_111aa13e56468dfeef73451725fea2ce.jpg', 53, 0, 0, 0, 0, 0, 0, 0, 0, 6, 56, 2, 2, 0, 1, 2003, 201000, '2016-09-02 17:22:57', '2016-09-02 14:22:56'),
+(1, 1, 15, 7, 1, 0, 'dinko359@gmail.com', '2016-06-05 18:32:30', '2016-07-05', 1, '127.0.0.1', 6000.00, 0, '', 'audi a6 kombi', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate vulputate efficitur. Curabitur lacinia id orci id hendrerit. Nam volutpat interdum sapien ut porttitor. Curabitur a blandit magna, eu viverra dolor. Donec eu orci dolor. Proin imperdiet turpis vitae sollicitudin euismod. Curabitur consectetur sapien nec nibh vehicula, mattis tempor nisi blandit. Quisque rutrum dui nisl, ac dapibus lorem dignissim nec. Proin eget lectus consequat, consequat ligula quis, gravida nisi. Nam placerat, felis vitae tempus cursus, lorem tellus facilisis purus, a facilisis tellus dolor et massa. In ultrices convallis risus, et imperdiet metus pellentesque vel. Duis pharetra lacus eu purus pellentesque mattis. Maecenas sit amet dui a turpis tincidunt faucibus. Aenean placerat est diam, sed euismod justo condimentum id. Duis sit amet quam at urna sagittis accumsan.\r\n\r\nAliquam erat volutpat. Mauris tempor metus nec felis aliquam, vitae semper nisi lobortis. Maecenas sem diam, pharetra fringilla aliquam a, semper sit amet velit. Nullam enim ex, auctor ullamcorper tellus id, vestibulum vestibulum nunc. Donec ante ex, dignissim ac dapibus vitae, fringilla quis ligula. Morbi eget dapibus diam, vitae volutpat lacus. Nullam elementum libero faucibus suscipit facilisis. Mauris posuere lorem lectus, at tempor orci viverra id. Sed pretium convallis elit id pharetra. Nullam malesuada erat nec imperdiet posuere. Quisque suscipit metus sit amet nunc rhoncus, mattis pretium sapien aliquet. Fusce condimentum diam in odio ultrices aliquet. Sed commodo ornare diam nec aliquam. Pellentesque ac viverra ligula, ac auctor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nMauris convallis malesuada metus nec scelerisque. Aliquam congue ac elit et condimentum. Nullam velit erat, malesuada a lacus quis, ultrices venenatis tortor. Praesent sodales quis augue sit amet scelerisque. Quisque iaculis, elit in porttitor rutrum, sem velit efficitur neque, id viverra nibh urna et erat. Aenean id metus finibus, sagittis ante sit amet, pretium libero. Etiam elementum ipsum ac dolor tempus, a efficitur ligula sodales. Nunc condimentum massa vitae nulla finibus, vehicula cursus arcu interdum. Curabitur pulvinar tincidunt urna, vel faucibus odio tincidunt at. ', '263b60d9715e8a90541b1ced03b5702d', 'Ivan Ivanov', 'KUwDgm3fUgjAwjacOLLZeOCjBsGOIC', 1, NULL, NULL, NULL, NULL, '', NULL, '1_111aa13e56468dfeef73451725fea2ce.jpg', 54, 0, 0, 0, 0, 0, 0, 0, 0, 6, 56, 2, 2, 0, 1, 2003, 201000, '2016-09-27 13:50:36', '2016-09-27 10:50:36'),
 (2, 1, 23, 7, 1, 1, 'dinko359@gmail.com', '2016-04-09 17:52:14', '2016-05-09', 1, '127.0.0.1', 0.00, 1, 'phone', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan congue cursus. Ut facilisis imperdiet nibh id hendrerit. Donec luctus tincidunt faucibus. Quisque gravida mi sit amet eros malesuada, id gravida libero suscipit. Sed nec lacus ex. Nulla facilisi. Proin efficitur diam ut congue sagittis. Suspendisse hendrerit eros id nisl consectetur tempor. Integer interdum quam ut ligula condimentum, at iaculis ligula tincidunt. In finibus maximus tortor eu elementum. Vivamus mollis leo elit, ut tristique mauris ultrices at.\r\n\r\nQuisque dapibus augue ac erat porttitor imperdiet. Aenean eu ipsum eros. Ut aliquet tincidunt urna. Morbi convallis, libero at laoreet egestas, est tortor ultricies felis, et tristique leo nulla vel nisi. Proin eu sapien vel justo pretium iaculis eu ac dui. Phasellus molestie dignissim lectus, at iaculis orci iaculis non. Aliquam tempus odio quis mauris bibendum eleifend. Vivamus auctor fermentum tempor. Suspendisse justo orci, euismod sit amet molestie vulputate, dignissim ut erat. Cras metus purus, varius at nisi vitae, congue mattis nisl. Cras elementum euismod odio id luctus. Maecenas non sem vitae sapien bibendum porttitor eu nec turpis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec a lobortis ligula. Ut urna neque, euismod quis auctor nec, pellentesque eget nisi.\r\n\r\nMauris tincidunt lectus ut diam porta pellentesque. Praesent pretium auctor sapien nec efficitur. Nulla facilisi. Pellentesque ut libero id ipsum euismod cursus. Praesent scelerisque porttitor erat tincidunt efficitur. Proin a nulla ligula. Praesent congue at ante sit amet volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque in bibendum nisl. Donec id tempor massa. Sed efficitur augue interdum tellus semper, a tempor eros sodales. Duis ac rhoncus justo. Nullam quis mattis purus. Etiam euismod enim in tristique aliquam. ', '64e6d55b6f47ca9d07aa9c0800b66c5f', 'Ivan Ivanov', '9uwSzi6Np3wFVisdqo3dLrcwRYePAf', 0, NULL, 'http://www.google.com', 'https://www.youtube.com/watch?v=10pmPiK8pi8&list=FLGllc6M9nVNtIgPZMFNdQWA&index=1', '(42.6745345, 23.31851329999995)', 'skype', 'ul. "Nikolay Liliev" 34, 1421 Sofia, Bulgaria', '2_c80a8414e4bbdc4477a8546a837dba81.jpg', 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-05 16:46:58', '2016-06-05 13:46:58'),
 (3, 1, 23, 5, 1, 1, 'dinko359@gmail.com', '2016-04-09 19:45:47', '2016-05-09', 1, '127.0.0.1', 5000000.00, 0, '', 'asdasdasd', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis ullamcorper lacus eget lacinia. Morbi feugiat neque ut ultricies laoreet. Donec pulvinar arcu vel augue maximus, feugiat cursus lorem feugiat. Morbi ac pellentesque sapien. In eu lacinia felis. Donec non enim a felis laoreet malesuada eget in tellus. Vestibulum congue est ac enim dapibus mollis. Nullam sed nulla id nisl varius faucibus id ac nisi. Vestibulum malesuada rhoncus dignissim. In efficitur nec augue nec porta. ', '914736644a755db69a7ef813c98a2d1e', 'asdasd', 'EwTxqMUjSeEYyytOIcnvjNIFxGEmlt', 0, NULL, '', '', '', '', '', '3_15627bac625951749154c3eec2147e92.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-04-09 22:46:09', '2016-04-09 19:45:47'),
 (6, 1, 13, 5, 1, 0, 'asdasd@asdasd.com', '2016-04-10 09:45:44', '2016-05-10', 1, '127.0.0.1', 47323.00, 0, '', 'Двустаен апартамент', 'Луксозен клас апартамент в центъра на квартал Кръстова Вада в жилищна сграда в непосредствена близост до Парадайз МОЛ с невероятна гледка към Витоша.Сградата е със собствено ограждение и видео контрол.Архитектурата е решена в съвременен стил и създава усещането за модерна визия. В проекта са вложени висококачествени материали, като тухли „Винербергер Поротерм“ по австрийски патент, луксозни асансьори на един от световните лидери в бранша и висок клас алуминиева дограма с прекъснат термомост.Апартамента е с краен срок на завършване 1.05.2016 год.В сградата се предлагат двустайни и тристайни апартаменти от 47323-до 88700 лв със ДДС , като някои от тях могат да се обединят за по големи пространства.Има възможност за закупуване на гаражи и паркоместа. ', 'e5caed09210c8a86669c8b1d66f90c10', 'asdasd', 'gIjPZSght8b6EdMtCXyH9Bp6wiEs0F', 0, NULL, '', '', '', '', '', '6_2d2062827a2ef704895a9020e4839b8f.jpg', 17, 4, 58, 0, 1, 2, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '2016-06-08 23:04:30', '2016-06-08 20:04:29'),
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `admin_menu` (
   `menu_active` tinyint(1) NOT NULL,
   `menu_external_link` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `admin_menu`
@@ -138,7 +138,9 @@ INSERT INTO `admin_menu` (`menu_id`, `menu_parent_id`, `menu_type_id`, `menu_tit
 (17, 14, 1, 'car_condition', 'fa fa-circle-o', 'admin/carcondition', 'carconditioncontroller', 30, 1, 0),
 (18, 14, 1, 'car_engine', 'fa fa-circle-o', 'admin/carengine', 'carenginecontroller', 40, 1, 0),
 (19, 14, 1, 'car_modification', 'fa fa-circle-o', 'admin/carmodification', 'carmodificationcontroller', 50, 1, 0),
-(20, 14, 1, 'car_transmission', 'fa fa-circle-o', 'admin/cartransmission', 'cartransmissioncontroller', 60, 1, 0);
+(20, 14, 1, 'car_transmission', 'fa fa-circle-o', 'admin/cartransmission', 'cartransmissioncontroller', 60, 1, 0),
+(21, NULL, 1, 'banner', 'fa fa-dollar', 'admin/banner', 'bannercontroller', 90, 1, 0),
+(22, NULL, 1, 'settings', 'fa fa-gear', 'admin/settings', 'settingscontroller', 100, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -302,6 +304,31 @@ INSERT INTO `ad_type` (`ad_type_id`, `ad_type_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `banner`
+--
+
+CREATE TABLE IF NOT EXISTS `banner` (
+  `banner_id` int(11) NOT NULL AUTO_INCREMENT,
+  `banner_position` int(11) NOT NULL,
+  `banner_type` int(11) NOT NULL,
+  `banner_name` varchar(255) NOT NULL,
+  `banner_link` varchar(255) DEFAULT NULL,
+  `banner_code` text,
+  `banner_image` varchar(255) DEFAULT NULL,
+  `banner_active_from` date DEFAULT NULL,
+  `banner_active_to` date DEFAULT NULL,
+  `banner_num_views` int(11) DEFAULT '0',
+  PRIMARY KEY (`banner_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `banner`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `car_brand`
 --
 
@@ -311,7 +338,7 @@ CREATE TABLE IF NOT EXISTS `car_brand` (
   `car_brand_active` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`car_brand_id`),
   UNIQUE KEY `car_brand_name` (`car_brand_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=132 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
 
 --
 -- Dumping data for table `car_brand`
@@ -460,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `car_condition` (
   `car_condition_id` int(11) NOT NULL AUTO_INCREMENT,
   `car_condition_name` varchar(255) NOT NULL,
   PRIMARY KEY (`car_condition_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `car_condition`
@@ -480,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `car_engine` (
   `car_engine_id` int(11) NOT NULL AUTO_INCREMENT,
   `car_engine_name` varchar(255) NOT NULL,
   PRIMARY KEY (`car_engine_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `car_engine`
@@ -503,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `car_model` (
   `car_model_active` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`car_model_id`),
   KEY `car_brand_id` (`car_brand_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1759 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1763 ;
 
 --
 -- Dumping data for table `car_model`
@@ -2279,7 +2306,7 @@ CREATE TABLE IF NOT EXISTS `car_modification` (
   `car_modification_id` int(11) NOT NULL AUTO_INCREMENT,
   `car_modification_name` varchar(255) NOT NULL,
   PRIMARY KEY (`car_modification_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `car_modification`
@@ -2300,7 +2327,7 @@ CREATE TABLE IF NOT EXISTS `car_transmission` (
   `car_transmission_id` int(11) NOT NULL AUTO_INCREMENT,
   `car_transmission_name` varchar(255) NOT NULL,
   PRIMARY KEY (`car_transmission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `car_transmission`
@@ -2430,7 +2457,7 @@ CREATE TABLE IF NOT EXISTS `estate_type` (
   `estate_type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `estate_type_name` varchar(255) NOT NULL,
   PRIMARY KEY (`estate_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `estate_type`
@@ -2562,40 +2589,18 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `setting_value` varchar(255) NOT NULL,
   `setting_description` text NOT NULL,
   `setting_show_in_admin` tinyint(4) DEFAULT '1',
+  `setting_field_type` varchar(10) DEFAULT 'text',
   PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`setting_id`, `setting_name`, `setting_value`, `setting_description`, `setting_show_in_admin`) VALUES
-(1, 'APP_NAME', 'DClassifieds Free Classifieds Script', 'Site Name', 1),
-(2, 'APP_LANG', 'en', 'Site Language', 1),
-(3, 'APP_THEME', 'basic', 'Site Theme', 1),
-(4, 'CONTACT_EMAIL', 'webmaster@dclassifieds.eu', 'Contact email', 1),
-(5, 'NUM_CLASSIFIEDS_HOME_PAGE', '7', 'Num classifieds on home page', 1),
-(6, 'NUM_CLASSIFIEDS_ON_PAGE', '10', 'Num classifieds on page', 1),
-(7, 'NUM_SIMILAR_CLASSIFIEDS', '5', 'Num similar classifieds', 1),
-(8, 'ADMIN_USER', 'admin', 'Admin panel user name', 1),
-(9, 'ADMIN_PASS', 'admin', 'Admin panel user password', 1),
-(10, 'SEND_CONTROL_MAIL', '1', 'Send Control E-Mail', 1),
-(11, 'EMAIL_TYPE', 'mail', 'Email type', 1),
-(12, 'EMAIL_AUTH', '', 'Email requeres authorization', 1),
-(13, 'EMAIL_HOST', '', 'Email host', 1),
-(14, 'EMAIL_PORT', '', 'Email port', 1),
-(15, 'EMAIL_USER', '', 'Email user', 1),
-(16, 'EMAIL_PASS', '', 'Email pass', 1),
-(17, 'ENABLE_VISUAL_EDITOR', '1', 'Enable Visual Editor', 1),
-(18, 'ENABLE_GOOGLE_MAP', '1', 'Enable Google Map', 1),
-(19, 'ENABLE_TIPSY_PUBLISH', '1', 'Enable Tips on Publish', 1),
-(20, 'ENABLE_VIDEO_LINK_PUBLISH', '1', 'Enable video link publish', 1),
-(21, 'ENABLE_LINK_PUBLISH', '1', 'Enable link publish', 1),
-(22, 'MAX_PIC_UPLOAD_SIZE', '204800', 'Maximum upload image size', 1),
-(23, 'NUM_PICS_UPLOAD', '3', 'Num upload pics publish', 1),
-(24, 'NUM_HISTORY_ITEMS', '5', 'Num classifieds in history box', 1),
-(25, 'NUM_ITEMS_IN_RSS', '100', 'Num items in rss feed', 1),
-(26, 'PRICE_CURRENCY_NAME', '&euro;', 'Site currency name', 1);
+INSERT INTO `settings` (`setting_id`, `setting_name`, `setting_value`, `setting_description`, `setting_show_in_admin`, `setting_field_type`) VALUES
+(1, 'site_domain', 'dclassifieds.eu', 'Site domain name', 1, 'text'),
+(2, 'site_logo_name', 'DClassifieds V3', 'Site Logo Name', 1, 'text'),
+(3, 'site_home_page_title', 'DClassifieds V3', 'Site home page title', 1, 'text');
 
 -- --------------------------------------------------------
 

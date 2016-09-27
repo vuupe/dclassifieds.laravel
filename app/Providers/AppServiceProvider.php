@@ -6,6 +6,7 @@ use Validator;
 use Illuminate\Support\ServiceProvider;
 use App\AdminMenu;
 use App\Http\Dc\Util;
+use App\Settings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /**
+         * Register custom Validator
+         */
         Validator::extend('require_one_of_array', function($attribute, $value, $parameters, $validator) {
             if(!is_array($value)){
                 return false;
@@ -30,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
+        /**
+         * Get Admin Menu from DB
+         */
         view()->composer('admin.layout.admin_index_layout', function ($view) {
             $adminMenu = new AdminMenu();
             $view->with('adminMenu', $adminMenu->getMenu());
@@ -37,6 +44,17 @@ class AppServiceProvider extends ServiceProvider
             $view->with('controller', $controller);
             $view->with('controller_parent_id', $adminMenu->getParent($controller));
         });
+
+        /**
+         * Get Settings From DB
+         */
+        $settings = Settings::all();
+        if(!$settings->isEmpty()){
+            foreach($settings as $k => $v){
+                config(['dc.' . $v->setting_name => $v->setting_value]);
+            }
+        }
+
     }
 
     /**

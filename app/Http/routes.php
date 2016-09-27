@@ -114,6 +114,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/banner', 'BannerController@index');
     Route::any('/admin/banner/edit/{id?}', 'BannerController@edit');
     Route::any('/admin/banner/delete/{id?}', 'BannerController@delete');
+
+    //Settings
+    Route::get('/admin/settings', 'SettingsController@index');
+    Route::any('/admin/settings/edit/{id?}', 'SettingsController@edit');
 });
 /*
  * end of admin routes
