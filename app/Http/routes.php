@@ -109,6 +109,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/cartransmission', 'CarTransmissionController@index');
     Route::any('/admin/cartransmission/edit/{id?}', 'CarTransmissionController@edit');
     Route::any('/admin/cartransmission/delete/{id?}', 'CarTransmissionController@delete');
+
+    //Banners
+    Route::get('/admin/banner', 'BannerController@index');
+    Route::any('/admin/banner/edit/{id?}', 'BannerController@edit');
+    Route::any('/admin/banner/delete/{id?}', 'BannerController@delete');
 });
 /*
  * end of admin routes

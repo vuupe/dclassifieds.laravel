@@ -19,5 +19,7 @@ return [
     'car_condition' => 'Car Conditions',
     'car_engine' => 'Car Engines',
     'car_modification' => 'Car Modifications',
-    'car_transmission' => 'Car Transmissions'
+    'car_transmission' => 'Car Transmissions',
+    'banner' => 'Banners',
+    'settings' => 'Settings'
 ];
