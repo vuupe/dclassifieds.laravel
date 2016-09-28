@@ -2,9 +2,9 @@ $(document).ready(function(){
     /**
      * commmon
      */
-    $(".cid_select").chosen({'placeholder_text_single' : 'All Categories', 'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
-    $(".lid_select").chosen({'placeholder_text_single' : 'All Locations', 'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
-    $(".chosen_select").chosen({'no_results_text' : 'No results', 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
+    $(".cid_select").chosen({'placeholder_text_single' : __ALL_CATEGORIES_TEXT, 'no_results_text' : __NO_RESULTS_TEXT, 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
+    $(".lid_select").chosen({'placeholder_text_single' : __ALL_LOCATIONS_TEXT, 'no_results_text' : __NO_RESULTS_TEXT, 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
+    $(".chosen_select").chosen({'no_results_text' : __NO_RESULTS_TEXT, 'width' : '100%', 'allow_single_deselect': true, 'search_contains':true});
 
     $('.multi_select').multiselect({'includeSelectAllOption' : true,
         'buttonClass' : 'btn btn-default align-left',
