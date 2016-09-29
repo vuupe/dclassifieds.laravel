@@ -1,4 +1,5 @@
 <?php
+
 return [
     'home' => 'Home',
     'Added_on' => 'Added on',

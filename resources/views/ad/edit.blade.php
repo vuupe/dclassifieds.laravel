@@ -50,16 +50,16 @@
                         <label for="category_id" class="col-md-4 control-label">{{ trans('publish_edit.Category') }}</label>
                         <div class="col-md-5">
                             @if(isset($c) && !empty($c))
-                            <select name="category_id" id="category_id" class="form-control cid_select" disabled>
-                                <option value="0"></option>
-                                @foreach ($c as $k => $v)
-                                    <optgroup label="{{$v['title']}}">
-                                        @if(isset($v['c']) && !empty($v['c'])){
-                                            @include('common.cselect', ['c' => $v['c'], 'cid' => Util::getOldOrModelValue('category_id', $ad_detail)])
-                                        @endif
-                                    </optgroup>
-                                @endforeach
-                            </select>
+                                <select name="category_id" id="category_id" class="form-control cid_select" disabled>
+                                    <option value="0"></option>
+                                    @foreach ($c as $k => $v)
+                                        <optgroup label="{{$v['title']}}">
+                                            @if(isset($v['c']) && !empty($v['c'])){
+                                                @include('common.cselect', ['c' => $v['c'], 'cid' => Util::getOldOrModelValue('category_id', $ad_detail)])
+                                            @endif
+                                        </optgroup>
+                                    @endforeach
+                                </select>
                             @endif
 
                             @if ($errors->has('category_id'))

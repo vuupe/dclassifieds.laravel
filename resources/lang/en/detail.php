@@ -1,4 +1,5 @@
 <?php
+
 return [
     'Home' => 'Home',
     'Added on' => 'Added on',
@@ -17,10 +18,6 @@ return [
     'Car Brand' => 'Car Brand',
     'Car Model' => 'Car Model',
     'Modification' => 'Modification',
-    'Car Engine' => 'Car Engine',
-    'Car Transmission' => 'Car Transmission',
-    'Car Year' => 'Car Year',
-    'Car Kilometers' => 'Car Kilometers',
     'Car Engine' => 'Car Engine',
     'Car Transmission' => 'Car Transmission',
     'Car Year' => 'Car Year',

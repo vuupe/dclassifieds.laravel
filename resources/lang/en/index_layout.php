@@ -1,4 +1,5 @@
 <?php
+
 return [
     'admin_panel' => 'Admin Panel',
     'my_profile' => 'My Profile',

@@ -1,4 +1,4 @@
-<?php
+<?
 return [
     'dashboard' => 'Dashboard',
     'locations' => 'Locations',

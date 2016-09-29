@@ -1,4 +1,5 @@
 <?php
+
 return [
     'Home' => 'Home',
     'My Classifieds' => 'My Classifieds',
@@ -56,5 +57,7 @@ return [
     '"Privacy Policy"' => '"Privacy Policy"',
     'Save' => 'Save',
     'Find on the map' => 'Find on the map',
-    'Yes, this is my location' => 'Yes, this is my location'
+    'Yes, this is my location' => 'Yes, this is my location',
+    'Publish' => 'Publish',
+    'Post an ad' => 'Post an ad'
 ];
