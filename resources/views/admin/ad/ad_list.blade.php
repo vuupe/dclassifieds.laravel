@@ -1,35 +1,33 @@
 @extends('admin.layout.admin_index_layout')
 @section('content')
-	<!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Ads
-        <small>List</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Ads</li>
-      </ol>
+        <h1>
+            {{ trans('admin_ad.Ads') }}
+            <small>{{ trans('admin_ad.List') }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_ad.Home') }}</a></li>
+            <li class="active">{{ trans('admin_ad.Ads') }}</li>
+        </ol>
     </section>
-
-
 
     <!-- Main content -->
     <section class="content">
 
     @if (session()->has('message'))
-    <div class="alert alert-info alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<h4><i class="icon fa fa-info"></i> Information</h4>
-		{!! session('message') !!}
-	</div>
-	@endif
-    <?if($adList->isEmpty()){?>
-    	There are no ads.
-    <?} else {?>
-    	<div class="box">
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-info"></i> {{ trans('admin_ad.Information') }}</h4>
+            {!! session('message') !!}
+        </div>
+    @endif
+    @if($adList->isEmpty())
+        {{ trans('admin_ad.There are no ads.') }}
+    @else
+        <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">All Ads</h3>
+              <h3 class="box-title">{{ trans('admin_ad.All Ads') }}</h3>
 
             </div>
             <!-- /.box-header -->
@@ -37,29 +35,29 @@
             <form method="get" name="list_form" id="list_form">
             {!! csrf_field() !!}
                 <div class="controls">
-	            	<div class="btn-group">
-	            		<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-	            		<button type="submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad/delete') }}');" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
-	            	</div>
-	            </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                        <button type="submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad/delete') }}');" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                </div>
 
-	            <div class="box-body">
+                <div class="box-body">
 
                     <table id="ad_list_table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>#Id</th>
-                                <th>Ad IP</th>
-                                <th>Location</th>
-                                <th>Ad Title</th>
-                                <th>User #Id</th>
-                                <th>User Name</th>
-                                <th>User E-Mail</th>
-                                <th>Ad Promo</th>
-                                <th>Publish Date</th>
-                                <th>Active</th>
-                                <th>Num Views</th>
+                                <th>{{ trans('admin_ad.#Id') }}</th>
+                                <th>{{ trans('admin_ad.Ad IP') }}</th>
+                                <th>{{ trans('admin_ad.Location') }}</th>
+                                <th>{{ trans('admin_ad.Ad Title') }}</th>
+                                <th>{{ trans('admin_ad.User #Id') }}</th>
+                                <th>{{ trans('admin_ad.User Name') }}</th>
+                                <th>{{ trans('admin_ad.User E-Mail') }}</th>
+                                <th>{{ trans('admin_ad.Ad Promo') }}</th>
+                                <th>{{ trans('admin_ad.Publish Date') }}</th>
+                                <th>{{ trans('admin_ad.Active') }}</th>
+                                <th>{{ trans('admin_ad.Num Views') }}</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -74,33 +72,33 @@
                                 <td><input type="text" class="form-control filter_field" name="ad_email" id="ad_email" value="{{ isset($params['ad_email']) ? $params['ad_email'] : ''}}" /></td>
                                 <td width="85px;">
                                     <select class="form-control filter_field" name="ad_promo" id="ad_promo">
-                                        <?foreach($yesnoselect as $k => $v){?>
-                                            <?if(isset($params['ad_promo']) && is_numeric($params['ad_promo'])){?>
-                                                <?if($params['ad_promo'] == $k){?>
+                                        @foreach($yesnoselect as $k => $v){?>
+                                            @if(isset($params['ad_promo']) && is_numeric($params['ad_promo']))
+                                                @if($params['ad_promo'] == $k)
                                                     <option value="{{ $k }}" selected>{{ $v }}</option>
-                                                <?} else {?>
+                                                @else
                                                     <option value="{{ $k }}">{{ $v }}</option>
-                                                <?}?>
-                                            <?} else {?>
+                                                @endif
+                                            @else
                                                 <option value="{{ $k }}">{{ $v }}</option>
-                                            <?}?>
-                                        <?}?>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </td>
                                 <td></td>
                                 <td width="85px;">
                                     <select class="form-control filter_field" name="ad_active" id="ad_active">
-                                        <?foreach($yesnoselect as $k => $v){?>
-                                            <?if(isset($params['ad_active']) && is_numeric($params['ad_active'])){?>
-                                                <?if($params['ad_active'] == $k){?>
+                                        @foreach($yesnoselect as $k => $v)
+                                            @if(isset($params['ad_active']) && is_numeric($params['ad_active']))
+                                                @if($params['ad_active'] == $k){
                                                     <option value="{{ $k }}" selected>{{ $v }}</option>
-                                                <?} else {?>
+                                                @else
                                                     <option value="{{ $k }}">{{ $v }}</option>
-                                                <?}?>
-                                            <?} else {?>
+                                                @endif
+                                            @else
                                                 <option value="{{ $k }}">{{ $v }}</option>
-                                            <?}?>
-                                        <?}?>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </td>
                                 <td><input type="text" class="form-control filter_field" name="ad_view" id="ad_view" value="{{ isset($params['ad_view']) ? $params['ad_view'] : ''}}" /></td>
@@ -119,7 +117,7 @@
 
                         </tbody>
                     </table>
-	              
+
                     <div class="row">
                         <div class="col-md-12">
                             <nav>
@@ -127,19 +125,12 @@
                             </nav>
                         </div>
                     </div>
-	              
-	            </div>
+                </div>
             <!-- /.box-body -->
             </form>
-            
-            
          </div>
          <!-- /.box -->
-         
-         
-    <?}//end of if adlist?>
-    
-
+    @endif
     </section>
     <!-- /.content -->
 @endsection
@@ -147,7 +138,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables/dataTables.bootstrap.css')}}" />
     <!-- iCheck -->
-  	<link rel="stylesheet" href="{{asset('adminlte/plugins/iCheck/flat/blue.css')}}">
+    <link rel="stylesheet" href="{{asset('adminlte/plugins/iCheck/flat/blue.css')}}">
 @endsection
 
 @section('js')
@@ -156,15 +147,15 @@
     <script src="{{asset('adminlte/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
     <script src="{{asset('adminlte/plugins/fastclick/fastclick.js')}}"></script>
     <!-- iCheck -->
-	<script src="{{asset('adminlte/plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/iCheck/icheck.min.js')}}"></script>
     
     <script>
     $(function () {
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"]').iCheck({
-          checkboxClass: 'icheckbox_flat-blue',
-          radioClass: 'iradio_flat-blue'
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
         });
 
         //Enable check and uncheck all functionality
@@ -183,11 +174,11 @@
         });
 
         $('.filter_field').keypress(function(e){
-        	if(e.which == 13) {
-        		e.preventDefault();
-            	$('#search_submit').click();
+            if(e.which == 13) {
+                e.preventDefault();
+                $('#search_submit').click();
             }    
         });
-	});
+    });
     </script>
 @endsection
