@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Banners
-            <small>Add/Edit</small>
+            {{ trans('admin_common.Banners') }}
+            <small>{{ trans('admin_common.Add/Edit') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/banner') }}">Ad Banners</a></li>
-            <li class="active">Add/Edit</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li><a href="{{ url('admin/banner') }}">{{ trans('admin_common.Ad Banners') }}</a></li>
+            <li class="active">{{ trans('admin_common.Add/Edit') }}</li>
         </ol>
     </section>
 
@@ -29,8 +29,8 @@
                             {!! csrf_field() !!}
 
                             <div class="form-group required {{ $errors->has('banner_name') ? ' has-error' : '' }}">
-                                <label for="banner_name" class="control-label">Banner Name</label>
-                                <input type="text" class="form-control" name="banner_name" id="banner_name" placeholder="Banner Name" value="{{ Util::getOldOrModelValue('banner_name', $modelData) }}">
+                                <label for="banner_name" class="control-label">{{ trans('admin_common.Banner Name') }}</label>
+                                <input type="text" class="form-control" name="banner_name" id="banner_name" placeholder="{{ trans('admin_common.Banner Name') }}" value="{{ Util::getOldOrModelValue('banner_name', $modelData) }}">
                                 @if ($errors->has('banner_name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('banner_name') }}</strong>
@@ -39,8 +39,8 @@
                             </div>
 
                             <div class="form-group required {{ $errors->has('banner_position') ? ' has-error' : '' }}">
-                                <label for="banner_position" class=" control-label">Banner Position</label>
-                                <select name="banner_position" id="banner_position" class="form-control chosen_select" data-placeholder="Please Select">
+                                <label for="banner_position" class=" control-label">{{ trans('admin_common.Banner Position') }}</label>
+                                <select name="banner_position" id="banner_position" class="form-control chosen_select" data-placeholder="{{ trans('admin_common.Please Select') }}">
                                     <option value="0"></option>
                                     @foreach ($bannerPosition as $k => $v)
                                         @if(Util::getOldOrModelValue('banner_position', $modelData) == $k)
@@ -58,8 +58,8 @@
                             </div>
 
                             <div class="form-group required {{ $errors->has('banner_type') ? ' has-error' : '' }}">
-                                <label for="banner_type" class=" control-label">Banner Type</label>
-                                <select name="banner_type" id="banner_type" class="form-control chosen_select" data-placeholder="Please Select">
+                                <label for="banner_type" class=" control-label">{{ trans('admin_common.Banner Type') }}</label>
+                                <select name="banner_type" id="banner_type" class="form-control chosen_select" data-placeholder="{{ trans('admin_common.Please Select') }}">
                                     <option value="0"></option>
                                     @foreach ($bannerType as $k => $v)
                                         @if(Util::getOldOrModelValue('banner_type', $modelData) == $k)
@@ -79,44 +79,44 @@
                             <hr>
 
                             <div class="form-group required {{ $errors->has('banner_link') ? ' has-error' : '' }}">
-                                <label for="banner_link" class="control-label">Banner Link</label>
-                                <input type="text" class="form-control" name="banner_link" id="banner_link" placeholder="Banner Link" value="{{ Util::getOldOrModelValue('banner_link', $modelData) }}">
+                                <label for="banner_link" class="control-label">{{ trans('admin_common.Banner Link') }}</label>
+                                <input type="text" class="form-control" name="banner_link" id="banner_link" placeholder="{{ trans('admin_common.Banner Link') }}" value="{{ Util::getOldOrModelValue('banner_link', $modelData) }}">
                                 @if ($errors->has('banner_link'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('banner_link') }}</strong>
                                     </span>
                                 @endif
-                                <p class="help-block">*Required if banner type is image</p>
+                                <p class="help-block">{{ trans('admin_common.*Required if banner type is image') }}</p>
                             </div>
 
                             <div class="form-group required {{ $errors->has('banner_file') ? ' has-error' : '' }}">
-                                <label for="banner_file" class="control-label">Banner Image</label>
+                                <label for="banner_file" class="control-label">{{ trans('admin_common.Banner Image') }}</label>
                                 <input type="file" name="banner_file" id="banner_file">
                                 @if ($errors->has('banner_file'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('banner_file') }}</strong>
                                     </span>
                                 @endif
-                                <p class="help-block">*Required if banner type is image</p>
+                                <p class="help-block">{{ trans('admin_common.*Required if banner type is image') }}</p>
                             </div>
 
                             <hr>
 
                             <div class="form-group required {{ $errors->has('banner_code') ? ' has-error' : '' }}">
-                                <label for="banner_code" class="control-label">Banner Javascript/HTML</label>
+                                <label for="banner_code" class="control-label">{{ trans('admin_common.Banner Javascript/HTML') }}</label>
                                 <textarea type="text" class="form-control" name="banner_code" id="banner_code">{{ Util::getOldOrModelValue('banner_code', $modelData) }}</textarea>
                                 @if ($errors->has('banner_code'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('banner_code') }}</strong>
                                     </span>
                                 @endif
-                                <p class="help-block">*Required if banner type is Javascript/HTML</p>
+                                <p class="help-block">{{ trans('admin_common.*Required if banner type is Javascript/HTML') }}</p>
                             </div>
 
                             <hr>
 
                             <div class="form-group required {{ $errors->has('banner_active_from') ? ' has-error' : '' }}">
-                                <label for="banner_active_from" class="control-label">Banner Active From</label>
+                                <label for="banner_active_from" class="control-label">{{ trans('admin_common.Banner Active From') }}</label>
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
@@ -131,7 +131,7 @@
                             </div>
 
                             <div class="form-group required {{ $errors->has('banner_active_to') ? ' has-error' : '' }}">
-                                <label for="banner_active_to" class="control-label">Banner Active To</label>
+                                <label for="banner_active_to" class="control-label">{{ trans('admin_common.Banner Active To') }}</label>
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
@@ -146,28 +146,21 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="banner_file" class="control-label">Banner Num Views</label>
+                                <label for="banner_file" class="control-label">{{ trans('admin_common.Banner Num Views') }}</label>
                                 <input type="text" class="form-control" id="banner_num_views" name="banner_num_views" value="{{ Util::getOldOrModelValue('banner_num_views', $modelData) }}" readonly>
                             </div>
-
-
-
                         </div>
                         <!-- /.box-body -->
-
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Add/Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('admin_common.Add/Save') }}</button>
                         </div>
                     </form>
-
                 </div>
                 <!-- /.box -->
             </div>
         </div>
-          
     </section>
     <!-- /.content -->
-    
 @endsection
 
 @section('styles')
@@ -191,8 +184,8 @@
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"]').iCheck({
-          checkboxClass: 'icheckbox_flat-blue',
-          radioClass: 'iradio_flat-blue'
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
         });
 
         $('#banner_active_from, #banner_active_to').datepicker({

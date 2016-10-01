@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Heating Types
-            <small>Add/Edit</small>
+            {{ trans('admin_common.Heating Types') }}
+            <small>{{ trans('admin_common.Add/Edit') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/estateheating') }}">Heating Types</a></li>
-            <li class="active">Add/Edit</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li><a href="{{ url('admin/estateheating') }}">{{ trans('admin_common.Heating Types') }}</a></li>
+            <li class="active">{{ trans('admin_common.Add/Edit') }}</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">Add/Edit Heating Type</h3>
+                        <h3 class="box-title">{{ trans('admin_common.Add/Edit Heating Type') }}</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -29,8 +29,8 @@
                             {!! csrf_field() !!}
 
                             <div class="form-group required {{ $errors->has('estate_heating_type_name') ? ' has-error' : '' }}">
-                                <label for="estate_heating_type_name" class="control-label">Heating Type</label>
-                                <input type="text" class="form-control" name="estate_heating_type_name" id="estate_heating_type_name" placeholder="Heating Type" value="{{ Util::getOldOrModelValue('estate_heating_type_name', $modelData) }}">
+                                <label for="estate_heating_type_name" class="control-label">{{ trans('admin_common.Heating Type') }}</label>
+                                <input type="text" class="form-control" name="estate_heating_type_name" id="estate_heating_type_name" placeholder="{{ trans('admin_common.Heating Type') }}" value="{{ Util::getOldOrModelValue('estate_heating_type_name', $modelData) }}">
                                 @if ($errors->has('estate_heating_type_name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('estate_heating_type_name') }}</strong>
@@ -42,16 +42,13 @@
                         <!-- /.box-body -->
 
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Add/Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('admin_common.Add/Save') }}</button>
                         </div>
                     </form>
-
                 </div>
                 <!-- /.box -->
             </div>
         </div>
-          
     </section>
     <!-- /.content -->
-    
 @endsection

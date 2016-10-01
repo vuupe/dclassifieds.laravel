@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <input type="checkbox" name="user_id[]" value="<?=$v->user_id?>">
+        <input type="checkbox" name="user_id[]" value="{{ $v->user_id }}">
     </td>
     <td>{{ $v->user_id }}</td>
     <td>{{ $v->name }}</td>
@@ -14,7 +14,7 @@
     </td>
     <td>{{ $v->location_name }}</td>
     <td>{{ $v->user_ad_count }}</td>
-    <td><a href="{{ url('admin/user/edit/' . $v->user_id) }}"><i class="fa fa-edit"></i> Edit</a></td>
-    <td><a href="{{ url('admin/user/delete/' . $v->user_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a></td>
+    <td><a href="{{ url('admin/user/edit/' . $v->user_id) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+    <td><a href="{{ url('admin/user/delete/' . $v->user_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
 </tr>
 

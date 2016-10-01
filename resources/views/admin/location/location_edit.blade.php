@@ -2,15 +2,15 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Locations
-        <small>Add/Edit</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{ url('admin/location') }}">Locations</a></li>
-        <li class="active">Add/Edit</li>
-      </ol>
+        <h1>
+            Locations
+            <small>Add/Edit</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="{{ url('admin/location') }}">Locations</a></li>
+            <li class="active">Add/Edit</li>
+        </ol>
     </section>
 
     <!-- Main content -->
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">Add/Edit Locations</h3>
+                        <h3 class="box-title">Add/Edit Locations</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -89,12 +89,10 @@
                             <button type="submit" class="btn btn-primary">Add/Save Location</button>
                         </div>
                     </form>
-
                 </div>
                 <!-- /.box -->
             </div>
         </div>
-          
     </section>
     <!-- /.content -->
     
@@ -108,4 +106,3 @@
 @section('js')
     <script src="{{ asset('js/chosen/chosen.jquery.min.js') }}"></script>
 @endsection
-

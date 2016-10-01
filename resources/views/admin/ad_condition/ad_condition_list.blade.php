@@ -3,32 +3,29 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Ad Conditions
-            <small>List</small>
+            {{ trans('admin_common.Ad Conditions') }}
+            <small>{{ trans('admin_common.List') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Ad Conditions</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li class="active">{{ trans('admin_common.Ad Conditions') }}</li>
         </ol>
     </section>
-    
-    
 
     <!-- Main content -->
     <section class="content">
     
     @if (session()->has('message'))
-    <div class="alert alert-info alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-info"></i> Information</h4>
-        {!! session('message') !!}
-    </div>
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-info"></i> {{ trans('admin_common.Information') }}</h4>
+            {!! session('message') !!}
+        </div>
     @endif
     
     <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Ad Conditions</h3>
-
+            <h3 class="box-title">{{ trans('admin_common.Ad Conditions') }}</h3>
         </div>
         <!-- /.box-header -->
 
@@ -41,45 +38,39 @@
                     <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
                 </div>
 
-                <a href="{{ url('admin/adcondition/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Ad Condition</a>
+                <a href="{{ url('admin/adcondition/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> {{ trans('admin_common.New Ad Condition') }}</a>
             </div>
 
             <div class="box-body">
-
-            <table id="list_table" class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>#Id</th>
-                        <th>Ad Condition</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            <tbody>
-                <?foreach($modelData as $k => $v){?>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="ad_condition_id[]" value="<?=$v['ad_condition_id']?>">
-                        </td>
-                        <td>{{ $v['ad_condition_id'] }}</td>
-                        <td>{{ $v['ad_condition_name'] }}</td>
-                        <td><a href="{{ url('admin/adcondition/edit/' . $v['ad_condition_id']) }}"><i class="fa fa-edit"></i> Edit</a></td>
-                        <td><a href="{{ url('admin/adcondition/delete/' . $v['ad_condition_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> Delete</a></td>
-                    </tr>
-                <?}//end of foreach?>
-            </tbody>
-            </table>
-
+                <table id="list_table" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ trans('admin_common.#Id') }}</th>
+                            <th>{{ trans('admin_common.Ad Condition') }}</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    <?foreach($modelData as $k => $v){?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="ad_condition_id[]" value="<?=$v['ad_condition_id']?>">
+                            </td>
+                            <td>{{ $v['ad_condition_id'] }}</td>
+                            <td>{{ $v['ad_condition_name'] }}</td>
+                            <td><a href="{{ url('admin/adcondition/edit/' . $v['ad_condition_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                            <td><a href="{{ url('admin/adcondition/delete/' . $v['ad_condition_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                        </tr>
+                    <?}//end of foreach?>
+                </tbody>
+                </table>
             </div>
         <!-- /.box-body -->
         </form>
-
-
-      </div>
-      <!-- /.box -->
-
-
+    </div>
+    <!-- /.box -->
     </section>
     <!-- /.content -->
 @endsection
@@ -114,8 +105,8 @@
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"]').iCheck({
-          checkboxClass: 'icheckbox_flat-blue',
-          radioClass: 'iradio_flat-blue'
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
         });
 
         //Enable check and uncheck all functionality

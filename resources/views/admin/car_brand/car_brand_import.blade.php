@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Car Brands
-            <small>Import</small>
+            {{ trans('admin_common.Car Brands') }}
+            <small>{{ trans('admin_common.Import') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/carbrands') }}">Car Brands</a></li>
-            <li class="active">Import</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li><a href="{{ url('admin/carbrands') }}">{{ trans('admin_common.Car Brands') }}</a></li>
+            <li class="active">{{ trans('admin_common.Import') }}</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">Import Car Brands</h3>
+                      <h3 class="box-title">{{ trans('admin_common.Import Car Brands') }}</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -29,7 +29,7 @@
                             {!! csrf_field() !!}
 
                             <div class="form-group required {{ $errors->has('csv_file') ? ' has-error' : '' }}">
-                                <label for="csv_file" class="control-label">CSV file to be imported</label>
+                                <label for="csv_file" class="control-label">{{ trans('admin_common.CSV file to be imported') }}</label>
                                 <input type="file" name="csv_file" id="csv_file">
                                 @if ($errors->has('csv_file'))
                                     <span class="help-block">
@@ -42,10 +42,9 @@
                         <!-- /.box-body -->
 
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Import</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('admin_common.Import') }}</button>
                         </div>
                     </form>
-
                 </div>
                 <!-- /.box -->
             </div>
@@ -53,15 +52,15 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">CSV Import How to</h3>
+                        <h3 class="box-title">{{ trans('admin_common.CSV Import How to') }}</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <p class="help-block">CSV must be comma separed/delimeted, without header, quoted with "</p>
-                        <p class="help-block">Car Brand must be unique</p>
-                        <p class="help-block">CSV Fields: Car Brand Name, Car Brand Active (0 = Not Active, 1 = Active)</p>
+                        <p class="help-block">{{ trans('admin_common.CSV must be comma separed/delimeted, without header, quoted with "') }}</p>
+                        <p class="help-block">{{ trans('admin_common.Car Brand must be unique') }}</p>
+                        <p class="help-block">{{ trans('admin_common.CSV Fields: Car Brand Name, Car Brand Active (0 = Not Active, 1 = Active)') }}</p>
                         <p class="help-block">
-                            <strong>Example:</strong><br />
+                            <strong>{{ trans('admin_common.Example') }}:</strong><br />
                             "Audi" , "1"<br />
                             "BMW" , "1"<br />
                             "Mercedes" , "1"<br />
@@ -72,10 +71,8 @@
                 <!-- /.box -->
             </div>
         </div>
-          
     </section>
     <!-- /.content -->
-    
 @endsection
 
 @section('styles')
