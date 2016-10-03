@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Settings
-            <small>Add/Edit</small>
+            {{ trans('admin_common.Settings') }}
+            <small>{{ trans('admin_common.Add/Edit') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/settings') }}">Settings</a></li>
-            <li class="active">Add/Edit</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li><a href="{{ url('admin/settings') }}">{{ trans('admin_common.Settings') }}</a></li>
+            <li class="active">{{ trans('admin_common.Add/Edit') }}</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">Add/Edit Setting</h3>
+                        <h3 class="box-title">{{ trans('admin_common.Add/Edit Setting') }}</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -54,7 +54,7 @@
                         <!-- /.box-body -->
 
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Add/Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('admin_common.Add/Save') }}</button>
                         </div>
                     </form>
 
@@ -62,10 +62,8 @@
                 <!-- /.box -->
             </div>
         </div>
-          
     </section>
     <!-- /.content -->
-    
 @endsection
 
 @section('styles')

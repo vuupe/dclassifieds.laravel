@@ -3,16 +3,14 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Settings
-            <small>List</small>
+            {{ trans('admin_common.Settings') }}
+            <small>{{ trans('admin_common.List') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Settings</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li class="active">{{ trans('admin_common.Settings') }}</li>
         </ol>
     </section>
-    
-    
 
     <!-- Main content -->
     <section class="content">
@@ -20,15 +18,14 @@
     @if (session()->has('message'))
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-info"></i> Information</h4>
+        <h4><i class="icon fa fa-info"></i> {{ trans('admin_common.Information') }}</h4>
         {!! session('message') !!}
     </div>
     @endif
     
     <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Settings</h3>
-
+            <h3 class="box-title">{{ trans('admin_common.Settings') }}</h3>
         </div>
         <!-- /.box-header -->
 
@@ -36,37 +33,31 @@
         {!! csrf_field() !!}
 
             <div class="box-body">
-
-            <table id="list_table" class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>#Id</th>
-                        <th>Setting</th>
-                        <th>Value</th>
-                        <th></th>
-                    </tr>
-                </thead>
-            <tbody>
-                <?foreach($modelData as $k => $v){?>
-                    <tr>
-                        <td>{{ $v['setting_id'] }}</td>
-                        <td>{{ $v['setting_description'] }}</td>
-                        <td>{{ $v['setting_value'] }}</td>
-                        <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> Edit</a></td>
-                    </tr>
-                <?}//end of foreach?>
-            </tbody>
-            </table>
-
+                <table id="list_table" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{ trans('admin_common.#Id') }}</th>
+                            <th>{{ trans('admin_common.Setting') }}</th>
+                            <th>{{ trans('admin_common.Value') }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    @foreach($modelData as $k => $v)
+                        <tr>
+                            <td>{{ $v['setting_id'] }}</td>
+                            <td>{{ $v['setting_description'] }}</td>
+                            <td>{{ $v['setting_value'] }}</td>
+                            <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                </table>
             </div>
         <!-- /.box-body -->
         </form>
-
-
-      </div>
-      <!-- /.box -->
-
-
+    </div>
+    <!-- /.box -->
     </section>
     <!-- /.content -->
 @endsection
@@ -100,8 +91,8 @@
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"]').iCheck({
-          checkboxClass: 'icheckbox_flat-blue',
-          radioClass: 'iradio_flat-blue'
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
         });
 
         //Enable check and uncheck all functionality

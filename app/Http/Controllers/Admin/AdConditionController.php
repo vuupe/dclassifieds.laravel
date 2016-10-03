@@ -31,7 +31,7 @@ class AdConditionController extends Controller
             try{
                 $modelData = AdCondition::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Ad Condition');
+                session()->flash('message', trans('admin_common.Invalid Ad Condition'));
                 return redirect(url('admin/adcondition'));
             }
         }
@@ -73,7 +73,7 @@ class AdConditionController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Ad Condition saved');
+            session()->flash('message', trans('admin_common.Ad Condition saved'));
             return redirect(url('admin/adcondition'));
         }
 
@@ -100,12 +100,12 @@ class AdConditionController extends Controller
             AdCondition::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Ad Condition deleted');
+            session()->flash('message', trans('admin_common.Ad Condition deleted'));
             return redirect(url('admin/adcondition'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/adcondition'));
     }
 }

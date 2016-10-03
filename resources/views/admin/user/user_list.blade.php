@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Users
-            <small>List</small>
+            {{ trans('admin_common.Users') }}
+            <small>{{ trans('admin_common.List') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Users</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li class="active">{{ trans('admin_common.Users') }}</li>
         </ol>
     </section>
 
@@ -18,17 +18,16 @@
     @if (session()->has('message'))
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-info"></i> Information</h4>
+        <h4><i class="icon fa fa-info"></i> {{ trans('admin_common.Information') }}</h4>
         {!! session('message') !!}
     </div>
     @endif
-    <?if($userList->isEmpty()){?>
-        There are no users.
-    <?} else {?>
+    @if($userList->isEmpty())
+        {{ trans('admin_common.There are no users.') }}
+    @else
         <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">All Users</h3>
-
+                <h3 class="box-title">{{ trans('admin_common.All Users') }}</h3>
             </div>
             <!-- /.box-header -->
 
@@ -43,78 +42,68 @@
                 </div>
 
                 <div class="box-body">
-
-                <table id="ad_list_table" class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>#Id</th>
-                            <th>Name</th>
-                            <th>Mail</th>
-                            <th>Activated</th>
-                            <th>Location</th>
-                            <th>Num Ads</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input type="text" class="form-control filter_field" name="user_id_search" id="user_id_search" value="{{ isset($params['user_id_search']) ? $params['user_id_search'] : ''}}" /></td>
-                            <td><input type="text" class="form-control filter_field" name="name" id="name" value="{{ isset($params['name']) ? $params['name'] : ''}}" /></td>
-                            <td><input type="text" class="form-control filter_field" name="email" id="email" value="{{ isset($params['email']) ? $params['email'] : ''}}" /></td>
-                            <td>
-                                <select class="form-control filter_field" name="user_activated" id="user_activated">
-                                    <?foreach($yesnoselect as $k => $v){?>
-                                        <?if(isset($params['user_activated']) && is_numeric($params['user_activated'])){?>
-                                            <?if($params['user_activated'] == $k){?>
-                                                <option value="{{ $k }}" selected>{{ $v }}</option>
-                                            <?} else {?>
+                    <table id="ad_list_table" class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{ trans('admin_common.#Id') }}</th>
+                                <th>{{ trans('admin_common.Name') }}</th>
+                                <th>{{ trans('admin_common.E-Mail') }}</th>
+                                <th>{{ trans('admin_common.Activated') }}</th>
+                                <th>{{ trans('admin_common.Location') }}</th>
+                                <th>{{ trans('admin_common.Num Ads') }}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="text" class="form-control filter_field" name="user_id_search" id="user_id_search" value="{{ isset($params['user_id_search']) ? $params['user_id_search'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="name" id="name" value="{{ isset($params['name']) ? $params['name'] : ''}}" /></td>
+                                <td><input type="text" class="form-control filter_field" name="email" id="email" value="{{ isset($params['email']) ? $params['email'] : ''}}" /></td>
+                                <td>
+                                    <select class="form-control filter_field" name="user_activated" id="user_activated">
+                                        @foreach($yesnoselect as $k => $v)
+                                            @if(isset($params['user_activated']) && is_numeric($params['user_activated']))
+                                                @if($params['user_activated'] == $k)
+                                                    <option value="{{ $k }}" selected>{{ $v }}</option>
+                                                @else
+                                                    <option value="{{ $k }}">{{ $v }}</option>
+                                                @endif
+                                            @else
                                                 <option value="{{ $k }}">{{ $v }}</option>
-                                            <?}?>
-                                        <?} else {?>
-                                            <option value="{{ $k }}">{{ $v }}</option>
-                                        <?}?>
-                                    <?}?>
-                                </select>
-                            </td>
-                            <td><input type="text" class="form-control filter_field" name="location_name" id="location_name" value="{{ isset($params['location_name']) ? $params['location_name'] : ''}}" /></td>
-                            <td></td>
-                            <td colspan="2">
-                                <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/user') }}');">
-                                    <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                                </button>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control filter_field" name="location_name" id="location_name" value="{{ isset($params['location_name']) ? $params['location_name'] : ''}}" /></td>
+                                <td></td>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/user') }}');">
+                                        <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> {{ trans('admin_common.Search') }}
+                                    </button>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($userList as $k => $v)
+                                @include('admin.common.user_row')
+                            @endforeach
+                        </tbody>
+                    </table>
 
-                    <?foreach($userList as $k => $v){?>
-                        @include('admin.common.user_row')
-                    <?}//end of foreach?>
-
-                    </tbody>
-                </table>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <nav>
-                            <?=$userList->appends($params)->links()?>
-                        </nav>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav>
+                                {{ $userList->appends($params)->links() }}
+                            </nav>
+                        </div>
                     </div>
-                </div>
-
                 </div>
             <!-- /.box-body -->
             </form>
-
-
          </div>
-         <!-- /.box -->
-
-
-    <?}//end of if adlist?>
-
-
+        <!-- /.box -->
+    @endif
     </section>
     <!-- /.content -->
 @endsection

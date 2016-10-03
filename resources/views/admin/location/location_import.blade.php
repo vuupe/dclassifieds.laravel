@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Locations
-            <small>Import</small>
+            {{ trans('admin_common.Locations') }}
+            <small>{{ trans('admin_common.Import') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/location') }}">Locations</a></li>
-            <li class="active">Import</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li><a href="{{ url('admin/location') }}">{{ trans('admin_common.Locations') }}</a></li>
+            <li class="active">{{ trans('admin_common.Import') }}</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Import Locations</h3>
+                        <h3 class="box-title">{{ trans('admin_common.Import Locations') }}</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -29,8 +29,8 @@
                             {!! csrf_field() !!}
 
                             <div class="form-group">
-                                <label for="location_parent_id">Location Parent</label>
-                                <select class="form-control chosen_select" name="location_parent_id" id="location_parent_id" data-placeholder="Select Parent Location">
+                                <label for="location_parent_id">{{ trans('admin_common.Location Parent') }}</label>
+                                <select class="form-control chosen_select" name="location_parent_id" id="location_parent_id" data-placeholder="{{ trans('admin_common.Select Parent Location') }}">
                                 <option value="0"></option>
                                 @foreach ($l as $k => $v)
                                     @if(isset($lid) && $lid == $v['lid'])
@@ -47,7 +47,7 @@
                             </div>
 
                             <div class="form-group required {{ $errors->has('csv_file') ? ' has-error' : '' }}">
-                                <label for="csv_file" class="control-label">CSV file to be imported</label>
+                                <label for="csv_file" class="control-label">{{ trans('admin_common.CSV file to be imported') }}</label>
                                 <input type="file" name="csv_file" id="csv_file">
                                 @if ($errors->has('csv_file'))
                                     <span class="help-block">
@@ -60,7 +60,7 @@
                         <!-- /.box-body -->
 
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Import Locations</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('admin_common.Import') }}</button>
                         </div>
                     </form>
 
@@ -71,14 +71,14 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">CSV Import How to</h3>
+                      <h3 class="box-title">{{ trans('admin_common.CSV Import How to') }}</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <p class="help-block">CSV must be comma separed/delimeted, without header, quoted with "</p>
-                        <p class="help-block">Location slug must be unique, Location Post Code is optional, Location Order Is optional</p>
-                        <p class="help-block">CSV Fields: Location name, Location Slug, Location Active (0 = Not Active, 1 = Active), Location Post Code, Location Order</p>
-                        <p class="help-block"><strong>Example:</strong><br />
+                        <p class="help-block">{{ trans('admin_common.CSV must be comma separed/delimeted, without header, quoted with "') }}</p>
+                        <p class="help-block">{{ trans('admin_common.location_import_info') }}</p>
+                        <p class="help-block">{{ trans('admin_common.location_import_fields') }}</p>
+                        <p class="help-block"><strong>{{ trans('admin_common.Example') }}:</strong><br />
                             "Location name", "location_slug", "1", "10000", "10"<br />
                             "Location name 1", "location_slug_1", "1", "12000", "20"<br />
                             "Location name 2", "location_slug_2", "1", "13000", "30"<br />

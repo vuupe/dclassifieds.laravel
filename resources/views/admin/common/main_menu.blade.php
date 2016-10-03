@@ -12,9 +12,9 @@
             }
             ?>
             @if($v->menu_external_link == 1)
-                <li><a href="{{ $v->menu_external_link }}">{{ $icon }} <span>{{  trans('admin_main_menu.' . $v->menu_title_key) }}</span></a></li>
+                <li><a href="{{ $v->menu_external_link }}">{!! $icon !!} <span>{{  trans('admin_main_menu.' . $v->menu_title_key) }}</span></a></li>
             @else
-                <li {{ $class }}><a href="{{ url($v->menu_link) }}">{{ $icon }} <span>{{ trans('admin_main_menu.' . $v->menu_title_key) }}</span></a></li>
+                <li {{ $class }}><a href="{{ url($v->menu_link) }}">{!! $icon !!} <span>{{ trans('admin_main_menu.' . $v->menu_title_key) }}</span></a></li>
             @endif
         @else
             <?
@@ -29,7 +29,7 @@
             ?>
             <li class="{{ $active }} treeview">
                 <a href="#">
-                    {{ $icon }} <span>{{ trans('admin_main_menu.' . $v->menu_title_key) }}</span>
+                    {!! $icon !!} <span>{{ trans('admin_main_menu.' . $v->menu_title_key) }}</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -48,9 +48,9 @@
                         }
                         ?>
                         @if($sv->menu_external_link == 1)
-                            <li><a href="{{  $v->menu_external_link }}">{{ $icon }} <span>{{ trans('admin_main_menu.' . $sv->menu_title_key) }}</span></a></li>
+                            <li><a href="{{  $v->menu_external_link }}">{!! $icon !!} <span>{{ trans('admin_main_menu.' . $sv->menu_title_key) }}</span></a></li>
                         @else
-                            <li {{  $class }}><a href="{{ url($sv->menu_link) }}">{{ $icon }} <span>{{ trans('admin_main_menu.' . $sv->menu_title_key) }}</span></a></li>
+                            <li {{  $class }}><a href="{{ url($sv->menu_link) }}">{!! $icon !!} <span>{{ trans('admin_main_menu.' . $sv->menu_title_key) }}</span></a></li>
                         @endif
                     @endforeach
                 </ul>

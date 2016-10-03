@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Locations
-            <small>List</small>
+            {{ trans('admin_common.Locations') }}
+            <small>{{ trans('admin_common.List') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Locations</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li class="active">{{ trans('admin_common.Locations') }}</li>
         </ol>
     </section>
 
@@ -18,14 +18,14 @@
     @if (session()->has('message'))
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-info"></i> Information</h4>
+        <h4><i class="icon fa fa-info"></i> {{ trans('admin_common.Information') }}</h4>
         {!! session('message') !!}
     </div>
     @endif
     
     <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">All Locations</h3>
+          <h3 class="box-title">{{ trans('admin_common.All Locations') }}</h3>
 
         </div>
         <!-- /.box-header -->
@@ -39,8 +39,8 @@
                     <button type="submit" class="btn btn-default btn-sm need_confirm"><i class="fa fa-trash-o"></i></button>
                 </div>
 
-                <a href="{{ url('admin/location/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> New Location</a>
-                <a href="{{ url('admin/location/import') }}" class="btn btn-primary btn-sm"><i class="fa fa-files-o"></i> Import Locations from csv</a>
+                <a href="{{ url('admin/location/edit') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-o"></i> {{ trans('admin_common.New Location') }}</a>
+                <a href="{{ url('admin/location/import') }}" class="btn btn-primary btn-sm"><i class="fa fa-files-o"></i> {{ trans('admin_common.Import Locations from csv') }}</a>
             </div>
 
             <div class="box-body">
@@ -48,21 +48,21 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>#Id</th>
-                        <th>Location Name</th>
-                        <th>Location Slug</th>
-                        <th>Location Post Code</th>
-                        <th>Location Order</th>
-                        <th>Active</th>
-                        <th>Ad Count</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>{{ trans('admin_common.#Id') }}</th>
+                        <th>{{ trans('admin_common.Location Name') }}</th>
+                        <th>{{ trans('admin_common.Location Slug') }}</th>
+                        <th>{{ trans('admin_common.Location Post Code') }}</th>
+                        <th>{{ trans('admin_common.Location Order') }}</th>
+                        <th>{{ trans('admin_common.Active') }}</th>
+                        <th>{{ trans('admin_common.Ad Count') }}</th>
+                        <th>{{ trans('admin_common.Edit') }}</th>
+                        <th>{{ trans('admin_common.Delete') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($location_list as $k => $v)
-                    @include('admin.common.location_row', ['v' => $v, 'parent' => []])
-                @endforeach
+                    @foreach($location_list as $k => $v)
+                        @include('admin.common.location_row', ['v' => $v, 'parent' => []])
+                    @endforeach
                 </tbody>
                 </table>
             </div>
@@ -109,8 +109,8 @@
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"]').iCheck({
-          checkboxClass: 'icheckbox_flat-blue',
-          radioClass: 'iradio_flat-blue'
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
         });
 
         //Enable check and uncheck all functionality

@@ -104,7 +104,7 @@
                                 <td><input type="text" class="form-control filter_field" name="ad_view" id="ad_view" value="{{ isset($params['ad_view']) ? $params['ad_view'] : ''}}" /></td>
                                 <td colspan="2">
                                     <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/ad') }}');">
-                                        <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                        <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> {{ trans('admin_common.Search') }}
                                     </button>
                                 </td>
                             </tr>

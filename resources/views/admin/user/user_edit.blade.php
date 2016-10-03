@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Users
-            <small>Edit</small>
+            {{ trans('admin_common.Users') }}
+            <small>{{ trans('admin_common.Edit') }}</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ url('admin/user') }}">Users</a></li>
-            <li class="active">Edit</li>
+            <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
+            <li><a href="{{ url('admin/user') }}">{{ trans('admin_common.Users') }}</a></li>
+            <li class="active">{{ trans('admin_common.Edit') }}</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">Edit User #{{ $modelData->user_id }}</h3>
+                        <h3 class="box-title">{{ trans('admin_common.Edit User #') }}{{ $modelData->user_id }}</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -29,7 +29,7 @@
                             {!! csrf_field() !!}
 
                             <div class="form-group required {{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="control-label">Name</label>
+                                <label for="name" class="control-label">{{ trans('admin_common.Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ Util::getOldOrModelValue('name', $modelData) }}" maxlength="255" />
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="form-group required {{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="control-label">E-Mail</label>
+                                <label for="email" class="control-label">{{ trans('admin_common.E-Mail') }}</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ Util::getOldOrModelValue('email', $modelData) }}" maxlength="255" />
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -51,8 +51,8 @@
                             <hr>
 
                             <div class="form-group">
-                                <label for="location_parent_id">Location</label>
-                                <select class="form-control chosen_select" name="user_location_id" id="user_location_id" data-placeholder="User Location">
+                                <label for="location_parent_id">{{ trans('admin_common.Location') }}</label>
+                                <select class="form-control chosen_select" name="user_location_id" id="user_location_id" data-placeholder="{{ trans('admin_common.User Location') }}">
                                 <option value="0"></option>
                                 @foreach ($l as $k => $v)
                                     @if(isset($lid) && $lid == $v['lid'])
@@ -69,34 +69,34 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="user_address" class="control-label">Address</label>
+                                <label for="user_address" class="control-label">{{ trans('admin_common.Address') }}</label>
                                 <input type="text" class="form-control" id="user_address" name="user_address" value="{{ Util::getOldOrModelValue('user_address', $modelData) }}" maxlength="255" />
                             </div>
 
                             <div class="form-group">
-                                <label for="user_phone" class="control-label">Phone</label>
+                                <label for="user_phone" class="control-label">{{ trans('admin_common.Phone') }}</label>
                                 <input type="text" class="form-control" id="user_phone" name="user_phone" value="{{ Util::getOldOrModelValue('user_phone', $modelData) }}" maxlength="255" />
                             </div>
 
                             <div class="form-group">
-                                <label for="user_skype" class="control-label">Skype</label>
+                                <label for="user_skype" class="control-label">{{ trans('admin_common.Skype') }}</label>
                                 <input type="text" class="form-control" id="user_skype" name="user_skype" value="{{ Util::getOldOrModelValue('user_skype', $modelData) }}" maxlength="255" />
                             </div>
 
                             <div class="form-group">
-                                <label for="user_site" class="control-label">Site</label>
+                                <label for="user_site" class="control-label">{{ trans('admin_common.Site') }}</label>
                                 <input type="text" class="form-control" id="user_site" name="user_site" value="{{ Util::getOldOrModelValue('user_site', $modelData) }}" maxlength="255" />
                             </div>
 
                             <hr>
 
                             <div class="form-group">
-                                <label for="created_at" class="control-label">Registered at</label>
+                                <label for="created_at" class="control-label">{{ trans('admin_common.Registered at') }}</label>
                                 <input type="text" class="form-control" id="created_at" name="created_at" value="{{ Util::getOldOrModelValue('created_at', $modelData) }}" maxlength="255" readonly />
                             </div>
 
                             <div class="form-group">
-                                <label for="updated_at" class="control-label">Updated at</label>
+                                <label for="updated_at" class="control-label">{{ trans('admin_common.Updated at') }}</label>
                                 <input type="text" class="form-control" id="updated_at" name="updated_at" value="{{ Util::getOldOrModelValue('updated_at', $modelData) }}" maxlength="255" readonly />
                             </div>
 
@@ -104,23 +104,22 @@
 
                             <div class="form-group">
                                 <label>
-                                    <input type="checkbox" name="user_activated" {{ Util::getOldOrModelValue('user_activated', $modelData) ? 'checked' : '' }}> User Activated
+                                    <input type="checkbox" name="user_activated" {{ Util::getOldOrModelValue('user_activated', $modelData) ? 'checked' : '' }}> {{ trans('admin_common.User Activated') }}
                                 </label>
                             </div>
 
                             <div class="form-group">
                                 <label>
-                                    <input type="checkbox" name="is_admin" {{ Util::getOldOrModelValue('is_admin', $modelData) ? 'checked' : '' }}> User is Admin
+                                    <input type="checkbox" name="is_admin" {{ Util::getOldOrModelValue('is_admin', $modelData) ? 'checked' : '' }}> {{ trans('admin_common.User is Admin') }}
                                 </label>
                             </div>
 
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('admin_common.Save') }}</button>
                         </div>
                     </form>
-
                 </div>
                 <!-- /.box -->
             </div>
@@ -128,36 +127,33 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">User #{{ $modelData->user_id }}</h3>
+                      <h3 class="box-title">{{ trans('admin_common.User #') }}{{ $modelData->user_id }}</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <?$link = url('ad/user/' . $modelData->user_id);?>
-                        <p class="help-block">User URL: <a href="{{ $link }}" target="_blank">{{ $link }}</a></p>
+                        <p class="help-block">{{ trans('admin_common.User URL') }}: <a href="{{ $link }}" target="_blank">{{ $link }}</a></p>
 
                         <hr>
 
-                        <?if(isset($modelData->avatar) && !empty($modelData->avatar)){?>
+                        @if(isset($modelData->avatar) && !empty($modelData->avatar))
                             <div class="row">
                                 <div class="col-md-3">
                                     <a href="{{ $link }}" target="_blank">
                                         <img src="{{ asset('uf/udata/100_' . $modelData->avatar) }}" />
                                     </a>
-                                    <a href="{{ url('admin/user/deleteavatar/' . $modelData->user_id) }}" class="btn btn-danger btn-sm need_confirm">Delete</a>
+                                    <a href="{{ url('admin/user/deleteavatar/' . $modelData->user_id) }}" class="btn btn-danger btn-sm need_confirm">{{ trans('admin_common.Delete') }}</a>
                                 </div>
                             </div>
-                        <?}?>
+                        @endif
                     </div>
                     <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
             </div>
-
         </div>
-          
     </section>
     <!-- /.content -->
-    
 @endsection
 
 @section('styles')
@@ -192,4 +188,3 @@
     });
     </script>
 @endsection
-
