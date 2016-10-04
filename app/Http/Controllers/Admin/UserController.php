@@ -67,7 +67,7 @@ class UserController extends Controller
         }
 
         $userList = $this->user->getUserList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
-        return view('admin.user.user_list', ['userList' => $userList, 'params' => $params, 'yesnoselect' => ['_' => '', 0 => 'No', 1 => 'Yes']]);
+        return view('admin.user.user_list', ['userList' => $userList, 'params' => $params, 'yesnoselect' => ['_' => '', 0 => trans('admin_common.No'), 1 => trans('admin_common.Yes')]]);
     }
 
     public function edit(Request $request)
@@ -82,7 +82,7 @@ class UserController extends Controller
             try{
                 $modelData = User::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid User');
+                session()->flash('message', trans('admin_common.Invalid User'));
                 return redirect(url('admin/user'));
             }
         }
@@ -140,7 +140,7 @@ class UserController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'User saved');
+            session()->flash('message', trans('admin_common.User saved'));
             return redirect(url('admin/user'));
         }
 
@@ -198,12 +198,12 @@ class UserController extends Controller
             }
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'User and All User Ads Deleted');
+            session()->flash('message', trans('admin_common.User and All User Ads Deleted'));
             return redirect(url('admin/user'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/user'));
     }
 

@@ -31,7 +31,7 @@ class EstateFurnishingController extends Controller
             try{
                 $modelData = EstateFurnishingType::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Furnishing Type');
+                session()->flash('message', trans('admin_common.Invalid Furnishing Type'));
                 return redirect(url('admin/estatefurnishing'));
             }
         }
@@ -73,7 +73,7 @@ class EstateFurnishingController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Furnishing Type saved');
+            session()->flash('message', trans('admin_common.Furnishing Type saved'));
             return redirect(url('admin/estatefurnishing'));
         }
 
@@ -100,12 +100,12 @@ class EstateFurnishingController extends Controller
             EstateFurnishingType::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Furnishing Type deleted');
+            session()->flash('message', trans('admin_common.Furnishing Type deleted'));
             return redirect(url('admin/estatefurnishing'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/estatefurnishing'));
     }
 }

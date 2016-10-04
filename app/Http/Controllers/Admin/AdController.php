@@ -40,10 +40,10 @@ class AdController extends Controller
 
     public function __construct(Ad $_ad, Category $_category, Location $_location, User $_user)
     {
-        $this->ad = $_ad;
+        $this->ad       = $_ad;
         $this->category = $_category;
         $this->location = $_location;
-        $this->user = $_user;
+        $this->user     = $_user;
     }
 
     public function index(Request $request)
@@ -103,7 +103,9 @@ class AdController extends Controller
         }
 
         $adList = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
-        return view('admin.ad.ad_list', ['adList' => $adList, 'params' => $params, 'yesnoselect' => ['_' => '', 0 => 'No', 1 => 'Yes']]);
+        return view('admin.ad.ad_list', ['adList' => $adList,
+            'params' => $params,
+            'yesnoselect' => ['_' => '', 0 => trans('admin_common.No'), 1 => trans('admin_common.Yes')]]);
     }
 
     public function edit(Request $request)
@@ -278,18 +280,15 @@ class AdController extends Controller
 
         $ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
 
-
         //save ad
         $ad = Ad::find($ad_data['ad_id']);
         $ad->update($ad_data);
-
-
 
         /**
          * clear cache, set message, redirect to list
          */
         Cache::flush();
-        session()->flash('message', 'Ad saved');
+        session()->flash('message', trans('admin_common.Ad saved'));
         return redirect(url('admin/ad'));
     }
 
@@ -329,19 +328,16 @@ class AdController extends Controller
                     }
 
                     $ad->delete();
-                    $message = 'Your ad is deleted';
-                } else {
-                    $message = 'Ups something is wrong.';
                 }
             }
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Ads deleted');
+            session()->flash('message', trans('admin_common.Ads deleted'));
             return redirect(url('admin/ad'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/ad'));
     }
 

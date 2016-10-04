@@ -24,14 +24,18 @@ class CategoryController extends Controller
     
     public function index(Request $request)
     {
-        $categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
+        $categoryType = [Category::COMMON_TYPE => trans('admin_common.Common Type'),
+            Category::REAL_ESATE_TYPE => trans('admin_common.Real Estate Type'),
+            Category::CARS_TYPE => trans('admin_common.Cars Type')];
         return view('admin.category.category_list', ['category_list' => $this->category->getAllHierarhy(null, 0, 0), 'categoryType' => $categoryType]);
     }
     
     public function edit(Request $request)
     {
         $allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
-        $categoryType = [1 => 'Common Type', 2 => 'Real Estate Type', 3 => 'Cars Type'];
+        $categoryType = [Category::COMMON_TYPE => trans('admin_common.Common Type'),
+            Category::REAL_ESATE_TYPE => trans('admin_common.Real Estate Type'),
+            Category::CARS_TYPE => trans('admin_common.Cars Type')];
 
         $id = 0;
         if(isset($request->id)){
@@ -43,7 +47,7 @@ class CategoryController extends Controller
             try{
                 $modelData = Category::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Category');
+                session()->flash('message', trans('admin_common.Invalid Category'));
                 return redirect(url('admin/category'));
             }
         }
@@ -123,7 +127,7 @@ class CategoryController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Category saved');
+            session()->flash('message', trans('admin_common.Category saved'));
             return redirect(url('admin/category'));
         }
 
@@ -159,12 +163,12 @@ class CategoryController extends Controller
             }
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Category deleted');
+            session()->flash('message', trans('admin_common.Category deleted'));
             return redirect(url('admin/category'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/category'));
     }
     
@@ -254,15 +258,15 @@ class CategoryController extends Controller
                                 try{
                                     Category::create($data_to_save);
                                 } catch (\Exception $e){
-                                    $import_error_array[] = 'Possible doublicate <strong>Category Slug</strong> on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
+                                    $import_error_array[] = trans('admin_common.Possible doublicate') .  '<strong>' . trans('admin_common.Category Slug') . '</strong>' . trans('admin_common.on line') . ': ' . join(',', $v) . ' <br />' . trans('admin_common.Error Message') . ': ' . $e->getMessage();
                                 }
                             } else {
-                                $import_error_array[] = 'Missing data line: ' . join(',', $v);
+                                $import_error_array[] = trans('admin_common.Missing data line') . ': ' . join(',', $v);
                             }
                         }
                     }
                 } else {
-                    session()->flash('message', 'Can\'t read the csv file.');
+                    session()->flash('message', trans('admin_common.Cant read the csv file.'));
                     return redirect( url('admin/category') );
                 }
             }
@@ -273,9 +277,9 @@ class CategoryController extends Controller
             @unlink(storage_path() . '/app/' . $tmp_import_name);
             Cache::flush();
             if(!empty($import_error_array)){
-                session()->flash('message', 'Categories imported with the following errors: <br />' . join('<br />', $import_error_array));
+                session()->flash('message', trans('admin_common.Categories imported with the following errors') . ': <br />' . join('<br />', $import_error_array));
             } else {
-                session()->flash('message', 'Categories imported');
+                session()->flash('message', trans('admin_common.Categories imported'));
             }
             return redirect(url('admin/category'));
         }

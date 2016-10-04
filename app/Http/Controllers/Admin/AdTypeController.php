@@ -31,7 +31,7 @@ class AdTypeController extends Controller
             try{
                 $modelData = AdType::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Ad Type');
+                session()->flash('message', trans('admin_common.Invalid Ad Type'));
                 return redirect(url('admin/adtype'));
             }
         }
@@ -73,7 +73,7 @@ class AdTypeController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Ad Type saved');
+            session()->flash('message', trans('admin_common.Ad Type saved'));
             return redirect(url('admin/adtype'));
         }
 
@@ -100,12 +100,12 @@ class AdTypeController extends Controller
             AdType::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Ad Type deleted');
+            session()->flash('message', trans('admin_common.Ad Type deleted'));
             return redirect(url('admin/adtype'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/adtype'));
     }
 }

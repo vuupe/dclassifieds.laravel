@@ -32,7 +32,7 @@ class SettingsController extends Controller
             try{
                 $modelData = Settings::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Setting');
+                session()->flash('message', trans('admin_common.Invalid Setting'));
                 return redirect(url('admin/settings'));
             }
         }
@@ -75,7 +75,7 @@ class SettingsController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Setting saved');
+            session()->flash('message', trans('admin_common.Setting saved'));
             return redirect(url('admin/settings'));
         }
 

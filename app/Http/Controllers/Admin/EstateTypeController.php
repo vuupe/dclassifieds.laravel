@@ -31,7 +31,7 @@ class EstateTypeController extends Controller
             try{
                 $modelData = EstateType::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Estate Type');
+                session()->flash('message', trans('admin_common.Invalid Estate Type'));
                 return redirect(url('admin/estatetype'));
             }
         }
@@ -73,7 +73,7 @@ class EstateTypeController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Estate Type saved');
+            session()->flash('message', trans('admin_common.Estate Type saved'));
             return redirect(url('admin/estatetype'));
         }
 
@@ -100,12 +100,12 @@ class EstateTypeController extends Controller
             EstateType::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Estate Type deleted');
+            session()->flash('message', trans('admin_common.Estate Type deleted'));
             return redirect(url('admin/estatetype'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/estatetype'));
     }
 }

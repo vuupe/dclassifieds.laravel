@@ -31,7 +31,7 @@ class EstateHeatingController extends Controller
             try{
                 $modelData = EstateHeatingType::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Heating Type');
+                session()->flash('message', trans('admin_common.Invalid Heating Type'));
                 return redirect(url('admin/estateheating'));
             }
         }
@@ -73,7 +73,7 @@ class EstateHeatingController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Heating Type saved');
+            session()->flash('message', trans('admin_common.Heating Type saved'));
             return redirect(url('admin/estateheating'));
         }
 
@@ -100,12 +100,12 @@ class EstateHeatingController extends Controller
             EstateHeatingType::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Heating Type deleted');
+            session()->flash('message', trans('admin_common.Heating Type deleted'));
             return redirect(url('admin/estateheating'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/estateheating'));
     }
 }

@@ -31,7 +31,7 @@ class CarEngineController extends Controller
             try{
                 $modelData = CarEngine::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Car Engine');
+                session()->flash('message', trans('admin_common.Invalid Car Engine'));
                 return redirect(url('admin/carengine'));
             }
         }
@@ -73,7 +73,7 @@ class CarEngineController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Car Engine saved');
+            session()->flash('message', trans('admin_common.Car Engine saved'));
             return redirect(url('admin/carengine'));
         }
 
@@ -100,12 +100,12 @@ class CarEngineController extends Controller
             CarEngine::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Car Engine deleted');
+            session()->flash('message', trans('admin_common.Car Engine deleted'));
             return redirect(url('admin/carengine'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/carengine'));
     }
 }

@@ -31,7 +31,7 @@ class EstateConstructionController extends Controller
             try{
                 $modelData = EstateConstructionType::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Construction Type');
+                session()->flash('message', trans('admin_common.Invalid Construction Type'));
                 return redirect(url('admin/estateconstruction'));
             }
         }
@@ -73,7 +73,7 @@ class EstateConstructionController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Construction Type saved');
+            session()->flash('message', trans('admin_common.Construction Type saved'));
             return redirect(url('admin/estateconstruction'));
         }
 
@@ -100,12 +100,12 @@ class EstateConstructionController extends Controller
             EstateConstructionType::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Construction Type deleted');
+            session()->flash('message', trans('admin_common.Construction Type deleted'));
             return redirect(url('admin/estateconstruction'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/estateconstruction'));
     }
 }

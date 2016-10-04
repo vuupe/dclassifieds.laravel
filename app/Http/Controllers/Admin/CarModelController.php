@@ -35,7 +35,7 @@ class CarModelController extends Controller
             try{
                 $modelData = CarModel::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Car Model');
+                session()->flash('message', trans('admin_common.Invalid Car Model'));
                 return redirect(url('admin/carmodel'));
             }
         }
@@ -84,7 +84,7 @@ class CarModelController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Car Model saved');
+            session()->flash('message', trans('admin_common.Car Model saved'));
             return redirect(url('admin/carmodel'));
         }
 
@@ -111,12 +111,12 @@ class CarModelController extends Controller
             CarModel::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Car Model deleted');
+            session()->flash('message', trans('admin_common.Car Model deleted'));
             return redirect(url('admin/carmodel'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/carmodel'));
     }
 
@@ -185,15 +185,15 @@ class CarModelController extends Controller
                                 try{
                                     CarModel::create($data_to_save);
                                 } catch (\Exception $e){
-                                    $import_error_array[] = 'Error on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
+                                    $import_error_array[] = trans('admin_common.Error on line') . ': ' . join(',', $v) . ' <br />' . trans('admin_common.Error Message') . ': ' . $e->getMessage();
                                 }
                             } else {
-                                $import_error_array[] = 'Missing data line: ' . join(',', $v);
+                                $import_error_array[] = trans('admin_common.Missing data line') . ': ' . join(',', $v);
                             }
                         }
                     }
                 } else {
-                    session()->flash('message', 'Can\'t read the csv file.');
+                    session()->flash('message', trans('admin_common.Cant read the csv file.'));
                     return redirect( url('admin/carmodel') );
                 }
             }
@@ -204,9 +204,9 @@ class CarModelController extends Controller
             @unlink(storage_path() . '/app/' . $tmp_import_name);
             Cache::flush();
             if(!empty($import_error_array)){
-                session()->flash('message', 'Car Models imported with the following errors: <br />' . join('<br />', $import_error_array));
+                session()->flash('message', trans('admin_common.Car Models imported with the following errors') . ': <br />' . join('<br />', $import_error_array));
             } else {
-                session()->flash('message', 'Car Models imported');
+                session()->flash('message', trans('admin_common.Car Models imported'));
             }
             return redirect(url('admin/carmodel'));
         }

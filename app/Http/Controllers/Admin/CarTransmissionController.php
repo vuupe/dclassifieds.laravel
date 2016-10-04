@@ -31,7 +31,7 @@ class CarTransmissionController extends Controller
             try{
                 $modelData = CarTransmission::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Car Transmission');
+                session()->flash('message', trans('admin_common.Invalid Car Transmission'));
                 return redirect(url('admin/cartransmission'));
             }
         }
@@ -73,7 +73,7 @@ class CarTransmissionController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Car Transmission saved');
+            session()->flash('message', trans('admin_common.Car Transmission saved'));
             return redirect(url('admin/cartransmission'));
         }
 
@@ -100,12 +100,12 @@ class CarTransmissionController extends Controller
             CarTransmission::destroy($data);
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Car Transmission deleted');
+            session()->flash('message', trans('admin_common.Car Transmission deleted'));
             return redirect(url('admin/cartransmission'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/cartransmission'));
     }
 }

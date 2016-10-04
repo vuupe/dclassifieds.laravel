@@ -33,7 +33,7 @@ class CarBrandController extends Controller
             try{
                 $modelData = CarBrand::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Car Brand');
+                session()->flash('message', trans('admin_common.Invalid Car Brand'));
                 return redirect(url('admin/carbrand'));
             }
         }
@@ -81,7 +81,7 @@ class CarBrandController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Car Brand saved');
+            session()->flash('message', trans('admin_common.Car Brand saved'));
             return redirect(url('admin/carbrand'));
         }
 
@@ -109,12 +109,12 @@ class CarBrandController extends Controller
             CarModel::whereIn('car_brand_id', $data)->delete();
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Car Brand deleted');
+            session()->flash('message', trans('admin_common.Car Brand deleted'));
             return redirect(url('admin/carbrand'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/carbrand'));
     }
 
@@ -177,15 +177,15 @@ class CarBrandController extends Controller
                                 try{
                                     CarBrand::create($data_to_save);
                                 } catch (\Exception $e){
-                                    $import_error_array[] = 'Possible doublicate <strong>Car Brand</strong> on line: ' . join(',', $v) . ' <br />Error Message: ' . $e->getMessage();
+                                    $import_error_array[] = trans('admin_common.Possible doublicate') .  '<strong>' . trans('admin_common.Car Brand') . '</strong>' . trans('admin_common.on line') . ': ' . join(',', $v) . ' <br />' . trans('admin_common.Error Message') . ': ' . $e->getMessage();
                                 }
                             } else {
-                                $import_error_array[] = 'Missing data line: ' . join(',', $v);
+                                $import_error_array[] = trans('admin_common.Missing data line') . ': ' . join(',', $v);
                             }
                         }
                     }
                 } else {
-                    session()->flash('message', 'Can\'t read the csv file.');
+                    session()->flash('message', trans('admin_common.Cant read the csv file.'));
                     return redirect( url('admin/carbrand') );
                 }
             }
@@ -196,9 +196,9 @@ class CarBrandController extends Controller
             @unlink(storage_path() . '/app/' . $tmp_import_name);
             Cache::flush();
             if(!empty($import_error_array)){
-                session()->flash('message', 'Car Brands imported with the following errors: <br />' . join('<br />', $import_error_array));
+                session()->flash('message', trans('admin_common.Car Brands imported with the following errors') . ': <br />' . join('<br />', $import_error_array));
             } else {
-                session()->flash('message', 'Car Brands imported');
+                session()->flash('message', trans('admin_common.Car Brands imported'));
             }
             return redirect(url('admin/carbrand'));
         }

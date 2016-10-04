@@ -22,11 +22,11 @@ class BannerController extends Controller
 
     public function edit(Request $request)
     {
-        $bannerType = [Banner::BANNER_CODE => 'Javascript/HTML Banner',
-            Banner::BANNER_IMAGE => 'Image Banner'];
+        $bannerType = [Banner::BANNER_CODE => trans('admin_common.Javascript/HTML Banner'),
+            Banner::BANNER_IMAGE => trans('admin_common.Image Banner')];
 
-        $bannerPosition = [Banner::BANNER_POSITION_LIST => 'Ad List Position (728x90px)',
-            Banner::BANNER_POSITION_DETAIL => 'Ad Detail Right Position (300x250px)'];
+        $bannerPosition = [Banner::BANNER_POSITION_LIST => trans('admin_common.Ad List Position (728x90px)'),
+            Banner::BANNER_POSITION_DETAIL => trans('admin_common.Ad Detail Right Position (300x250px)')];
 
         $id = 0;
         if(isset($request->id)){
@@ -38,7 +38,7 @@ class BannerController extends Controller
             try{
                 $modelData = Banner::findOrFail($id);
             } catch (ModelNotFoundException $e){
-                session()->flash('message', 'Invalid Banner');
+                session()->flash('message', trans('admin_common.Invalid Banner'));
                 return redirect(url('admin/banner'));
             }
         }
@@ -123,7 +123,7 @@ class BannerController extends Controller
              * clear cache, set message, redirect to list
              */
             Cache::flush();
-            session()->flash('message', 'Banner saved');
+            session()->flash('message', trans('admin_common.Banner saved'));
             return redirect(url('admin/banner'));
         }
 
@@ -158,12 +158,12 @@ class BannerController extends Controller
             }
             //clear cache, set message, redirect to list
             Cache::flush();
-            session()->flash('message', 'Banner deleted');
+            session()->flash('message', trans('admin_common.Banner deleted'));
             return redirect(url('admin/banner'));
         }
 
         //nothing for deletion set message and redirect
-        session()->flash('message', 'Nothing for deletion');
+        session()->flash('message', trans('admin_common.Nothing for deletion'));
         return redirect(url('admin/banner'));
     }
 }
