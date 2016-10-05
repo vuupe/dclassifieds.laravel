@@ -118,6 +118,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     //Settings
     Route::get('/admin/settings', 'SettingsController@index');
     Route::any('/admin/settings/edit/{id?}', 'SettingsController@edit');
+
+    //Pages
+    Route::get('/admin/page', 'PageController@index');
+    Route::any('/admin/page/edit/{id?}', 'PageController@edit');
+    Route::any('/admin/page/delete/{id?}', 'PageController@delete');
 });
 /*
  * end of admin routes
@@ -195,7 +200,8 @@ Route::post('lostpassword', 'Auth\PasswordController@postEmail');
 Route::get('reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('reset', 'Auth\PasswordController@postReset');
 
-
+//Custom pages
+Route::get('p/{page_slug}', 'PageController@index');
 
 /**
  * search routes

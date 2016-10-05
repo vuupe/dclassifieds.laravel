@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
-use Validator;
 use Illuminate\Support\ServiceProvider;
+
 use App\AdminMenu;
 use App\Http\Dc\Util;
 use App\Settings;
+use App\Page;
+
+use Cache;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,13 +52,39 @@ class AppServiceProvider extends ServiceProvider
         /**
          * Get Settings From DB
          */
-        $settings = Settings::all();
+        $settings = Cache::rememberForever('settings', function() {
+            return Settings::all();
+        });
         if(!$settings->isEmpty()){
             foreach($settings as $k => $v){
                 config(['dc.' . $v->setting_name => $v->setting_value]);
             }
         }
 
+        /**
+         * Get Custom Pages From DB
+         */
+        view()->composer('layout.index_layout', function ($view) {
+            //header menu
+            $headerMenu = Cache::rememberForever('headerMenu', function() {
+                return Page::select('page_title', 'page_slug')
+                    ->where('page_position', Page::HEADER_MENU)
+                    ->where('page_active', 1)
+                    ->orderBy('page_ord', 'ASC')
+                    ->get();
+            });
+            $view->with('headerMenu', $headerMenu);
+
+            //footer menu
+            $footerMenu = Cache::rememberForever('footerMenu', function() {
+                return Page::select('page_title', 'page_slug')
+                    ->where('page_position', Page::FOOTER_MENU)
+                    ->where('page_active', 1)
+                    ->orderBy('page_ord', 'ASC')
+                    ->get();
+            });
+            $view->with('footerMenu', $footerMenu);
+        });
     }
 
     /**

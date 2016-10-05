@@ -55,6 +55,11 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                        @if(isset($headerMenu) && !$headerMenu->isEmpty())
+                            @foreach($headerMenu as $k => $v)
+                                <li><a href="{{ url('p/' . $v->page_slug) }}">{{ $v->page_title }}</a></li>
+                            @endforeach
+                        @endif
                         @if( Auth::check() && Auth::user()->isAdmin() )
                             <li><a href="{{ url('admin') }}">{{ trans('index_layout.admin_panel') }}</a></li>
                         @endif
@@ -98,7 +103,12 @@
         
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">{{ trans('index_layout.copyright') }} &copy; {{ date('Y') }} <a href="{{ config('dc.site_url') }}">{{ config('dc.site_copyright_name') }}</a> | <a href="">About</a> | <a href="">Privacy Policy</a></p>
+                <p class="text-muted">{{ trans('index_layout.copyright') }} &copy; {{ date('Y') }} <a href="{{ config('dc.site_url') }}">{{ config('dc.site_copyright_name') }}</a>
+                @if(isset($footerMenu) && !$footerMenu->isEmpty())
+                    @foreach($footerMenu as $k => $v)
+                        | <a href="{{ url('p/' . $v->page_slug) }}">{{ $v->page_title }}</a>
+                    @endforeach
+                @endif
                 {!! trans('index_layout.icons_credit')  !!}
             </div>
         </footer>

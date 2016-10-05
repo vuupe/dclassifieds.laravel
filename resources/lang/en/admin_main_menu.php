@@ -21,5 +21,6 @@ return [
     'car_modification' => 'Car Modifications',
     'car_transmission' => 'Car Transmissions',
     'banner' => 'Banners',
-    'settings' => 'Settings'
+    'settings' => 'Settings',
+    'pages' => 'Pages'
 ];
