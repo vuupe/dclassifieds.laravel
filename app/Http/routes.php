@@ -137,6 +137,16 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/mail', 'MailController@index');
     Route::any('/admin/mail/edit/{id?}', 'MailController@edit');
     Route::any('/admin/mail/delete/{id?}', 'MailController@delete');
+
+    //IP Ban
+    Route::get('/admin/ipban', 'IpBanController@index');
+    Route::any('/admin/ipban/edit/{id?}', 'IpBanController@edit');
+    Route::any('/admin/ipban/delete/{id?}', 'IpBanController@delete');
+
+    //Mail Ban
+    Route::get('/admin/mailban', 'MailBanController@index');
+    Route::any('/admin/mailban/edit/{id?}', 'MailBanController@edit');
+    Route::any('/admin/mailban/delete/{id?}', 'MailBanController@delete');
 });
 /*
  * end of admin routes

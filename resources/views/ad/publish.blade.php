@@ -320,7 +320,7 @@
                                 @if(isset($car_model_id) && !empty($car_model_id))
                                     <select name="car_model_id" id="car_model_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Model') }}">
                                         @foreach ($car_model_id as $k => $v)
-                                            if(old('car_model_id') == $k)
+                                            @if(old('car_model_id') == $k)
                                                 <option value="{{ $k }}" selected>{{ $v }}</option>
                                             @else
                                                 <option value="{{ $k }}">{{ $v }}</option>
