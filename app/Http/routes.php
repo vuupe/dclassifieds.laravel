@@ -132,6 +132,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/wallet', 'WalletController@index');
     Route::any('/admin/wallet/edit/{id?}', 'WalletController@edit');
     Route::any('/admin/wallet/delete/{id?}', 'WalletController@delete');
+
+    //Mail
+    Route::get('/admin/mail', 'MailController@index');
+    Route::any('/admin/mail/edit/{id?}', 'MailController@edit');
+    Route::any('/admin/mail/delete/{id?}', 'MailController@delete');
 });
 /*
  * end of admin routes
