@@ -351,6 +351,13 @@
                             </label>
                         </div>
 
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="report_radio" id="report_radio_6" value="6">
+                                {{ trans('detail.Other') }}
+                            </label>
+                        </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">{{ trans('detail.More information') }}</label>
                             <textarea name="report_more_info" id="report_more_info" class="form-control" rows="3"></textarea>

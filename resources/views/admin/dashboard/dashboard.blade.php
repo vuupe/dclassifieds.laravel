@@ -74,13 +74,82 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ trans('admin_common.Promo Ads By Date') }}</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="chart">
+                                    <canvas id="promoAdsByDayChart" style="height: 180px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ trans('admin_common.Ads By Month') }}</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="chart">
+                                    <canvas id="adsByMonthChart" style="height: 180px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ trans('admin_common.Ads By Year') }}</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="chart">
+                                    <canvas id="adsByYearChart" style="height: 180px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 @endsection
 
 @section('js')
     <!-- ChartJS 1.0.1 -->
     <script src="{{ asset('adminlte/plugins/chartjs/Chart.min.js') }}"></script>
-
     <script>
         $(function () {
             // Get context with jQuery - using jQuery's .get() method.
@@ -102,17 +171,16 @@
             var areaChartData = {
             labels: [<?=join(',', $labels)?>],
             datasets: [
-                    {
-                        label: "Digital Goods",
-                        fillColor: "rgba(60,141,188,0.9)",
-                        strokeColor: "rgba(60,141,188,0.8)",
-                        pointColor: "#3b8bba",
-                        pointStrokeColor: "rgba(60,141,188,1)",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(60,141,188,1)",
-                        data: [<?=join(',', $data)?>]
-                    }
-                ]
+                {
+                    label: "Ads",
+                    fillColor: "rgba(60,141,188,0.9)",
+                    strokeColor: "rgba(60,141,188,0.8)",
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "rgba(60,141,188,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(60,141,188,1)",
+                    data: [<?=join(',', $data)?>]
+                }]
             };
 
             var areaChartOptions = {
@@ -156,6 +224,117 @@
 
             //Create the line chart
             areaChart.Line(areaChartData, areaChartOptions);
+
+            /**
+             * promo ads by date
+             */
+            // Get context with jQuery - using jQuery's .get() method.
+            var promoAdsByDayChartCanvas = $("#promoAdsByDayChart").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var promoAdsAreaChart = new Chart(promoAdsByDayChartCanvas);
+
+            <?
+            $labels = [];
+            $data = [];
+            if(isset($stat->promo_ads_by_date) && !empty($stat->promo_ads_by_date)){
+                foreach($stat->promo_ads_by_date as $k => $v){
+                    $labels[] = '"' . $v['date_formated'] . '"';
+                    $data[] = $v['ad_count'];
+                }
+            }
+            ?>
+
+            var promoAdsAreaChartData = {
+            labels: [<?=join(',', $labels)?>],
+            datasets: [
+                {
+                    label: "Promo Ads",
+                    fillColor: "rgba(60,141,188,0.9)",
+                    strokeColor: "rgba(60,141,188,0.8)",
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "rgba(60,141,188,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(60,141,188,1)",
+                    data: [<?=join(',', $data)?>]
+                }]
+            };
+
+            //Create the line chart
+            promoAdsAreaChart.Line(promoAdsAreaChartData, areaChartOptions);
+
+            /**
+             * ads by month
+             */
+            // Get context with jQuery - using jQuery's .get() method.
+            var adsByMonthChartCanvas = $("#adsByMonthChart").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var adsByMonthAreaChart = new Chart(adsByMonthChartCanvas);
+
+            <?
+            $labels = [];
+            $data = [];
+            if(isset($stat->ads_by_month) && !empty($stat->ads_by_month)){
+                foreach($stat->ads_by_month as $k => $v){
+                    $labels[] = '"' . $v['date_formated'] . '"';
+                    $data[] = $v['ad_count'];
+                }
+            }
+            ?>
+
+            var adsByMonthAreaChartData = {
+            labels: [<?=join(',', $labels)?>],
+            datasets: [
+                {
+                    label: "Ads",
+                    fillColor: "rgba(60,141,188,0.9)",
+                    strokeColor: "rgba(60,141,188,0.8)",
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "rgba(60,141,188,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(60,141,188,1)",
+                    data: [<?=join(',', $data)?>]
+                }]
+            };
+
+            //Create the line chart
+            adsByMonthAreaChart.Line(adsByMonthAreaChartData, areaChartOptions);
+
+            /**
+             * ads by year
+             */
+            // Get context with jQuery - using jQuery's .get() method.
+            var adsByYearChartCanvas = $("#adsByYearChart").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var adsByYearAreaChart = new Chart(adsByYearChartCanvas);
+
+            <?
+            $labels = [];
+            $data = [];
+            if(isset($stat->ads_by_year) && !empty($stat->ads_by_year)){
+                foreach($stat->ads_by_year as $k => $v){
+                    $labels[] = '"' . $v['date_formated'] . '"';
+                    $data[] = $v['ad_count'];
+                }
+            }
+            ?>
+
+            var adsByYearAreaChartData = {
+            labels: [<?=join(',', $labels)?>],
+            datasets: [
+                {
+                    label: "Ads",
+                    fillColor: "rgba(60,141,188,0.9)",
+                    strokeColor: "rgba(60,141,188,0.8)",
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "rgba(60,141,188,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(60,141,188,1)",
+                    data: [<?=join(',', $data)?>]
+                }]
+            };
+
+            //Create the line chart
+            adsByYearAreaChart.Line(adsByYearAreaChartData, areaChartOptions);
         });
     </script>
 

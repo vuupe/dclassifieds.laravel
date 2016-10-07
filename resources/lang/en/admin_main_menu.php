@@ -22,5 +22,11 @@ return [
     'car_transmission' => 'Car Transmissions',
     'banner' => 'Banners',
     'settings' => 'Settings',
-    'pages' => 'Pages'
+    'pages' => 'Pages',
+    'reports' => 'Reports',
+    'wallet' => 'Wallet',
+    'payment_options' => 'Payment options',
+    'mail' => 'User Messages',
+    'ipban' => 'Ban By IP',
+    'mailban' => 'Ban By E-Mail'
 ];

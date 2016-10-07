@@ -39,6 +39,7 @@ return [
     'Wrong category' => 'Wrong category',
     'Prohibited goods or services' => 'Prohibited goods or services',
     'Ad outdated' => 'Ad outdated',
+    'Other' => 'Other',
     'More information' => 'More information',
     'Close' => 'Close',
     'Sending Report...' => 'Sending Report...',

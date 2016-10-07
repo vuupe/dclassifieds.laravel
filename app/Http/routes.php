@@ -123,6 +123,15 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/page', 'PageController@index');
     Route::any('/admin/page/edit/{id?}', 'PageController@edit');
     Route::any('/admin/page/delete/{id?}', 'PageController@delete');
+
+    //Reports
+    Route::get('/admin/report', 'ReportController@index');
+    Route::any('/admin/report/delete/{id?}', 'ReportController@delete');
+
+    //Wallet
+    Route::get('/admin/wallet', 'WalletController@index');
+    Route::any('/admin/wallet/edit/{id?}', 'WalletController@edit');
+    Route::any('/admin/wallet/delete/{id?}', 'WalletController@delete');
 });
 /*
  * end of admin routes
