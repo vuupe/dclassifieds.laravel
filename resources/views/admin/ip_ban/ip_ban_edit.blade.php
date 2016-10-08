@@ -8,7 +8,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> {{ trans('admin_common.Home') }}</a></li>
-            <li><a href="{{ url('admin/adtype') }}">{{ trans('admin_common.IP Ban') }}</a></li>
+            <li><a href="{{ url('admin/ipban') }}">{{ trans('admin_common.IP Ban') }}</a></li>
             <li class="active">{{ trans('admin_common.Add/Edit') }}</li>
         </ol>
     </section>
@@ -33,6 +33,16 @@
                                 @if ($errors->has('ban_ip'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ban_ip') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group required {{ $errors->has('ban_reason') ? ' has-error' : '' }}">
+                                <label for="ban_reason" class="control-label">{{ trans('admin_common.Ban Reason') }}</label>
+                                <input type="text" class="form-control" name="ban_reason" id="ban_reason" placeholder="{{ trans('admin_common.Ban Reason') }}" value="{{ Util::getOldOrModelValue('ban_reason', $modelData) }}">
+                                @if ($errors->has('ban_reason'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('ban_reason') }}</strong>
                                     </span>
                                 @endif
                             </div>

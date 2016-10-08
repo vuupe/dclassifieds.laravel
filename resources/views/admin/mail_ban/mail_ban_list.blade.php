@@ -47,6 +47,7 @@
                             <th></th>
                             <th>{{ trans('admin_common.#Id') }}</th>
                             <th>{{ trans('admin_common.Banned Mail') }}</th>
+                            <th>{{ trans('admin_common.Ban Reason') }}</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -59,6 +60,7 @@
                             </td>
                             <td>{{ $v['ban_email_id'] }}</td>
                             <td>{{ $v['ban_email'] }}</td>
+                            <td>{{ $v['ban_reason'] }}</td>
                             <td><a href="{{ url('admin/mailban/edit/' . $v['ban_email_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
                             <td><a href="{{ url('admin/mailban/delete/' . $v['ban_email_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
                         </tr>
@@ -94,6 +96,7 @@
             "pageLength": 25,
             "columns": [
                         { "orderable": false },
+                        null,
                         null,
                         null,
                         { "orderable": false },

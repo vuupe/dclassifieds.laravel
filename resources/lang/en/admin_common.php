@@ -308,5 +308,6 @@ return [
     'New Mail Ban' => 'New Mail Ban',
     'Banned Mail' => 'Banned Mail',
     'Add/Edit Mail Ban' => 'Add/Edit Mail Ban',
-    'Mail to be Banned' => 'Mail to be Banned'
+    'Mail to be Banned' => 'Mail to be Banned',
+    'Ban Reason' => 'Ban Reason'
 ];

@@ -8,6 +8,6 @@ class AdBanIp extends Model
 {
     protected $table        = 'ad_ban_ip';
     protected $primaryKey   = 'ban_ip_id';
-    protected $fillable     = ['ban_ip'];
+    protected $fillable     = ['ban_ip', 'ban_reason'];
     public $timestamps      = false;
 }

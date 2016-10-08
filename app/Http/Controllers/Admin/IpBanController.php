@@ -45,8 +45,13 @@ class IpBanController extends Controller
              * validate data
              */
             $rules = [
-                'ban_ip' => 'required|ip'
+                'ban_ip' => 'required|ip|unique:ad_ban_ip,ban_ip',
+                'ban_reason' => 'required|max:255'
             ];
+
+            if(isset($modelData->ban_ip_id)){
+                $rules['ban_ip'] = 'required|ip|unique:ad_ban_ip,ban_ip,' . $modelData->ban_ip_id  . ',ban_ip_id';
+            }
 
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {

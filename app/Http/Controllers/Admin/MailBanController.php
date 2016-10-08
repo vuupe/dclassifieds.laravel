@@ -11,6 +11,7 @@ use App\AdBanEmail;
 
 use Validator;
 use Cache;
+use Mail;
 
 class MailBanController extends Controller
 {
@@ -45,8 +46,13 @@ class MailBanController extends Controller
              * validate data
              */
             $rules = [
-                'ban_email' => 'required|email'
+                'ban_email' => 'required|email|unique:ad_ban_email,ban_email',
+                'ban_reason' => 'required|max:255'
             ];
+
+            if(isset($modelData->ban_email_id)){
+                $rules['ban_email'] = 'required|email|unique:ad_ban_email,ban_email,' . $modelData->ban_email_id  . ',ban_email_id';
+            }
 
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -65,6 +71,11 @@ class MailBanController extends Controller
              */
             if(!isset($modelData->ban_email_id)){
                 AdBanEmail::create($data);
+                //send email to inform the user
+                Mail::send('emails.user_ban_email', ['data' => $data], function ($m) use ($data) {
+                    $m->from('test@mylove.bg', 'dclassifieds banned');
+                    $m->to($data['ban_email'])->subject('You are banner in DClassifieds');
+                });
             } else {
                 $modelData->update($data);
             }

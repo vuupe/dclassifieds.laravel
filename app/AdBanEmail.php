@@ -8,6 +8,6 @@ class AdBanEmail extends Model
 {
     protected $table        = 'ad_ban_email';
     protected $primaryKey   = 'ban_email_id';
-    protected $fillable     = ['ban_email'];
+    protected $fillable     = ['ban_email', 'ban_reason'];
     public $timestamps      = false;
 }
