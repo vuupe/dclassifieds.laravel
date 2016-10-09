@@ -78,8 +78,8 @@ class BannerController extends Controller
                 return false;
             });
 
-            $validator->sometimes(['banner_file'], 'required|mimes:jpeg,bmp,png,gif', function($input){
-                if($input->banner_type == Banner::BANNER_IMAGE){
+            $validator->sometimes(['banner_file'], 'required|mimes:jpeg,bmp,png,gif', function($input) use ($modelData){
+                if($input->banner_type == Banner::BANNER_IMAGE && !isset($modelData->banner_id)){
                     return true;
                 }
                 return false;
@@ -100,7 +100,7 @@ class BannerController extends Controller
              * check for uploaded banner
              */
             $banner_name = '';
-            if ($request->file('banner_file')->isValid()) {
+            if ($request->hasFile('banner_file') && $request->file('banner_file')->isValid()) {
                 $file = Input::file('banner_file');
                 $banner_name = time() . '_banner.' . $file->getClientOriginalExtension();
                 $file->move(public_path() . '/uf/banner', $banner_name);

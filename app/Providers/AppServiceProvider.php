@@ -65,7 +65,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         /**
-         * Get Custom Pages From DB
+         * Get Custom Pages From DB, Get Central Banner
          */
         view()->composer('layout.index_layout', function ($view) {
             //header menu
@@ -100,6 +100,23 @@ class AppServiceProvider extends ServiceProvider
                 $centralBanner->increment('banner_num_views');
             }
             $view->with('centralBanner', $centralBanner);
+        });
+
+        /**
+         * get ad detail/ad contact banner
+         */
+        view()->composer(['ad.detail', 'ad.contact'], function ($view) {
+            $today = date('Y-m-d');
+            $adDetailBanner = Banner::where('banner_active_from', '<=' , $today)
+                ->where('banner_active_to', '>=', $today)
+                ->where('banner_position', Banner::BANNER_POSITION_DETAIL)
+                ->orderByRaw('rand()')
+                ->take(1)
+                ->first();
+            if(!empty($adDetailBanner)){
+                $adDetailBanner->increment('banner_num_views');
+            }
+            $view->with('adDetailBanner', $adDetailBanner);
         });
     }
 

@@ -277,9 +277,8 @@
                 <hr>
                 @endif
 
-                <div class="ad_detail_panel">
-                    <img src="{{ asset('images/banner300x250.gif') }}" class="img-responsive center-block">
-                </div>
+                @include('common.ad_detail_banner')
+
             </div>
         </div>
     </div>
