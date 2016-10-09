@@ -152,6 +152,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
  * end of admin routes
  */
 
+/**
+ * common
+ */
+Route::get('/ban', 'BanController@index')->name('ban');
+
 /*
  * ads actions
  */

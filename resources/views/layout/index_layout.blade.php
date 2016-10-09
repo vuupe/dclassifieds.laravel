@@ -91,13 +91,7 @@
         
         @yield('search_filter')
         
-        <div class="container centar_banner_728">
-            <div class="row">
-                <div class="col-md-12">
-                    <a href=""><img src="{{ asset('images/728x90.png') }}" class="center-block img-responsive"></a>
-                </div>
-            </div>
-        </div>
+        @include('common.central_banner');
         
         @yield('content')
         

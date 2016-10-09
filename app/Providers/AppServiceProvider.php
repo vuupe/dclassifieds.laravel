@@ -8,9 +8,12 @@ use App\AdminMenu;
 use App\Http\Dc\Util;
 use App\Settings;
 use App\Page;
+use App\Banner;
 
 use Cache;
 use Validator;
+use DB;
+use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -84,6 +87,19 @@ class AppServiceProvider extends ServiceProvider
                     ->get();
             });
             $view->with('footerMenu', $footerMenu);
+
+            //get central banner if any
+            $today = date('Y-m-d');
+            $centralBanner = Banner::where('banner_active_from', '<=' , $today)
+                ->where('banner_active_to', '>=', $today)
+                ->where('banner_position', Banner::BANNER_POSITION_LIST)
+                ->orderByRaw('rand()')
+                ->take(1)
+                ->first();
+            if(!empty($centralBanner)){
+                $centralBanner->increment('banner_num_views');
+            }
+            $view->with('centralBanner', $centralBanner);
         });
     }
 
