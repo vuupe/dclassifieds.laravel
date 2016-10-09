@@ -147,6 +147,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/mailban', 'MailBanController@index');
     Route::any('/admin/mailban/edit/{id?}', 'MailBanController@edit');
     Route::any('/admin/mailban/delete/{id?}', 'MailBanController@delete');
+
+    //Payment Options
+    Route::get('/admin/pay', 'PayController@index');
+    Route::any('/admin/pay/edit/{id}', 'PayController@edit');
 });
 /*
  * end of admin routes
@@ -156,6 +160,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
  * common
  */
 Route::get('/ban', 'BanController@index')->name('ban');
+
+/**
+ * Payment
+ */
+Route::get('/mobiopay', 'MobioPayController@index')->name('mobiopay');
 
 /*
  * ads actions

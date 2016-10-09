@@ -309,5 +309,21 @@ return [
     'Banned Mail' => 'Banned Mail',
     'Add/Edit Mail Ban' => 'Add/Edit Mail Ban',
     'Mail to be Banned' => 'Mail to be Banned',
-    'Ban Reason' => 'Ban Reason'
+    'Ban Reason' => 'Ban Reason',
+    'Payment Options' => 'Payment Options',
+    'All Payment Options' => 'All Payment Options',
+    'Payment Name' => 'Payment Name',
+    'Payment Active' => 'Payment Active',
+    'Payment Order' => 'Payment Order',
+    'Payment Sum' => 'Payment Sum',
+    'Payment Promo Period' => 'Payment Promo Period',
+    'Days' => 'Days',
+    'Invalid Payment Option' => 'Invalid Payment Option',
+    'Payment Option saved' => 'Payment Option saved',
+    'Edit Payment Option' => 'Edit Payment Option',
+    'Payment Info Url' => 'Payment Info Url',
+    'Payment SMS Prefix' => 'Payment SMS Prefix',
+    'Payment Description' => 'Payment Description',
+    'Payment Ping Url' => 'Payment Ping Url',
+    'Payment Allowed IP' => 'Payment Allowed IP'
 ];
