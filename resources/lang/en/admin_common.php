@@ -325,5 +325,7 @@ return [
     'Payment SMS Prefix' => 'Payment SMS Prefix',
     'Payment Description' => 'Payment Description',
     'Payment Ping Url' => 'Payment Ping Url',
-    'Payment Allowed IP' => 'Payment Allowed IP'
+    'Payment Allowed IP' => 'Payment Allowed IP',
+    'Payment Phone Number' => 'Payment Phone Number',
+    'Payment Secret' => 'Payment Secret'
 ];

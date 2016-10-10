@@ -165,6 +165,7 @@ Route::get('/ban', 'BanController@index')->name('ban');
  * Payment
  */
 Route::get('/mobiopay', 'MobioPayController@index')->name('mobiopay');
+Route::get('/fortumopay', 'FortumoPayController@index')->name('fortumopay');
 
 /*
  * ads actions

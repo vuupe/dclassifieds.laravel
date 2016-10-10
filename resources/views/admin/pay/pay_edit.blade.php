@@ -83,6 +83,26 @@
                                 @endif
                             </div>
 
+                            <div class="form-group {{ $errors->has('pay_number') ? ' has-error' : '' }}">
+                                <label for="pay_number" class="control-label">{{ trans('admin_common.Payment Phone Number') }}</label>
+                                <input type="text" class="form-control" name="pay_number" id="pay_number" placeholder="{{ trans('admin_common.Payment Phone Number') }}" value="{{ Util::getOldOrModelValue('pay_number', $modelData) }}">
+                                @if ($errors->has('pay_number'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_number') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_secret') ? ' has-error' : '' }}">
+                                <label for="pay_secret" class="control-label">{{ trans('admin_common.Payment Secret') }}</label>
+                                <input type="text" class="form-control" name="pay_secret" id="pay_secret" placeholder="{{ trans('admin_common.Payment Secret') }}" value="{{ Util::getOldOrModelValue('pay_secret', $modelData) }}">
+                                @if ($errors->has('pay_secret'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_secret') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
                             <div class="form-group required {{ $errors->has('pay_description') ? ' has-error' : '' }}">
                                 <label for="ad_description" class="control-label">{{ trans('admin_common.Payment Description') }}</label>
                                 <textarea class="form-control" name="pay_description" id="pay_description" rows="{{ config('dc.num_rows_ad_description_textarea') }}">{{ Util::getOldOrModelValue('pay_description', $modelData) }}</textarea>

@@ -12,38 +12,35 @@ use App\Wallet;
 
 use Cache;
 
-
-class MobioPayController extends Controller
+class FortumoPayController extends Controller
 {
     public function index(Request $request)
     {
+        $sms_reply = trans('payment_fortumo.There is error, please contact us.');
         //get info for this payment
-        $payTypeInfo = Pay::find(Pay::PAY_TYPE_MOBIO);
+        $payTypeInfo = Pay::find(Pay::PAY_TYPE_FORTUMO);
 
         //calc promo period
         $promoUntilDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+$payTypeInfo->pay_promo_period, date('Y')));
 
         //get incoming params
-        $message    = isset($request->message) ? $request->message : null;
-        $item       = isset($request->item) ?  $request->item : null;
-        $fromnum    = isset($request->fromnum) ?  $request->fromnum : null;
-        $extid      = isset($request->extid) ? $request->extid : null;
-        $servID     = isset($request->servID) ? $request->servID : null;
+        $cuid = isset($request->cuid) ?  $request->cuid : null;
+        $status = isset($request->status) ?  $request->status : null;
 
         //check if ping is comming from allowed ips
-        $mobio_remote_address = explode(',', $payTypeInfo->pay_allowed_ip);
+        $fortumo_remote_address = explode(',', $payTypeInfo->pay_allowed_ip);
 
-        if(in_array($request->ip(), $mobio_remote_address)) {
-            $sms_reply = trans('payment_mobio.There is error, please contact us.');
-            $item = trim($item);
+        if(in_array($request->ip(), $fortumo_remote_address) && $this->check_signature($request->all(), $payTypeInfo->pay_secret)) {
 
-            if(!empty($item)){
+            $cuid = trim($cuid);
+
+            if(!empty($cuid) && preg_match("/completed/i", $status)){
                 try {
-                    $pay_type = mb_strtolower(mb_substr($item, 0, 1));
+                    $pay_type = mb_strtolower(mb_substr($cuid, 0, 1));
 
                     //make ad vip
                     if ($pay_type == 'a') {
-                        $ad_id = mb_substr($item, 1);
+                        $ad_id = mb_substr($cuid, 1);
                         $adInfo = Ad::find($ad_id);
                         if (!empty($adInfo)) {
                             //update ad
@@ -56,7 +53,7 @@ class MobioPayController extends Controller
                                 'ad_id' => $ad_id,
                                 'sum' => $payTypeInfo->pay_sum,
                                 'wallet_date' => date('Y-m-d H:i:s'),
-                                'wallet_description' => trans('payment_mobio.Payment via Mobio SMS')
+                                'wallet_description' => trans('payment_fortumo.Payment via Fortumo SMS')
                             ];
                             Wallet::create($wallet_data);
 
@@ -69,31 +66,44 @@ class MobioPayController extends Controller
                             ];
                             Wallet::create($wallet_data);
 
-                            $sms_reply = trans('payment_mobio.Your ad #:ad_id is Promo Until :date.', ['ad_id' => $ad_id, 'date' => $promoUntilDate]);
+                            $sms_reply = trans('payment_fortumo.Your ad #:ad_id is Promo Until :date.', ['ad_id' => $ad_id, 'date' => $promoUntilDate]);
                             Cache::flush();
                         }
                     }
 
                     //add money to wallet
                     if ($pay_type == 'w') {
-                        $user_id = mb_substr($item, 1);
+                        $user_id = mb_substr($cuid, 1);
                         $userInfo = User::find($user_id);
                         if (!empty($userInfo)) {
                             //save money to wallet
                             $wallet_data = ['user_id' => $userInfo->user_id,
                                 'sum' => $payTypeInfo->pay_sum,
                                 'wallet_date' => date('Y-m-d H:i:s'),
-                                'wallet_description' => trans('payment_mobio.Add Money to Wallet via Mobio SMS')
+                                'wallet_description' => trans('payment_fortumo.Add Money to Wallet via Fortumo SMS')
                             ];
                             Wallet::create($wallet_data);
-                            $sms_reply = trans('payment_mobio.You have added :money to your wallet.', ['money' => number_format($payTypeInfo->pay_sum, 2) . config('dc.site_price_sign')]);
+                            $sms_reply = trans('payment_fortumo.You have added :money to your wallet.', ['money' => number_format($payTypeInfo->pay_sum, 2) . config('dc.site_price_sign')]);
                             Cache::flush();
                         }
                     }
                 } catch (\Exception $e){}
             }
-
-            file_get_contents("http://mobio.bg/paynotify/pnsendsms.php?servID=$servID&tonum=$fromnum&extid=$extid&message=" . urlencode($sms_reply));
         }
+        echo $sms_reply;
     }
+
+    public function check_signature($params_array, $secret)
+    {
+        ksort($params_array);
+        $str = '';
+        foreach ($params_array as $k=>$v) {
+            if($k != 'sig') {
+                $str .= "$k=$v";
+            }
+        }
+        $str .= $secret;
+        $signature = md5($str);
+        return ($params_array['sig'] == $signature);
+  }
 }

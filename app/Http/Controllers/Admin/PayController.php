@@ -49,7 +49,9 @@ class PayController extends Controller
                 'pay_sms_prefix' => 'max:255',
                 'pay_description' => 'required',
                 'pay_ord' => 'required|numeric',
-                'pay_allowed_ip' => 'max:255'
+                'pay_allowed_ip' => 'max:255',
+                'pay_number' => 'max:255',
+                'pay_secret' => 'max:255'
             ];
 
             $validator = Validator::make($request->all(), $rules);
