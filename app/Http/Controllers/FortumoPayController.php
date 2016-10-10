@@ -24,23 +24,24 @@ class FortumoPayController extends Controller
         $promoUntilDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+$payTypeInfo->pay_promo_period, date('Y')));
 
         //get incoming params
-        $cuid = isset($request->cuid) ?  $request->cuid : null;
+        $message = isset($request->message) ?  $request->message : null;
         $status = isset($request->status) ?  $request->status : null;
+        $billing_type = isset($request->billing_type) ?  $request->billing_type : null;
 
         //check if ping is comming from allowed ips
         $fortumo_remote_address = explode(',', $payTypeInfo->pay_allowed_ip);
 
         if(in_array($request->ip(), $fortumo_remote_address) && $this->check_signature($request->all(), $payTypeInfo->pay_secret)) {
 
-            $cuid = trim($cuid);
+            $message = trim($message);
 
-            if(!empty($cuid) && preg_match("/completed/i", $status)){
+            if(!empty($message) && ( preg_match("/OK/i", $status) || (preg_match("/MO/i", $billing_type) && preg_match("/pending/i", $status)) )){
                 try {
-                    $pay_type = mb_strtolower(mb_substr($cuid, 0, 1));
+                    $pay_type = mb_strtolower(mb_substr($message, 0, 1));
 
                     //make ad vip
                     if ($pay_type == 'a') {
-                        $ad_id = mb_substr($cuid, 1);
+                        $ad_id = mb_substr($message, 1);
                         $adInfo = Ad::find($ad_id);
                         if (!empty($adInfo)) {
                             //update ad
@@ -73,7 +74,7 @@ class FortumoPayController extends Controller
 
                     //add money to wallet
                     if ($pay_type == 'w') {
-                        $user_id = mb_substr($cuid, 1);
+                        $user_id = mb_substr($message, 1);
                         $userInfo = User::find($user_id);
                         if (!empty($userInfo)) {
                             //save money to wallet

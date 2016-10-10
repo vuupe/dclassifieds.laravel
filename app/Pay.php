@@ -10,7 +10,7 @@ use DB;
 class Pay extends Model
 {
     const PAY_TYPE_MOBIO = 1; //Mobio SMS Pay
-    const PAY_TYPE_FORTUMO = 1; //Fortumo SMS Pay
+    const PAY_TYPE_FORTUMO = 2; //Fortumo SMS Pay
 
     protected $table        = 'pay';
     protected $primaryKey   = 'pay_id';
