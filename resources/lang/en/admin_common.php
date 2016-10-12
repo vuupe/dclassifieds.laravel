@@ -327,5 +327,15 @@ return [
     'Payment Ping Url' => 'Payment Ping Url',
     'Payment Allowed IP' => 'Payment Allowed IP',
     'Payment Phone Number' => 'Payment Phone Number',
-    'Payment Secret' => 'Payment Secret'
+    'Payment Secret' => 'Payment Secret',
+    'Payment Test Mode (Sandbox)' => 'Payment Test Mode (Sandbox)',
+    'Payment Mail' => 'Payment Mail',
+    'Payment Sum To be Charged' => 'Payment Sum To be Charged',
+    'Payment Currency' => 'Payment Currency',
+    'Payment Locale' => 'Payment Locale',
+    'Payment Log' => 'Payment Log',
+    'Payment Page Web Address' => 'Payment Page Web Address',
+    '1 = enable, 0 = disable' => '1 = enable, 0 = disable',
+    'For example Paypal Mail' => 'For example Paypal Mail',
+    'For example Paypal Inerface Language' => 'For example Paypal Inerface Language'
 ];

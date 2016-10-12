@@ -133,6 +133,93 @@
                                 @endif
                             </div>
 
+                            <hr>
+
+                            <div class="form-group {{ $errors->has('pay_testmode') ? ' has-error' : '' }}">
+                                <label for="pay_testmode" class="control-label">{{ trans('admin_common.Payment Test Mode (Sandbox)') }}</label>
+                                <input type="text" class="form-control" name="pay_testmode" id="pay_testmode" placeholder="{{ trans('admin_common.Payment Test Mode (Sandbox)') }}" value="{{ !empty(Util::getOldOrModelValue('pay_testmode', $modelData)) ? Util::getOldOrModelValue('pay_testmode', $modelData) : '0' }}">
+                                <span class="help-block">
+                                    <strong>{{ trans('admin_common.1 = enable, 0 = disable') }}</strong>
+                                </span>
+                                @if ($errors->has('pay_testmode'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_testmode') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_paypal_mail') ? ' has-error' : '' }}">
+                                <label for="pay_paypal_mail" class="control-label">{{ trans('admin_common.Payment Mail') }}</label>
+                                <input type="text" class="form-control" name="pay_paypal_mail" id="pay_paypal_mail" placeholder="{{ trans('admin_common.Payment Mail') }}" value="{{ Util::getOldOrModelValue('pay_paypal_mail', $modelData) }}">
+                                <span class="help-block">
+                                    <strong>{{ trans('admin_common.For example Paypal Mail') }}</strong>
+                                </span>
+                                @if ($errors->has('pay_paypal_mail'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_paypal_mail') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_sum_to_charge') ? ' has-error' : '' }}">
+                                <label for="pay_sum_to_charge" class="control-label">{{ trans('admin_common.Payment Sum To be Charged') }}</label>
+                                <input type="text" class="form-control" name="pay_sum_to_charge" id="pay_sum_to_charge" placeholder="{{ trans('admin_common.Payment Sum To be Charged') }}" value="{{ Util::getOldOrModelValue('pay_sum_to_charge', $modelData) }}">
+                                @if ($errors->has('pay_sum_to_charge'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_sum_to_charge') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_currency') ? ' has-error' : '' }}">
+                                <label for="pay_currency" class="control-label">{{ trans('admin_common.Payment Currency') }}</label>
+                                <input type="text" class="form-control" name="pay_currency" id="pay_currency" placeholder="{{ trans('admin_common.Payment Currency') }}" value="{{ Util::getOldOrModelValue('pay_currency', $modelData) }}">
+                                @if ($errors->has('pay_currency'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_currency') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_locale') ? ' has-error' : '' }}">
+                                <label for="pay_locale" class="control-label">{{ trans('admin_common.Payment Locale') }}</label>
+                                <input type="text" class="form-control" name="pay_locale" id="pay_locale" placeholder="{{ trans('admin_common.Payment Locale') }}" value="{{ Util::getOldOrModelValue('pay_locale', $modelData) }}">
+                                <span class="help-block">
+                                    <strong>{{ trans('admin_common.For example Paypal Inerface Language') }}</strong>
+                                </span>
+                                @if ($errors->has('pay_locale'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_locale') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_log') ? ' has-error' : '' }}">
+                                <label for="pay_log" class="control-label">{{ trans('admin_common.Payment Log') }}</label>
+                                <input type="text" class="form-control" name="pay_log" id="pay_log" placeholder="{{ trans('admin_common.Payment Log') }}" value="{{ !empty(Util::getOldOrModelValue('pay_log', $modelData)) ? Util::getOldOrModelValue('pay_log', $modelData)  : '0' }}">
+                                <span class="help-block">
+                                    <strong>{{ trans('admin_common.1 = enable, 0 = disable') }}</strong>
+                                </span>
+                                @if ($errors->has('pay_log'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_log') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_page_name') ? ' has-error' : '' }}">
+                                <label for="pay_page_name" class="control-label">{{ trans('admin_common.Payment Page Web Address') }}</label>
+                                <input type="text" class="form-control" name="pay_page_name" id="pay_page_name" placeholder="{{ trans('admin_common.Payment Page Web Address') }}" value="{{ Util::getOldOrModelValue('pay_page_name', $modelData) }}" readonly>
+                                @if ($errors->has('pay_page_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_page_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+                            <hr>
+
                             <div class="form-group required {{ $errors->has('pay_ord') ? ' has-error' : '' }}">
                                 <label for="pay_ord" class="control-label">{{ trans('admin_common.Payment Order') }}</label>
                                 <input type="text" class="form-control" name="pay_ord" id="pay_ord" placeholder="{{ trans('admin_common.Payment Order') }}" value="{{ Util::getOldOrModelValue('pay_ord', $modelData) }}">

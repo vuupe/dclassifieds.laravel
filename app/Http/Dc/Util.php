@@ -7,48 +7,48 @@ class Util
 {
     static function sanitize( $string )
     {
-    	return addslashes(strip_tags(trim($string)));
+        return addslashes(strip_tags(trim($string)));
     }
     
     static function buildUrlByRouteName($_route_name, $_params = array())
     {
-    	$params = array();
-    	if(!empty($_params)){
-    		foreach($_params as $k => $v){
-    			$params[] = $k  . '/' . $v;
-    		}
-    	}
-    	return route($_route_name) . '/' . join('/', $params);
+        $params = array();
+        if(!empty($_params)){
+            foreach($_params as $k => $v){
+                $params[] = $k  . '/' . $v;
+            }
+        }
+        return route($_route_name) . '/' . join('/', $params);
     }
     
     static function buildUrl($_url_params = array(), $_divider = '/')
     {
-    	$root = request()->root();
-    	return $root . $_divider . join($_divider, $_url_params);
+        $root = request()->root();
+        return $root . $_divider . join($_divider, $_url_params);
     }
     
     static function getQueryStringFromArray($_params = array(), $_remove_zero = 1)
     {
-    	$ret = array();
-    	foreach ($_params as $k => $v){
-    		if(is_array($v) && !empty($v)){
-    			//$ret[] = $k . '[]=' . join('&', $v);
-    			foreach ($v as $ak => $av){
-    				$ret[] = $k . '[]=' . $av;
-    			}
-    		} else {
-	    		if(!$_remove_zero){
-	    			$ret[] = $k . '=' . $v;
-	    		} elseif ($v > 0) {
-	    			$ret[] = $k . '=' . $v;
-	    		}
-    		}
-    	}
-    	if(!empty($ret)){
-    		return join('&', $ret);
-    	} else {
-    		return '';
-    	}
+        $ret = array();
+        foreach ($_params as $k => $v){
+            if(is_array($v) && !empty($v)){
+                //$ret[] = $k . '[]=' . join('&', $v);
+                foreach ($v as $ak => $av){
+                    $ret[] = $k . '[]=' . $av;
+                }
+            } else {
+                if(!$_remove_zero){
+                    $ret[] = $k . '=' . $v;
+                } elseif ($v > 0) {
+                    $ret[] = $k . '=' . $v;
+                }
+            }
+        }
+        if(!empty($ret)){
+            return join('&', $ret);
+        } else {
+            return '';
+        }
     }
     
     static function getRemoteAddress()
@@ -96,9 +96,9 @@ class Util
     
     static function getOldOrModelValue($_name, $_model = '', $_model_name = '')
     {
-    	if(empty($_model_name)){
-    		$_model_name = $_name;
-    	}
+        if(empty($_model_name)){
+            $_model_name = $_name;
+        }
         $old = session()->get('_old_input');
         if(isset($old[$_name])){
             return $old[$_name];
@@ -121,8 +121,8 @@ class Util
     
     static function getController()
     {
-    	$controller_action = class_basename(Route::current()->getAction()['controller']);
-    	list($controller, $action) = explode('@', $controller_action);
-    	return strtolower($controller);
+        $controller_action = class_basename(Route::current()->getAction()['controller']);
+        list($controller, $action) = explode('@', $controller_action);
+        return strtolower($controller);
     }
 }

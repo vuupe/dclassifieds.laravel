@@ -166,6 +166,9 @@ Route::get('/ban', 'BanController@index')->name('ban');
  */
 Route::get('/mobiopay', 'MobioPayController@index')->name('mobiopay');
 Route::get('/fortumopay', 'FortumoPayController@index')->name('fortumopay');
+Route::get('/paypalpay/{paytype}', 'PaypalPayController@index')->name('paypalpay');
+Route::post('/paypalcallback', 'PaypalPayController@paypalcallback')->name('paypalcallback');
+Route::get('/paypalsuccess', 'PaypalPayController@paypalsuccess')->name('paypalsuccess');
 
 /*
  * ads actions
