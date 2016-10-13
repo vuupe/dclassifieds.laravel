@@ -51,19 +51,19 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    <?foreach($modelData as $k => $v){?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="ad_type_id[]" value="<?=$v['ad_type_id']?>">
-                            </td>
-                            <td>{{ $v['ad_type_id'] }}</td>
-                            <td>{{ $v['ad_type_name'] }}</td>
-                            <td><a href="{{ url('admin/adtype/edit/' . $v['ad_type_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                            <td><a href="{{ url('admin/adtype/delete/' . $v['ad_type_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
-                        </tr>
-                    <?}//end of foreach?>
-                </tbody>
+                    <tbody>
+                        <?foreach($modelData as $k => $v){?>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="ad_type_id[]" value="<?=$v['ad_type_id']?>">
+                                </td>
+                                <td>{{ $v['ad_type_id'] }}</td>
+                                <td>{{ $v['ad_type_name'] }}</td>
+                                <td><a href="{{ url('admin/adtype/edit/' . $v['ad_type_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                                <td><a href="{{ url('admin/adtype/delete/' . $v['ad_type_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                            </tr>
+                        <?}//end of foreach?>
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -98,7 +98,12 @@
                         null,
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

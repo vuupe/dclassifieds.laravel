@@ -103,7 +103,12 @@
                         null,
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#category_list_table").parent().hasClass("table-responsive")){
+                     $("#category_list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

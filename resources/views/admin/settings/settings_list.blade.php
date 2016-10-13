@@ -42,16 +42,16 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    @foreach($modelData as $k => $v)
-                        <tr>
-                            <td>{{ $v['setting_id'] }}</td>
-                            <td>{{ $v['setting_description'] }}</td>
-                            <td>{{ $v['setting_value'] }}</td>
-                            <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                    <tbody>
+                        @foreach($modelData as $k => $v)
+                            <tr>
+                                <td>{{ $v['setting_id'] }}</td>
+                                <td>{{ $v['setting_description'] }}</td>
+                                <td>{{ $v['setting_value'] }}</td>
+                                <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -85,7 +85,12 @@
                         null,
                         null,
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

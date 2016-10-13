@@ -54,28 +54,28 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    <?foreach($modelData as $k => $v){?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="page_id[]" value="<?=$v['page_id']?>">
-                            </td>
-                            <td>{{ $v['page_id'] }}</td>
-                            <td>{{ $v['page_title'] }}</td>
-                            <td>{{ $page_menu_position[$v['page_position']] }}</td>
-                            <td>
-                                @if($v['page_active'] == 1)
-                                    <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
-                                @else
-                                    <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
-                                @endif
-                            </td>
-                            <td>{{ $v['page_ord'] }}</td>
-                            <td><a href="{{ url('admin/page/edit/' . $v['page_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                            <td><a href="{{ url('admin/page/delete/' . $v['page_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
-                        </tr>
-                    <?}//end of foreach?>
-                </tbody>
+                    <tbody>
+                        @foreach($modelData as $k => $v)
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="page_id[]" value="{{ $v['page_id'] }}">
+                                </td>
+                                <td>{{ $v['page_id'] }}</td>
+                                <td>{{ $v['page_title'] }}</td>
+                                <td>{{ $page_menu_position[$v['page_position']] }}</td>
+                                <td>
+                                    @if($v['page_active'] == 1)
+                                        <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
+                                    @else
+                                        <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
+                                    @endif
+                                </td>
+                                <td>{{ $v['page_ord'] }}</td>
+                                <td><a href="{{ url('admin/page/edit/' . $v['page_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                                <td><a href="{{ url('admin/page/delete/' . $v['page_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -113,7 +113,12 @@
                         null,
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

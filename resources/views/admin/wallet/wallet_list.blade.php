@@ -44,74 +44,74 @@
 
                 <div class="box-body">
 
-                    <table id="ad_list_table" class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>{{ trans('admin_common.#Id') }}</th>
-                                <th>{{ trans('admin_common.Wallet Ad Id') }}</th>
-                                <th>{{ trans('admin_common.Wallet User Id') }}</th>
-                                <th>{{ trans('admin_common.Wallet User Name') }}</th>
-                                <th>{{ trans('admin_common.Wallet User Email') }}</th>
-                                <th>{{ trans('admin_common.Wallet Date') }}</th>
-                                <th>{{ trans('admin_common.Wallet Sum') }}</th>
-                                <th>{{ trans('admin_common.Wallet Description') }}</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="text" class="form-control filter_field" name="wallet_id_search" id="wallet_id_search" value="{{ isset($params['wallet_id_search']) ? $params['wallet_id_search'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="ad_id" id="ad_id" value="{{ isset($params['ad_id']) ? $params['ad_id'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="user_id" id="user_id" value="{{ isset($params['user_id']) ? $params['user_id'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="name" id="name" value="{{ isset($params['name']) ? $params['name'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="email" id="email" value="{{ isset($params['email']) ? $params['email'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="wallet_date" id="wallet_date" value="{{ isset($params['wallet_date']) ? $params['wallet_date'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="sum" id="sum" value="{{ isset($params['sum']) ? $params['sum'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="wallet_description" id="wallet_description" value="{{ isset($params['wallet_description']) ? $params['wallet_description'] : ''}}" /></td>
-                                <td colspan="2">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/wallet') }}');">
-                                        <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> {{ trans('admin_common.Search') }}
-                                    </button>
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive">
+                        <table id="ad_list_table" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ trans('admin_common.#Id') }}</th>
+                                    <th>{{ trans('admin_common.Wallet Ad Id') }}</th>
+                                    <th>{{ trans('admin_common.Wallet User Id') }}</th>
+                                    <th>{{ trans('admin_common.Wallet User Name') }}</th>
+                                    <th>{{ trans('admin_common.Wallet User Email') }}</th>
+                                    <th>{{ trans('admin_common.Wallet Date') }}</th>
+                                    <th>{{ trans('admin_common.Wallet Sum') }}</th>
+                                    <th>{{ trans('admin_common.Wallet Description') }}</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input type="text" class="form-control filter_field" name="wallet_id_search" id="wallet_id_search" value="{{ isset($params['wallet_id_search']) ? $params['wallet_id_search'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="ad_id" id="ad_id" value="{{ isset($params['ad_id']) ? $params['ad_id'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="user_id" id="user_id" value="{{ isset($params['user_id']) ? $params['user_id'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="name" id="name" value="{{ isset($params['name']) ? $params['name'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="email" id="email" value="{{ isset($params['email']) ? $params['email'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="wallet_date" id="wallet_date" value="{{ isset($params['wallet_date']) ? $params['wallet_date'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="sum" id="sum" value="{{ isset($params['sum']) ? $params['sum'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="wallet_description" id="wallet_description" value="{{ isset($params['wallet_description']) ? $params['wallet_description'] : ''}}" /></td>
+                                    <td colspan="2">
+                                        <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/wallet') }}');">
+                                            <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> {{ trans('admin_common.Search') }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        <?$total_sum = 0;?>
-                        @foreach($walletList as $k => $v)
-                            <?$total_sum += $v->sum ?>
-                            <tr>
-                                <td><input type="checkbox" name="wallet_id[]" value="{{ $v->wallet_id }}"></td>
-                                <td>{{ $v->wallet_id }}</td>
-                                <td>{{ $v->ad_id }}</td>
-                                <td>{{ $v->user_id }}</td>
-                                <td>{{ $v->name }}</td>
-                                <td>{{ $v->email }}</td>
-                                <td>{{ $v->wallet_date }}</td>
-                                <td style="text-align:right;">{!! $v->sum < 0 ? '<span style="color:red; font-weight:bold;">' . number_format($v->sum, 2, '.', '') . config('dc.site_price_sign')  . '</span>' : '<span style="color:green; font-weight:bold;">' . number_format($v->sum, 2, '.', '') . config('dc.site_price_sign')  . '</span>' !!}</td>
-                                <td>{{ $v->wallet_description }}</td>
-                                <td><a href="{{ url('admin/wallet/delete/' . $v->wallet_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_ad.Delete') }}</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
+                            <?$total_sum = 0;?>
+                            @foreach($walletList as $k => $v)
+                                <?$total_sum += $v->sum ?>
+                                <tr>
+                                    <td><input type="checkbox" name="wallet_id[]" value="{{ $v->wallet_id }}"></td>
+                                    <td>{{ $v->wallet_id }}</td>
+                                    <td>{{ $v->ad_id }}</td>
+                                    <td>{{ $v->user_id }}</td>
+                                    <td>{{ $v->name }}</td>
+                                    <td>{{ $v->email }}</td>
+                                    <td>{{ $v->wallet_date }}</td>
+                                    <td style="text-align:right;">{!! $v->sum < 0 ? '<span style="color:red; font-weight:bold;">' . number_format($v->sum, 2, '.', '') . config('dc.site_price_sign')  . '</span>' : '<span style="color:green; font-weight:bold;">' . number_format($v->sum, 2, '.', '') . config('dc.site_price_sign')  . '</span>' !!}</td>
+                                    <td>{{ $v->wallet_description }}</td>
+                                    <td><a href="{{ url('admin/wallet/delete/' . $v->wallet_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_ad.Delete') }}</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
 
-                        <tfoot>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th style="text-align:right;">{{ number_format($total_sum, 2, '.', '') . config('dc.site_price_sign') }}</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-
-
-                    </table>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th style="text-align:right;">{{ number_format($total_sum, 2, '.', '') . config('dc.site_price_sign') }}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-12">

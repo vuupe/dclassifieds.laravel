@@ -56,28 +56,28 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    @foreach($modelData as $k => $v)
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="car_model_id[]" value="<?=$v['car_model_id']?>">
-                            </td>
-                            <td>{{ $v['car_model_id'] }}</td>
-                            <td>{{ $v->brand->car_brand_name }}/{{ $v['car_model_name'] }}</td>
-                            <td>{{ $v->brand->car_brand_name }}</td>
-                            <td>{{ $v['car_model_name'] }}</td>
-                            <td>
-                                @if($v['car_model_active'] == 1)
-                                    <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
-                                @else
-                                    <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
-                                @endif
-                            </td>
-                            <td><a href="{{ url('admin/carmodel/edit/' . $v['car_model_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                            <td><a href="{{ url('admin/carmodel/delete/' . $v['car_model_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                    <tbody>
+                        @foreach($modelData as $k => $v)
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="car_model_id[]" value="<?=$v['car_model_id']?>">
+                                </td>
+                                <td>{{ $v['car_model_id'] }}</td>
+                                <td>{{ $v->brand->car_brand_name }}/{{ $v['car_model_name'] }}</td>
+                                <td>{{ $v->brand->car_brand_name }}</td>
+                                <td>{{ $v['car_model_name'] }}</td>
+                                <td>
+                                    @if($v['car_model_active'] == 1)
+                                        <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
+                                    @else
+                                        <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
+                                    @endif
+                                </td>
+                                <td><a href="{{ url('admin/carmodel/edit/' . $v['car_model_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                                <td><a href="{{ url('admin/carmodel/delete/' . $v['car_model_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -115,7 +115,12 @@
                         { "orderable": false },
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

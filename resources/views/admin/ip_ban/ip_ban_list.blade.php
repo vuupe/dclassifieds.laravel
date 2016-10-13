@@ -52,20 +52,20 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    <?foreach($modelData as $k => $v){?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="ban_ip_id[]" value="<?=$v['ban_ip_id']?>">
-                            </td>
-                            <td>{{ $v['ban_ip_id'] }}</td>
-                            <td>{{ $v['ban_ip'] }}</td>
-                            <td>{{ $v['ban_reason'] }}</td>
-                            <td><a href="{{ url('admin/ipban/edit/' . $v['ban_ip_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                            <td><a href="{{ url('admin/ipban/delete/' . $v['ban_ip_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
-                        </tr>
-                    <?}//end of foreach?>
-                </tbody>
+                    <tbody>
+                        <?foreach($modelData as $k => $v){?>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="ban_ip_id[]" value="<?=$v['ban_ip_id']?>">
+                                </td>
+                                <td>{{ $v['ban_ip_id'] }}</td>
+                                <td>{{ $v['ban_ip'] }}</td>
+                                <td>{{ $v['ban_reason'] }}</td>
+                                <td><a href="{{ url('admin/ipban/edit/' . $v['ban_ip_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                                <td><a href="{{ url('admin/ipban/delete/' . $v['ban_ip_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                            </tr>
+                        <?}//end of foreach?>
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -101,7 +101,12 @@
                         null,
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

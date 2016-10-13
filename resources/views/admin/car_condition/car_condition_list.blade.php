@@ -52,19 +52,19 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    @foreach($modelData as $k => $v)
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="car_condition_id[]" value="<?=$v['car_condition_id']?>">
-                            </td>
-                            <td>{{ $v['car_condition_id'] }}</td>
-                            <td>{{ $v['car_condition_name'] }}</td>
-                            <td><a href="{{ url('admin/carcondition/edit/' . $v['car_condition_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                            <td><a href="{{ url('admin/carcondition/delete/' . $v['car_condition_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                    <tbody>
+                        @foreach($modelData as $k => $v)
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="car_condition_id[]" value="<?=$v['car_condition_id']?>">
+                                </td>
+                                <td>{{ $v['car_condition_id'] }}</td>
+                                <td>{{ $v['car_condition_name'] }}</td>
+                                <td><a href="{{ url('admin/carcondition/edit/' . $v['car_condition_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                                <td><a href="{{ url('admin/carcondition/delete/' . $v['car_condition_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -99,7 +99,12 @@
                         null,
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

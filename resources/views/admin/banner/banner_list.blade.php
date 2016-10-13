@@ -55,22 +55,22 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    @foreach($modelData as $k => $v)
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="banner_id[]" value="<?=$v['banner_id']?>">
-                            </td>
-                            <td>{{ $v['banner_id'] }}</td>
-                            <td>{{ $v['banner_name'] }}</td>
-                            <td>{{ $v['banner_num_views'] }}</td>
-                            <td>{{ $v['banner_active_from'] }}</td>
-                            <td>{{ $v['banner_active_to'] }}</td>
-                            <td><a href="{{ url('admin/banner/edit/' . $v['banner_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                            <td><a href="{{ url('admin/banner/delete/' . $v['banner_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                    <tbody>
+                        @foreach($modelData as $k => $v)
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="banner_id[]" value="<?=$v['banner_id']?>">
+                                </td>
+                                <td>{{ $v['banner_id'] }}</td>
+                                <td>{{ $v['banner_name'] }}</td>
+                                <td>{{ $v['banner_num_views'] }}</td>
+                                <td>{{ $v['banner_active_from'] }}</td>
+                                <td>{{ $v['banner_active_to'] }}</td>
+                                <td><a href="{{ url('admin/banner/edit/' . $v['banner_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                                <td><a href="{{ url('admin/banner/delete/' . $v['banner_id']) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_common.Delete') }}</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -108,7 +108,12 @@
                         null,
                         { "orderable": false },
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

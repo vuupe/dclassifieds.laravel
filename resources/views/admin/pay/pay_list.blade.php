@@ -45,25 +45,25 @@
                             <th></th>
                         </tr>
                     </thead>
-                <tbody>
-                    @foreach($modelData as $k => $v)
-                        <tr>
-                            <td>{{ $v['pay_id'] }}</td>
-                            <td>{{ $v['pay_name'] }}</td>
-                            <td style="text-align: right; font-weight: bold;">{{ number_format($v['pay_sum'], 2, '.', '') . config('dc.site_price_sign') }}</td>
-                            <td>{{ $v['pay_promo_period'] }} {{ trans('admin_common.Days') }}</td>
-                            <td>
-                                @if($v['pay_active'] == 1)
-                                    <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
-                                @else
-                                    <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
-                                @endif
-                            </td>
-                            <td>{{ $v['pay_ord'] }}</td>
-                            <td><a href="{{ url('admin/pay/edit/' . $v['pay_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                    <tbody>
+                        @foreach($modelData as $k => $v)
+                            <tr>
+                                <td>{{ $v['pay_id'] }}</td>
+                                <td>{{ $v['pay_name'] }}</td>
+                                <td style="text-align: right; font-weight: bold;">{{ number_format($v['pay_sum'], 2, '.', '') . config('dc.site_price_sign') }}</td>
+                                <td>{{ $v['pay_promo_period'] }} {{ trans('admin_common.Days') }}</td>
+                                <td>
+                                    @if($v['pay_active'] == 1)
+                                        <span class="fa fa-check" aria-hidden="true" style="color:green;"></span>
+                                    @else
+                                        <span class="fa fa-close" aria-hidden="true" style="color:red;"></span>
+                                    @endif
+                                </td>
+                                <td>{{ $v['pay_ord'] }}</td>
+                                <td><a href="{{ url('admin/pay/edit/' . $v['pay_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         <!-- /.box-body -->
@@ -100,7 +100,12 @@
                         null,
                         null,
                         { "orderable": false }
-                      ]
+                      ],
+            "drawCallback": function( settings ) {
+                 if(!$("#list_table").parent().hasClass("table-responsive")){
+                     $("#list_table").wrap("<div class='table-responsive'></div>");
+                 }
+            }
         });
 
         //Enable iCheck plugin for checkboxes

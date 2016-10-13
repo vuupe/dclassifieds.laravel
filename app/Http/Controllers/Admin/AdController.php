@@ -55,7 +55,7 @@ class AdController extends Controller
         $orderRaw   = '';
         $whereIn    = [];
         $whereRaw   = [];
-        $paginate   = 2;
+        $paginate   = config('dc.admin_list_num_items');
         $page       = 1;
 
         if(isset($params['ad_id_search']) && !empty($params['ad_id_search'])){

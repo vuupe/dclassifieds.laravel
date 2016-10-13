@@ -43,53 +43,54 @@
                 </div>
 
                 <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="ad_list_table" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ trans('admin_common.#Id') }}</th>
+                                    <th>{{ trans('admin_common.Mail Ad Id') }}</th>
+                                    <th>{{ trans('admin_common.Mail User Id From') }}</th>
+                                    <th>{{ trans('admin_common.Mail User Id To') }}</th>
+                                    <th>{{ trans('admin_common.Mail Text') }}</th>
+                                    <th>{{ trans('admin_common.Mail Date') }}</th>
+                                    <th>{{ trans('admin_common.Mail Conversation Hash') }}</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input type="text" class="form-control filter_field" name="mail_id_search" id="mail_id_search" value="{{ isset($params['mail_id_search']) ? $params['mail_id_search'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="ad_id" id="ad_id" value="{{ isset($params['ad_id']) ? $params['ad_id'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="user_id_from" id="user_id_from" value="{{ isset($params['user_id_from']) ? $params['user_id_from'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="user_id_to" id="user_id_to" value="{{ isset($params['user_id_to']) ? $params['user_id_to'] : ''}}" /></td>
+                                    <td><input type="text" class="form-control filter_field" name="mail_text" id="mail_text" value="{{ isset($params['mail_text']) ? $params['mail_text'] : ''}}" /></td>
+                                    <td></td>
+                                    <td><input type="text" class="form-control filter_field" name="mail_hash" id="mail_hash" value="{{ isset($params['mail_hash']) ? $params['mail_hash'] : ''}}" /></td>
+                                    <td colspan="2">
+                                        <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/mail') }}');">
+                                            <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> {{ trans('admin_common.Search') }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    <table id="ad_list_table" class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>{{ trans('admin_common.#Id') }}</th>
-                                <th>{{ trans('admin_common.Mail Ad Id') }}</th>
-                                <th>{{ trans('admin_common.Mail User Id From') }}</th>
-                                <th>{{ trans('admin_common.Mail User Id To') }}</th>
-                                <th>{{ trans('admin_common.Mail Text') }}</th>
-                                <th>{{ trans('admin_common.Mail Date') }}</th>
-                                <th>{{ trans('admin_common.Mail Conversation Hash') }}</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="text" class="form-control filter_field" name="mail_id_search" id="mail_id_search" value="{{ isset($params['mail_id_search']) ? $params['mail_id_search'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="ad_id" id="ad_id" value="{{ isset($params['ad_id']) ? $params['ad_id'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="user_id_from" id="user_id_from" value="{{ isset($params['user_id_from']) ? $params['user_id_from'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="user_id_to" id="user_id_to" value="{{ isset($params['user_id_to']) ? $params['user_id_to'] : ''}}" /></td>
-                                <td><input type="text" class="form-control filter_field" name="mail_text" id="mail_text" value="{{ isset($params['mail_text']) ? $params['mail_text'] : ''}}" /></td>
-                                <td></td>
-                                <td><input type="text" class="form-control filter_field" name="mail_hash" id="mail_hash" value="{{ isset($params['mail_hash']) ? $params['mail_hash'] : ''}}" /></td>
-                                <td colspan="2">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;" name="search_submit" id="search_submit" onclick="$('#list_form').attr('action', '{{ url('admin/mail') }}');">
-                                        <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> {{ trans('admin_common.Search') }}
-                                    </button>
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($mailList as $k => $v)
-                            <tr>
-                                <td><input type="checkbox" name="mail_id[]" value="{{ $v->mail_id }}"></td>
-                                <td>{{ $v->mail_id }}</td>
-                                <td>{{ $v->ad_id }}</td>
-                                <td>{{ $v->user_id_from }}</td>
-                                <td>{{ $v->user_id_to }}</td>
-                                <td style="width:500px;">{!! $v->mail_text !!}</td>
-                                <td>{{ $v->mail_date }}</td>
-                                <td>{{ $v->mail_hash }}</td>
-                                <td><a href="{{ url('admin/mail/delete/' . $v->mail_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_ad.Delete') }}</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            @foreach($mailList as $k => $v)
+                                <tr>
+                                    <td><input type="checkbox" name="mail_id[]" value="{{ $v->mail_id }}"></td>
+                                    <td>{{ $v->mail_id }}</td>
+                                    <td>{{ $v->ad_id }}</td>
+                                    <td>{{ $v->user_id_from }}</td>
+                                    <td>{{ $v->user_id_to }}</td>
+                                    <td style="width:500px;">{!! $v->mail_text !!}</td>
+                                    <td>{{ $v->mail_date }}</td>
+                                    <td>{{ $v->mail_hash }}</td>
+                                    <td><a href="{{ url('admin/mail/delete/' . $v->mail_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_ad.Delete') }}</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-12">
