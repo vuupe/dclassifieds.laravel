@@ -164,11 +164,21 @@ Route::get('/ban', 'BanController@index')->name('ban');
 /**
  * Payment
  */
+//mobio sms
 Route::get('/mobiopay', 'MobioPayController@index')->name('mobiopay');
+
+//fortumo sms
 Route::get('/fortumopay', 'FortumoPayController@index')->name('fortumopay');
+
+//paypal standard
 Route::get('/paypalpay/{paytype}', 'PaypalPayController@index')->name('paypalpay');
 Route::post('/paypalcallback', 'PaypalPayController@paypalcallback')->name('paypalcallback');
 Route::get('/paypalsuccess', 'PaypalPayController@paypalsuccess')->name('paypalsuccess');
+
+//stripe
+Route::get('/stripepay/{paytype}', 'StripePayController@index')->name('stripepay');
+Route::post('/stripe/{paytype}', 'StripePayController@stripe')->name('stripe');
+
 
 /*
  * ads actions

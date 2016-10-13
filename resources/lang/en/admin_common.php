@@ -337,5 +337,8 @@ return [
     'Payment Page Web Address' => 'Payment Page Web Address',
     '1 = enable, 0 = disable' => '1 = enable, 0 = disable',
     'For example Paypal Mail' => 'For example Paypal Mail',
-    'For example Paypal Inerface Language' => 'For example Paypal Inerface Language'
+    'For example Paypal Inerface Language' => 'For example Paypal Inerface Language',
+    'Publish Key' => 'Publish Key',
+    'Private Key' => 'Private Key',
+    'For example stripe' => 'See your Stripe keys here: https://dashboard.stripe.com/account/apikeys'
 ];

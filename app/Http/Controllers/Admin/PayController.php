@@ -51,7 +51,17 @@ class PayController extends Controller
                 'pay_ord' => 'required|numeric',
                 'pay_allowed_ip' => 'max:255',
                 'pay_number' => 'max:255',
-                'pay_secret' => 'max:255'
+                'pay_secret' => 'max:255',
+                'pay_testmode' => 'numeric',
+                'pay_paypal_mail' => 'max:255|mail',
+                'pay_sum_to_charge' => 'numeric',
+                'pay_currency' => 'max:255',
+                'pay_locale' => 'max:255',
+                'pay_log' => 'numeric',
+                'pay_page_name' => 'max:255',
+                'pay_secret_key' => 'max:255',
+                'pay_publish_key' => 'max:255',
+
             ];
 
             $validator = Validator::make($request->all(), $rules);

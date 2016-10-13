@@ -152,7 +152,7 @@
                                 <label for="pay_paypal_mail" class="control-label">{{ trans('admin_common.Payment Mail') }}</label>
                                 <input type="text" class="form-control" name="pay_paypal_mail" id="pay_paypal_mail" placeholder="{{ trans('admin_common.Payment Mail') }}" value="{{ Util::getOldOrModelValue('pay_paypal_mail', $modelData) }}">
                                 <span class="help-block">
-                                    <strong>{{ trans('admin_common.For example Paypal Mail') }}</strong>
+                                    {{ trans('admin_common.For example Paypal Mail') }}
                                 </span>
                                 @if ($errors->has('pay_paypal_mail'))
                                     <span class="help-block">
@@ -185,7 +185,7 @@
                                 <label for="pay_locale" class="control-label">{{ trans('admin_common.Payment Locale') }}</label>
                                 <input type="text" class="form-control" name="pay_locale" id="pay_locale" placeholder="{{ trans('admin_common.Payment Locale') }}" value="{{ Util::getOldOrModelValue('pay_locale', $modelData) }}">
                                 <span class="help-block">
-                                    <strong>{{ trans('admin_common.For example Paypal Inerface Language') }}</strong>
+                                    {{ trans('admin_common.For example Paypal Inerface Language') }}
                                 </span>
                                 @if ($errors->has('pay_locale'))
                                     <span class="help-block">
@@ -198,7 +198,7 @@
                                 <label for="pay_log" class="control-label">{{ trans('admin_common.Payment Log') }}</label>
                                 <input type="text" class="form-control" name="pay_log" id="pay_log" placeholder="{{ trans('admin_common.Payment Log') }}" value="{{ !empty(Util::getOldOrModelValue('pay_log', $modelData)) ? Util::getOldOrModelValue('pay_log', $modelData)  : '0' }}">
                                 <span class="help-block">
-                                    <strong>{{ trans('admin_common.1 = enable, 0 = disable') }}</strong>
+                                    {{ trans('admin_common.1 = enable, 0 = disable') }}
                                 </span>
                                 @if ($errors->has('pay_log'))
                                     <span class="help-block">
@@ -217,6 +217,34 @@
                                 @endif
                             </div>
 
+
+                            <hr>
+
+                            <div class="form-group {{ $errors->has('pay_secret_key') ? ' has-error' : '' }}">
+                                <label for="pay_secret_key" class="control-label">{{ trans('admin_common.Private Key') }}</label>
+                                <input type="text" class="form-control" name="pay_secret_key" id="pay_secret_key" placeholder="{{ trans('admin_common.Private Key') }}" value="{{ Util::getOldOrModelValue('pay_secret_key', $modelData) }}">
+                                <span class="help-block">
+                                    {{ trans('admin_common.For example stripe') }}
+                                </span>
+                                @if ($errors->has('pay_secret_key'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_secret_key') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('pay_publish_key') ? ' has-error' : '' }}">
+                                <label for="pay_publish_key" class="control-label">{{ trans('admin_common.Publish Key') }}</label>
+                                <input type="text" class="form-control" name="pay_publish_key" id="pay_publish_key" placeholder="{{ trans('admin_common.Publish Key') }}" value="{{ Util::getOldOrModelValue('pay_publish_key', $modelData) }}">
+                                <span class="help-block">
+                                    {{ trans('admin_common.For example stripe') }}
+                                </span>
+                                @if ($errors->has('pay_publish_key'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('pay_publish_key') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
 
                             <hr>
 
