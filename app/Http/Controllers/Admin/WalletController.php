@@ -22,7 +22,7 @@ class WalletController extends Controller
 
     public function __construct(Wallet $_wallet)
     {
-        $this->wallet       = $_wallet;
+        $this->wallet = $_wallet;
     }
 
     public function index(Request $request)
@@ -34,7 +34,7 @@ class WalletController extends Controller
         $orderRaw   = '';
         $whereIn    = [];
         $whereRaw   = [];
-        $paginate   = 2;
+        $paginate   = config('dc.admin_list_num_items');
         $page       = 1;
 
         if(isset($params['wallet_id_search']) && !empty($params['wallet_id_search'])){

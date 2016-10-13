@@ -16,9 +16,50 @@ use Cache;
 
 class CarModelController extends Controller
 {
+    protected $carModel;
+
+    public function __construct(CarModel $_car_model)
+    {
+        $this->carModel = $_car_model;
+    }
+
     public function index(Request $request)
     {
-        return view('admin.car_model.car_model_list', ['modelData' => CarModel::with('brand')->get()]);
+        $params     = Input::all();
+        $where      = [];
+        $order      = ['car_brand_name' => 'asc'];
+        $limit      = 0;
+        $orderRaw   = '';
+        $whereIn    = [];
+        $whereRaw   = [];
+        $paginate   = config('dc.admin_list_num_items');
+        $page       = 1;
+
+        if(isset($params['car_model_id_search']) && !empty($params['car_model_id_search'])){
+            $where['car_model_id'] = ['=', $params['car_model_id_search']];
+        }
+
+        if(isset($params['car_brand_name']) && !empty($params['car_brand_name'])){
+            $where['car_brand_name'] = ['like', $params['car_brand_name'] . '%'];
+        }
+
+        if(isset($params['car_model_name']) && !empty($params['car_model_name'])){
+            $where['car_model_name'] = ['like', $params['car_model_name'] . '%'];
+        }
+
+        if(isset($params['car_model_active']) && is_numeric($params['car_model_active']) && ($params['car_model_active'] == 0 || $params['car_model_active'] == 1)){
+            $where['car_model_active'] = ['=', $params['car_model_active']];
+        }
+
+        if (isset($params['page']) && is_numeric($params['page'])) {
+            $page = $params['page'];
+        }
+
+        $modelData = $this->carModel->getList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
+        return view('admin.car_model.car_model_list', ['modelData' => $modelData,
+            'params' => $params,
+            'yesnoselect' => ['_' => '', 0 => trans('admin_common.No'), 1 => trans('admin_common.Yes')]
+        ]);
     }
 
     public function edit(Request $request)

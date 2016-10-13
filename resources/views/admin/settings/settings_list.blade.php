@@ -79,7 +79,7 @@
     <script>
     $(function () {
         $('#list_table').DataTable({"order": [],
-            "pageLength": 25,
+            "pageLength": "{{ config('dc.admin_list_num_items') }}",
             "columns": [
                         null,
                         null,

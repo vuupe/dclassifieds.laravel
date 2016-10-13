@@ -45,7 +45,7 @@
                 <div class="box-body">
 
                     <div class="table-responsive">
-                        <table id="ad_list_table" class="table table-bordered table-striped table-hover">
+                        <table id="list_table" class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th></th>
