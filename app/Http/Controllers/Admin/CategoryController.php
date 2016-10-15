@@ -92,7 +92,7 @@ class CategoryController extends Controller
              * check for uploaded icon
              */
             $name = '';
-            if ($request->file('icon_file')->isValid()) {
+            if ($request->hasFile('icon_file') && $request->file('icon_file')->isValid()) {
                 $file = Input::file('icon_file');
                 $name = time() . '_cicon.' . $file->getClientOriginalExtension();
                 $file->move(public_path() . '/uf/cicons', $name);

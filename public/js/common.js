@@ -17,6 +17,8 @@ $(document).ready(function(){
         }
     });
 
+    $('.ad_list_title').matchHeight();
+
     /**
      * ad publish
      */

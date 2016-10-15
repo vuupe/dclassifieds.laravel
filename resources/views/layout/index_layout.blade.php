@@ -13,7 +13,9 @@
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,400italic">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('js/chosen/chosen.css') }}" />
         <link rel="stylesheet" href="{{ asset('js/chosen/chosen-bootstrap.css') }}" />
@@ -43,17 +45,23 @@
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#dc-navbar-collapse" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ route('home') }}">{{ config('dc.site_logo_name') }}</a>
+                    <a class="navbar-brand" href="{{ route('home') }}">
+                        @if( !empty( config('dc.site_logo_img') ) )
+                            <img src="{{ asset('uf/settings/' . config('dc.site_logo_img')) }}" style="height: 50px;" alt="{{ config('dc.site_logo_alt') }}">
+                        @else
+                            {{ config('dc.site_logo_name') }}
+                        @endif
+                    </a>
                 </div>
         
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse" id="dc-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         @if(isset($headerMenu) && !$headerMenu->isEmpty())
                             @foreach($headerMenu as $k => $v)
@@ -76,11 +84,11 @@
                             </li>
                         @else
                             <li>
-                                <a href="{{ url('login') }}">My Profile</a>
+                                <a href="{{ url('login') }}">{{ trans('index_layout.My Profile') }}</a>
                             </li>
                         @endif
                         <li>
-                            <p class="navbar-btn" style="margin:0px;">
+                            <p class="navbar-btn btn_publish">
                                 <a href="{{ route('publish') }}" class="btn btn-danger navbar-btn">{{ trans('index_layout.post_an_ad') }}</a>
                             </p>
                         </li>
@@ -97,13 +105,13 @@
         
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">{{ trans('index_layout.copyright') }} &copy; {{ date('Y') }} <a href="{{ config('dc.site_url') }}">{{ config('dc.site_copyright_name') }}</a>
+                <p class="text-muted">{{ trans('index_layout.copyright') }} &copy; {{ date('Y') }} <a href="{{ config('dc.site_url') }}">{{ config('dc.site_copyright_name') }}</a> {{ trans('index_layout.All rights reserved.') }}
                 @if(isset($footerMenu) && !$footerMenu->isEmpty())
                     @foreach($footerMenu as $k => $v)
                         | <a href="{{ url('p/' . $v->page_slug) }}">{{ $v->page_title }}</a>
                     @endforeach
                 @endif
-                {!! trans('index_layout.icons_credit')  !!}
+                {!! config('dc.footer_html')  !!}
             </div>
         </footer>
         
@@ -121,6 +129,7 @@
         
         <script src="{{ asset('js/chosen/chosen.jquery.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
+        <script src="{{ asset('js/jquery.matchHeight-min.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
         
         @yield('js')

@@ -27,9 +27,13 @@ use App\AdPic;
 use App\Category;
 use App\Location;
 use App\User;
+use App\AdBanIp;
+use App\AdBanEmail;
+
 
 use Validator;
 use Cache;
+use Mail;
 
 class AdController extends Controller
 {
@@ -399,5 +403,61 @@ class AdController extends Controller
         }
 
         return redirect(url('admin/ad/edit/' . $ad_id));
+    }
+
+    public function banbyip(Request $request)
+    {
+        $id = 0;
+
+        if(isset($request->id)){
+            $id = $request->id;
+        }
+
+        if(!empty($id)){
+            $ad = Ad::where('ad_id', $id)->first();
+            if(!empty($ad)){
+                try{
+                    AdBanIp::create(['ban_ip' => $ad->ad_ip, 'ban_reason' => trans('admin_ad.You are banned')]);
+                } catch (\Exception $e){}
+            }
+
+            //clear cache, set message, redirect to list
+            Cache::flush();
+            session()->flash('message', trans('admin_common.Banned IP saved'));
+            return redirect(url('admin/ad'));
+        }
+
+        return redirect(url('admin/ad'));
+    }
+
+    public function banbymail(Request $request)
+    {
+        $id = 0;
+
+        if(isset($request->id)){
+            $id = $request->id;
+        }
+
+        if(!empty($id)){
+            $ad = Ad::where('ad_id', $id)->first();
+            if(!empty($ad)){
+                try{
+                    $data = ['ban_email' => $ad->ad_email, 'ban_reason' => trans('admin_ad.You are banned')];
+                    AdBanEmail::create($data);
+                    //send email to inform the user
+                    Mail::send('emails.user_ban_email', ['data' => $data], function ($m) use ($data) {
+                        $m->from('test@mylove.bg', 'dclassifieds banned');
+                        $m->to($data['ban_email'])->subject('You are banner in DClassifieds');
+                    });
+                } catch (\Exception $e){}
+            }
+
+            //clear cache, set message, redirect to list
+            Cache::flush();
+            session()->flash('message', trans('admin_common.Banned Mail saved'));
+            return redirect(url('admin/ad'));
+        }
+
+        return redirect(url('admin/ad'));
     }
 }

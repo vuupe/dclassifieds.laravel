@@ -1,5 +1,9 @@
 @extends('layout.index_layout')
 
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -34,11 +38,16 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        @if(!empty($ad_detail->ad_pic))
-                            <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
-                        @else
-                            <img src="" class="img-responsive thumbnail">
-                        @endif
+                        <div class="ad_detail_main_image_container">
+                            @if($ad_detail->ad_promo)
+                                <div class="ribbon"><span>PROMO</span></div>
+                            @endif
+                            @if(!empty($ad_detail->ad_pic))
+                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  /></a>
+                            @else
+                                <img src="" class="img-responsive">
+                            @endif
+                        </div>
                     </div>
                 </div>
 
@@ -47,7 +56,7 @@
                         @foreach($ad_pic as $k => $v)
                             <div class="col-md-3">
                                 <a href="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="fancybox" rel="group">
-                                    <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive thumbnail" class="fancybox" rel="group" />
+                                    <img src="{{ asset('uf/adata/1000_' . $v->ad_pic) }}" class="img-responsive" class="fancybox" rel="group" />
                                 </a>
                             </div>
                         @endforeach
@@ -187,13 +196,16 @@
                         @foreach($last_view_array as $k => $v)
                             <?$link = url(str_slug($v['ad_title']) . '-' . 'ad' . $v['ad_id'] . '.html');?>
                             <!-- ad -->
-                            <div class="col-md-3">
-                                <div class="thumbnail">
-                                    <a href="{{ $link }}"><img src="{{ asset('uf/adata/' . '740_' . $v['ad_pic']) }}" alt=""></a>
-                                    <div class="caption">
-                                        <h4 class="ad_list_title"><a href="{{ $link }}">{{ str_limit($v['ad_title'], 23) }}</a></h4>
-                                        <p>{{ $v['location_name'] }}</p>
-                                        <h2>{{ $v['ad_price'] ? $v['ad_price'] . config('dc.site_price_sign') : '&nbsp;' }}</h2>
+                            <div class="col-md-3 ad-list-item-container">
+                                <div class="ad-list-item">
+
+                                    <div class="ad-list-item-image">
+                                        <a href="{{ $link }}"><img src="{{ asset('uf/adata/' . '740_' . $v['ad_pic']) }}" class="img-responsive"></a>
+                                    </div>
+                                    <div class="ad-list-item-content">
+                                        <h5 class="ad_list_title"><a href="{{ $link }}">{{ str_limit($v['ad_title'], 60) }}</a></h5>
+                                        <p class="ad-list-item-location"><i class="fa fa-map-marker"></i> {{ $v['location_name'] }}</p>
+                                        <h4>{{ $v['ad_price'] ? Util::formatPrice($v['ad_price']) . config('dc.site_price_sign') : trans('publish_edit.Free') }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -422,7 +434,7 @@
                     });
                 } else {
                     btn.button('reset');
-                    $('#report_result_info').html({{ trans('detail.Please select reason for your report.') }});
+                    $('#report_result_info').html('{{ trans('detail.Please select reason for your report.') }}');
                     $('#report_result_info').show();
                 }
                 return false;

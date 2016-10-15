@@ -25,6 +25,8 @@
         @endif
     </td>
     <td>{{ $v->ad_view }}</td>
+    <td><a href="{{ url('admin/ad/banbyip/' . $v->ad_id) }}" class="text-danger need_confirm"><i class="fa fa-ban"></i> {{ trans('admin_ad.Ban By IP') }}</a></td>
+    <td><a href="{{ url('admin/ad/banbymail/' . $v->ad_id) }}" class="text-danger need_confirm"><i class="fa fa-ban"></i> {{ trans('admin_ad.Ban By Mail') }}</a></td>
     <td><a href="{{ url('admin/ad/edit/' . $v->ad_id) }}"><i class="fa fa-edit"></i> {{ trans('admin_ad.Edit') }}</a></td>
     <td><a href="{{ url('admin/ad/delete/' . $v->ad_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_ad.Delete') }}</a></td>
 </tr>

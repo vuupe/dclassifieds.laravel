@@ -41,6 +41,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::any('/admin/ad/delete/{id?}', 'AdController@delete');
     Route::get('/admin/ad/deletemainimg/{id}', 'AdController@deletemainimg');
     Route::get('/admin/ad/deleteimg/{id}/{ad_id}', 'AdController@deleteimg');
+    Route::get('/admin/ad/banbyip/{id}', 'AdController@banbyip');
+    Route::get('/admin/ad/banbymail/{id}', 'AdController@banbymail');
 
     //Users
     Route::get('/admin/user', 'UserController@index');
@@ -151,6 +153,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     //Payment Options
     Route::get('/admin/pay', 'PayController@index');
     Route::any('/admin/pay/edit/{id}', 'PayController@edit');
+
+    //Payment Options
+    Route::get('/admin/clearcache', 'ClearCacheController@index');
 });
 /*
  * end of admin routes

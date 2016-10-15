@@ -45,9 +45,10 @@ class SettingsController extends Controller
             /**
              * validate data
              */
-            $rules = [
-                'setting_value' => 'required'
-            ];
+            $rules = [];
+            if($modelData->setting_required) {
+                $rules = ['setting_value' => 'required'];
+            }
 
             $validator = Validator::make($request->all(), $rules);
 
@@ -63,13 +64,31 @@ class SettingsController extends Controller
             $data = $request->all();
 
             /**
-             * save or update
+             * check for uploaded file
              */
-            if(!isset($modelData->setting_id)){
-                Settings::create($data);
-            } else {
-                $modelData->update($data);
+            $old_file_name = $modelData->setting_value;
+            if($modelData->setting_field_type == 'file') {
+                if ($request->hasFile('setting_value') && $request->file('setting_value')->isValid()) {
+                    $file = Input::file('setting_value');
+                    $name = mb_substr(time(), -3) . '_' . $file->getClientOriginalName();
+                    $file->move(public_path() . '/uf/settings', $name);
+                    $data['setting_value'] = $name;
+                }
             }
+
+            //check if the value must be cleared
+            if(isset($data['clear_value'])){
+                $data['setting_value'] = '';
+            }
+
+            /**
+             * update
+             */
+            $modelData->update($data);
+            if(!empty($old_file_name)){
+                @unlink(public_path() . '/uf/settings/' . $old_file_name);
+            }
+
 
             /**
              * clear cache, set message, redirect to list

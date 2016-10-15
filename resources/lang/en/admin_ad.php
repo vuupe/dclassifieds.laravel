@@ -31,5 +31,8 @@ return [
     'User E-Mail' => 'User E-Mail',
     'Ad Promo' => 'Ad Promo',
     'Publish Date' => 'Publish Date',
-    'Num Views' => 'Num Views'
+    'Num Views' => 'Num Views',
+    'Ban By IP' => 'Ban By IP',
+    'Ban By Mail' => 'Ban By Mail',
+    'You are banned' => 'You are banned'
 ];

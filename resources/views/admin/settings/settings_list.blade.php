@@ -47,7 +47,7 @@
                             <tr>
                                 <td>{{ $v['setting_id'] }}</td>
                                 <td>{{ $v['setting_description'] }}</td>
-                                <td>{{ $v['setting_value'] }}</td>
+                                <td>{!! $v['setting_value'] !!}</td>
                                 <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
                             </tr>
                         @endforeach

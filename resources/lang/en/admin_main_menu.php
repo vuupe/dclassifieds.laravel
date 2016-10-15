@@ -1,4 +1,5 @@
 <?
+
 return [
     'dashboard' => 'Dashboard',
     'locations' => 'Locations',
@@ -28,5 +29,6 @@ return [
     'payment_options' => 'Payment options',
     'mail' => 'User Messages',
     'ipban' => 'Ban By IP',
-    'mailban' => 'Ban By E-Mail'
+    'mailban' => 'Ban By E-Mail',
+    'clear_cache' => 'Clear The Cache'
 ];

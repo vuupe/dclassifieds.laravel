@@ -131,7 +131,10 @@ return [
     'location_import_fields' => 'CSV Fields: Location name, Location Slug, Location Active (0 = Not Active, 1 = Active), Location Post Code, Location Order',
     'Settings' => 'Settings',
     'Setting' => 'Setting',
-    'Add/Edit Setting' => 'Add/Edit Setting',
+    'Value' => 'Value',
+    'Clear Value' => 'Clear Value',
+    'Edit Setting' => 'Edit Setting',
+    'Additional Info' => 'Additional Info',
     'Users' => 'Users',
     'There are no users.' => 'There are no users.',
     'All Users' => 'All Users',
@@ -342,5 +345,8 @@ return [
     'For example Paypal Inerface Language' => 'For example Paypal Inerface Language',
     'Publish Key' => 'Publish Key',
     'Private Key' => 'Private Key',
-    'For example stripe' => 'See your Stripe keys here: https://dashboard.stripe.com/account/apikeys'
+    'For example stripe' => 'See your Stripe keys here: https://dashboard.stripe.com/account/apikeys',
+    'Cache Cleared' => 'Cache Cleared',
+    'Clear Cache' => 'Clear Cache',
+    'Admin' => 'Admin'
 ];
