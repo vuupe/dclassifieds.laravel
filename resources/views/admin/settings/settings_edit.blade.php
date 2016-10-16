@@ -33,7 +33,7 @@
                                 @if($modelData->setting_field_type == 'text')
                                     <input type="text" class="form-control" name="setting_value" id="setting_value" placeholder="{{ $modelData->setting_description }}" value="{{ Util::getOldOrModelValue('setting_value', $modelData) }}">
                                 @elseif ($modelData->setting_field_type == 'textarea')
-                                    <textarea type="text" class="form-control" name="setting_value" id="setting_value">{{ Util::getOldOrModelValue('setting_value', $modelData) }}</textarea>
+                                    <textarea type="text" class="form-control" name="setting_value" id="setting_value" rows="20">{{ Util::getOldOrModelValue('setting_value', $modelData) }}</textarea>
                                 @elseif ($modelData->setting_field_type == 'file')
                                     <input type="file" name="setting_value" id="setting_value"><br />
                                     <input type="checkbox" name="clear_value" id="clear_value"> {{ trans('admin_common.Clear Value') }}

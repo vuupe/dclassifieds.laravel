@@ -39,6 +39,7 @@
                             <th>{{ trans('admin_common.#Id') }}</th>
                             <th>{{ trans('admin_common.Setting') }}</th>
                             <th>{{ trans('admin_common.Value') }}</th>
+                            <th>{{ trans('admin_common.Value') }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -48,6 +49,7 @@
                                 <td>{{ $v['setting_id'] }}</td>
                                 <td>{{ $v['setting_description'] }}</td>
                                 <td>{!! $v['setting_value'] !!}</td>
+                                <td style="width: 500px;">{{ $v['setting_value'] }}</td>
                                 <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
                             </tr>
                         @endforeach
@@ -81,6 +83,7 @@
         $('#list_table').DataTable({"order": [],
             "pageLength": "{{ config('dc.admin_list_num_items') }}",
             "columns": [
+                        null,
                         null,
                         null,
                         null,
