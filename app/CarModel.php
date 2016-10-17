@@ -82,4 +82,28 @@ class CarModel extends Model
         }
         return $ret;
     }
+
+    public function getListSimple($_select, $_where = [], $_order = [])
+    {
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        $res = Cache::rememberForever($cache_key, function() use ($_select, $_where, $_order) {
+            $q = $this->select($_select);
+            if(!empty($_where)){
+                foreach ($_where as $k => $v){
+                    if(is_array($v)){
+                        $q->where($k, $v[0], $v[1]);
+                    } else {
+                        $q->where($k, $v);
+                    }
+                }
+            }
+            if(!empty($_order)){
+                foreach($_order as $k => $v){
+                    $q->orderBy($k, $v);
+                }
+            }
+            return $q->get();
+        });
+        return $res;
+    }
 }

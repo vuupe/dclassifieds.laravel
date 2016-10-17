@@ -71,12 +71,34 @@
         <div class="row margin_bottom_15">
             @if(isset($promo_ad_list) && !$promo_ad_list->isEmpty())
                 @foreach ($promo_ad_list as $k => $v)
-                    @include('common.ad_list')
+                    @if(config('dc.show_small_item_ads_list'))
+                        @include('common.ad_list_small')
+                    @else
+                        @include('common.ad_list')
+                    @endif
                 @endforeach
             @endif
         </div>
         <!--end of ad row -->
     </div>
+
+    @if(isset($latest_ad_list) && !$latest_ad_list->isEmpty())
+    <div class="container home_promo_ads_panel">
+        <div class="row margin_bottom_15">
+            <div class="col-md-12">
+                <h3>{{ trans('home.Latest Classifieds') }}</h3>
+            </div>
+        </div>
+
+        <!-- ad row-->
+        <div class="row margin_bottom_15">
+            @foreach ($latest_ad_list as $k => $v)
+                @include('common.ad_list_small')
+            @endforeach
+        </div>
+        <!--end of ad row -->
+    </div>
+    @endif
 
     <div class="container home_info_panel">
         <div class="row">

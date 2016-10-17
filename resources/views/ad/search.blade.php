@@ -288,7 +288,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('home') }}">{{ trans('search.Home') }}</a></li>
                     @if(isset($breadcrump['c']) && !empty($breadcrump['c']))
                         @foreach ($breadcrump['c'] as $k => $v)
                             <li><a href="{{ $v['category_url'] }}">{{ $v['category_title'] }}</a></li>
@@ -309,28 +309,32 @@
         </div>
     @endif
 
-    <div class="container home_promo_ads_panel">
-        <div class="row margin_bottom_15">
-            <div class="col-md-12">
-                <h2>{{ trans('search.Promo Classifieds') }}</h2>
+    @if(isset($promo_ad_list) && !$promo_ad_list->isEmpty())
+        <div class="container home_promo_ads_panel">
+            <div class="row margin_bottom_15">
+                <div class="col-md-12">
+                    <h3>{{ trans('search.Promo Classifieds') }}</h3>
+                </div>
             </div>
-        </div>
 
-        <!-- ad row-->
-        <div class="row margin_bottom_15">
-            @if(isset($promo_ad_list) && !$promo_ad_list->isEmpty())
+            <!-- ad row-->
+            <div class="row margin_bottom_15">
                 @foreach ($promo_ad_list as $k => $v)
-                    @include('common.ad_list')
+                    @if(config('dc.show_small_item_ads_list'))
+                        @include('common.ad_list_small')
+                    @else
+                        @include('common.ad_list')
+                    @endif
                 @endforeach
-            @endif
+            </div>
+            <!--end of ad row -->
         </div>
-        <!--end of ad row -->
-    </div>
+    @endif
 
     <div class="container home_promo_ads_panel">
         <div class="row margin_bottom_15">
             <div class="col-md-12">
-                <h2>{{ trans('search.New Classifieds') }}</h2>
+                <h3>{{ trans('search.Latest Classifieds') }}</h3>
                 <a href="{{ url('publish') }}">{{ trans('search.pusblish an ad') }}</a>
             </div>
         </div>
@@ -339,7 +343,11 @@
         <div class="row margin_bottom_15">
             @if(isset($ad_list) && !$ad_list->isEmpty())
                 @foreach ($ad_list as $k => $v)
-                    @include('common.ad_list')
+                    @if(config('dc.show_small_item_ads_list'))
+                        @include('common.ad_list_small')
+                    @else
+                        @include('common.ad_list')
+                    @endif
                 @endforeach
             @else
                 <div class="col-md-12">

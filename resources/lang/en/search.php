@@ -30,7 +30,9 @@ return [
     'Car Condition' => 'Car Condition',
     'Search' => 'Search',
     'Promo Classifieds' => 'Promo Classifieds',
-    'New Classifieds' => 'New Classifieds',
+    'Latest Classifieds' => 'Latest Classifieds',
     'pusblish an ad' => 'pusblish an ad',
-    'No results found...' => 'No results found...'
+    'No results found...' => 'No results found...',
+    'Home' => 'Home',
+    'Select Car Model' => 'Select Car Model'
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
 
 use App\Http\Requests;
@@ -93,12 +94,21 @@ class AdController extends Controller
             $promo_ad_list = $promo_ad_list->merge($this->ad->getAdList($where, $order, $limit));
         }
 
+        //if enable latest ads on home page get some new ads
+        $latest_ad_list = new Collection();
+        if(config('dc.enable_new_ads_on_homepage')){
+            $where['ad_promo'] = 0;
+            $limit = config('dc.num_latest_ads_home_page');
+            $latest_ad_list = $this->ad->getAdList($where, $order, $limit);
+        }
+
         return view('ad.home',[
-            'c'=>$this->category->getAllHierarhy(),
-            'l'=>$this->location->getAllHierarhy(),
-            'clist'=>$clist,
-            'lid'=>$lid,
-            'promo_ad_list'=>$promo_ad_list
+            'c' => $this->category->getAllHierarhy(),
+            'l' => $this->location->getAllHierarhy(),
+            'clist' => $clist,
+            'lid' => $lid,
+            'promo_ad_list' => $promo_ad_list,
+            'latest_ad_list' => $latest_ad_list
         ]);
 
     }
@@ -106,19 +116,16 @@ class AdController extends Controller
     public function proxy(Request $request)
     {
         //root url / base url
-        $root 			= $request->root();
+        $root = $request->root();
 
         //generated url if no parameters redirect to search
-        $redirect_url 	= url('search'); //$root;
+        $redirect_url = url('search');
 
         //generated url parameters container
-        $url_params 	= array();
+        $url_params = array();
 
         //get incoming parameters
         $params = Input::all();
-
-        //print_r($params);
-        //exit;
 
         //check for category selection
         $cid = 0;
@@ -186,26 +193,26 @@ class AdController extends Controller
     public function search(Request $request)
     {
         $params = Input::all();
-        //print_r($params) . '<br /><br />';
-
         $request->flash();
 
         $car_model_id = array();
         if(old('car_brand_id')){
             if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
-                $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+
+                $carModel   = new CarModel();
+                $select     = ['car_model_id', 'car_model_name'];
+                $where      = ['car_brand_id' => old('car_brand_id'), 'car_model_active' => 1];
+                $order      = ['car_model_name' => 'asc'];
+                $car_models = $carModel->getListSimple($select, $where, $order);
+
                 if(!$car_models->isEmpty()){
-                    $car_model_id = array(0 => 'Select Car Model');
+                    $car_model_id = array(0 => trans('search.Select Car Model'));
                     foreach ($car_models as $k => $v){
                         $car_model_id[$v->car_model_id] = $v->car_model_name;
                     }
                 }
             }
         }
-
-//     	echo 'category_slug: ' . $request->category_slug . '<br />';
-//     	echo 'location_slug: ' . $request->location_slug . '<br />';
-//     	echo 'search_text: ' . $request->search_text . '<br />';
 
         $breadcrump = array();
 
@@ -298,14 +305,14 @@ class AdController extends Controller
         /*
          * init where vars
          */
-        $where 		= [];
-        $order 		= [];
-        $limit 		= 0;
-        $orderRaw 	= '';
-        $whereIn 	= [];
-        $whereRaw 	= [];
-        $paginate 	= 0;
-        $page 		= 1;
+        $where      = [];
+        $order      = [];
+        $limit      = 0;
+        $orderRaw   = '';
+        $whereIn    = [];
+        $whereRaw   = [];
+        $paginate   = 0;
+        $page       = 1;
 
         /*
          * get common params and set them in where array
@@ -427,7 +434,7 @@ class AdController extends Controller
             $whereRaw['match(ad_title, ad_description) against(?)'] = [$search_text];
         }
         $orderRaw = 'rand()';
-        $limit = 4;
+        $limit = config('dc.num_promo_ads_list');
         $promo_ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate);
 
         /*
@@ -437,15 +444,12 @@ class AdController extends Controller
         $limit = 0;
         $orderRaw = '';
         $order = ['ad_publish_date' => 'desc'];
-        $paginate = 4;
+        $paginate = config('dc.num_ads_list');
         if (isset($params['page']) && is_numeric($params['page'])) {
             $page = $params['page'];
         }
 
         $ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
-
-//     	debug db queries
-//     	dd(DB::getQueryLog());
 
         $view_params = [
             'c' => $this->category->getAllHierarhy(),

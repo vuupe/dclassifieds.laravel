@@ -18,6 +18,8 @@ $(document).ready(function(){
     });
 
     $('.ad_list_title').matchHeight();
+    $('.ad-list-item-location').matchHeight();
+    $('.ad-list-item').matchHeight();
 
     /**
      * ad publish

@@ -5,5 +5,6 @@ return [
     'Search' => 'Search',
     'Promo Classifieds' => 'Promo Classifieds',
     'Main Categories' => 'Main Categories',
-    'view all promo ads' => 'view all promo ads'
+    'view all promo ads' => 'view all promo ads',
+    'Latest Classifieds' => 'Latest Classifieds'
 ];
