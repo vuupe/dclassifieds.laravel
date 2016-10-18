@@ -64,9 +64,9 @@ class AdController extends Controller
         $lid = session()->get('lid', 0);
 
         //generate category url with location if selected
-        $clist = $this->category->getOneLevel();
-        if(!empty($clist)){
-            foreach ($clist as $k => &$v){
+        $first_level_childs = $this->category->getOneLevel();
+        if(!empty($first_level_childs)){
+            foreach ($first_level_childs as $k => &$v){
                 $category_url_params = array();
                 $category_url_params[] = $this->category->getCategoryFullPathById($v->category_id);
                 if(session()->has('location_slug')){
@@ -103,12 +103,12 @@ class AdController extends Controller
         }
 
         return view('ad.home',[
-            'c' => $this->category->getAllHierarhy(),
-            'l' => $this->location->getAllHierarhy(),
-            'clist' => $clist,
-            'lid' => $lid,
-            'promo_ad_list' => $promo_ad_list,
-            'latest_ad_list' => $latest_ad_list
+            'c'                 => $this->category->getAllHierarhy(),
+            'l'                 => $this->location->getAllHierarhy(),
+            'first_level_childs'=> $first_level_childs,
+            'lid'               => $lid,
+            'promo_ad_list'     => $promo_ad_list,
+            'latest_ad_list'    => $latest_ad_list
         ]);
 
     }
@@ -239,7 +239,7 @@ class AdController extends Controller
         }
 
         //if category selected get info, get childs and generate url and breadcrump
-        $first_level_childs = [];
+        $first_level_childs = new Collection();
         $all_category_childs = [];
         if($cid > 0){
             $params['cid'] = $cid;

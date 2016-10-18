@@ -296,7 +296,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">{{ trans('search.Home') }}</a></li>
+                    <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ trans('search.Home') }}</a></li>
                     @if(isset($breadcrump['c']) && !empty($breadcrump['c']))
                         @foreach ($breadcrump['c'] as $k => $v)
                             <li><a href="{{ $v['category_url'] }}">{{ $v['category_title'] }}</a></li>
@@ -307,7 +307,7 @@
         </div>
     </div>
 
-    @if(isset($first_level_childs) && !empty($first_level_childs))
+    @if(isset($first_level_childs) && !$first_level_childs->isEmpty())
         <div class="container category_panel">
             <div class="row">
                 @foreach ($first_level_childs as $k => $v)

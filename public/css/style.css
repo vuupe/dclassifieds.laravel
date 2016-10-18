@@ -61,9 +61,14 @@ a:active, a:focus {
                 margin-bottom: 15px;
 }
 
+.breadcrumb     {
+                padding-left:0px;
+                background-color: #fff;
+}
+
 /*home page category panel*/
 .category_panel{
-                margin-bottom:0px;
+                margin-bottom:10px;
 }
 
 .home-category-link{

@@ -57,27 +57,28 @@
 
 @section('content')
 
-    <div class="container category_panel">
-        <div class="row">
-            @foreach ($clist as $k => $v)
-                <div class="col-md-3 padding_top_bottom_15">
-                    <a href="{{ $v->category_url }}" class="home-category-link"><img src="{{ asset('uf/cicons/' . $v->category_img) }}" />{{ $v->category_title }}</a>
-                </div>
-            @endforeach
-        </div>
-    </div>
-
-    <div class="container home_promo_ads_panel">
-        <div class="row margin_bottom_15">
-            <div class="col-md-12">
-                <h3>{{ trans('home.Promo Classifieds') }}</h3>
-                <a href="{{ url('search?promo_ads=1') }}">{{ trans('home.view all promo ads') }}</a>
+    @if(isset($first_level_childs) && !$first_level_childs->isEmpty())
+        <div class="container category_panel">
+            <div class="row">
+                @foreach ($first_level_childs as $k => $v)
+                    <div class="col-md-3 padding_top_bottom_15">
+                        <a href="{{ $v->category_url }}" class="home-category-link"><img src="{{ asset('uf/cicons/' . $v->category_img) }}" />{{ $v->category_title }}</a>
+                    </div>
+                @endforeach
             </div>
         </div>
+    @endif
 
-        <!-- ad row-->
-        <div class="row margin_bottom_15">
-            @if(isset($promo_ad_list) && !$promo_ad_list->isEmpty())
+    @if(isset($promo_ad_list) && !$promo_ad_list->isEmpty())
+        <div class="container home_promo_ads_panel">
+            <div class="row margin_bottom_15">
+                <div class="col-md-12">
+                    <h3>{{ trans('home.Promo Classifieds') }}</h3>
+                    <a href="{{ url('search?promo_ads=1') }}">{{ trans('home.view all promo ads') }}</a>
+                </div>
+            </div>
+            <!-- ad row-->
+            <div class="row margin_bottom_15">
                 @foreach ($promo_ad_list as $k => $v)
                     @if(config('dc.show_small_item_ads_list'))
                         @include('common.ad_list_small')
@@ -85,27 +86,27 @@
                         @include('common.ad_list')
                     @endif
                 @endforeach
-            @endif
+            </div>
+            <!--end of ad row -->
         </div>
-        <!--end of ad row -->
-    </div>
+    @endif
 
     @if(isset($latest_ad_list) && !$latest_ad_list->isEmpty())
-    <div class="container home_promo_ads_panel">
-        <div class="row margin_bottom_15">
-            <div class="col-md-12">
-                <h3>{{ trans('home.Latest Classifieds') }}</h3>
+        <div class="container home_promo_ads_panel">
+            <div class="row margin_bottom_15">
+                <div class="col-md-12">
+                    <h3>{{ trans('home.Latest Classifieds') }}</h3>
+                </div>
             </div>
-        </div>
 
-        <!-- ad row-->
-        <div class="row margin_bottom_15">
-            @foreach ($latest_ad_list as $k => $v)
-                @include('common.ad_list_small')
-            @endforeach
+            <!-- ad row-->
+            <div class="row margin_bottom_15">
+                @foreach ($latest_ad_list as $k => $v)
+                    @include('common.ad_list_small')
+                @endforeach
+            </div>
+            <!--end of ad row -->
         </div>
-        <!--end of ad row -->
-    </div>
     @endif
 
     <div class="container home_info_panel">
@@ -119,16 +120,18 @@
         </div>
     </div>
 
-    <div class="container home_info_link_panel">
-        <div class="row">
-            <div class="col-md-12">
-                <ol class="breadcrumb">
-                    <li class="active">{{ trans('home.Main Categories') }}</li>
-                    @foreach ($clist as $k => $v)
-                        <li><a href="{{ $v->category_url }}">{{ $v->category_title }}</a></li>
-                    @endforeach
-                </ol>
+    @if(isset($first_level_childs) && !$first_level_childs->isEmpty())
+        <div class="container home_info_link_panel">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="active">{{ trans('home.Main Categories') }}</li>
+                        @foreach ($first_level_childs as $k => $v)
+                            <li><a href="{{ $v->category_url }}">{{ $v->category_title }}</a></li>
+                        @endforeach
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection

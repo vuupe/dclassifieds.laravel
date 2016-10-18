@@ -71,7 +71,7 @@ class Location extends Model
 
     public function getAllHierarhyFlat($_parent_id = null, $_level = 0)
     {
-        $ret = array();
+        $ret = [];
         $_level++;
         $locationCollection = $this->where('location_parent_id', $_parent_id)
             ->where('location_active', '=', 1)
@@ -135,7 +135,7 @@ class Location extends Model
     
     public function getParentsByIdFlat($_location_id)
     {
-        $ret = array();
+        $ret = [];
         do{
             $locationCollection = $this->where('location_id', $_location_id)->with('parents')->first();
             if(!empty($locationCollection)){

@@ -30,7 +30,7 @@ class Category extends Model
     
     public function getAllHierarhy($_parent_id = null, $_level = 0, $_active = 1)
     {
-        $ret = array();
+        $ret = [];
         $_level++;
 
         $query = $this->where('category_parent_id', $_parent_id)
@@ -65,7 +65,7 @@ class Category extends Model
     
     public function getAllHierarhyFlat($_parent_id = null, $_level = 0)
     {
-        $ret = array();
+        $ret = [];
         $_level++;
         $categoryCollection = $this->where('category_parent_id', $_parent_id)
             ->where('category_active', '=', 1)
@@ -130,7 +130,7 @@ class Category extends Model
     
     public function getParentsBySlug($_slug)
     {
-        $ret = array();
+        $ret = [];
         $categoryCollection = $this->where('category_slug', $_slug)
                                 ->with('parents')
                                 ->first();
@@ -147,7 +147,7 @@ class Category extends Model
     
     public function getParentsById($_category_id)
     {
-        $ret = array();
+        $ret = [];
         $categoryCollection = $this->where('category_id', $_category_id)
                                 ->with('parents')
                                 ->first();
@@ -164,7 +164,7 @@ class Category extends Model
     
     public function getParentsBySlugFlat($_slug)
     {
-        $ret = array();
+        $ret = [];
         do{
             $categoryCollection = $this->where('category_slug', $_slug)->with('parents')->first();
             $ret[$categoryCollection->category_id] = $categoryCollection->attributes;
@@ -178,7 +178,7 @@ class Category extends Model
     
     public function getParentsByIdFlat($_category_id)
     {
-        $ret = array();
+        $ret = [];
         do{
             $categoryCollection = $this->where('category_id', $_category_id)->with('parents')->first();
             if(!empty($categoryCollection)){
@@ -193,7 +193,7 @@ class Category extends Model
     
     public function getInfoBySlug($_slug)
     {
-        $ret = array();
+        $ret = [];
         $categoryCollection = $this->where('category_slug', $_slug)->first();
         if(!empty($categoryCollection)){
             $ret = $categoryCollection->attributes;
@@ -203,7 +203,7 @@ class Category extends Model
     
     public function getInfoById($_category_id)
     {
-        $ret = array();
+        $ret = [];
         $categoryCollection = $this->where('category_id', $_category_id)->first();
         if(!empty($categoryCollection)){
             $ret = $categoryCollection->attributes;
