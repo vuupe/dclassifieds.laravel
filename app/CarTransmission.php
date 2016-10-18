@@ -3,13 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ModelTrait;
 
 class CarTransmission extends Model
 {
-    protected $table = 'car_transmission';
-    protected $primaryKey = 'car_transmission_id';
+    use ModelTrait;
 
-    protected $fillable = ['car_transmission_name'];
-
-    public $timestamps = false;
+    protected $table        = 'car_transmission';
+    protected $primaryKey   = 'car_transmission_id';
+    protected $fillable     = ['car_transmission_name'];
+    public $timestamps      = false;
 }

@@ -1,5 +1,7 @@
 @extends('layout.index_layout')
 
+@section('title', config('dc.site_home_page_title'))
+
 @section('search_filter')
     <div class="search_panel">
         <div class="container">
@@ -13,11 +15,14 @@
                         <select name="cid" id="cid" class="form-control cid_select" onchange="$('#search_form').submit();">
                             <option value="0"></option>
                             @foreach ($c as $k => $v)
-                                <optgroup label="{{$v['title']}}">
-                                    @if(isset($v['c']) && !empty($v['c'])){
-                                        @include('common.cselect', ['c' => $v['c']])
-                                    @endif
-                                </optgroup>
+                                @if(isset($cid) && $cid == $v['cid'])
+                                    <option value="{{$v['cid']}}" style="font-weight: bold;" selected data-type="{{ $v['category_type'] }}">{{$v['title']}}</option>
+                                @else
+                                    <option value="{{$v['cid']}}" style="font-weight: bold;" data-type="{{ $v['category_type'] }}">{{$v['title']}}</option>
+                                @endif
+                                @if(isset($v['c']) && !empty($v['c'])){
+                                    @include('common.cselect', ['c' => $v['c']])
+                                @endif
                             @endforeach
                         </select>
                         @endif
@@ -27,11 +32,14 @@
                         <select name="lid" id="lid" class="form-control lid_select">
                             <option value="0"></option>
                             @foreach ($l as $k => $v)
-                                <optgroup label="{{$v['title']}}">
-                                    @if(isset($v['c']) && !empty($v['c'])){
-                                        @include('common.lselect', ['c' => $v['c']])
-                                    @endif
-                                </optgroup>
+                                @if(isset($lid) && $lid == $v['lid'])
+                                    <option value="{{$v['lid']}}" style="font-weight: bold;" selected>{{$v['title']}}</option>
+                                @else
+                                    <option value="{{$v['lid']}}" style="font-weight: bold;">{{$v['title']}}</option>
+                                @endif
+                                @if(isset($v['c']) && !empty($v['c'])){
+                                    @include('common.lselect', ['c' => $v['c']])
+                                @endif
                             @endforeach
                         </select>
                         @endif

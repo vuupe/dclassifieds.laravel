@@ -8,11 +8,12 @@ use Cache;
 
 class Location extends Model
 {
-    protected $table = 'location';
-    protected $primaryKey = 'location_id';
-    public $timestamps = false;
+    protected $table        = 'location';
+    protected $primaryKey   = 'location_id';
+    public $timestamps      = false;
     
-    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug', 'location_post_code', 'location_ord'];
+    protected $fillable = ['location_parent_id', 'location_active', 'location_name', 'location_slug',
+        'location_post_code', 'location_ord'];
     
     public function parents()
     {
@@ -32,9 +33,9 @@ class Location extends Model
             $_level++;
 
             $lquery = $this->where('location_parent_id', $_parent_id)
-                                    ->with('children')
-                                    ->orderBy('location_ord', 'asc')
-                                    ->orderBy('location_name', 'asc');
+                ->with('children')
+                ->orderBy('location_ord', 'asc')
+                ->orderBy('location_name', 'asc');
 
             if($_active){
                 $lquery->where('location_active', '=', 1);
@@ -42,17 +43,17 @@ class Location extends Model
 
             $locationCollection = $lquery->get();
 
-            if(!empty($locationCollection)){
+            if(!$locationCollection->isEmpty()){
                 foreach ($locationCollection as $k => $v){
-                    $ret[$v->location_id] = array('lid' => $v->location_id,
-                        'title' => $v->location_name,
-                        'slug' => $v->location_slug,
-                        'active' => $v->location_active,
+                    $ret[$v->location_id] = ['lid' => $v->location_id,
+                        'title'     => $v->location_name,
+                        'slug'      => $v->location_slug,
+                        'active'    => $v->location_active,
                         'post_code' => $v->location_post_code,
-                        'ord' => $v->location_ord,
-                        'level' => $_level,
-                        'ad_count' => Ad::where('location_id', $v->location_id)->count()
-                    );
+                        'ord'       => $v->location_ord,
+                        'level'     => $_level,
+                        'ad_count'  => Ad::where('location_id', $v->location_id)->count()
+                    ];
 
                     if(!empty($v->location_post_code)){
                         $ret[$v->location_id]['title'] = $v->location_name . ' [ZIP:' . $v->location_post_code . ']';
@@ -63,6 +64,30 @@ class Location extends Model
                     }
                 }
                 Cache::put($cache_key, $ret, config('dc.cache_expire'));
+            }
+        }
+        return $ret;
+    }
+
+    public function getAllHierarhyFlat($_parent_id = null, $_level = 0)
+    {
+        $ret = array();
+        $_level++;
+        $locationCollection = $this->where('location_parent_id', $_parent_id)
+            ->where('location_active', '=', 1)
+            ->with('children')
+            ->orderBy('location_ord', 'asc')
+            ->get();
+
+        if(!$locationCollection->isEmpty()){
+            foreach ($locationCollection as $k => $v){
+                $ret[$v->location_id] = ['lid' => $v->location_id,
+                    'title' => $v->location_name,
+                    'level' => $_level];
+
+                if($v->children->count() > 0){
+                    $ret = array_merge($ret, $this->getAllHierarhyFlat($v->location_id, $_level));
+                }
             }
         }
         return $ret;
@@ -120,6 +145,20 @@ class Location extends Model
                 $_location_id = $locationCollection->parents->location_id;
             }
         } while ( !empty($locationCollection) && !empty($locationCollection->parents));
+        return $ret;
+    }
+
+    public function getLocationInfo($_location_id)
+    {
+        $ret = '';
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        $res = Cache::rememberForever($cache_key, function() use ($_location_id) {
+            return $this->where('location_id', $_location_id)
+                ->first();
+        });
+        if(!empty($res)){
+            $ret = $res;
+        }
         return $ret;
     }
 }

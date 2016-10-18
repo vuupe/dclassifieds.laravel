@@ -3,16 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cache;
 
 class Category extends Model
 {
-    const COMMON_TYPE = 1; //common ads type 
-    const REAL_ESATE_TYPE = 2; //real estate ads
-    const CARS_TYPE = 3; //cars ads
+    const COMMON_TYPE       = 1; //common ads type
+    const REAL_ESATE_TYPE   = 2; //real estate ads
+    const CARS_TYPE         = 3; //cars ads
 
-    protected $table = 'category';
-    protected $primaryKey = 'category_id';
-    public $timestamps = false;
+    protected $table        = 'category';
+    protected $primaryKey   = 'category_id';
+    public $timestamps      = false;
     
     protected $fillable = ['category_parent_id', 'category_type', 'category_title', 
         'category_slug', 'category_description', 'category_keywords', 'category_img', 'category_active', 'category_ord'];
@@ -42,17 +43,18 @@ class Category extends Model
 
         $categoryCollection = $query->get();
 
-        if(!empty($categoryCollection)){
+        if(!$categoryCollection->isEmpty()){
             foreach ($categoryCollection as $k => $v){
-                $ret[$v->category_id] = array('cid' => $v->category_id,
-                    'title' => $v->category_title,
-                    'level' => $_level,
+                $ret[$v->category_id] = ['cid' => $v->category_id,
+                    'title'         => $v->category_title,
+                    'level'         => $_level,
                     'category_type' => $v->category_type,
-                    'ord' => $v->category_ord,
-                    'slug' => $v->category_slug,
-                    'active' => $v->category_active,
-                    'ad_count' => Ad::where('category_id', $v->category_id)->count()
-                );
+                    'ord'           => $v->category_ord,
+                    'slug'          => $v->category_slug,
+                    'active'        => $v->category_active,
+                    'ad_count'      => Ad::where('category_id', $v->category_id)->count()
+                ];
+
                 if($v->children->count() > 0){
                     $ret[$v->category_id]['c'] = $this->getAllHierarhy($v->category_id, $_level, $_active);
                 }
@@ -66,14 +68,18 @@ class Category extends Model
         $ret = array();
         $_level++;
         $categoryCollection = $this->where('category_parent_id', $_parent_id)
-                                ->where('category_active', '=', 1)
-                                ->with('children')
-                                ->orderBy('category_ord', 'asc')
-                                ->get();
+            ->where('category_active', '=', 1)
+            ->with('children')
+            ->orderBy('category_ord', 'asc')
+            ->get();
          
-        if(!empty($categoryCollection)){
+        if(!$categoryCollection->isEmpty()){
             foreach ($categoryCollection as $k => $v){
-                $ret[$v->category_id] = array('cid' => $v->category_id, 'title' => $v->category_title, 'level' => $_level, 'category_type' => $v->category_type);
+                $ret[$v->category_id] = ['cid' => $v->category_id,
+                    'title' => $v->category_title,
+                    'level' => $_level,
+                    'category_type' => $v->category_type];
+
                 if($v->children->count() > 0){
                     $ret = array_merge($ret, $this->getAllHierarhyFlat($v->category_id, $_level));
                 }
@@ -84,21 +90,25 @@ class Category extends Model
     
     public function getOneLevel($_parent_id = null)
     {
-        $categoryCollection = $this->where('category_parent_id', $_parent_id)
-                    ->orderBy('category_ord', 'asc')
-                    ->get();
-        return $categoryCollection;
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        return Cache::rememberForever($cache_key, function() use ($_parent_id) {
+            return $this->where('category_parent_id', $_parent_id)
+                ->orderBy('category_ord', 'asc')
+                ->get();
+        });
     }
     
     public function getIdBySlug($_slug)
     {
         $ret = 0;
-        $c_object = $this->select('category_id')
-                        ->where('category_slug', $_slug)
-                        ->first();
-
-        if(!empty($c_object)){
-            $ret = $c_object->category_id;
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        $res = Cache::rememberForever($cache_key, function() use ($_slug) {
+            return $this->select('category_id')
+                ->where('category_slug', $_slug)
+                ->first();
+        });
+        if(!empty($res)){
+            $ret = $res->category_id;
         }
         return $ret;
     }
@@ -106,12 +116,14 @@ class Category extends Model
     public function getSlugById($_category_id)
     {
         $ret = '';
-        $c_object = $this->select('category_slug')
-                        ->where('category_id', $_category_id)
-                        ->first();
-
-        if(!empty($c_object)){
-            $ret = $c_object->category_slug;
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        $res = Cache::rememberForever($cache_key, function() use ($_category_id) {
+            return $this->select('category_slug')
+                ->where('category_id', $_category_id)
+                ->first();
+        });
+        if(!empty($res)){
+            $ret = $res->category_slug;
         }
         return $ret;
     }

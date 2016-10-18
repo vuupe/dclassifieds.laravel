@@ -34,5 +34,6 @@ return [
     'pusblish an ad' => 'pusblish an ad',
     'No results found...' => 'No results found...',
     'Home' => 'Home',
-    'Select Car Model' => 'Select Car Model'
+    'Select Car Model' => 'Select Car Model',
+    'Page:' => 'Page:'
 ];
