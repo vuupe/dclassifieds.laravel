@@ -11,5 +11,8 @@ return [
     'Message' => 'Message',
     'Send' => 'Send',
     'free' => 'free',
-    'show ad' => 'show ad'
+    'show ad' => 'show ad',
+    'return to ad' => 'return to ad',
+    'Your message was send.' => 'Your message was send.',
+    'Ups something is wrong, please try again later or contact our team.' => 'Ups something is wrong, please try again later or contact our team.'
 ];

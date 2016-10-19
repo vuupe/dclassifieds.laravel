@@ -1,18 +1,28 @@
 @extends('layout.index_layout')
 
+@section('header_tags')
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+@endsection
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">{{ trans('contact.home') }}</a></li>
+                    <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ trans('contact.home') }}</a></li>
                     <li><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a></li>
                     @if(isset($breadcrump['c']) && !empty($breadcrump['c']))
                         @foreach ($breadcrump['c'] as $k => $v)
                             <li><a href="{{ $v['category_url'] }}">{{ $v['category_title'] }}</a></li>
                         @endforeach
                     @endif
-                    <li class="active">{{ $ad_detail->ad_title }}</li>
+                    <li><a href="{{ url(str_slug($ad_detail->ad_title) . '-' . 'ad' . $ad_detail->ad_id . '.html') }}">{{ $ad_detail->ad_title }}</a></li>
+                    <li class="active">{{ trans('contact.Send Message') }}</li>
                 </ol>
             </div>
         </div>
@@ -20,7 +30,7 @@
 
     <div class="container ad_detail_container">
         <div class="row">
-            <div class="col-md-12"><h1>{{ $ad_detail->ad_title }}</h1></div>
+            <div class="col-md-12"><h1>{{ $ad_detail->ad_title }} - {{ trans('contact.Send Message') }}</h1></div>
         </div>
         <div class="row ad_detail_publish_info">
             <div class="col-md-12"><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a> | <span class="text-muted">{{ trans('contact.Added_on') }} {{ $ad_detail->ad_publish_date }}.</span></div>
@@ -34,14 +44,18 @@
 
                 <div style="display:none;" id="ad_info">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="ad_detail_main_image_container">
+                            @if($ad_detail->ad_promo)
+                                <div class="ribbon"><span>PROMO</span></div>
+                            @endif
                             @if(!empty($ad_detail->ad_pic))
-                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive thumbnail"  /></a>
+                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
                             @else
-                                <img src="" class="img-responsive thumbnail">
+                                <img src="" class="img-responsive">
                             @endif
                         </div>
                     </div>
+
                     <hr>
 
                     <div class="row ad_detail_ad_text">
@@ -51,7 +65,8 @@
                     </div>
                     <hr>
                 </div>
-                <div><a href="" id="show_hide_ad">{{ trans('contact.show ad') }}</a></div>
+
+                <div><a href="" id="show_hide_ad">{{ trans('contact.show ad') }}</a> | <a href="{{ url(str_slug($ad_detail->ad_title) . '-' . 'ad' . $ad_detail->ad_id . '.html') }}">{{ trans('contact.return to ad') }}</a></div>
 
                 @if (session()->has('message'))
                     <div class="alert alert-info">{{ session('message') }}</div>

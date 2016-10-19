@@ -552,36 +552,61 @@ class AdController extends Controller
         }
         
         //get ad pics
-        $ad_pic = AdPic::where('ad_id', $ad_id)->get();
+        $adPicModel = new AdPic();
+        $where = [];
+        $order = [];
+        $where['ad_id'] = $ad_id;
+        $order['ad_pic_id'] = 'ASC';
+        $ad_pic = $adPicModel->getAdPics($where, $order);
         
         //get this user other ads
-        $other_ads = Ad::where('user_id', $ad_detail->user_id)->where('ad_active', 1)->where('ad_id', '!=', $ad_detail->ad_id)->orderBy('ad_publish_date', 'desc')->take(5)->get();
+        $where = [];
+        $order = [];
+        $where['ad_active'] = 1;
+        $where['ad_id'] = ['!=', $ad_detail->ad_id];
+        $order['ad_publish_date'] = 'desc';
+        $limit = config('dc.num_addition_ads_from_user');
+        $other_ads = $this->ad->getAdList($where, $order, $limit);
         
-        //last view
+        //save ad for last view
         $last_view_ad = [
-            'ad_id' => $ad_detail->ad_id,
-            'ad_title' => $ad_detail->ad_title,
+            'ad_id'         => $ad_detail->ad_id,
+            'ad_title'      => $ad_detail->ad_title,
             'location_name' => $ad_detail->location_name,
-            'ad_price' => $ad_detail->ad_price,
-            'ad_pic' => $ad_detail->ad_pic
+            'ad_price'      => $ad_detail->ad_price,
+            'ad_pic'        => $ad_detail->ad_pic,
+            'ad_promo'      => $ad_detail->ad_promo
         ];
-        
+
         if(session()->has('last_view')){
             $last_view_array = session('last_view');
-            $last_view_array[] = $last_view_ad;
-            if(count($last_view_array) > 4){
-                //reindex the array
-                $last_view_array = array_values($last_view_array);
-                //remove oldest ad
-                unset($last_view_array[0]);
+            $add_to_last_view = 1;
+
+            //check if this ad is in last view
+            foreach($last_view_array as $k => $v){
+                if($v['ad_id'] == $last_view_ad['ad_id']){
+                    $add_to_last_view = 0;
+                    break;
+                }
             }
-            session()->put('last_view', $last_view_array);
+
+            if($add_to_last_view) {
+                $last_view_array[] = $last_view_ad;
+                if (count($last_view_array) > config('dc.num_last_viewed_ads')) {
+                    //reindex the array
+                    $last_view_array = array_values($last_view_array);
+                    //remove oldest ad
+                    unset($last_view_array[0]);
+                }
+                session()->put('last_view', $last_view_array);
+            }
         } else {
-            $last_view_array = array();
+            $last_view_array = [];
             $last_view_array[] = $last_view_ad;
             session()->put('last_view', $last_view_array);
         }
-        
+
+        //generate breadcrump
         $breadcrump = array();
         $breadcrump_data = $this->category->getParentsByIdFlat($ad_detail->category_id);
         if(!empty($breadcrump_data)){
@@ -602,7 +627,7 @@ class AdController extends Controller
         
         //check if ad is in favorites
         $ad_fav = 0;
-        $fav_ads_info = array();
+        $fav_ads_info = [];
         //is there user
         if(Auth::check()){
             $adFavModel = new AdFav();
@@ -614,13 +639,19 @@ class AdController extends Controller
         if(isset($fav_ads_info[$ad_id])){
             $ad_fav = 1;
         }
+
+        //generate title
+        $title = [config('dc.site_domain')];
+        $title[] = $ad_detail->ad_title;
+        $title[] = trans('detail.Ad Id') . ': ' . $ad_detail->ad_id;
         
         return view('ad.detail', [
-            'ad_detail' => $ad_detail,
-            'ad_pic' => $ad_pic,
-            'other_ads' => $other_ads,
-            'breadcrump' => $breadcrump,
-            'ad_fav' => $ad_fav
+            'ad_detail'     => $ad_detail,
+            'ad_pic'        => $ad_pic,
+            'other_ads'     => $other_ads,
+            'breadcrump'    => $breadcrump,
+            'ad_fav'        => $ad_fav,
+            'title'         => $title
         ]);
     }
     
@@ -952,8 +983,9 @@ class AdController extends Controller
         
         //get ad info
         $ad_detail = $this->ad->getAdDetail($ad_id);
-        
-        $breadcrump = array();
+
+        //generate breadcrump
+        $breadcrump = [];
         $breadcrump_data = $this->category->getParentsByIdFlat($ad_detail->category_id);
         if(!empty($breadcrump_data)){
             foreach ($breadcrump_data as $k => &$v){
@@ -970,6 +1002,12 @@ class AdController extends Controller
             //category part of breadcrump
             $breadcrump['c'] = array_reverse($breadcrump_data);
         }
+
+        //generate title
+        $title      = [config('dc.site_domain')];
+        $title[]    = $ad_detail->ad_title;
+        $title[]    = trans('detail.Ad Id') . ': ' . $ad_detail->ad_id;
+        $title[]    = trans('contact.Send Message');
         
         return view('ad.contact', ['ad_detail' => $ad_detail, 'breadcrump' => $breadcrump]);
     }
@@ -1041,10 +1079,10 @@ class AdController extends Controller
             $this->mail->saveMailToDbAndSendMail($current_user_id, $ad_detail->user_id, $ad_id, $request->contact_message, $ad_detail->ad_email);
             
             //set flash message and return
-            session()->flash('message', 'Your message was send.');
+            session()->flash('message', trans('contact.Your message was send.'));
         } else {
             //set error flash message and return
-            session()->flash('message', 'Ups something is wrong, please try again later or contact our team.');
+            session()->flash('message', trans('contact.Ups something is wrong, please try again later or contact our team.'));
         }
         return redirect()->back();
     }

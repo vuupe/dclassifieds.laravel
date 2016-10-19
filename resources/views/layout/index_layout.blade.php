@@ -6,6 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>@yield('title')</title>
+
+        @section('header_tags')
+            <meta name="revisit-after" content="1 Days" />
+            <meta name="robots" content="index, follow" />
+            <meta name="googlebot" content="index, follow" />
+            <meta name="rating" content="general" />
+        @show
         
         <script src="{{ asset('js/pace/pace.min.js') }}"></script>
         <link href="{{ asset('js/pace/themes/red/pace-theme-minimal.css') }}" rel="stylesheet" />

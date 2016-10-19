@@ -6,4 +6,5 @@ return [
     'head_scripts' => 'Scripts code that must be placed before &lt;/head&gt; tag, for example Google Analytics code.',
     'end_body_scripts' => 'Scripts code that must be placed before &lt;/body&gt; tag.',
     'start_body_scripts' => 'Scripts code that must be placed after &lt;body&gt; tag, for example Facebook Code.',
+    'Num Additions Ads From User' => 'Num Additions Ads From User in Ad Detail'
 ];

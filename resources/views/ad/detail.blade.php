@@ -1,5 +1,14 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
+@section('header_tags')
+    <link rel="canonical" href="{{ url(str_slug($ad_detail->ad_title) . '-' . 'ad' . $ad_detail->ad_id . '.html') }}" />
+    <meta property="og:title" content="{{ join(' / ', $title) }}"/>
+    <meta property="og:site_name" content="{{ config('dc.site_domain') }}"/>
+    <meta property="og:image" content="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}"/>
+@endsection
+
 @section('search_filter')
     <div style="margin-bottom: 20px;"></div>
 @endsection
@@ -8,29 +17,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">{{ trans('detail.Home') }}</a></li>
-                    <li><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a></li>
+                <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+                    <li property="itemListElement" typeof="ListItem"><a href="{{ route('home') }}" property="item" typeof="WebPage"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <span property="name">{{ trans('detail.Home') }}</span></a></li>
+                    <li property="itemListElement" typeof="ListItem"><a href="{{ url('l-' . $ad_detail->location_slug)}}" property="item" typeof="WebPage"><span property="name">{{ $ad_detail->location_name }}</span></a></li>
                     @if(isset($breadcrump['c']) && !empty($breadcrump['c']))
                         @foreach ($breadcrump['c'] as $k => $v)
-                            <li><a href="{{ $v['category_url'] }}">{{ $v['category_title'] }}</a></li>
+                            <li property="itemListElement" typeof="ListItem"><a href="{{ $v['category_url'] }}" property="item" typeof="WebPage"><span property="name">{{ $v['category_title'] }}</span></a></li>
                         @endforeach
                     @endif
-                    <li class="active wrap">{{ $ad_detail->ad_title }}</li>
+                    <li class="active wrap" property="itemListElement" typeof="ListItem"><span property="name">{{ $ad_detail->ad_title }}</span></li>
                 </ol>
             </div>
         </div>
     </div>
 
-    <div class="container ad_detail_container">
+    <div class="container ad_detail_container" itemscope itemtype="http://schema.org/Product">
         <div class="row">
-            <div class="col-md-12"><h1 class="wrap">{{ $ad_detail->ad_title }}</h1></div>
+            <div class="col-md-12"><h1 class="wrap" itemprop="name">{{ $ad_detail->ad_title }}</h1></div>
         </div>
         <div class="row ad_detail_publish_info">
             <div class="col-md-12"><a href="{{ url('l-' . $ad_detail->location_slug)}}">{{ $ad_detail->location_name }}</a> | <span class="text-muted">{{ trans('detail.Added on') }} {{ $ad_detail->ad_publish_date }}.</span></div>
         </div>
         <div class="row ad_detail_ad_info">
-            <div class="col-md-12"><span class="text-muted">{{ trans('detail.Ad Id') }}: {{ $ad_detail->ad_id }} | {{ trans('detail.Views') }}: {{ $ad_detail->ad_view }}</span></div>
+            <div class="col-md-12"><span class="text-muted">{{ trans('detail.Ad Id') }}: <span itemprop="productID">{{ $ad_detail->ad_id }}</span> | {{ trans('detail.Views') }}: {{ $ad_detail->ad_view }}</span></div>
         </div>
 
         <div class="row">
@@ -43,7 +52,7 @@
                                 <div class="ribbon"><span>PROMO</span></div>
                             @endif
                             @if(!empty($ad_detail->ad_pic))
-                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  /></a>
+                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
                             @else
                                 <img src="" class="img-responsive">
                             @endif
@@ -142,7 +151,7 @@
                 <hr>
 
                 <div class="row ad_detail_ad_text">
-                    <div class="col-md-12 wrap">
+                    <div class="col-md-12 wrap" itemprop="description">
                         {!! $ad_detail->ad_description !!}
                     </div>
                 </div>
@@ -159,72 +168,19 @@
                     </div>
                     <hr>
                 @endif
-
-                @if(!$other_ads->isEmpty())
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>{{ trans('detail.Other Classifieds from this user') }}</h4>
-                        </div>
-                    </div>
-
-                    @foreach($other_ads as $k => $v)
-                        <?$link = url(str_slug($v->ad_title) . '-' . 'ad' . $v->ad_id . '.html');?>
-                        <div class="row margin_bottom_15">
-                            <div class="col-md-2">
-                                <a href="{{ $link }}"><img src="{{ asset('uf/adata/' . '740_' . $v->ad_pic) }}" class="img-responsive"></a>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="{{ $link }}">{{ str_limit($v->ad_description, 200) }}</a>
-                            </div>
-                            <div class="col-md-4">
-                                {{ $v->ad_price ? $v->ad_price . config('dc.site_price_sign') : '&nbsp;' }}
-                            </div>
-                        </div>
-                        <hr />
-                    @endforeach
-                @endif
-
-                @if(session()->has('last_view') && !empty(session('last_view')))
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>{{ trans('detail.Last Viewed') }}</h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <?$last_view_array = array_reverse(session('last_view'));?>
-                        @foreach($last_view_array as $k => $v)
-                            <?$link = url(str_slug($v['ad_title']) . '-' . 'ad' . $v['ad_id'] . '.html');?>
-                            <!-- ad -->
-                            <div class="col-md-3 ad-list-item-container">
-                                <div class="ad-list-item">
-
-                                    <div class="ad-list-item-image">
-                                        <a href="{{ $link }}"><img src="{{ asset('uf/adata/' . '740_' . $v['ad_pic']) }}" class="img-responsive"></a>
-                                    </div>
-                                    <div class="ad-list-item-content">
-                                        <h5 class="ad_list_title"><a href="{{ $link }}">{{ str_limit($v['ad_title'], 60) }}</a></h5>
-                                        <p class="ad-list-item-location"><i class="fa fa-map-marker"></i> {{ $v['location_name'] }}</p>
-                                        <h4>{{ $v['ad_price'] ? Util::formatPrice($v['ad_price']) . config('dc.site_price_sign') : trans('publish_edit.Free') }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end of ad-->
-                        @endforeach
-                    </div>
-                @endif
-
             </div>
             <div class="col-md-4">
-                <div class="ad_detail_price text-center">
+                <div class="ad_detail_price text-center" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
                     <h2>
                         @if($ad_detail->ad_free)
-                            {{ trans('detail.free') }}
+                            <span itemprop="price">{{ trans('detail.free') }}</span>
                         @else
-                            {{ number_format($ad_detail->ad_price, 2, '.', '') . config('dc.site_price_sign') }}
+                            <span itemprop="price">{{ number_format($ad_detail->ad_price, 2, '.', '') }}</span>{{ config('dc.site_price_sign') }}
                         @endif
+                        <meta itemprop="priceCurrency" content="{{ config('dc.site_currency_code') }}">
                     </h2>
                 </div>
+
                 <hr>
 
                 <div class="ad_detail_panel">
@@ -244,6 +200,7 @@
                         </div>
                     </div>
                 </div>
+
                 <hr>
 
                 <div class="ad_detail_panel">
@@ -257,6 +214,7 @@
                         <a href="callto:{{ $ad_detail->ad_skype }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-skype"></span> {{ $ad_detail->ad_skype }}</a>
                     @endif
                 </div>
+
                 <hr>
 
                 <div class="ad_detail_panel">
@@ -290,6 +248,55 @@
                 @endif
 
                 @include('common.ad_detail_banner')
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                @if(!$other_ads->isEmpty())
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>{{ trans('detail.Other Classifieds from this user') }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="row margin_bottom_15">
+                        @foreach ($other_ads as $k => $v)
+                            @include('common.ad_list')
+                        @endforeach
+                    </div>
+                @endif
+
+                @if(session()->has('last_view') && !empty(session('last_view')))
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>{{ trans('detail.Last Viewed') }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <?$last_view_array = array_reverse(session('last_view'));?>
+                        @foreach($last_view_array as $k => $v)
+                            <?$link = url(str_slug($v['ad_title']) . '-' . 'ad' . $v['ad_id'] . '.html');?>
+                            <!-- ad -->
+                            <div class="col-md-3 ad-list-item-container">
+                                <div class="ad-list-item">
+
+                                    <div class="ad-list-item-image">
+                                        <a href="{{ $link }}"><img src="{{ asset('uf/adata/' . '740_' . $v['ad_pic']) }}" class="img-responsive"></a>
+                                    </div>
+                                    <div class="ad-list-item-content">
+                                        <h5 class="ad_list_title"><a href="{{ $link }}">{{ str_limit($v['ad_title'], 60) }}</a></h5>
+                                        <p class="ad-list-item-location"><i class="fa fa-map-marker"></i> {{ $v['location_name'] }}</p>
+                                        <h4>{{ $v['ad_price'] ? Util::formatPrice($v['ad_price']) . config('dc.site_price_sign') : trans('publish_edit.Free') }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of ad-->
+                        @endforeach
+                    </div>
+                @endif
 
             </div>
         </div>
