@@ -214,7 +214,8 @@ Route::get('/delete/{token}', 'AdController@delete')->name('delete');
 
 Route::get('/myads', 'AdController@myads')->name('myads')->middleware('auth');
 Route::get('/republish/{token}', 'AdController@republish')->name('republish');
-Route::get('/ad/edit/{ad_id}', 'AdController@edit')->name('adedit')->where(['ad_id' => '\d+'])->middleware('auth');
+
+Route::get('/ad/edit/{ad_id}', 'AdController@getAdEdit')->name('adedit')->where(['ad_id' => '\d+'])->middleware('auth');
 Route::post('/ad/edit/{ad_id}', 'AdController@postAdEdit')->name('postAdEdit')->where(['ad_id' => '\d+'])->middleware('auth');
 Route::get('/ad/user/{user_id}', 'AdController@userads')->name('userads')->where(['user_id' => '\d+'])->middleware('auth');
 

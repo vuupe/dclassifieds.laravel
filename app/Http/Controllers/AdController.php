@@ -31,6 +31,7 @@ use App\UserMail;
 use App\UserMailStatus;
 use App\AdReport;
 use App\AdFav;
+use App\Pay;
 
 use Image;
 use Validator;
@@ -657,60 +658,93 @@ class AdController extends Controller
     
     public function getPublish()
     {
-        $car_model_id = array();
+        $car_model = [];
         if(old('car_brand_id')){
             if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
-                $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+
+                $carModel   = new CarModel();
+                $select     = ['car_model_id', 'car_model_name'];
+                $where      = ['car_brand_id' => old('car_brand_id'), 'car_model_active' => 1];
+                $order      = ['car_model_name' => 'asc'];
+                $car_models = $carModel->getListSimple($select, $where, $order);
+
                 if(!$car_models->isEmpty()){
-                    $car_model_id = array(0 => 'Select Car Model');
+                    $car_model = [0 => trans('search.Select Car Model')];
                     foreach ($car_models as $k => $v){
-                        $car_model_id[$v->car_model_id] = $v->car_model_name;
+                        $car_model[$v->car_model_id] = $v->car_model_name;
                     }
                 }
             }
         }
-        
+
+        //get current user or make empty class
         $user = new \stdClass();
         if(Auth::check()){
             $user = Auth::user();
         }
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('publish_edit.Post an ad');
+
+        //check if promo ads are enabled
+        $payment_methods = new Collection();
+        if(config('dc.enable_promo_ads')){
+            $where['pay_active']    = 1;
+            $order['pay_ord']       = 'ASC';
+            $payModel               = new Pay();
+            $payment_methods        = $payModel->getList($where, $order);
+        }
+
+        /**
+         * put all view vars in array
+         */
+        $view_params = [
+            'c'     => $this->category->getAllHierarhy(), //all categories hierarhy
+            'l'     => $this->location->getAllHierarhy(), //all location hierarhy
+            'user'  => $user, //user object or empty class,
+            'title' => $title, //set the page title
+            'payment_methods' => $payment_methods, //get payment methods
+
+            //filter vars
+            'at'                        => AdType::allCached('ad_type_name'),
+            'ac'                        => AdCondition::allCached('ad_condition_name'),
+            'estate_construction_type'  => EstateConstructionType::allCached('estate_construction_type_name'),
+            'estate_furnishing_type'    => EstateFurnishingType::allCached('estate_furnishing_type_name'),
+            'estate_heating_type'       => EstateHeatingType::allCached('estate_heating_type_name'),
+            'estate_type'               => EstateType::allCached('estate_type_name'),
+            'car_brand'                 => CarBrand::allCached('car_brand_name'),
+            'car_model'                 => $car_model,
+            'car_engine'                => CarEngine::allCached('car_engine_name'),
+            'car_transmission'          => CarTransmission::allCached('car_transmission_name'),
+            'car_condition'             => CarCondition::allCached('car_condition_name'),
+            'car_modification'          => CarModification::allCached('car_modification_name'),
+        ];
         
-        return view('ad.publish', [
-            'c' => $this->category->getAllHierarhy(),
-            'l' => $this->location->getAllHierarhy(),
-            'at' => AdType::all(),
-            'ac' => AdCondition::all(),
-            'estate_construction_type' => EstateConstructionType::all(),
-            'estate_furnishing_type' => EstateFurnishingType::all(),
-            'estate_heating_type' => EstateHeatingType::all(),
-            'estate_type' => EstateType::all(),
-            'car_brand_id' => CarBrand::all(),
-            'car_model_id' => $car_model_id,
-            'car_engine_id' => CarEngine::all(),
-            'car_transmission_id' => CarTransmission::all(),
-            'car_condition_id' => CarCondition::all(),
-            'car_modification_id' => CarModification::all(),
-            'user' => $user
-        ]);
+        return view('ad.publish', $view_params);
     }
     
     public function postPublish(Request $request)
     {
+        //common validation rules
         $rules = [
-            'ad_title' => 'required|max:255',
-            'category_id' => 'required|integer|not_in:0',
-            'ad_description' => 'required|min:50',
-            'type_id' => 'required|integer|not_in:0',
-            'ad_image' => 'require_one_of_array',
-            'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
-            'location_id' => 'required|integer|not_in:0',
+            'ad_title'          => 'required|max:255',
+            'category_id'       => 'required|integer|not_in:0',
+            'ad_description'    => 'required|min:' . config('dc.ad_description_min_lenght'),
+            'type_id'           => 'required|integer|not_in:0',
+            'ad_image.*'        => 'mimes:jpeg,bmp,png|max:' . config('dc.ad_image_max_size'),
+            'location_id'       => 'required|integer|not_in:0',
             'ad_puslisher_name' => 'required|string|max:255',
-            'ad_email' => 'required|email|max:255',
-            'policy_agree' => 'required',
+            'ad_email'          => 'required|email|max:255',
+            'policy_agree'      => 'required',
         ];
 
+        if(config('dc.require_ad_image')){
+            $rules['ad_image'] = 'require_one_of_array';
+        }
+
         $messages = [
-            'require_one_of_array' => 'You need to upload at least one ad pic.',
+            'require_one_of_array' => trans('publish_edit.You need to upload at least one ad pic.'),
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -815,19 +849,19 @@ class AdController extends Controller
 
                 //send activation mail
                 Mail::send('emails.activation', ['user' => $user, 'password' => $password], function ($m) use ($user) {
-                    $m->from('test@mylove.bg', 'dclassifieds activation');
-                    $m->to($user->email)->subject('Activate your account!');
+                    $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+                    $m->to($user->email)->subject(trans('publish_edit.Activate your account!'));
                 });
             }
             $current_user_id = $user->user_id;
         }
 
-        //fill aditional fields
-        $ad_data['user_id'] = $current_user_id;
-        $ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
-        $ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
-        $ad_data['ad_ip'] = Util::getRemoteAddress();
-        $ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
+        //fill additional fields
+        $ad_data['user_id']             = $current_user_id;
+        $ad_data['ad_publish_date']     = date('Y-m-d H:i:s');
+        $ad_data['ad_valid_until']      = date('Y-m-d', mktime(null, null, null, date('m'), date('d')+config('dc.ad_valid_period_in_days'), date('Y')));
+        $ad_data['ad_ip']               = Util::getRemoteAddress();
+        $ad_data['ad_description']      = Util::nl2br(strip_tags($ad_data['nad_descriptio']));
 
         switch ($ad_data['category_type']){
             case 1:
@@ -906,18 +940,20 @@ class AdController extends Controller
 
         //send info and activation mail
         Mail::send('emails.ad_activation', ['user' => $user, 'ad' => $ad], function ($m) use ($user){
-            $m->from('test@mylove.bg', 'dclassifieds ad activation');
-            $m->to($user->email)->subject('Activate your ad!');
+            $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+            $m->to($user->email)->subject(trans('publish_edit.Activate your ad!'));
         });
 
         //send control mail
-        Mail::send('emails.control_ad_activation', ['user' => $user, 'ad' => $ad], function ($m){
-            $m->from('test@mylove.bg', '[CONTROL] dclassifieds');
-            $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds new ad');
-        });
+        if(config('dc.enable_control_mails')) {
+            Mail::send('emails.control_ad_activation', ['user' => $user, 'ad' => $ad], function ($m) {
+                $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+                $m->to(config('dc.control_mail'))->subject(config('dc.control_mail_subject'));
+            });
+        }
 
         //set flash message and return
-        session()->flash('message', 'Your ad is in moderation mode, please activate it.');
+        session()->flash('message', trans('publish_edit.Your ad is in moderation mode, please activate it.'));
         return redirect()->back();
     }
     
@@ -1209,7 +1245,7 @@ class AdController extends Controller
         return redirect(url('myads'));
     }
     
-    public function edit(Request $request)
+    public function getAdEdit(Request $request)
     {
         //get ad id
         $ad_id = $request->ad_id;

@@ -52,9 +52,9 @@
                                 <div class="ribbon"><span>PROMO</span></div>
                             @endif
                             @if(!empty($ad_detail->ad_pic))
-                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
+                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
                             @else
-                                <img src="" class="img-responsive">
+                                <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim($ad_detail->email)) . '?s=1000&d=identicon' }}" class="img-responsive">
                             @endif
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                     @endif
 
                     @if(!empty($ad_detail->estate_sq_m))
-                        <div class="col-md-6"><span class="text-muted">{{ trans('detail.Estate sq. m.') }}:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_sq_m}}</strong></span></div>
+                        <div class="col-md-6"><span class="text-muted">{{ trans('detail.Estate sq. m.') }}:</span> <span class="text-primary"><strong>{{ $ad_detail->estate_sq_m}}{{ config('dc.site_metric_system') }}</strong></span></div>
                     @endif
 
                     @if(!empty($ad_detail->estate_year))

@@ -9,10 +9,10 @@ use DB;
 
 class Pay extends Model
 {
-    const PAY_TYPE_MOBIO = 1; //Mobio SMS Pay
-    const PAY_TYPE_FORTUMO = 2; //Fortumo SMS Pay
-    const PAY_TYPE_PAYPAL = 3; //Paypal Standard Pay
-    const PAY_TYPE_STRIPE = 4; //Stripe
+    const PAY_TYPE_MOBIO    = 1; //Mobio SMS Pay
+    const PAY_TYPE_FORTUMO  = 2; //Fortumo SMS Pay
+    const PAY_TYPE_PAYPAL   = 3; //Paypal Standard Pay
+    const PAY_TYPE_STRIPE   = 4; //Stripe
 
     protected $table        = 'pay';
     protected $primaryKey   = 'pay_id';
@@ -22,4 +22,36 @@ class Pay extends Model
         'pay_secret_key', 'pay_publish_key'
     ];
     public $timestamps      = false;
+
+    public function getList($_where = [], $_order = [])
+    {
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        $ret = Cache::get($cache_key, new Collection());
+        if($ret->isEmpty()) {
+            $q = $this->newQuery();
+
+            if(!empty($_where)){
+                foreach ($_where as $k => $v){
+                    if(is_array($v)){
+                        $q->where($k, $v[0], $v[1]);
+                    } else {
+                        $q->where($k, $v);
+                    }
+                }
+            }
+
+            if(!empty($_order)){
+                foreach($_order as $k => $v){
+                    $q->orderBy($k, $v);
+                }
+            }
+
+            $res = $q->get();
+            if(!$res->isEmpty()){
+                $ret = $res;
+                Cache::put($cache_key, $ret, config('dc.cache_expire'));
+            }
+        }
+        return $ret;
+    }
 }

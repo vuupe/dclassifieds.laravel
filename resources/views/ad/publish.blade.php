@@ -1,5 +1,11 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -35,10 +41,15 @@
                     <div class="form-group required {{ $errors->has('ad_title') ? ' has-error' : '' }}">
                         <label for="ad_title" class="col-md-4 control-label">{{ trans('publish_edit.Ad Title') }}</label>
                         <div class="col-md-5">
-                            <input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ old('ad_title') }}" maxlength="255"/>
+                            <input type="text" class="form-control" id="ad_title" name="ad_title" value="{{ old('ad_title') }}" maxlength="255" />
                             @if ($errors->has('ad_title'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('ad_title') }}</strong>
+                                </span>
+                            @endif
+                            @if(trans('publish_edit.Write the most descriptive title'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Write the most descriptive title') !!}
                                 </span>
                             @endif
                         </div>
@@ -64,6 +75,11 @@
                                     <strong>{{ $errors->first('category_id') }}</strong>
                                 </span>
                             @endif
+                            @if(trans('publish_edit.Choose the most appropriate category'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Choose the most appropriate category') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -74,6 +90,11 @@
                             @if ($errors->has('ad_description'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('ad_description') }}</strong>
+                                </span>
+                            @endif
+                            @if(trans('publish_edit.Write the most descriptive description'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Write the most descriptive description') !!}
                                 </span>
                             @endif
                         </div>
@@ -89,10 +110,13 @@
                             <div class="col-md-5">
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ old('price_radio') == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
-                                    <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ old('ad_price_type_1') }}" />
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ old('ad_price_type_1') }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    </div>
                                 </div>
+                                <div class="clearfix"></div>
                                 @if ($errors->has('ad_price_type_1'))
-                                    <div class="clearfix"></div>
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_price_type_1') }}</strong>
                                     </span>
@@ -105,6 +129,11 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="price_radio" id="price_radio" value="2" {{ old('price_radio') == 2 ? 'checked' : '' }}> {{ trans('publish_edit.Free') }}
                                 </label>
+                                @if(trans('publish_edit.Select a price for your ad'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Select a price for your ad') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -128,6 +157,11 @@
                                         <strong>{{ $errors->first('condition_id_type_1') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.In what condition is your item'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.In what condition is your item') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -141,10 +175,18 @@
                         <div class="form-group required {{ $errors->has('ad_price_type_2') ? ' has-error' : '' }}">
                             <label for="ad_price_type_2" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
-                                <div><input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ old('ad_price_type_2') }}" /></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ old('ad_price_type_2') }}" />
+                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                </div>
                                 @if ($errors->has('ad_price_type_2'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_price_type_2') }}</strong>
+                                    </span>
+                                @endif
+                                @if(trans('publish_edit.Enter Price'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Price') !!}
                                     </span>
                                 @endif
                             </div>
@@ -170,16 +212,29 @@
                                         <strong>{{ $errors->first('estate_type_id') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Estate Type'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Estate Type') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group required {{ $errors->has('estate_sq_m') ? ' has-error' : '' }}">
                             <label for="estate_sq_m" class="col-md-4 control-label">{{ trans('publish_edit.Estate sq. m.') }}</label>
                             <div class="col-md-5">
-                                <input type="text" class="form-control" id="estate_sq_m" name="estate_sq_m" value="{{ old('estate_sq_m') }}" />
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="estate_sq_m" name="estate_sq_m" value="{{ old('estate_sq_m') }}" />
+                                    <div class="input-group-addon">{{ config('dc.site_metric_system') }}</div>
+                                </div>
                                 @if ($errors->has('estate_sq_m'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('estate_sq_m') }}</strong>
+                                    </span>
+                                @endif
+                                @if(trans('publish_edit.Enter Estate sq. m.'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Estate sq. m.') !!}
                                     </span>
                                 @endif
                             </div>
@@ -189,6 +244,11 @@
                             <label for="estate_year" class="col-md-4 control-label">{{ trans('publish_edit.Estate year of construction') }}</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" id="estate_year" name="estate_year" value="{{ old('estate_year') }}" />
+                                @if(trans('publish_edit.Enter Estate year'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Estate year') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -207,6 +267,11 @@
                                     @endforeach
                                 </select>
                                 @endif
+                                @if(trans('publish_edit.Enter Estate Construction Type'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Estate Construction Type') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -214,6 +279,11 @@
                             <label for="estate_floor" class="col-md-4 control-label">{{ trans('publish_edit.Estate floor') }}</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" id="estate_floor" name="estate_floor" value="{{ old('estate_floor') }}" />
+                                @if(trans('publish_edit.Enter Estate Floor'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Estate Floor') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -221,6 +291,11 @@
                             <label for="estate_num_floors_in_building" class="col-md-4 control-label">{{ trans('publish_edit.Num Floors in Building') }}</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" id="estate_num_floors_in_building" name="estate_num_floors_in_building" value="{{ old('estate_num_floors_in_building') }}" />
+                                @if(trans('publish_edit.Enter num floors in building'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter num floors in building') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -239,6 +314,11 @@
                                     @endforeach
                                 </select>
                                 @endif
+                                @if(trans('publish_edit.Enter Estate Heating'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Estate Heating') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -256,6 +336,11 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                @endif
+                                @if(trans('publish_edit.Enter Estate Furnishing'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Estate Furnishing') !!}
+                                    </span>
                                 @endif
                             </div>
                         </div>
@@ -280,6 +365,11 @@
                                         <strong>{{ $errors->first('condition_id_type_2') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Estate Condition'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Estate Condition') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -293,10 +383,10 @@
                         <div class="form-group required {{ $errors->has('car_brand_id') ? ' has-error' : '' }}">
                             <label for="car_brand_id" class="col-md-4 control-label">{{ trans('publish_edit.Car Brand') }}</label>
                             <div class="col-md-5">
-                                @if(!$car_brand_id->isEmpty())
+                                @if(!$car_brand->isEmpty())
                                 <select name="car_brand_id" id="car_brand_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Brand') }}">
                                     <option value="0"></option>
-                                    @foreach ($car_brand_id as $k => $v)
+                                    @foreach ($car_brand as $k => $v)
                                         @if(old('car_brand_id') == $v->car_brand_id)
                                             <option value="{{ $v->car_brand_id }}" selected>{{ $v->car_brand_name }}</option>
                                         @else
@@ -310,6 +400,11 @@
                                         <strong>{{ $errors->first('car_brand_id') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Car Brand'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Car Brand') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -317,9 +412,9 @@
                             <label for="car_model_id" class="col-md-4 control-label">{{ trans('publish_edit.Car Model') }}</label>
                             <div class="col-md-5">
                                 <div id="car_model_loader"><img src="{{ asset('images/small_loader.gif') }}" /></div>
-                                @if(isset($car_model_id) && !empty($car_model_id))
+                                @if(isset($car_model) && !empty($car_model))
                                     <select name="car_model_id" id="car_model_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Model') }}">
-                                        @foreach ($car_model_id as $k => $v)
+                                        @foreach ($car_model as $k => $v)
                                             @if(old('car_model_id') == $k)
                                                 <option value="{{ $k }}" selected>{{ $v }}</option>
                                             @else
@@ -337,16 +432,21 @@
                                         <strong>{{ $errors->first('car_model_id') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Car Model'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Car Model') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group required {{ $errors->has('car_engine_id') ? ' has-error' : '' }}">
                             <label for="car_engine_id" class="col-md-4 control-label">{{ trans('publish_edit.Car Engine') }}</label>
                             <div class="col-md-5">
-                                @if(!$car_engine_id->isEmpty())
+                                @if(!$car_engine->isEmpty())
                                 <select name="car_engine_id" id="car_engine_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Engine') }}">
                                     <option value="0"></option>
-                                    @foreach ($car_engine_id as $k => $v)
+                                    @foreach ($car_engine as $k => $v)
                                         @if(old('car_engine_id') == $v->car_engine_id)
                                             <option value="{{ $v->car_engine_id }}" selected>{{ $v->car_engine_name }}</option>
                                         @else
@@ -360,16 +460,21 @@
                                         <strong>{{ $errors->first('car_engine_id') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Car Engine'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Car Engine') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group required {{ $errors->has('car_transmission_id') ? ' has-error' : '' }}">
                             <label for="car_transmission_id" class="col-md-4 control-label">{{ trans('publish_edit.Car Transmission') }}</label>
                             <div class="col-md-5">
-                                @if(!$car_transmission_id->isEmpty())
+                                @if(!$car_transmission->isEmpty())
                                 <select name="car_transmission_id" id="car_transmission_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Tranmission') }}">
                                     <option value="0"></option>
-                                    @foreach ($car_transmission_id as $k => $v)
+                                    @foreach ($car_transmission as $k => $v)
                                         @if(old('car_transmission_id') == $v->car_transmission_id)
                                             <option value="{{ $v->car_transmission_id }}" selected>{{ $v->car_transmission_name }}</option>
                                         @else
@@ -383,16 +488,21 @@
                                         <strong>{{ $errors->first('car_transmission_id') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Car Transmission'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Car Transmission') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group required {{ $errors->has('car_modification_id') ? ' has-error' : '' }}">
                             <label for="car_transmission_id" class="col-md-4 control-label">{{ trans('publish_edit.Car Modification') }}</label>
                             <div class="col-md-5">
-                                @if(!$car_modification_id->isEmpty())
+                                @if(!$car_modification->isEmpty())
                                 <select name="car_modification_id" id="car_modification_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Modification') }}">
                                     <option value="0"></option>
-                                    @foreach ($car_modification_id as $k => $v)
+                                    @foreach ($car_modification as $k => $v)
                                         @if(old('car_modification_id') == $v->car_modification_id)
                                             <option value="{{ $v->car_modification_id }}" selected>{{ $v->car_modification_name }}</option>
                                         @else
@@ -404,6 +514,11 @@
                                 @if ($errors->has('car_modification_id'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('car_modification_id') }}</strong>
+                                    </span>
+                                @endif
+                                @if(trans('publish_edit.Choose Car Modification'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Car Modification') !!}
                                     </span>
                                 @endif
                             </div>
@@ -418,6 +533,11 @@
                                         <strong>{{ $errors->first('car_year') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Enter Car Year'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Car Year') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -428,6 +548,11 @@
                                 @if ($errors->has('car_kilometeres'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('car_kilometeres') }}</strong>
+                                    </span>
+                                @endif
+                                @if(trans('publish_edit.Enter Car Kilometers'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Car Kilometers') !!}
                                     </span>
                                 @endif
                             </div>
@@ -448,10 +573,14 @@
                                     @endforeach
                                 </select>
                                 @endif
-
                                 @if ($errors->has('condition_id_type_3'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('condition_id_type_3') }}</strong>
+                                    </span>
+                                @endif
+                                @if(trans('publish_edit.Choose Condition'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Condition') !!}
                                     </span>
                                 @endif
                             </div>
@@ -460,10 +589,10 @@
                         <div class="form-group required {{ $errors->has('car_condition_id') ? ' has-error' : '' }}">
                             <label for="car_condition_id" class="col-md-4 control-label">{{ trans('publish_edit.Car Condition') }}</label>
                             <div class="col-md-5">
-                                @if(!$car_condition_id->isEmpty())
+                                @if(!$car_condition->isEmpty())
                                 <select name="car_condition_id" id="car_condition_id" class="form-control chosen_select" data-placeholder="{{ trans('publish_edit.Select Car Condition') }}">
                                     <option value="0"></option>
-                                    @foreach ($car_condition_id as $k => $v)
+                                    @foreach ($car_condition as $k => $v)
                                         @if(old('car_condition_id') == $v->car_condition_id)
                                             <option value="{{ $v->car_condition_id }}" selected>{{ $v->car_condition_name }}</option>
                                         @else
@@ -477,16 +606,29 @@
                                         <strong>{{ $errors->first('car_condition_id') }}</strong>
                                     </span>
                                 @endif
+                                @if(trans('publish_edit.Choose Car Condition'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Choose Car Condition') !!}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group required {{ $errors->has('ad_price_type_3') ? ' has-error' : '' }}">
                             <label for="ad_price_type_3" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
-                                <div><input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ old('ad_price_type_3') }}" /></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ old('ad_price_type_3') }}" />
+                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                </div>
                                 @if ($errors->has('ad_price_type_3'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('ad_price_type_3') }}</strong>
+                                    </span>
+                                @endif
+                                @if(trans('publish_edit.Enter Price'))
+                                    <span class="help-block">
+                                        {!! trans('publish_edit.Enter Price') !!}
                                     </span>
                                 @endif
                             </div>
@@ -516,6 +658,11 @@
                                     <strong>{{ $errors->first('type_id') }}</strong>
                                 </span>
                             @endif
+                            @if(trans('publish_edit.Are you private or business seller'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Are you private or business seller') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -532,8 +679,13 @@
                     if($errors->has('ad_image')){
                         $file_has_error = 1;
                     }
+
+                    $required = '';
+                    if(config('dc.require_ad_image')){
+                        $required = 'required';
+                    }
                     ?>
-                    <div class="form-group {{ $file_has_error ? ' has-error' : '' }}">
+                    <div class="form-group {{ $required }} {{ $file_has_error ? ' has-error' : '' }}">
                         <label for="ad_image" class="col-md-4 control-label">{{ trans('publish_edit.Pics') }}</label>
                         <div class="col-md-5">
                             @for($i = 1; $i <= $num_image; $i++)
@@ -549,6 +701,11 @@
                             @if ($errors->has('ad_image'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('ad_image') }}</strong>
+                                </span>
+                            @endif
+                            @if(trans('publish_edit.Choose the best picture for your ad'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Choose the best picture for your ad') !!}
                                 </span>
                             @endif
                         </div>
@@ -576,6 +733,11 @@
                                     <strong>{{ $errors->first('location_id') }}</strong>
                                 </span>
                             @endif
+                            @if(trans('publish_edit.Choose your Location'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Choose your Location') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -589,6 +751,11 @@
                                 </span>
                             </div>
                             <input type="hidden" class="form-control" id="ad_lat_lng" name="ad_lat_lng" value="{{ Util::getOldOrModelValue('ad_lat_lng', $user, 'user_lat_lng') }}" >
+                            @if(trans('publish_edit.Choose your Address'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Choose your Address') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -599,6 +766,11 @@
                             @if ($errors->has('ad_puslisher_name'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('ad_puslisher_name') }}</strong>
+                                </span>
+                            @endif
+                            @if(trans('publish_edit.Enter your name'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Enter your name') !!}
                                 </span>
                             @endif
                         </div>
@@ -613,6 +785,11 @@
                                     <strong>{{ $errors->first('ad_email') }}</strong>
                                 </span>
                             @endif
+                            @if(trans('publish_edit.Enter contact mail'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Enter contact mail') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -620,6 +797,11 @@
                         <label for="ad_phone" class="col-md-4 control-label">{{ trans('publish_edit.Phone') }}</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" id="ad_phone" name="ad_phone" value="{{ Util::getOldOrModelValue('ad_phone', $user, 'user_phone') }}" >
+                            @if(trans('publish_edit.Enter contact phone'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Enter contact phone') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -627,31 +809,83 @@
                         <label for="ad_skype" class="col-md-4 control-label">{{ trans('publish_edit.Skype') }}</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" id="ad_skype" name="ad_skype" value="{{ Util::getOldOrModelValue('ad_skype', $user, 'user_phone') }}" >
+                            @if(trans('publish_edit.Enter contact skype'))
+                                <span class="help-block">
+                                    {!! trans('publish_edit.Enter contact skype') !!}
+                                </span>
+                            @endif
                         </div>
                     </div>
 
+                    @if(config('dc.enable_link_in_ad'))
                     <div class="form-group">
                         <label for="ad_link" class="col-md-4 control-label">{{ trans('publish_edit.Web Site') }}</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" id="ad_link" name="ad_link" value="{{ Util::getOldOrModelValue('ad_link', $user, 'user_site') }}" >
-                            <span id="helpBlock" class="help-block">{{ trans('publish_edit.Insert link to your site in this format: http://www.site.com') }}</span>
+                            @if(trans('publish_edit.Insert link to your site in this format: http://www.site.com'))
+                                <span id="helpBlock" class="help-block">
+                                    {{ trans('publish_edit.Insert link to your site in this format: http://www.site.com') }}
+                                </span>
+                            @endif
                         </div>
                     </div>
+                    @endif
 
+                    @if(config('dc.enable_video_in_ad'))
                     <div class="form-group">
                         <label for="ad_video" class="col-md-4 control-label">{{ trans('publish_edit.Video') }}</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" id="ad_video" name="ad_video" value="{{ old('ad_video') }}" >
-                            <span id="helpBlock" class="help-block">{{ trans('publish_edit.Insert link to youtube.com video') }}</span>
+                            @if(trans('publish_edit.Insert link to youtube.com video'))
+                                <span id="helpBlock" class="help-block">
+                                    {{ trans('publish_edit.Insert link to youtube.com video') }}
+                                </span>
+                            @endif
                         </div>
                     </div>
+                    @endif
+
+                    @if(config('dc.enable_promo_ads') && !$payment_methods->isEmpty())
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">{{ trans('publish_edit.Choose Ad Promo Type') }}</label>
+
+                            <div class="col-md-8">
+                                <?
+                                $checked = 0;
+                                if(old('ad_type_pay')){
+                                    $checked = old('ad_type_pay');
+                                }
+                                ?>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="ad_type_pay" value="0" {{ (0 == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Free Ad') }}
+                                    </label>
+                                </div>
+
+                                @foreach($payment_methods as $k => $v)
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == $checked) ? 'checked' : '' }}> Promo Ad for {{ $v->pay_sum . config('dc.site_price_sign') }} for {{$v->pay_promo_period}} Days, pay with {{ $v->pay_name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+
+                                @if(trans('publish_edit.Choose Ad Promo Type'))
+                                    <span id="helpBlock" class="help-block">
+                                        {{ trans('publish_edit.Choose Ad Promo Type') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
 
                     <div class="form-group required {{ $errors->has('policy_agree') ? ' has-error' : '' }}">
                         <label for="policy_agree" class="col-md-4 control-label"></label>
                         <div class="col-md-8">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="policy_agree" {{ old('policy_agree') ? 'checked' : '' }}> {{ trans('publish_edit.I agree with') }} <a href="">{{ trans('publish_edit."Privacy Policy"') }}</a>
+                                    <input type="checkbox" name="policy_agree" {{ old('policy_agree') ? 'checked' : '' }}> {{ trans('publish_edit.I agree with') }} <a href="{{ config('dc.privacy_policy_link') }}" target="_blank">{{ trans('publish_edit."Privacy Policy"') }}</a>
                                 </label>
                                 @if ($errors->has('policy_agree'))
                                     <span class="help-block">
