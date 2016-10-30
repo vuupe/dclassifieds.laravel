@@ -39,7 +39,11 @@ class PaypalPayController extends Controller
             $paypalData['action'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         }
 
-        return view('pay.paypal', ['paypalData' => $paypalData]);
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('payment_paypal.Payment via Paypal');
+
+        return view('pay.paypal', ['paypalData' => $paypalData, 'title' => $title]);
     }
 
     public function paypalcallback(Request $request)
@@ -112,6 +116,7 @@ class PaypalPayController extends Controller
                                     //update ad
                                     $adInfo->ad_promo = 1;
                                     $adInfo->ad_promo_until = $promoUntilDate;
+                                    $adInfo->ad_active = 1;
                                     $adInfo->save();
 
                                     //add money to wallet

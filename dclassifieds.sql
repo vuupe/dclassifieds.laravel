@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 24, 2016 at 07:46 PM
+-- Generation Time: Oct 30, 2016 at 10:01 PM
 -- Server version: 5.1.42
 -- PHP Version: 5.2.12
 
@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS `ad` (
   `car_condition_id` int(11) DEFAULT '0',
   `car_year` int(11) DEFAULT '0',
   `car_kilometeres` int(11) DEFAULT '0',
+  `clothes_size_id` int(11) DEFAULT '0',
+  `shoes_size_id` int(11) DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ad_id`),
@@ -78,20 +80,29 @@ CREATE TABLE IF NOT EXISTS `ad` (
   KEY `location_id` (`location_id`),
   KEY `ad_description_hash` (`ad_description_hash`),
   FULLTEXT KEY `ad_title` (`ad_title`,`ad_description`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `ad`
 --
 
-INSERT INTO `ad` (`ad_id`, `user_id`, `category_id`, `location_id`, `type_id`, `condition_id`, `ad_email`, `ad_publish_date`, `ad_valid_until`, `ad_active`, `ad_ip`, `ad_price`, `ad_free`, `ad_phone`, `ad_title`, `ad_description`, `ad_description_hash`, `ad_puslisher_name`, `code`, `ad_promo`, `ad_promo_until`, `ad_link`, `ad_video`, `ad_lat_lng`, `ad_skype`, `ad_address`, `ad_pic`, `ad_view`, `estate_type_id`, `estate_sq_m`, `estate_year`, `estate_construction_type_id`, `estate_floor`, `estate_num_floors_in_building`, `estate_heating_type_id`, `estate_furnishing_type_id`, `car_brand_id`, `car_model_id`, `car_engine_id`, `car_transmission_id`, `car_modification_id`, `car_condition_id`, `car_year`, `car_kilometeres`, `created_at`, `updated_at`) VALUES
-(1, 1, 15, 7, 1, 0, 'dinko359@gmail.com', '2016-06-05 18:32:30', '2016-07-05', 1, '127.0.0.1', 6000.00, 0, '', 'audi a6 kombi', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate vulputate efficitur. Curabitur lacinia id orci id hendrerit. Nam volutpat interdum sapien ut porttitor. Curabitur a blandit magna, eu viverra dolor. Donec eu orci dolor. Proin imperdiet turpis vitae sollicitudin euismod. Curabitur consectetur sapien nec nibh vehicula, mattis tempor nisi blandit. Quisque rutrum dui nisl, ac dapibus lorem dignissim nec. Proin eget lectus consequat, consequat ligula quis, gravida nisi. Nam placerat, felis vitae tempus cursus, lorem tellus facilisis purus, a facilisis tellus dolor et massa. In ultrices convallis risus, et imperdiet metus pellentesque vel. Duis pharetra lacus eu purus pellentesque mattis. Maecenas sit amet dui a turpis tincidunt faucibus. Aenean placerat est diam, sed euismod justo condimentum id. Duis sit amet quam at urna sagittis accumsan.\r\n\r\nAliquam erat volutpat. Mauris tempor metus nec felis aliquam, vitae semper nisi lobortis. Maecenas sem diam, pharetra fringilla aliquam a, semper sit amet velit. Nullam enim ex, auctor ullamcorper tellus id, vestibulum vestibulum nunc. Donec ante ex, dignissim ac dapibus vitae, fringilla quis ligula. Morbi eget dapibus diam, vitae volutpat lacus. Nullam elementum libero faucibus suscipit facilisis. Mauris posuere lorem lectus, at tempor orci viverra id. Sed pretium convallis elit id pharetra. Nullam malesuada erat nec imperdiet posuere. Quisque suscipit metus sit amet nunc rhoncus, mattis pretium sapien aliquet. Fusce condimentum diam in odio ultrices aliquet. Sed commodo ornare diam nec aliquam. Pellentesque ac viverra ligula, ac auctor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nMauris convallis malesuada metus nec scelerisque. Aliquam congue ac elit et condimentum. Nullam velit erat, malesuada a lacus quis, ultrices venenatis tortor. Praesent sodales quis augue sit amet scelerisque. Quisque iaculis, elit in porttitor rutrum, sem velit efficitur neque, id viverra nibh urna et erat. Aenean id metus finibus, sagittis ante sit amet, pretium libero. Etiam elementum ipsum ac dolor tempus, a efficitur ligula sodales. Nunc condimentum massa vitae nulla finibus, vehicula cursus arcu interdum. Curabitur pulvinar tincidunt urna, vel faucibus odio tincidunt at. ', '263b60d9715e8a90541b1ced03b5702d', 'Ivan Ivanov', 'KUwDgm3fUgjAwjacOLLZeOCjBsGOIC', 1, '2016-10-17', NULL, NULL, NULL, '', NULL, '1_111aa13e56468dfeef73451725fea2ce.jpg', 116, 0, 0, 0, 0, 0, 0, 0, 0, 6, 56, 2, 2, 0, 1, 2003, 201000, '2016-10-23 10:03:32', '2016-10-23 07:03:32'),
-(2, 1, 23, 7, 1, 1, 'dinko359@gmail.com', '2016-04-09 17:52:14', '2016-05-09', 1, '127.0.0.1', 0.00, 1, 'phone', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan congue cursus. Ut facilisis imperdiet nibh id hendrerit. Donec luctus tincidunt faucibus. Quisque gravida mi sit amet eros malesuada, id gravida libero suscipit. Sed nec lacus ex. Nulla facilisi. Proin efficitur diam ut congue sagittis. Suspendisse hendrerit eros id nisl consectetur tempor. Integer interdum quam ut ligula condimentum, at iaculis ligula tincidunt. In finibus maximus tortor eu elementum. Vivamus mollis leo elit, ut tristique mauris ultrices at.\r\n\r\nQuisque dapibus augue ac erat porttitor imperdiet. Aenean eu ipsum eros. Ut aliquet tincidunt urna. Morbi convallis, libero at laoreet egestas, est tortor ultricies felis, et tristique leo nulla vel nisi. Proin eu sapien vel justo pretium iaculis eu ac dui. Phasellus molestie dignissim lectus, at iaculis orci iaculis non. Aliquam tempus odio quis mauris bibendum eleifend. Vivamus auctor fermentum tempor. Suspendisse justo orci, euismod sit amet molestie vulputate, dignissim ut erat. Cras metus purus, varius at nisi vitae, congue mattis nisl. Cras elementum euismod odio id luctus. Maecenas non sem vitae sapien bibendum porttitor eu nec turpis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec a lobortis ligula. Ut urna neque, euismod quis auctor nec, pellentesque eget nisi.\r\n\r\nMauris tincidunt lectus ut diam porta pellentesque. Praesent pretium auctor sapien nec efficitur. Nulla facilisi. Pellentesque ut libero id ipsum euismod cursus. Praesent scelerisque porttitor erat tincidunt efficitur. Proin a nulla ligula. Praesent congue at ante sit amet volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque in bibendum nisl. Donec id tempor massa. Sed efficitur augue interdum tellus semper, a tempor eros sodales. Duis ac rhoncus justo. Nullam quis mattis purus. Etiam euismod enim in tristique aliquam. ', '64e6d55b6f47ca9d07aa9c0800b66c5f', 'Ivan Ivanov', '9uwSzi6Np3wFVisdqo3dLrcwRYePAf', 0, NULL, 'http://www.google.com', 'https://www.youtube.com/watch?v=10pmPiK8pi8&list=FLGllc6M9nVNtIgPZMFNdQWA&index=1', '(42.6745345, 23.31851329999995)', 'skype', 'ul. "Nikolay Liliev" 34, 1421 Sofia, Bulgaria', '2_c80a8414e4bbdc4477a8546a837dba81.jpg', 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-19 14:19:31', '2016-10-19 11:19:31'),
-(3, 1, 23, 5, 1, 1, 'dinko359@gmail.com', '2016-04-09 19:45:47', '2016-05-09', 1, '127.0.0.1', 5000000.00, 0, '', 'asdasdasd', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis ullamcorper lacus eget lacinia. Morbi feugiat neque ut ultricies laoreet. Donec pulvinar arcu vel augue maximus, feugiat cursus lorem feugiat. Morbi ac pellentesque sapien. In eu lacinia felis. Donec non enim a felis laoreet malesuada eget in tellus. Vestibulum congue est ac enim dapibus mollis. Nullam sed nulla id nisl varius faucibus id ac nisi. Vestibulum malesuada rhoncus dignissim. In efficitur nec augue nec porta. ', '914736644a755db69a7ef813c98a2d1e', 'asdasd', 'EwTxqMUjSeEYyytOIcnvjNIFxGEmlt', 0, NULL, '', '', '', '', '', '3_15627bac625951749154c3eec2147e92.jpg', 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-23 10:07:42', '2016-10-23 07:07:42'),
-(6, 1, 13, 5, 1, 0, 'asdasd@asdasd.com', '2016-04-10 09:45:44', '2016-05-10', 1, '127.0.0.1', 47323.00, 0, '', 'Двустаен апартамент', 'Луксозен клас апартамент в центъра на квартал Кръстова Вада в жилищна сграда в непосредствена близост до Парадайз МОЛ с невероятна гледка към Витоша.Сградата е със собствено ограждение и видео контрол.Архитектурата е решена в съвременен стил и създава усещането за модерна визия. В проекта са вложени висококачествени материали, като тухли „Винербергер Поротерм“ по австрийски патент, луксозни асансьори на един от световните лидери в бранша и висок клас алуминиева дограма с прекъснат термомост.Апартамента е с краен срок на завършване 1.05.2016 год.В сградата се предлагат двустайни и тристайни апартаменти от 47323-до 88700 лв със ДДС , като някои от тях могат да се обединят за по големи пространства.Има възможност за закупуване на гаражи и паркоместа. ', 'e5caed09210c8a86669c8b1d66f90c10', 'asdasd', 'gIjPZSght8b6EdMtCXyH9Bp6wiEs0F', 0, NULL, '', '', '', '', '', '6_2d2062827a2ef704895a9020e4839b8f.jpg', 21, 4, 58, 0, 1, 2, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-23 10:04:30', '2016-10-23 07:04:30'),
-(7, 1, 13, 6, 1, 0, 'dinko359@gmail.com', '2016-06-09 15:47:23', '2016-07-09', 1, '127.0.0.1', 4450012.00, 0, '0899999999', 'Двустаен апартамент2', 'НОВА оферта на ул.''Преки път''. Луксозна сграда с Акт 16 от 2014 г. Продажба апартамент състоящ се от слънчева и функционална дневна с кухн. бокс, просторна спалня и санитарен възел. <br /><br />Жилището е с монтирани интериорни врати, РVС дограма, газов котел, алуминиеви радиатори. <br /><br />Стени - щпакловка и латекс, под - циментова замазка. Изложение - югозапад. Към апартамента са прилежащи мазе, както и идеални части от двора с регламентирано парко място. Сградата е газифицирана и оборудвана с хидравличен асансьор. Продава се и тристаен апартамент с площ от 103 кв.м. за Е 82 500. При желание може да се довърши до ключ. За прегледност на скицата ап.2. ', 'ebd86214936e6388cfa8c9e29f2a92f5', 'dinko georgiev', 'qco5EsBzNlXfaHlx2Xktx3jLnE766r', 0, NULL, '', '', '(51.4541617, -2.5879761999999573)', 'skype', 'East Tucker Street, Bristol, City of Bristol BS1 6FS, UK', '7_389cc50ae20a54dc0687f99626798078.jpg', 208, 4, 57, 2005, 1, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-23 10:04:14', '2016-10-23 07:04:14'),
-(9, 1, 19, 5, 1, 1, 'dinko359@gmail.com', '2016-06-22 19:39:26', '2016-07-22', 1, '127.0.0.1', 123.00, 0, '', 'test ad', 'Докато обществото гледа назад, икономиката и държавата ни не могат да тръгнат напред. 25 години спорим по едни и същи теми, които не могат да доведат до реално отражение в бъдещето ни. Правителствата водят политика на нулева приемственост, а без определяне на национална кауза няма как да продължим развитието си. Усеща се тежка липса на важен дебат, която се замаскира и замества от дребни махленски караници.<br /><br />Прочети още на: http://www.dnes.bg/politika/2016/06/21/sporim-za-gei-parada-a-nacionalna-kauza.306361<br /><br />', '8fdfe08686666e3e0b8a11376b310d21', 'Ivan Ivanov', 'iQLMaNkPjQenXd2RhPkCZ8JOJRtpCZ', 0, NULL, '', '', '', '', '', '9_f8809969d6f416a7f671b7f62286eac7.jpg', 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-23 10:06:20', '2016-10-23 07:06:20'),
-(12, 1, 13, 5, 1, 1, 'dinko359@gmail.com', '2016-07-14 18:05:33', '2016-08-14', 0, '166.166.166.166', 100.00, 0, 'phone1', 'asd', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'E3Xy3HqSXwdKsmeylLx5gksCvKlAop', 1, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '12_1d065a0fa7dcbf468bd756a348b7022c.jpg', 0, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-14 10:30:35', '2016-07-14 18:05:34');
+INSERT INTO `ad` (`ad_id`, `user_id`, `category_id`, `location_id`, `type_id`, `condition_id`, `ad_email`, `ad_publish_date`, `ad_valid_until`, `ad_active`, `ad_ip`, `ad_price`, `ad_free`, `ad_phone`, `ad_title`, `ad_description`, `ad_description_hash`, `ad_puslisher_name`, `code`, `ad_promo`, `ad_promo_until`, `ad_link`, `ad_video`, `ad_lat_lng`, `ad_skype`, `ad_address`, `ad_pic`, `ad_view`, `estate_type_id`, `estate_sq_m`, `estate_year`, `estate_construction_type_id`, `estate_floor`, `estate_num_floors_in_building`, `estate_heating_type_id`, `estate_furnishing_type_id`, `car_brand_id`, `car_model_id`, `car_engine_id`, `car_transmission_id`, `car_modification_id`, `car_condition_id`, `car_year`, `car_kilometeres`, `clothes_size_id`, `shoes_size_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 15, 7, 1, 0, 'dinko359@gmail.com', '2016-06-05 18:32:30', '2016-07-05', 1, '127.0.0.1', 6000.00, 0, '', 'audi a6 kombi', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate vulputate efficitur. Curabitur lacinia id orci id hendrerit. Nam volutpat interdum sapien ut porttitor. Curabitur a blandit magna, eu viverra dolor. Donec eu orci dolor. Proin imperdiet turpis vitae sollicitudin euismod. Curabitur consectetur sapien nec nibh vehicula, mattis tempor nisi blandit. Quisque rutrum dui nisl, ac dapibus lorem dignissim nec. Proin eget lectus consequat, consequat ligula quis, gravida nisi. Nam placerat, felis vitae tempus cursus, lorem tellus facilisis purus, a facilisis tellus dolor et massa. In ultrices convallis risus, et imperdiet metus pellentesque vel. Duis pharetra lacus eu purus pellentesque mattis. Maecenas sit amet dui a turpis tincidunt faucibus. Aenean placerat est diam, sed euismod justo condimentum id. Duis sit amet quam at urna sagittis accumsan.\r\n\r\nAliquam erat volutpat. Mauris tempor metus nec felis aliquam, vitae semper nisi lobortis. Maecenas sem diam, pharetra fringilla aliquam a, semper sit amet velit. Nullam enim ex, auctor ullamcorper tellus id, vestibulum vestibulum nunc. Donec ante ex, dignissim ac dapibus vitae, fringilla quis ligula. Morbi eget dapibus diam, vitae volutpat lacus. Nullam elementum libero faucibus suscipit facilisis. Mauris posuere lorem lectus, at tempor orci viverra id. Sed pretium convallis elit id pharetra. Nullam malesuada erat nec imperdiet posuere. Quisque suscipit metus sit amet nunc rhoncus, mattis pretium sapien aliquet. Fusce condimentum diam in odio ultrices aliquet. Sed commodo ornare diam nec aliquam. Pellentesque ac viverra ligula, ac auctor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nMauris convallis malesuada metus nec scelerisque. Aliquam congue ac elit et condimentum. Nullam velit erat, malesuada a lacus quis, ultrices venenatis tortor. Praesent sodales quis augue sit amet scelerisque. Quisque iaculis, elit in porttitor rutrum, sem velit efficitur neque, id viverra nibh urna et erat. Aenean id metus finibus, sagittis ante sit amet, pretium libero. Etiam elementum ipsum ac dolor tempus, a efficitur ligula sodales. Nunc condimentum massa vitae nulla finibus, vehicula cursus arcu interdum. Curabitur pulvinar tincidunt urna, vel faucibus odio tincidunt at. ', '263b60d9715e8a90541b1ced03b5702d', 'Ivan Ivanov', 'KUwDgm3fUgjAwjacOLLZeOCjBsGOIC', 1, '2016-10-17', NULL, NULL, NULL, '', NULL, '1_111aa13e56468dfeef73451725fea2ce.jpg', 117, 0, 0, 0, 0, 0, 0, 0, 0, 6, 56, 2, 2, 0, 1, 2003, 201000, 0, 0, '2016-10-28 18:32:55', '2016-10-28 15:32:55'),
+(2, 1, 23, 7, 1, 1, 'dinko359@gmail.com', '2016-04-09 17:52:14', '2016-05-09', 1, '127.0.0.1', 0.00, 1, 'phone', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan congue cursus. Ut facilisis imperdiet nibh id hendrerit. Donec luctus tincidunt faucibus. Quisque gravida mi sit amet eros malesuada, id gravida libero suscipit. Sed nec lacus ex. Nulla facilisi. Proin efficitur diam ut congue sagittis. Suspendisse hendrerit eros id nisl consectetur tempor. Integer interdum quam ut ligula condimentum, at iaculis ligula tincidunt. In finibus maximus tortor eu elementum. Vivamus mollis leo elit, ut tristique mauris ultrices at.\r\n\r\nQuisque dapibus augue ac erat porttitor imperdiet. Aenean eu ipsum eros. Ut aliquet tincidunt urna. Morbi convallis, libero at laoreet egestas, est tortor ultricies felis, et tristique leo nulla vel nisi. Proin eu sapien vel justo pretium iaculis eu ac dui. Phasellus molestie dignissim lectus, at iaculis orci iaculis non. Aliquam tempus odio quis mauris bibendum eleifend. Vivamus auctor fermentum tempor. Suspendisse justo orci, euismod sit amet molestie vulputate, dignissim ut erat. Cras metus purus, varius at nisi vitae, congue mattis nisl. Cras elementum euismod odio id luctus. Maecenas non sem vitae sapien bibendum porttitor eu nec turpis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec a lobortis ligula. Ut urna neque, euismod quis auctor nec, pellentesque eget nisi.\r\n\r\nMauris tincidunt lectus ut diam porta pellentesque. Praesent pretium auctor sapien nec efficitur. Nulla facilisi. Pellentesque ut libero id ipsum euismod cursus. Praesent scelerisque porttitor erat tincidunt efficitur. Proin a nulla ligula. Praesent congue at ante sit amet volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque in bibendum nisl. Donec id tempor massa. Sed efficitur augue interdum tellus semper, a tempor eros sodales. Duis ac rhoncus justo. Nullam quis mattis purus. Etiam euismod enim in tristique aliquam. ', '64e6d55b6f47ca9d07aa9c0800b66c5f', 'Ivan Ivanov', '9uwSzi6Np3wFVisdqo3dLrcwRYePAf', 0, NULL, 'http://www.google.com', 'https://www.youtube.com/watch?v=10pmPiK8pi8&list=FLGllc6M9nVNtIgPZMFNdQWA&index=1', '(42.6745345, 23.31851329999995)', 'skype', 'ul. "Nikolay Liliev" 34, 1421 Sofia, Bulgaria', '2_c80a8414e4bbdc4477a8546a837dba81.jpg', 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-19 14:19:31', '2016-10-19 11:19:31'),
+(3, 1, 23, 5, 1, 1, 'dinko359@gmail.com', '2016-04-09 19:45:47', '2016-05-09', 1, '127.0.0.1', 5000000.00, 0, '', 'asdasdasd', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis ullamcorper lacus eget lacinia. Morbi feugiat neque ut ultricies laoreet. Donec pulvinar arcu vel augue maximus, feugiat cursus lorem feugiat. Morbi ac pellentesque sapien. In eu lacinia felis. Donec non enim a felis laoreet malesuada eget in tellus. Vestibulum congue est ac enim dapibus mollis. Nullam sed nulla id nisl varius faucibus id ac nisi. Vestibulum malesuada rhoncus dignissim. In efficitur nec augue nec porta. ', '914736644a755db69a7ef813c98a2d1e', 'asdasd', 'EwTxqMUjSeEYyytOIcnvjNIFxGEmlt', 0, NULL, '', '', '', '', '', '3_15627bac625951749154c3eec2147e92.jpg', 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-28 17:07:48', '2016-10-28 14:07:48'),
+(17, 1, 23, 5, 1, 2, 'dinko359@gmail.com', '2016-10-29 12:48:44', '2016-11-28', 0, '127.0.0.1', 200.00, 0, 'phone1', 'Феноменална маса с шест стола от масивно дърво! Тамплиерски стил!', 'Скъпи клиенти, на Вашето внимание представяме феноменална маса с шест стола от масивно дърво! Тамплиерски стил! Мебелите са закупени от Англия посредством търгово наддаване. Състоянието им е изключително добро без видими следи от експлоатация.<br /><br />Допуснете аристократичният стил и във Вашият дом.<br /><br />Размери:<br />Маса: Дължина- 180 см; ширина: 91 см; височина- 76 см<br /><br />Столове:<br />Седло- ширина- 45,5 см; дълбочина- 44 см<br />Облегалка ширина- 42 см; Височина- 62 см', '12a3638c7e7c6520ba71d7a25af3f043', 'dinko1 georgiev1', '2UJFNxoJPlC8fLpB8rXXPrO8nq4EDr', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '17_0dd70d39f3df8b2c068960d452493cf4.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 15:48:46', '2016-10-29 12:48:46'),
+(6, 1, 13, 5, 1, 0, 'asdasd@asdasd.com', '2016-04-10 09:45:44', '2016-05-10', 1, '127.0.0.1', 47323.00, 0, '', 'Двустаен апартамент', 'Луксозен клас апартамент в центъра на квартал Кръстова Вада в жилищна сграда в непосредствена близост до Парадайз МОЛ с невероятна гледка към Витоша.Сградата е със собствено ограждение и видео контрол.Архитектурата е решена в съвременен стил и създава усещането за модерна визия. В проекта са вложени висококачествени материали, като тухли „Винербергер Поротерм“ по австрийски патент, луксозни асансьори на един от световните лидери в бранша и висок клас алуминиева дограма с прекъснат термомост.Апартамента е с краен срок на завършване 1.05.2016 год.В сградата се предлагат двустайни и тристайни апартаменти от 47323-до 88700 лв със ДДС , като някои от тях могат да се обединят за по големи пространства.Има възможност за закупуване на гаражи и паркоместа. ', 'e5caed09210c8a86669c8b1d66f90c10', 'asdasd', 'gIjPZSght8b6EdMtCXyH9Bp6wiEs0F', 0, NULL, '', '', '', '', '', '6_2d2062827a2ef704895a9020e4839b8f.jpg', 21, 4, 58, 0, 1, 2, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-23 10:04:30', '2016-10-23 07:04:30'),
+(7, 1, 13, 6, 1, 0, 'dinko359@gmail.com', '2016-06-09 15:47:23', '2016-07-09', 1, '127.0.0.1', 4450012.00, 0, '0899999999', 'Двустаен апартамент2', 'НОВА оферта на ул.''Преки път''. Луксозна сграда с Акт 16 от 2014 г. Продажба апартамент състоящ се от слънчева и функционална дневна с кухн. бокс, просторна спалня и санитарен възел. <br /><br />Жилището е с монтирани интериорни врати, РVС дограма, газов котел, алуминиеви радиатори. <br /><br />Стени - щпакловка и латекс, под - циментова замазка. Изложение - югозапад. Към апартамента са прилежащи мазе, както и идеални части от двора с регламентирано парко място. Сградата е газифицирана и оборудвана с хидравличен асансьор. Продава се и тристаен апартамент с площ от 103 кв.м. за Е 82 500. При желание може да се довърши до ключ. За прегледност на скицата ап.2. ', 'ebd86214936e6388cfa8c9e29f2a92f5', 'dinko georgiev', 'qco5EsBzNlXfaHlx2Xktx3jLnE766r', 0, NULL, '', '', '(51.4541617, -2.5879761999999573)', 'skype', 'East Tucker Street, Bristol, City of Bristol BS1 6FS, UK', '7_389cc50ae20a54dc0687f99626798078.jpg', 209, 4, 57, 2005, 1, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-28 18:33:09', '2016-10-28 15:33:09'),
+(9, 1, 19, 5, 1, 1, 'dinko359@gmail.com', '2016-06-22 19:39:26', '2016-07-22', 1, '127.0.0.1', 123.00, 0, '', 'test ad', 'Докато обществото гледа назад, икономиката и държавата ни не могат да тръгнат напред. 25 години спорим по едни и същи теми, които не могат да доведат до реално отражение в бъдещето ни. Правителствата водят политика на нулева приемственост, а без определяне на национална кауза няма как да продължим развитието си. Усеща се тежка липса на важен дебат, която се замаскира и замества от дребни махленски караници.<br /><br />Прочети още на: http://www.dnes.bg/politika/2016/06/21/sporim-za-gei-parada-a-nacionalna-kauza.306361<br /><br />', '8fdfe08686666e3e0b8a11376b310d21', 'Ivan Ivanov', 'iQLMaNkPjQenXd2RhPkCZ8JOJRtpCZ', 0, NULL, '', '', '', '', '', '9_f8809969d6f416a7f671b7f62286eac7.jpg', 37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-28 18:32:26', '2016-10-28 15:32:26'),
+(16, 1, 23, 5, 1, 2, 'dinko359@gmail.com', '2016-10-29 12:48:18', '2016-11-28', 0, '127.0.0.1', 200.00, 0, 'phone1', 'Феноменална маса с шест стола от масивно дърво! Тамплиерски стил!', 'Скъпи клиенти, на Вашето внимание представяме феноменална маса с шест стола от масивно дърво! Тамплиерски стил! Мебелите са закупени от Англия посредством търгово наддаване. Състоянието им е изключително добро без видими следи от експлоатация.<br /><br />Допуснете аристократичният стил и във Вашият дом.<br /><br />Размери:<br />Маса: Дължина- 180 см; ширина: 91 см; височина- 76 см<br /><br />Столове:<br />Седло- ширина- 45,5 см; дълбочина- 44 см<br />Облегалка ширина- 42 см; Височина- 62 см', '12a3638c7e7c6520ba71d7a25af3f043', 'dinko1 georgiev1', 'OgGpzEsWpqgp5qULDy6WSHDTdXeuKc', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '16_35fd40e34504b70b2a8ba3d276a1d485.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 15:48:19', '2016-10-29 12:48:19'),
+(15, 1, 23, 5, 1, 2, 'dinko359@gmail.com', '2016-10-29 12:44:11', '2016-11-28', 0, '127.0.0.1', 200.00, 0, 'phone1', 'Феноменална маса с шест стола от масивно дърво! Тамплиерски стил!', 'Скъпи клиенти, на Вашето внимание представяме феноменална маса с шест стола от масивно дърво! Тамплиерски стил! Мебелите са закупени от Англия посредством търгово наддаване. Състоянието им е изключително добро без видими следи от експлоатация.<br /><br />Допуснете аристократичният стил и във Вашият дом.<br /><br />Размери:<br />Маса: Дължина- 180 см; ширина: 91 см; височина- 76 см<br /><br />Столове:<br />Седло- ширина- 45,5 см; дълбочина- 44 см<br />Облегалка ширина- 42 см; Височина- 62 см', '12a3638c7e7c6520ba71d7a25af3f043', 'dinko1 georgiev1', 'P8oaRUevy9TztxbFkovJepDxuAN3d2', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '15_04b84a3cb1fae6fae0a35a89adecd361.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 15:44:12', '2016-10-29 12:44:12'),
+(12, 1, 13, 5, 1, 1, 'dinko359@gmail.com', '2016-07-14 18:05:33', '2016-08-14', 0, '166.166.166.166', 100.00, 0, 'phone1', 'asd', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'e0559d0ae32c0f58035b6c1e735cbab7', 'dinko1 georgiev1', 'E3Xy3HqSXwdKsmeylLx5gksCvKlAop', 1, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '12_1d065a0fa7dcbf468bd756a348b7022c.jpg', 0, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-14 10:30:35', '2016-07-14 18:05:34'),
+(18, 1, 23, 5, 1, 2, 'dinko359@gmail.com', '2016-10-29 13:00:20', '2016-11-28', 1, '127.0.0.1', 200.00, 0, 'phone1', 'Феноменална маса с шест стола от масивно дърво! Тамплиерски стил!', 'Скъпи клиенти, на Вашето внимание представяме феноменална маса с шест стола от масивно дърво! Тамплиерски стил! Мебелите са закупени от Англия посредством търгово наддаване. Състоянието им е изключително добро без видими следи от експлоатация.<br /><br />Допуснете аристократичният стил и във Вашият дом.<br /><br />Размери:<br />Маса: Дължина- 180 см; ширина: 91 см; височина- 76 см<br /><br />Столове:<br />Седло- ширина- 45,5 см; дълбочина- 44 см<br />Облегалка ширина- 42 см; Височина- 62 см', '12a3638c7e7c6520ba71d7a25af3f043', 'dinko1 georgiev1', 'RXCZH9n7yn2jvIWf7mJtvxnA5tQM8o', 1, '2016-11-05', 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '18_afe7f9cac5a4dfe7ceb3217258989682.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 16:01:32', '2016-10-29 13:01:32'),
+(19, 1, 23, 5, 2, 1, 'dinko359@gmail.com', '2016-10-29 13:04:16', '2016-11-28', 1, '127.0.0.1', 0.00, 1, 'phone1', 'Транспортни услуги', 'Превоз-пренос на стоки, багаж, покъщнина и други с товарен закрит бус за град Варна и от Варна за цялата страна. Дължина на фургона 3,40м. ширина 1,80 м, височина 2 метра. Цена за Варна 15 -20 лева. Извън града - по договаряне. ДЕНОНОЩНО! ', 'd4025bc91c3df6046dba4b6aba5556ae', 'dinko1 georgiev1', 'l58dm9CV6Ve1UTbkEn4aTlnuKlWNO7', 1, '2016-11-05', 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '19_d79516c35c1f737e08c84a1d34df6c4a.jpg', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 16:05:01', '2016-10-29 13:05:01'),
+(20, 1, 23, 5, 2, 1, 'dinko359@gmail.com', '2016-10-29 13:20:08', '2016-11-28', 0, '127.0.0.1', 0.00, 1, 'phone1', 'Продавам фолксваген голф ', 'Колата е в много добро техническо състояние. Сменени масла, филтри, ремъци, акумулатор, нови летни гуми и др..Платени са гражданска отговорност, данък, винетка, технически преглед. ', '12bfe9fc7bf8f4c1f3fb7f41e1fa24d8', 'dinko1 georgiev1', 'BasooyVIwinFQq2N6SfboResbuFnSL', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '20_6875394da0fef8dab159c5a836f3fdec.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 16:20:08', '2016-10-29 13:20:08'),
+(21, 1, 23, 5, 2, 1, 'dinko359@gmail.com', '2016-10-29 13:24:25', '2016-11-28', 0, '127.0.0.1', 0.00, 1, 'phone1', 'ГИПСОКАРТОН монтаж 20лв с матерялите,тенекджйски заготовки,', 'монтаж на гипсокартон, боя,шпакловка,мазилка зидане с итонг,ВиК,само разливни замазки<br />цени по договорка. Топлоизолации с скеле и вишка тенекеджийски заготовки ,улуци,водостоци отоплителни системи по улуци и водосточни тръби,по улами и др. ', '8bb875cd31c8b5b8006b95d6aec3b3d3', 'dinko1 georgiev1', 'mzcEP9AzQoxS2c9Hz1OWQv61sFFqv4', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '21_8466db5587e220cf58661b045fbd4d80.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 16:24:25', '2016-10-29 13:24:25'),
+(22, 1, 23, 5, 2, 1, 'dinko359@gmail.com', '2016-10-29 13:38:47', '2016-11-28', 1, '127.0.0.1', 0.00, 1, 'phone1', 'Тъч / touch монитор 12" Fujitsu USB в много добро състояние 6 м. гарая', 'Продавам Тъч / touch монитор 12" Fujitsu 3000LCD12 USB в мног добро състояние 6 м. гаранция.<br /><br />Монитора е тестван и работи без забележки. Продава се пълен комплект със захранващ адаптер, стойка VGA, USB кабел и диск с драйвери.<br />Тъч монитора е втора употреба и е подходящ за ПОС / POS системи, за ресторанти, заведения за бързо хранене, супермаркети, аптеки и др.<br />Тъч мониторите може да се използват в ПОС / POS системи на Мистрал, Микроинвест, Янак софт, Детелина, Тремол и други.<br /><br />Цена е с 209 лв. ДДС и може да се издаде фактура.<br />Гаранция 6 м.<br /><br />Спецификация:<br /><br />Модел - 3000LCD12" DSP D22<br />Размер на Дисплея - 12,1" (30,73см.)<br />Тип матрица - LCD monitor (Matt)<br />Резолюция на дисплея - 800 x 600 (SVGA)<br />Тъч панел - Resistive with USB interface<br />Яркост - 200 cd/m2<br />Контраст - 250:1<br />Интерфейс - VGA, DVI, Jack/3,5"(Audio in), 1 x USB, 1 x Power USB, 4-pin power jack<br />Аудио - stereo speakers ', 'a0476285d4a72187496002eb21d858b7', 'dinko1 georgiev1', 'nQhBeRsZraXGSFfHFFfajXJ6CORYRf', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '22_e179a3eb0a63e5f39107d75c107877e4.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-29 16:45:39', '2016-10-29 13:45:39'),
+(23, 1, 23, 5, 2, 1, 'dinko359@gmail.com', '2016-10-30 11:50:04', '2016-11-29', 0, '127.0.0.1', 0.00, 1, 'phone1', 'Обработено лозе с къща и кладенец с вода ', 'Продавам лозе в близост до спирка Чешмичката в местността Садовете, гр. Лом. Намира се на 400 метра от спирката, във високата част на местността и има изглед към р. Дунав.<br /><br />+ ПОДДЪРЖАНО, ОБРАБОТЕНО лозе, винен сорт и десертно грозде 1 дка.; с циментови колци и тел<br />+ 800 кв. м. обработваемо място с насаждения (плодове и зеленчуци)<br />+ овощни дървета - ябълки, круши, вишни, мушмули, сливи<br />+ ягоди и малини<br />+ кладенец с вода<br />+ малка къща и допълнителна постройка<br />+ има електрическа инсталация, но в момента няма ток до къщата<br />+ Нотариален акт<br />+ всички прилежащи документи.  <br />За повече информация и оглед: тел. 884 - Покажи -   ', '12a9fdee27e173808e2d3a7b1c0ed116', 'dinko1 georgiev1', 'gnKqMSwyv8eU0Or5IJaT7A9woh07xs', 0, NULL, 'web site1', '', '(33.5206313, -86.80255310000001)', 'phone1', '451-499 24th St N, Birmingham, AL 35203, USA', '23_f4a4e27fddbbea9b3794c016adf9167d.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2016-10-30 13:50:04', '2016-10-30 11:50:04');
 
 -- --------------------------------------------------------
 
@@ -111,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `admin_menu` (
   `menu_active` tinyint(1) NOT NULL,
   `menu_external_link` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `admin_menu`
@@ -147,7 +158,10 @@ INSERT INTO `admin_menu` (`menu_id`, `menu_parent_id`, `menu_type_id`, `menu_tit
 (27, NULL, 1, 'mail', 'fa fa-envelope-o', 'admin/mail', 'mailcontroller', 160, 1, 0),
 (28, NULL, 1, 'ipban', 'fa fa-ban', 'admin/ipban', 'ipbancontroller', 170, 1, 0),
 (29, NULL, 1, 'mailban', 'fa fa-ban', 'admin/mailban', 'mailbancontroller', 180, 1, 0),
-(30, NULL, 1, 'clear_cache', 'fa fa-eraser', 'admin/clearcache', 'clearcachecontroller', 190, 1, 0);
+(30, NULL, 1, 'clear_cache', 'fa fa-eraser', 'admin/clearcache', 'clearcachecontroller', 190, 1, 0),
+(31, NULL, 2, 'clothes_types', 'fa fa-gears', '', '', 85, 1, 0),
+(32, 31, 1, 'clothes_sizes', 'fa fa-circle-o', 'admin/clothes', 'clothescontroller', 10, 1, 0),
+(33, 31, 1, 'shoes_sizes', 'fa fa-circle-o', 'admin/shoes', 'shoescontroller', 20, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -240,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `ad_pic` (
   `ad_pic` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ad_pic_id`),
   KEY `ad_id` (`ad_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `ad_pic`
@@ -263,7 +277,23 @@ INSERT INTO `ad_pic` (`ad_pic_id`, `ad_id`, `ad_pic`) VALUES
 (23, 7, '7_75dc160eb4444f9cb1615cf8d3440aa2.jpg'),
 (22, 7, '7_42fed772c613fdf4ce69128e2d1ab62d.jpg'),
 (21, 7, '7_686f6c8fae123d0a6393bcf44fb801ab.jpg'),
-(20, 7, '7_e77c30d0a0e5f5d7bbd2fb608912ac56.jpg');
+(20, 7, '7_e77c30d0a0e5f5d7bbd2fb608912ac56.jpg'),
+(27, 15, '15_b057343450c0d3f9cbeec7f3c1f2d182.jpg'),
+(28, 15, '15_2c724769f0099a38b30fd6485bd8b3b3.jpg'),
+(29, 15, '15_1f7080f51933a3257e91b27ab5c42401.jpg'),
+(30, 15, '15_531902bc69079b2ab058d77ea20ddd65.jpg'),
+(31, 16, '16_07df55423f31f88f3bf05c93e08b223f.jpg'),
+(32, 16, '16_323a72a9ba07a21b373346709c40e08a.jpg'),
+(33, 16, '16_ab0a2d7b55f9374ae762eb12d0126125.jpg'),
+(34, 16, '16_3e9aa17e9f9cc5290d956a0daecc1ee0.jpg'),
+(35, 17, '17_e90f74b419fbc91aec714e355ddd3b5c.jpg'),
+(36, 17, '17_3dda0a01d1bbc5f7b5c2c645276b0eb1.jpg'),
+(37, 17, '17_5a53edb8c95fb0e9933d3ca7864bc53a.jpg'),
+(38, 17, '17_49b832326c314b1aa8bf7bc4a4b05f55.jpg'),
+(39, 18, '18_a25c78571b4293070035c2a4055d3837.jpg'),
+(40, 18, '18_ee228acb7965f420b58ba20dab02277a.jpg'),
+(41, 18, '18_3f866883dac99628bea459736c7f5ecd.jpg'),
+(42, 18, '18_6ab9221693aa90b9291063c36755ab17.jpg');
 
 -- --------------------------------------------------------
 
@@ -336,8 +366,8 @@ CREATE TABLE IF NOT EXISTS `banner` (
 --
 
 INSERT INTO `banner` (`banner_id`, `banner_position`, `banner_type`, `banner_name`, `banner_link`, `banner_code`, `banner_image`, `banner_active_from`, `banner_active_to`, `banner_num_views`) VALUES
-(2, 1, 1, 'cntral banner', 'http://www.google.com', '', '1475935276_banner.png', '2016-10-08', '2018-10-10', 658),
-(4, 2, 1, 'ad detail banner', 'http://www.google.com', '', '1476006282_banner.gif', '2016-10-06', '2017-04-13', 142);
+(2, 1, 1, 'cntral banner', 'http://www.google.com', '', '1475935276_banner.png', '2016-10-08', '2018-10-10', 803),
+(4, 2, 1, 'ad detail banner', 'http://www.google.com', '', '1476006282_banner.gif', '2016-10-06', '2017-04-13', 148);
 
 -- --------------------------------------------------------
 
@@ -2393,11 +2423,31 @@ INSERT INTO `category` (`category_id`, `category_parent_id`, `category_type`, `c
 (16, 2, 1, 'Parts', 'parts', 'Parts', 'Parts', NULL, 1, 20),
 (17, 3, 1, 'Computers', 'computers', 'Computers', 'Computers', NULL, 1, 10),
 (18, 3, 1, 'Phones', 'phones', 'phones', 'phones', NULL, 1, 20),
-(19, 13, 1, 'level1', 'level1', 'level1', 'level1', NULL, 1, 10),
-(20, 19, 1, 'level2', 'level2', 'level2', 'level2', NULL, 1, 10),
-(21, 20, 1, 'level3', 'level3', 'level3', 'level3', NULL, 1, 10),
-(22, 21, 1, 'level4', 'level4', 'level4', 'level4', NULL, 1, 10),
-(23, 22, 1, 'level5', 'level5', 'level5', 'level5', NULL, 1, 10);
+(19, 13, 1, 'level1 common', 'level1', 'level1', 'level1', NULL, 1, 10),
+(20, 19, 4, 'level2 services', 'level2', 'level2', 'level2', NULL, 1, 10),
+(21, 20, 5, 'level3 clothes', 'level3', 'level3', 'level3', NULL, 1, 10),
+(22, 21, 6, 'level4 shoes', 'level4', 'level4', 'level4', NULL, 1, 10),
+(23, 22, 7, 'level5 land', 'level5', 'level5', 'level5', NULL, 1, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clothes_size`
+--
+
+CREATE TABLE IF NOT EXISTS `clothes_size` (
+  `clothes_size_id` int(11) NOT NULL AUTO_INCREMENT,
+  `clothes_size_name` varchar(255) NOT NULL,
+  `clothes_size_ord` int(11) NOT NULL,
+  PRIMARY KEY (`clothes_size_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `clothes_size`
+--
+
+INSERT INTO `clothes_size` (`clothes_size_id`, `clothes_size_name`, `clothes_size_ord`) VALUES
+(1, 'S', 15);
 
 -- --------------------------------------------------------
 
@@ -2629,7 +2679,7 @@ CREATE TABLE IF NOT EXISTS `pay` (
 --
 
 INSERT INTO `pay` (`pay_id`, `pay_name`, `pay_active`, `pay_ord`, `pay_info_url`, `pay_sum`, `pay_promo_period`, `pay_sms_prefix`, `pay_description`, `pay_ping_url`, `pay_allowed_ip`, `pay_number`, `pay_secret`, `pay_testmode`, `pay_paypal_mail`, `pay_sum_to_charge`, `pay_currency`, `pay_locale`, `pay_log`, `pay_page_name`, `pay_secret_key`, `pay_publish_key`) VALUES
-(1, 'Mobio SMS Pay', 1, 10, 'http://mobio.bg/site/en/', 4.60, 7, 'DC', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English.', 'http://your domain/mobiopay', '87.120.176.216,194.12.244.114', NULL, NULL, 0, NULL, 0.00, NULL, NULL, 0, NULL, NULL, NULL),
+(1, 'Mobio SMS Pay', 1, 10, 'http://mobio.bg/site/en/', 4.60, 7, 'DC', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English.', 'http://your domain/mobiopay', '87.120.176.216,194.12.244.114', '1666', NULL, 0, NULL, 0.00, NULL, NULL, 0, NULL, NULL, NULL),
 (2, 'Fortumo SMS Pay', 1, 20, 'https://fortumo.com/', 4.60, 7, 'TXT DCAA', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. ', 'http://your domain/fortumopay', '127.0.0.1,79.125.125.1,79.125.5.205,79.125.5.95,54.72.6.23', '1855', '2e1a1e7515ce57e7475462720a85dd2f', 0, NULL, 0.00, NULL, NULL, 0, NULL, NULL, NULL),
 (3, 'Paypal Standard Pay', 1, 30, 'https://www.paypal.com', 4.60, 7, NULL, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', NULL, NULL, NULL, NULL, 0, 'paypal@dedo.bg', 1.00, 'EUR', 'US', 0, 'paypalpay', NULL, NULL),
 (4, 'Stripe', 1, 40, 'https://stripe.com/', 4.60, 7, '', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', NULL, '', '', '', 0, '', 1.00, 'EUR', '', 0, 'stripepay', 'sk_test_BQokikJOvBiI2HlWgH4olfQ2', 'pk_test_6pRNASCoBOKtIshFeQd4XMUh');
@@ -2651,7 +2701,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `setting_ord` int(11) DEFAULT '0',
   `setting_required` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
 
 --
 -- Dumping data for table `settings`
@@ -2687,7 +2737,7 @@ INSERT INTO `settings` (`setting_id`, `setting_name`, `setting_value`, `setting_
 (27, 'site_currency_code', 'EUR', 'Site Currency Code', 1, 'text', NULL, 0, 1),
 (28, 'require_ad_image', '1', 'Require at least one image on ad publish', 1, 'text', NULL, 0, 1),
 (29, 'ad_num_images', '5', 'Num Ad Images', 1, 'text', NULL, 0, 1),
-(30, 'check_ad_image_size', '1', 'Check ad image size', 1, 'text', NULL, 0, 1),
+(48, 'control_mail_edit_subject', '[CONTROL][EDIT] dclassifieds', 'Control Edit Mail Subject', 1, 'text', NULL, 0, 1),
 (31, 'num_rows_ad_description_textarea', '10', 'Num Rows Ad Description Field', 1, 'text', NULL, 0, 1),
 (32, 'ad_description_min_lenght', '50', 'Ad Description min Lenght in Words', 1, 'text', NULL, 0, 1),
 (33, 'ad_image_max_size', '300', 'Ad image Max size in kb', 1, 'text', NULL, 0, 1),
@@ -2702,7 +2752,29 @@ INSERT INTO `settings` (`setting_id`, `setting_name`, `setting_value`, `setting_
 (42, 'ad_valid_period_in_days', '30', 'Ad Valid Period In Days', 1, 'text', NULL, 0, 1),
 (43, 'site_contact_mail', 'test@mylove.bg', 'Site Contact Mail', 1, 'text', NULL, 0, 1),
 (44, 'enable_promo_ads', '1', 'Enable Promo Ads', 1, 'text', NULL, 0, 1),
-(45, 'site_metric_system', 'sq. m.', 'Site Metric System', 1, 'text', NULL, 0, 1);
+(45, 'site_metric_system', 'sq. m.', 'Site Metric System', 1, 'text', NULL, 0, 1),
+(46, 'wallet_promo_ad_price', '4.60', 'Promo Ad Price when payed from wallet', 1, 'text', NULL, 0, 1),
+(47, 'wallet_promo_ad_period', '7', 'Promo Ad Period in Days When payed from Wallet', 1, 'text', NULL, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shoes_size`
+--
+
+CREATE TABLE IF NOT EXISTS `shoes_size` (
+  `shoes_size_id` int(11) NOT NULL AUTO_INCREMENT,
+  `shoes_size_name` varchar(255) NOT NULL,
+  `shoes_size_ord` int(11) NOT NULL,
+  PRIMARY KEY (`shoes_size_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `shoes_size`
+--
+
+INSERT INTO `shoes_size` (`shoes_size_id`, `shoes_size_name`, `shoes_size_ord`) VALUES
+(1, '33', 10);
 
 -- --------------------------------------------------------
 
@@ -2807,20 +2879,9 @@ CREATE TABLE IF NOT EXISTS `wallet` (
   `wallet_date` datetime NOT NULL,
   `wallet_description` varchar(255) NOT NULL,
   PRIMARY KEY (`wallet_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `wallet`
 --
 
-INSERT INTO `wallet` (`wallet_id`, `user_id`, `ad_id`, `sum`, `wallet_date`, `wallet_description`) VALUES
-(1, 1, 1, 4.60, '2016-10-09 19:04:10', 'Payment via Mobio SMS.'),
-(2, 1, NULL, 4.60, '2016-10-09 19:06:17', 'Add Money to Wallet via Mobio SMS.'),
-(3, 1, NULL, 4.60, '2016-10-09 19:07:49', 'Add Money to Wallet via Mobio SMS.'),
-(4, 1, NULL, 4.60, '2016-10-09 19:08:49', 'Add Money to Wallet via Mobio SMS.'),
-(5, 1, 1, 4.60, '2016-10-09 19:08:59', 'Payment via Mobio SMS.'),
-(6, 1, 1, 4.60, '2016-10-09 19:10:36', 'Payment via Mobio SMS.'),
-(7, 1, 1, 4.60, '2016-10-10 15:08:05', 'Payment via Fortumo SMS.'),
-(8, 1, 1, -4.60, '2016-10-10 15:08:05', 'Your ad #1 is Promo Until 2016-10-17.'),
-(9, 1, NULL, 4.60, '2016-10-10 15:08:22', 'Add Money to Wallet via Fortumo SMS.'),
-(10, 1, NULL, 4.60, '2016-10-13 12:00:14', 'Add Money to Wallet via Stripe.');

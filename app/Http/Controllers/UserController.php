@@ -32,13 +32,13 @@ class UserController extends Controller
         $this->location = $_location;
     }
     
-	public function myprofile(Request $request)
+    public function myprofile(Request $request)
     {
         $user = $this->user->find($request->user()->user_id);
         $user->password = '';
-    	return view('user.myprofile', [
-    		'user' => $user,
-    		'l' => $this->location->getAllHierarhy()]);
+        return view('user.myprofile', [
+            'user' => $user,
+            'l' => $this->location->getAllHierarhy()]);
     }
     
     public function myprofilesave(Request $request)
@@ -188,12 +188,12 @@ class UserController extends Controller
         
         //if user save message
         if($current_user_id > 0){
-        	
-        	//get other user info
-        	$userInfo = $this->user->getUserById($user_id_from);
-        	
-        	//save in db and send mail
-        	$this->mail->saveMailToDbAndSendMail($current_user_id, $user_id_from, $ad_id, $request->contact_message, $userInfo->email);
+
+            //get other user info
+            $userInfo = $this->user->getUserById($user_id_from);
+
+            //save in db and send mail
+            $this->mail->saveMailToDbAndSendMail($current_user_id, $user_id_from, $ad_id, $request->contact_message, $userInfo->email);
         
             //set flash message and return
             session()->flash('message', 'Your message was send.');

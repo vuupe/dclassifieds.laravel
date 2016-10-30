@@ -47,6 +47,7 @@ class FortumoPayController extends Controller
                             //update ad
                             $adInfo->ad_promo = 1;
                             $adInfo->ad_promo_until = $promoUntilDate;
+                            $adInfo->ad_active = 1;
                             $adInfo->save();
 
                             //add money to wallet

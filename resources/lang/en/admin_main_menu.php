@@ -30,5 +30,8 @@ return [
     'mail' => 'User Messages',
     'ipban' => 'Ban By IP',
     'mailban' => 'Ban By E-Mail',
-    'clear_cache' => 'Clear The Cache'
+    'clear_cache' => 'Clear The Cache',
+    'clothes_types' => 'Clothes/Shoes Ad Types',
+    'clothes_sizes' => 'Clothes Sizes',
+    'shoes_sizes' => 'Shoes Sizes'
 ];

@@ -84,6 +84,18 @@ $(document).ready(function(){
         $('#price_radio').prop("checked", true);
     });
 
+    $('#ad_price_type_4').keydown(function(){
+        $('#price_radio_type_4').prop("checked", true);
+    });
+
+    $('#ad_price_type_5').keydown(function(){
+        $('#price_radio_type_5').prop("checked", true);
+    });
+
+    $('#ad_price_type_6').keydown(function(){
+        $('#price_radio_type_6').prop("checked", true);
+    });
+
     $('.clear').click(function(){
         _id = $(this).data("id");
         document.getElementById('ad_image_' + _id).value = '';
@@ -96,19 +108,10 @@ function show_ad_fields(_this)
 {
     var data_type = $(_this).find('option:selected').data('type');
     $('.common_fields_container').hide();
-    switch (data_type){
-        case 1:
-            $('#type_1').show();
-            break;
-        case 2:
-            $('#type_2').show();
-            break;
-        case 3:
-            $('#type_3').show();
-            break
-    }
     if(data_type == null){
         data_type = 0;
+    } else {
+        $('#type_' + data_type).show();
     }
     $('#category_type').val(data_type);
 }

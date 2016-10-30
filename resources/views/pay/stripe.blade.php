@@ -1,9 +1,27 @@
 @extends('layout.index_layout')
 
+@if(isset($title))
+    @section('title', join(' / ', $title))
+@endif
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center margin_bottom_15">
+            @if(session()->has('message'))
+                @if(is_array(session('message')))
+                    @foreach(session('message') as $k => $v)
+                        <div class="alert alert-info text-left">{!! $v !!}</div>
+                    @endforeach
+                @else
+                    <div class="alert alert-info text-left">{!! session('message') !!}</div>
+                @endif
+            @endif
+
             <form action="{{ url('stripe/' . $stripeData['paytype']) }}" method="POST">
                 <script
                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"

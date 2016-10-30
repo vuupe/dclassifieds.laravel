@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
@@ -25,6 +26,8 @@ use App\CarEngine;
 use App\CarTransmission;
 use App\CarCondition;
 use App\CarModification;
+use App\ClothesSize;
+use App\ShoesSize;
 use App\AdPic;
 use App\User;
 use App\UserMail;
@@ -696,6 +699,17 @@ class AdController extends Controller
             $payment_methods        = $payModel->getList($where, $order);
         }
 
+        //check if promo ads are enabled, check if there is logged user
+        //check if there are enough money in the wallet
+        $enable_pay_from_wallet = 0;
+        if(config('dc.enable_promo_ads') && Auth::check()){
+            //no caching for the wallet :)
+            $wallet_total = Wallet::where('user_id', Auth::user()->user_id)->sum('sum');
+            if(number_format($wallet_total, 2, '.', '') >= number_format(config('dc.wallet_promo_ad_price'), 2, '.', '')){
+                $enable_pay_from_wallet = 1;
+            }
+        }
+
         /**
          * put all view vars in array
          */
@@ -705,6 +719,7 @@ class AdController extends Controller
             'user'  => $user, //user object or empty class,
             'title' => $title, //set the page title
             'payment_methods' => $payment_methods, //get payment methods
+            'enable_pay_from_wallet' => $enable_pay_from_wallet, //enable/disable wallet promo ad pay
 
             //filter vars
             'at'                        => AdType::allCached('ad_type_name'),
@@ -719,6 +734,8 @@ class AdController extends Controller
             'car_transmission'          => CarTransmission::allCached('car_transmission_name'),
             'car_condition'             => CarCondition::allCached('car_condition_name'),
             'car_modification'          => CarModification::allCached('car_modification_name'),
+            'clothes_sizes'             => ClothesSize::allCached('clothes_size_ord'),
+            'shoes_sizes'               => ShoesSize::allCached('shoes_size_ord')
         ];
         
         return view('ad.publish', $view_params);
@@ -753,7 +770,7 @@ class AdController extends Controller
          * type 1 common ads validation
          */
         $validator->sometimes(['ad_price_type_1'], 'required|numeric|not_in:0', function($input){
-            if($input->category_type == 1 && $input->price_radio == 1){
+            if(($input->category_type == 1 && $input->price_radio == 1) || ($input->category_type == 1 && !isset($input->price_radio))){
                 return true;
             }
             return false;
@@ -812,6 +829,55 @@ class AdController extends Controller
             return $input->category_type == 3 ? 1 : 0;
         });
 
+        /**
+         * type 4 services validation
+         */
+        $validator->sometimes(['ad_price_type_4'], 'required|numeric|not_in:0', function($input){
+            if(($input->category_type == 4 && $input->price_radio_type_4 == 1) || ($input->category_type == 4 && !isset($input->price_radio_type_4))){
+                return true;
+            }
+            return false;
+        });
+
+        /**
+         * type 5 clothes validation
+         */
+        $validator->sometimes(['ad_price_type_5'], 'required|numeric|not_in:0', function($input){
+            if(($input->category_type == 5 && $input->price_radio_type_5 == 1) || ($input->category_type == 5 && !isset($input->price_radio_type_5))){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['clothes_size_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 5 ? 1 : 0;
+        });
+
+        /**
+         * type 6 shoes validation
+         */
+        $validator->sometimes(['ad_price_type_6'], 'required|numeric|not_in:0', function($input){
+            if(($input->category_type == 6 && $input->price_radio_type_6 == 1) || ($input->category_type == 6 && !isset($input->price_radio_type_6))){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['shoes_size_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 6 ? 1 : 0;
+        });
+
+        /**
+         * type 7 real estate land validation
+         */
+        $validator->sometimes(['ad_price_type_7'], 'required|numeric|not_in:0', function($input){
+            if($input->category_type == 7){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['estate_sq_m_type_7'], 'required|numeric|not_in:0', function($input){
+            return $input->category_type == 7 ? 1 : 0;
+        });
+
         if ($validator->fails()) {
             $this->throwValidationException(
                 $request, $validator
@@ -834,16 +900,16 @@ class AdController extends Controller
                 //generate password
                 $password = str_random(10);
 
-                $user = new User();
-                $user->name = $ad_data['ad_puslisher_name'];
-                $user->email = $ad_data['ad_email'];
-                $user->user_phone = $ad_data['ad_phone'];
-                $user->user_skype = $ad_data['ad_skype'];
-                $user->user_site = $ad_data['ad_link'];
+                $user                   = new User();
+                $user->name             = $ad_data['ad_puslisher_name'];
+                $user->email            = $ad_data['ad_email'];
+                $user->user_phone       = $ad_data['ad_phone'];
+                $user->user_skype       = $ad_data['ad_skype'];
+                $user->user_site        = $ad_data['ad_link'];
                 $user->user_location_id = $ad_data['location_id'];
-                $user->user_address = $ad_data['ad_address'];
-                $user->user_lat_lng = $ad_data['ad_lat_lng'];
-                $user->password = bcrypt($password);
+                $user->user_address     = $ad_data['ad_address'];
+                $user->user_lat_lng     = $ad_data['ad_lat_lng'];
+                $user->password         = bcrypt($password);
                 $user->user_activation_token = str_random(30);
                 $user->save();
 
@@ -861,7 +927,7 @@ class AdController extends Controller
         $ad_data['ad_publish_date']     = date('Y-m-d H:i:s');
         $ad_data['ad_valid_until']      = date('Y-m-d', mktime(null, null, null, date('m'), date('d')+config('dc.ad_valid_period_in_days'), date('Y')));
         $ad_data['ad_ip']               = Util::getRemoteAddress();
-        $ad_data['ad_description']      = Util::nl2br(strip_tags($ad_data['nad_descriptio']));
+        $ad_data['ad_description']      = Util::nl2br(strip_tags($ad_data['ad_description']));
 
         switch ($ad_data['category_type']){
             case 1:
@@ -881,6 +947,37 @@ class AdController extends Controller
             case 3:
                 $ad_data['ad_price'] = $ad_data['ad_price_type_3'];
                 $ad_data['condition_id'] = $ad_data['condition_id_type_3'];
+                break;
+            case 4:
+                if($ad_data['price_radio_type_4'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_4'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                break;
+            case 5:
+                if($ad_data['price_radio_type_5'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_5'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                break;
+            case 6:
+                if($ad_data['price_radio_type_6'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_6'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                break;
+            case 7:
+                $ad_data['ad_price'] = $ad_data['ad_price_type_7'];
+                $ad_data['estate_sq_m'] = $ad_data['estate_sq_m_type_7'];
                 break;
         }
 
@@ -903,22 +1000,34 @@ class AdController extends Controller
                 $file_name = $ad->ad_id . '_' .md5(time() + rand(0,9999)) . '.' . $k->getClientOriginalExtension();
                 $k->move($destination_path, $file_name);
 
-                $img = Image::make($destination_path . $file_name);
-                $width = $img->width();
+                $img    = Image::make($destination_path . $file_name);
+                $width  = $img->width();
                 $height = $img->height();
 
-                if($width == $height || $width > $height){
-                    $img->heighten(1000, function ($constraint) {
-                        $constraint->upsize();
-                    })->save($destination_path . '1000_' . $file_name);
+                if($width > 1000 || $height > 1000) {
+                    if ($width == $height) {
+                        $img->resize(1000, 1000)->save($destination_path . '1000_' . $file_name);
+                    } elseif ($width > $height) {
+                        $img->resize(1000, null, function($constraint){
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($destination_path . '1000_' . $file_name);
+                    } elseif ($width < $height) {
+                        $img->resize(null, 1000, function($constraint){
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($destination_path . '1000_' . $file_name);
+                    }
                 } else {
-                    $img->widen(1000, function ($constraint) {
-                        $constraint->upsize();
-                    })->save($destination_path . '1000_' . $file_name);
+                    $img->save($destination_path . '1000_' . $file_name);
                 }
 
                 if(!$first_image_uploaded){
-                    $img->resizeCanvas(740, 740, 'top')->save($destination_path . '740_' . $file_name);
+                    if($width >= 720 || $height >= 720) {
+                        $img->fit(720, 720)->save($destination_path . '740_' . $file_name);
+                    } else {
+                        $img->resizeCanvas(720, 720, 'top')->save($destination_path . '740_' . $file_name);
+                    }
                     $ad->ad_pic = $file_name;
                     $ad->save();
                     $first_image_uploaded = 1;
@@ -933,10 +1042,10 @@ class AdController extends Controller
             }
         }
 
-        $ad->ad_category_info = $this->category->getParentsByIdFlat($ad->category_id);
-        $ad->ad_location_info = $this->location->getParentsByIdFlat($ad->location_id);
-        $ad->pics = AdPic::where('ad_id', $ad->ad_id)->get();
-        $ad->same_ads = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
+        $ad->ad_category_info   = $this->category->getParentsByIdFlat($ad->category_id);
+        $ad->ad_location_info   = $this->location->getParentsByIdFlat($ad->location_id);
+        $ad->pics               = AdPic::where('ad_id', $ad->ad_id)->get();
+        $ad->same_ads           = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
 
         //send info and activation mail
         Mail::send('emails.ad_activation', ['user' => $user, 'ad' => $ad], function ($m) use ($user){
@@ -952,36 +1061,113 @@ class AdController extends Controller
             });
         }
 
-        //set flash message and return
-        session()->flash('message', trans('publish_edit.Your ad is in moderation mode, please activate it.'));
-        return redirect()->back();
+        //if promo ads are enable check witch option is selected
+        if(isset($ad_data['ad_type_pay'])){
+
+            //wallet pay
+            if($ad_data['ad_type_pay'] == 1000){
+                //no caching for the wallet :)
+                $wallet_total = Wallet::where('user_id', Auth::user()->user_id)->sum('sum');
+                if(number_format($wallet_total, 2, '.', '') >= number_format(config('dc.wallet_promo_ad_price'), 2, '.', '')){
+                    //calc promo period
+                    $promoUntilDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+config('dc.wallet_promo_ad_period'), date('Y')));
+
+                    //unset some ad fields
+                    unset($ad->ad_category_info);
+                    unset($ad->ad_location_info);
+                    unset($ad->pics);
+                    unset($ad->same_ads);
+
+                    //make ad promo and activate it
+                    $ad->ad_promo = 1;
+                    $ad->ad_promo_until = $promoUntilDate;
+                    $ad->ad_active = 1;
+                    $ad->save();
+
+                    //subtract money from wallet
+                    $wallet_data = ['user_id' => $ad->user_id,
+                        'ad_id' => $ad->ad_id,
+                        'sum' => -number_format(config('dc.wallet_promo_ad_price'), 2, '.', ''),
+                        'wallet_date' => date('Y-m-d H:i:s'),
+                        'wallet_description' => trans('payment_fortumo.Your ad #:ad_id is Promo Until :date.', ['ad_id' => $ad->ad_id, 'date' => $promoUntilDate])
+                    ];
+                    Wallet::create($wallet_data);
+                    Cache::flush();
+
+                    $message[] = trans('payment_fortumo.Your ad #:ad_id is Promo Until :date.', ['ad_id' => $ad->ad_id, 'date' => $promoUntilDate]);
+                    $message[] = trans('publish_edit.Your ad is activated');
+                    $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
+                }
+            } else {
+                $where['pay_active'] = 1;
+                $order['pay_ord'] = 'ASC';
+                $payModel = new Pay();
+                $payment_methods = $payModel->getList($where, $order);
+                if (!$payment_methods->isEmpty()) {
+                    foreach ($payment_methods as $k => $v) {
+                        if($v->pay_id == $ad_data['ad_type_pay']){
+                            if(empty($v->pay_page_name)){
+                                $message[] = trans('publish_edit.Your ad will be activated automatically when you pay.');
+                                $message[] = trans('publish_edit.Send sms and make your ad promo', [
+                                    'number' => $v->pay_number,
+                                    'text' => $v->pay_sms_prefix . ' a' . $ad->ad_id,
+                                    'period' => $v->pay_promo_period,
+                                    'sum' => number_format($v->pay_sum, 2, '.', ''),
+                                    'cur' => config('dc.site_price_sign')
+                                ]);
+                            } else {
+                                $message[] = trans('publish_edit.Your ad will be activated automatically when you pay.');
+                                $message[] = trans('publish_edit.Click the button to pay for promo', [
+                                    'pay' => $v->pay_name,
+                                    'period' => $v->pay_promo_period,
+                                    'sum' => number_format($v->pay_sum, 2, '.', ''),
+                                    'cur' => config('dc.site_price_sign')
+                                ]);
+                                session()->flash('message', $message);
+                                return redirect(url($v->pay_page_name . '/a' . $ad->ad_id));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!isset($message) || empty($message)){
+            $message[] = trans('publish_edit.Your ad is in moderation mode, please activate it.');
+            $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
+        }
+
+        //set flash message and go to info page
+        session()->flash('message', $message);
+        return redirect(route('info'));
     }
     
     public function activate(Request $request)
     {
         $code = $request->token;
-        $message = '';
         if(!empty($code)){
             $ad = Ad::where('code', $code)->first();
             if(!empty($ad)){
                 $ad->ad_active = 1;
                 $ad->save();
-                $message = 'Your ad is active now';
+                $message[] = trans('publish_edit.Your ad is active now');
                 Cache::flush();
-            } else {
-                $message = 'Ups something is wrong.';
             }
-        } else {
-            $message = 'Ups something is wrong.';
         }
+
+        if(!isset($message) || empty($message)){
+            $message[] = trans('publish_edit.Ups something is wrong. Please contact us.');
+        }
+
+        $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
+
         session()->flash('message', $message);
-        return view('common.info_page');
+        return redirect(route('info'));
     }
     
     public function delete(Request $request)
     {
         $code = $request->token;
-        $message = '';
         if(!empty($code)){
             $ad = Ad::where('code', $code)->first();
             if(!empty($ad)){
@@ -1001,15 +1187,17 @@ class AdController extends Controller
                 }
                 
                 $ad->delete();
-                $message = 'Your ad is deleted';
-            } else {
-                $message = 'Ups something is wrong.';
+                $message[] = trans('publish_edit.Your ad is deleted');
             }
-        } else {
-            $message = 'Ups something is wrong.';
         }
+
+        if(!isset($message) || empty($message)){
+            $message[] = trans('publish_edit.Ups something is wrong. Please contact us.');
+        }
+        $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
+
         session()->flash('message', $message);
-        return view('common.info_page');
+        return redirect(route('info'));
     }
     
     public function getAdContact(Request $request)
@@ -1045,7 +1233,7 @@ class AdController extends Controller
         $title[]    = trans('detail.Ad Id') . ': ' . $ad_detail->ad_id;
         $title[]    = trans('contact.Send Message');
         
-        return view('ad.contact', ['ad_detail' => $ad_detail, 'breadcrump' => $breadcrump]);
+        return view('ad.contact', ['ad_detail' => $ad_detail, 'breadcrump' => $breadcrump, 'title' => $title]);
     }
     
     public function postAdContact(Request $request)
@@ -1101,8 +1289,8 @@ class AdController extends Controller
                 
                 //send activation mail
                 Mail::send('emails.activation', ['user' => $user, 'password' => $password], function ($m) use ($user) {
-                    $m->from('test@mylove.bg', 'dclassifieds activation');
-                    $m->to($user->email)->subject('Activate your account!');
+                    $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+                    $m->to($user->email)->subject(trans('publish_edit.Activate your account!'));
                 });
             }
             $current_user_id = $user->user_id;
@@ -1110,7 +1298,6 @@ class AdController extends Controller
         
         //if user save message
         if($current_user_id > 0){
-
             //save in db and send mail
             $this->mail->saveMailToDbAndSendMail($current_user_id, $ad_detail->user_id, $ad_id, $request->contact_message, $ad_detail->ad_email);
             
@@ -1159,12 +1346,12 @@ class AdController extends Controller
             try{
                 $ad_report->save();
                 $ret['code'] = 200;
-                $ret['message'] = 'Thanks, The report is send.';
+                $ret['message'] = trans('publish_edit.Thanks, The report is send.');
             } catch (\Exception $e){
-                $ret['message'] = 'Ups, something is wrong, please try again.';
+                $ret['message'] = trans('publish_edit.Ups, something is wrong, please try again.');
             }
         } else {
-            $ret['message'] = 'Ups, something is wrong, please try again.';
+            $ret['message'] = trans('publish_edit.Ups, something is wrong, please try again.');
         }
         echo json_encode($ret);
     }
@@ -1223,7 +1410,7 @@ class AdController extends Controller
     
     public function myads(Request $request)
     {
-        $where = ['user_id' => $request->user()->user_id];
+        $where = ['user_id' => Auth::user()->user_id];
         $order = ['ad_publish_date' => 'desc'];
         $my_ad_list = $this->ad->getAdList($where, $order);
         return view('ad.myads', ['my_ad_list' => $my_ad_list]);
@@ -1232,12 +1419,11 @@ class AdController extends Controller
     public function republish(Request $request)
     {
         $code = $request->token;
-        $message = '';
         if(!empty($code)){
             $ad = Ad::where('code', $code)->first();
             if(!empty($ad)){
                 $ad->ad_publish_date = date('Y-m-d H:i:s');
-                $ad->ad_valid_until = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
+                $ad->ad_valid_until = date('Y-m-d', mktime(null, null, null, date('m'), date('d')+config('dc.ad_valid_period_in_days'), date('Y')));
                 $ad->save();
                 Cache::flush();
             } 
@@ -1251,78 +1437,87 @@ class AdController extends Controller
         $ad_id = $request->ad_id;
     
         //get ad info
-        $ad_detail = $this->ad->getAdDetail($ad_id);
+        $ad_detail = $this->ad->getAdDetail($ad_id, 0);
         
-        if($ad_detail->user_id != request()->user()->user_id){
+        if($ad_detail->user_id != Auth::user()->user_id){
             return redirect(route('myads'));
         }
         
-        $ad_detail->ad_price_type_1 = $ad_detail->ad_price_type_2 = $ad_detail->ad_price_type_3 = $ad_detail->ad_price;
+        $ad_detail->ad_price_type_1     = $ad_detail->ad_price_type_2 = $ad_detail->ad_price_type_3 = $ad_detail->ad_price;
         $ad_detail->condition_id_type_1 = $ad_detail->condition_id_type_3 = $ad_detail->condition_id;
-        $ad_detail->ad_description = Util::br2nl($ad_detail->ad_description);
+        $ad_detail->ad_description      = Util::br2nl($ad_detail->ad_description);
         
         //get ad pics
         $ad_pic = AdPic::where('ad_id', $ad_id)->get();
         
-        $car_model_id = array();
+        $car_model = [];
         if(old('car_brand_id')){
             if(is_numeric(old('car_brand_id')) && old('car_brand_id') > 0){
-                $car_models = CarModel::where('car_brand_id', old('car_brand_id'))->orderBy('car_model_name', 'asc')->get();
+
+                $carModel   = new CarModel();
+                $select     = ['car_model_id', 'car_model_name'];
+                $where      = ['car_brand_id' => old('car_brand_id'), 'car_model_active' => 1];
+                $order      = ['car_model_name' => 'asc'];
+                $car_models = $carModel->getListSimple($select, $where, $order);
+
                 if(!$car_models->isEmpty()){
-                    $car_model_id = array(0 => 'Select Car Model');
+                    $car_model = [0 => trans('search.Select Car Model')];
                     foreach ($car_models as $k => $v){
-                        $car_model_id[$v->car_model_id] = $v->car_model_name;
+                        $car_model[$v->car_model_id] = $v->car_model_name;
                     }
                 }
             }
         }
         
         $ad_detail->ad_category_info = $this->category->getParentsByIdFlat($ad_detail->category_id);
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('publish_edit.Edit Ad');
         
         return view('ad.edit', [
+            'c'     => $this->category->getAllHierarhy(), //all categories hierarhy
+            'l'     => $this->location->getAllHierarhy(), //all location hierarhy
             'ad_detail' => $ad_detail,
-            'ad_pic' => $ad_pic,
-            'c' => $this->category->getAllHierarhy(),
-            'l' => $this->location->getAllHierarhy(),
-            'at' => AdType::all(),
-            'ac' => AdCondition::all(),
-            'estate_construction_type' => EstateConstructionType::all(),
-            'estate_furnishing_type' => EstateFurnishingType::all(),
-            'estate_heating_type' => EstateHeatingType::all(),
-            'estate_type' => EstateType::all(),
-            'car_brand_id' => CarBrand::all(),
-            'car_model_id' => $car_model_id,
-            'car_engine_id' => CarEngine::all(),
-            'car_transmission_id' => CarTransmission::all(),
-            'car_condition_id' => CarCondition::all(),
-            'car_modification_id' => CarModification::all()
+            'ad_pic'    => $ad_pic,
+            'title'     => $title,
+
+            //filter vars
+            'at'                        => AdType::allCached('ad_type_name'),
+            'ac'                        => AdCondition::allCached('ad_condition_name'),
+            'estate_construction_type'  => EstateConstructionType::allCached('estate_construction_type_name'),
+            'estate_furnishing_type'    => EstateFurnishingType::allCached('estate_furnishing_type_name'),
+            'estate_heating_type'       => EstateHeatingType::allCached('estate_heating_type_name'),
+            'estate_type'               => EstateType::allCached('estate_type_name'),
+            'car_brand'                 => CarBrand::allCached('car_brand_name'),
+            'car_model'                 => $car_model,
+            'car_engine'                => CarEngine::allCached('car_engine_name'),
+            'car_transmission'          => CarTransmission::allCached('car_transmission_name'),
+            'car_condition'             => CarCondition::allCached('car_condition_name'),
+            'car_modification'          => CarModification::allCached('car_modification_name')
         ]);
     }
     
     public function postAdEdit(Request $request)
     {
+        //common validation rules
         $rules = [
-            'ad_title' => 'required|max:255',
-            'category_id' => 'required|integer|not_in:0',
-            'ad_description' => 'required|min:50',
-            'type_id' => 'required|integer|not_in:0',
-            //'ad_image' => 'require_one_of_array',
-            'ad_image.*' => 'mimes:jpeg,bmp,png|max:300',
-            'location_id' => 'required|integer|not_in:0',
+            'ad_title'          => 'required|max:255',
+            'category_id'       => 'required|integer|not_in:0',
+            'ad_description'    => 'required|min:' . config('dc.ad_description_min_lenght'),
+            'type_id'           => 'required|integer|not_in:0',
+            'ad_image.*'        => 'mimes:jpeg,bmp,png|max:' . config('dc.ad_image_max_size'),
+            'location_id'       => 'required|integer|not_in:0',
             'ad_puslisher_name' => 'required|string|max:255',
-            'ad_email' => 'required|email|max:255',
-            'policy_agree' => 'required',
+            'ad_email'          => 'required|email|max:255',
+            'policy_agree'      => 'required',
         ];
          
-        $messages = [
-            'require_one_of_array' => 'You need to upload at least one ad pic.',
-        ];
-         
-        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator = Validator::make($request->all(), $rules);
          
         /**
          * type 1 common ads validation
-        */
+         */
         $validator->sometimes(['ad_price_type_1'], 'required|numeric|not_in:0', function($input){
             if($input->category_type == 1 && $input->price_radio == 1){
                 return true;
@@ -1335,7 +1530,7 @@ class AdController extends Controller
              
         /**
          * type 2 estate ads validation
-        */
+         */
         $validator->sometimes(['ad_price_type_2'], 'required|numeric|not_in:0', function($input){
             if($input->category_type == 2){
                 return true;
@@ -1351,7 +1546,7 @@ class AdController extends Controller
     
         /**
          * type 3 cars ads validation
-        */
+         */
         $validator->sometimes(['car_brand_id'], 'required|integer|not_in:0', function($input){
             return $input->category_type == 3 ? 1 : 0;
         });
@@ -1391,12 +1586,12 @@ class AdController extends Controller
 
         $ad_data = $request->all();
          
-        //fill aditional fields
-        $ad_data['user_id'] = $request->user()->user_id;
+        //fill additional fields
+        $ad_data['user_id']         = Auth::user()->user_id;
         $ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
-        $ad_data['ad_valid_until'] = date('Y-m-d', mktime(null, null, null, date('m')+1, date('d'), date('Y')));
-        $ad_data['ad_ip'] = Util::getRemoteAddress();
-        $ad_data['ad_description'] = Util::nl2br(strip_tags($ad_data['ad_description']));
+        $ad_data['ad_valid_until']  = date('Y-m-d', mktime(null, null, null, date('m'), date('d')+config('dc.ad_valid_period_in_days'), date('Y')));
+        $ad_data['ad_ip']           = Util::getRemoteAddress();
+        $ad_data['ad_description']  = Util::nl2br(strip_tags($ad_data['ad_description']));
          
         switch ($ad_data['category_type']){
             case 1:
@@ -1420,8 +1615,7 @@ class AdController extends Controller
         }
          
         $ad_data['ad_description_hash'] = md5($ad_data['ad_description']);
-         
-         
+
         //save ad
         $ad = Ad::find($ad_data['ad_id']);
         $ad->update($ad_data);
@@ -1452,23 +1646,35 @@ class AdController extends Controller
                 if(!empty($k) && $k->isValid()){
                     $file_name = $ad->ad_id . '_' .md5(time() + rand(0,9999)) . '.' . $k->getClientOriginalExtension();
                     $k->move($destination_path, $file_name);
-                     
-                    $img = Image::make($destination_path . $file_name);
-                    $width = $img->width();
+
+                    $img    = Image::make($destination_path . $file_name);
+                    $width  = $img->width();
                     $height = $img->height();
 
-                    if($width == $height || $width > $height){
-                        $img->heighten(1000, function ($constraint) {
-                            $constraint->upsize();
-                        })->save($destination_path . '1000_' . $file_name);
+                    if($width > 1000 || $height > 1000) {
+                        if ($width == $height) {
+                            $img->resize(1000, 1000)->save($destination_path . '1000_' . $file_name);
+                        } elseif ($width > $height) {
+                            $img->resize(1000, null, function($constraint){
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($destination_path . '1000_' . $file_name);
+                        } elseif ($width < $height) {
+                            $img->resize(null, 1000, function($constraint){
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($destination_path . '1000_' . $file_name);
+                        }
                     } else {
-                        $img->widen(1000, function ($constraint) {
-                            $constraint->upsize();
-                        })->save($destination_path . '1000_' . $file_name);
+                        $img->save($destination_path . '1000_' . $file_name);
                     }
-                     
+
                     if(!$first_image_uploaded){
-                        $img->resizeCanvas(740, 740, 'top')->save($destination_path . '740_' . $file_name);
+                        if($width >= 720 || $height >= 720) {
+                            $img->fit(720, 720)->save($destination_path . '740_' . $file_name);
+                        } else {
+                            $img->resizeCanvas(720, 720, 'top')->save($destination_path . '740_' . $file_name);
+                        }
                         $ad->ad_pic = $file_name;
                         $ad->save();
                         $first_image_uploaded = 1;
@@ -1478,34 +1684,40 @@ class AdController extends Controller
                         $adPic->ad_pic = $file_name;
                         $adPic->save();
                     }
-                     
+
                     @unlink($destination_path . $file_name);
                 }
             }
         }
          
-        $ad->ad_category_info = $this->category->getParentsByIdFlat($ad->category_id);
-        $ad->ad_location_info = $this->location->getParentsByIdFlat($ad->location_id);
-        $ad->pics = AdPic::where('ad_id', $ad->ad_id)->get();
-        $ad->same_ads = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
+        $ad->ad_category_info   = $this->category->getParentsByIdFlat($ad->category_id);
+        $ad->ad_location_info   = $this->location->getParentsByIdFlat($ad->location_id);
+        $ad->pics               = AdPic::where('ad_id', $ad->ad_id)->get();
+        $ad->same_ads           = Ad::where([['ad_description_hash', $ad->ad_description_hash], ['ad_id', '<>', $ad->ad_id]])->get();
          
         //send info mail
-        Mail::send('emails.ad_edit', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
-            $m->from('test@mylove.bg', 'dclassifieds ad edit');
-            $m->to($request->user()->email)->subject('Your ad is edited!');
+        Mail::send('emails.ad_edit', ['user' => Auth::user(), 'ad' => $ad], function ($m) use ($request){
+            $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+            $m->to($request->user()->email)->subject(trans('publish_edit.Your ad is edited!'));
         });
 
         //send control mail
-        Mail::send('emails.control_ad_activation', ['user' => $request->user(), 'ad' => $ad], function ($m) use ($request){
-            $m->from('test@mylove.bg', '[CONTROL] dclassifieds');
-            $m->to('webmaster@dclassifieds.eu')->to('dinko359@gmail.com')->subject('[CONTROL] dclasssifieds ad edit');
-        });
-        
+        if(config('dc.enable_control_mails')) {
+            Mail::send('emails.control_ad_activation', ['user' => Auth::user(), 'ad' => $ad], function ($m) {
+                $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+                $m->to(config('dc.control_mail'))->subject(config('dc.control_mail_edit_subject'));
+            });
+        }
+
         Cache::flush();
-                 
-        //set flash message and return
-        session()->flash('message', 'Your ad is saved.');
-        return redirect()->back();
+
+        $message[] = trans('publish_edit.Your ad is saved.');
+        $message[] = trans('publish_edit.Click here to return to my ads', ['link' => route('myads')]);
+        $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
+
+        //set flash message and go to info page
+        session()->flash('message', $message);
+        return redirect(route('info'));
     }
     
     public function userads(Request $request)

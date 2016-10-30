@@ -9,5 +9,6 @@ return [
     'Thank you for your payment' => 'Thank you for your payment',
     'We a sorry for your cancellation' => 'We a sorry for your cancellation',
     'Pay via Stripe' => 'Pay via Stripe',
-    'Click Here To Pay with Stripe' => 'Click Here To Pay with Stripe'
+    'Click Here To Pay with Stripe' => 'Click Here To Pay with Stripe',
+    'Payment via Stripe' => 'Payment via Stripe'
 ];

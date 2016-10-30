@@ -52,9 +52,9 @@
                                 <div class="ribbon"><span>PROMO</span></div>
                             @endif
                             @if(!empty($ad_detail->ad_pic))
-                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
+                                <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
                             @else
-                                <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim($ad_detail->email)) . '?s=1000&d=identicon' }}" class="img-responsive">
+                                <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim($ad_detail->email)) . '?s=740&d=identicon' }}" class="img-responsive">
                             @endif
                         </div>
                     </div>

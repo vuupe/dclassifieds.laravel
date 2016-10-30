@@ -9,5 +9,6 @@ return [
     'Thank you for your payment' => 'Thank you for your payment',
     'We a sorry for your cancellation' => 'We a sorry for your cancellation',
     'Pay via Paypal' => 'Pay via Paypal',
-    'Paypal is in sandbox mode' => 'Paypal is in sandbox mode'
+    'Paypal is in sandbox mode' => 'Paypal is in sandbox mode',
+    'Click Here To Pay with Paypal' => 'Click Here To Pay with Paypal'
 ];

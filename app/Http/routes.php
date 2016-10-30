@@ -112,6 +112,16 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::any('/admin/cartransmission/edit/{id?}', 'CarTransmissionController@edit');
     Route::any('/admin/cartransmission/delete/{id?}', 'CarTransmissionController@delete');
 
+    //Clothes Sizes
+    Route::get('/admin/clothes', 'ClothesController@index');
+    Route::any('/admin/clothes/edit/{id?}', 'ClothesController@edit');
+    Route::any('/admin/clothes/delete/{id?}', 'ClothesController@delete');
+
+    //Shoes Sizes
+    Route::get('/admin/shoes', 'ShoesController@index');
+    Route::any('/admin/shoes/edit/{id?}', 'ShoesController@edit');
+    Route::any('/admin/shoes/delete/{id?}', 'ShoesController@delete');
+
     //Banners
     Route::get('/admin/banner', 'BannerController@index');
     Route::any('/admin/banner/edit/{id?}', 'BannerController@edit');
@@ -165,6 +175,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
  * common
  */
 Route::get('/ban', 'BanController@index')->name('ban');
+Route::get('/info', 'InfoController@index')->name('info');
 
 /**
  * Payment

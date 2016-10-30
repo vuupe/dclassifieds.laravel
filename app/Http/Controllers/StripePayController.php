@@ -32,7 +32,11 @@ class StripePayController extends Controller
             'publish_key' => $payTypeInfo->pay_publish_key
         ];
 
-        return view('pay.stripe', ['stripeData' => $stripeData]);
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('payment_stripe.Payment via Stripe');
+
+        return view('pay.stripe', ['stripeData' => $stripeData, 'title' => $title]);
     }
 
     public function stripe(Request $request)
@@ -86,6 +90,7 @@ class StripePayController extends Controller
                     //update ad
                     $adInfo->ad_promo = 1;
                     $adInfo->ad_promo_until = $promoUntilDate;
+                    $adInfo->ad_active = 1;
                     $adInfo->save();
 
                     //add money to wallet

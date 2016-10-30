@@ -8,8 +8,12 @@ use Cache;
 class Category extends Model
 {
     const COMMON_TYPE       = 1; //common ads type
-    const REAL_ESATE_TYPE   = 2; //real estate ads
+    const REAL_ESTATE_TYPE  = 2; //real estate ads
     const CARS_TYPE         = 3; //cars ads
+    const SERVICES_TYPE     = 4; //services ads
+    const CLOTHES_TYPE      = 5; //clothes ads
+    const SHOES_TYPE        = 6; //shoes ads
+    const REAL_ESTATE_LAND_TYPE = 7; //real estate land ads
 
     protected $table        = 'category';
     protected $primaryKey   = 'category_id';

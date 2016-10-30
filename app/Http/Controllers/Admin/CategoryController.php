@@ -25,8 +25,13 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categoryType = [Category::COMMON_TYPE => trans('admin_common.Common Type'),
-            Category::REAL_ESATE_TYPE => trans('admin_common.Real Estate Type'),
-            Category::CARS_TYPE => trans('admin_common.Cars Type')];
+            Category::REAL_ESTATE_TYPE => trans('admin_common.Real Estate Type'),
+            Category::CARS_TYPE => trans('admin_common.Cars Type'),
+            Category::SERVICES_TYPE => trans('admin_common.Services Type'),
+            Category::CLOTHES_TYPE => trans('admin_common.Clothes Type'),
+            Category::SHOES_TYPE => trans('admin_common.Shoes Type'),
+            Category::REAL_ESTATE_LAND_TYPE => trans('admin_common.Real Estate Land Type'),
+        ];
         return view('admin.category.category_list', ['category_list' => $this->category->getAllHierarhy(null, 0, 0), 'categoryType' => $categoryType]);
     }
     
@@ -34,8 +39,13 @@ class CategoryController extends Controller
     {
         $allCategoryHierarhy = $this->category->getAllHierarhy(null, 0, 0);
         $categoryType = [Category::COMMON_TYPE => trans('admin_common.Common Type'),
-            Category::REAL_ESATE_TYPE => trans('admin_common.Real Estate Type'),
-            Category::CARS_TYPE => trans('admin_common.Cars Type')];
+            Category::REAL_ESTATE_TYPE => trans('admin_common.Real Estate Type'),
+            Category::CARS_TYPE => trans('admin_common.Cars Type'),
+            Category::SERVICES_TYPE => trans('admin_common.Services Type'),
+            Category::CLOTHES_TYPE => trans('admin_common.Clothes Type'),
+            Category::SHOES_TYPE => trans('admin_common.Shoes Type'),
+            Category::REAL_ESTATE_LAND_TYPE => trans('admin_common.Real Estate Land Type'),
+        ];
 
         $id = 0;
         if(isset($request->id)){
