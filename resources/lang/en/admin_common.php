@@ -86,6 +86,7 @@ return [
     'Category Name' => 'Category Name',
     'Category Slug' => 'Category Slug',
     'Category Type' => 'Category Type',
+    'Select Category Type' => 'Select Category Type',
     'Category Order' => 'Category Order',
     'Ad Count' => 'Ad Count',
     'Add/Edit Categories' => 'Add/Edit Categories',
