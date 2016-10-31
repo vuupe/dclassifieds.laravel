@@ -1433,15 +1433,27 @@ class AdController extends Controller
     
     public function myads(Request $request)
     {
+        $params     = $request->all();
+        $limit      = 0;
+        $orderRaw   = '';
+        $whereIn    = [];
+        $whereRaw   = [];
+        $page       = 1;
+        $paginate   = config('dc.num_ads_on_myads');
+        if (isset($params['page']) && is_numeric($params['page'])) {
+            $page = $params['page'];
+        }
+
         $where = ['user_id' => Auth::user()->user_id];
         $order = ['ad_publish_date' => 'desc'];
-        $my_ad_list = $this->ad->getAdList($where, $order);
+        $my_ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
 
         //set page title
         $title = [config('dc.site_domain')];
         $title[] = trans('myads.My Classifieds');
+        $title[] = trans('myads.Page:') . ' ' . $page;
 
-        return view('ad.myads', ['my_ad_list' => $my_ad_list, 'title' => $title]);
+        return view('ad.myads', ['my_ad_list' => $my_ad_list, 'title' => $title, 'params' => $params]);
     }
     
     public function republish(Request $request)
@@ -1841,15 +1853,28 @@ class AdController extends Controller
     
     public function userads(Request $request)
     {
+        $params     = $request->all();
+        $limit      = 0;
+        $orderRaw   = '';
+        $whereIn    = [];
+        $whereRaw   = [];
+        $page       = 1;
+        $paginate   = config('dc.num_ads_user_list');
+        if (isset($params['page']) && is_numeric($params['page'])) {
+            $page = $params['page'];
+        }
+
         $user = $this->user->getUserById($request->user_id);
         $where = ['user_id' => $user->user_id, 'ad_active' => 1];
-        $user_ad_list = $this->ad->getAdList($where);
+        $order = ['ad_publish_date' => 'desc'];
+        $user_ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
 
         //set page title
         $title = [config('dc.site_domain')];
         $title[] = trans('user.Ad List');
         $title[] = trans('user.Ad List User', ['name' => $user->name]);
+        $title[] = trans('myads.Page:') . ' ' . $page;
 
-        return view('ad.user', ['user' => $user, 'user_ad_list' => $user_ad_list, 'title' => $title]);
+        return view('ad.user', ['user' => $user, 'user_ad_list' => $user_ad_list, 'title' => $title, 'params' => $params]);
     }
 }

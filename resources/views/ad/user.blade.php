@@ -44,8 +44,8 @@
 
                 <hr>
 
-                <div class="row">
-                    @if(isset($user_ad_list) && !$user_ad_list->isEmpty())
+                @if(isset($user_ad_list) && !$user_ad_list->isEmpty())
+                    <div class="row">
                         @foreach ($user_ad_list as $k => $v)
                             @if(config('dc.show_small_item_ads_list'))
                                 @include('common.ad_list_small')
@@ -53,8 +53,14 @@
                                 @include('common.ad_list')
                             @endif
                         @endforeach
-                    @endif
-                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav>{{  $user_ad_list->appends($params)->links() }}</nav>
+                        </div>
+                    </div>
+                @endif
 
                 @if (session()->has('message'))
                     <div class="alert alert-info">{{ session('message') }}</div>

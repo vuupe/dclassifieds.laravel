@@ -35,7 +35,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>{{ trans('myads.My Classifieds') }} ({{ $my_ad_list->count() }})</h2>
+                        <h2>{{ trans('myads.My Classifieds') }}</h2>
                     </div>
                 </div>
                 @if(!$my_ad_list->isEmpty())
@@ -78,6 +78,14 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nav>{{  $my_ad_list->appends($params)->links() }}</nav>
+                            </div>
+                        </div>
                     </div>
                 @else
                     <div class="alert alert-info">{{ trans('myads.You dont have classifieds.') }} <a href="{{ url('publish') }}">{{ trans('myads.Click here to publish.') }}</a></div>

@@ -20,5 +20,6 @@ return [
     'Edit' => 'Edit',
     'Delete' => 'Delete',
     'You dont have classifieds.' => 'You dont\'t have classifieds.',
-    'Click here to publish.' => 'Click here to publish.'
+    'Click here to publish.' => 'Click here to publish.',
+    'Page:' => 'Page:'
 ];
