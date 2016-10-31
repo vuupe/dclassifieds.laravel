@@ -35,5 +35,8 @@ return [
     'No results found...' => 'No results found...',
     'Home' => 'Home',
     'Select Car Model' => 'Select Car Model',
-    'Page:' => 'Page:'
+    'Page:' => 'Page:',
+    'Select Clothes Sizes' => 'Select Clothes Sizes',
+    'Select Shoes Sizes' => 'Select Shoes Sizes',
+    'Free' => 'Free'
 ];

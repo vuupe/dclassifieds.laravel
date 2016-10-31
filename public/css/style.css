@@ -99,8 +99,6 @@ a:active, a:focus {
 }
 
 .ad-list-item-image{
-                border-bottom:1px solid #dddddd;
-                padding-bottom: 5px;
                 margin-bottom: 5px;
                 overflow: hidden;
 }

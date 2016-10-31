@@ -176,19 +176,26 @@ class AdController extends Controller
             $redirect_url = Util::buildUrl($url_params);
         }
 
-        //check if there are parameters for query string
+        //check if there are parameters for query string if other category selected do not add
         $query_string = '';
-        if(!empty($params)){
-            //clear token var if exist
-            if(isset($params['_token'])){
-                unset($params['_token']);
+        if(session('old_cid') == $cid) {
+            if (!empty($params)) {
+                //clear token var if exist
+                if (isset($params['_token'])) {
+                    unset($params['_token']);
+                }
+                $query_string = Util::getQueryStringFromArray($params);
             }
-            $query_string = Util::getQueryStringFromArray($params);
         }
 
         //add query string to generated url
         if(!empty($query_string)){
             $redirect_url .= '?' . $query_string;
+        }
+
+        //save the selected category
+        if($cid > 0){
+            session(['old_cid' => $cid]);
         }
 
         return redirect($redirect_url);
@@ -376,6 +383,10 @@ class AdController extends Controller
             $where['ad_price'] = ['<=', $params['price_to']];
         }
 
+        if(isset($params['price_free']) && is_numeric($params['price_free']) && $params['price_free'] > 0){
+            $where['ad_free'] = ['=', 1];
+        }
+
         //type 2 filters - real estates
         if(isset($params['estate_type_id']) && !empty($params['estate_type_id']) && is_array($params['estate_type_id'])){
             $whereIn['estate_type_id'] = $params['estate_type_id'];
@@ -462,6 +473,16 @@ class AdController extends Controller
             $whereIn['car_condition_id'] = $params['car_condition_id'];
         }
 
+        //type 5 filters - clothes
+        if(isset($params['clothes_size_id']) && !empty($params['clothes_size_id']) && is_array($params['clothes_size_id'])){
+            $whereIn['clothes_size_id'] = $params['clothes_size_id'];
+        }
+
+        //type 6 filters - shoes
+        if(isset($params['shoes_size_id']) && !empty($params['shoes_size_id']) && is_array($params['shoes_size_id'])){
+            $whereIn['shoes_size_id'] = $params['shoes_size_id'];
+        }
+
         $show_only_promo = 0;
         if(isset($params['promo_ads']) && !empty($params['promo_ads'])){
             $where['ad_promo'] = 1;
@@ -533,6 +554,8 @@ class AdController extends Controller
             'car_transmission'          => CarTransmission::allCached('car_transmission_name'),
             'car_condition'             => CarCondition::allCached('car_condition_name'),
             'car_modification'          => CarModification::allCached('car_modification_name'),
+            'clothes_sizes'             => ClothesSize::allCached('clothes_size_ord'),
+            'shoes_sizes'               => ShoesSize::allCached('shoes_size_ord')
         ];
 
         if($cid > 0){
@@ -1443,8 +1466,17 @@ class AdController extends Controller
             return redirect(route('myads'));
         }
         
-        $ad_detail->ad_price_type_1     = $ad_detail->ad_price_type_2 = $ad_detail->ad_price_type_3 = $ad_detail->ad_price;
+        $ad_detail->ad_price_type_1     = $ad_detail->ad_price_type_2 = $ad_detail->ad_price_type_3 = $ad_detail->ad_price_type_4 = $ad_detail->ad_price;
+        $ad_detail->ad_price_type_5     = $ad_detail->ad_price_type_6 = $ad_detail->ad_price_type_7 = $ad_detail->ad_price;
+
+        if($ad_detail->ad_price > 0){
+            $ad_detail->price_radio = $ad_detail->price_radio_type_4 = $ad_detail->price_radio_type_5 = $ad_detail->price_radio_type_6 = 1;
+        } elseif ($ad_detail->ad_free){
+            $ad_detail->price_radio = $ad_detail->price_radio_type_4 = $ad_detail->price_radio_type_5 = $ad_detail->price_radio_type_6 = 2;
+        }
+
         $ad_detail->condition_id_type_1 = $ad_detail->condition_id_type_3 = $ad_detail->condition_id;
+        $ad_detail->estate_sq_m_type_7  = $ad_detail->estate_sq_m;
         $ad_detail->ad_description      = Util::br2nl($ad_detail->ad_description);
         
         //get ad pics
@@ -1494,7 +1526,9 @@ class AdController extends Controller
             'car_engine'                => CarEngine::allCached('car_engine_name'),
             'car_transmission'          => CarTransmission::allCached('car_transmission_name'),
             'car_condition'             => CarCondition::allCached('car_condition_name'),
-            'car_modification'          => CarModification::allCached('car_modification_name')
+            'car_modification'          => CarModification::allCached('car_modification_name'),
+            'clothes_sizes'             => ClothesSize::allCached('clothes_size_ord'),
+            'shoes_sizes'               => ShoesSize::allCached('shoes_size_ord')
         ]);
     }
     
@@ -1577,6 +1611,55 @@ class AdController extends Controller
         $validator->sometimes(['ad_price_type_3'], 'required|numeric|not_in:0', function($input){
             return $input->category_type == 3 ? 1 : 0;
         });
+
+        /**
+         * type 4 services validation
+         */
+        $validator->sometimes(['ad_price_type_4'], 'required|numeric|not_in:0', function($input){
+            if(($input->category_type == 4 && $input->price_radio_type_4 == 1) || ($input->category_type == 4 && !isset($input->price_radio_type_4))){
+                return true;
+            }
+            return false;
+        });
+
+        /**
+         * type 5 clothes validation
+         */
+        $validator->sometimes(['ad_price_type_5'], 'required|numeric|not_in:0', function($input){
+            if(($input->category_type == 5 && $input->price_radio_type_5 == 1) || ($input->category_type == 5 && !isset($input->price_radio_type_5))){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['clothes_size_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 5 ? 1 : 0;
+        });
+
+        /**
+         * type 6 shoes validation
+         */
+        $validator->sometimes(['ad_price_type_6'], 'required|numeric|not_in:0', function($input){
+            if(($input->category_type == 6 && $input->price_radio_type_6 == 1) || ($input->category_type == 6 && !isset($input->price_radio_type_6))){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['shoes_size_id'], 'required|integer|not_in:0', function($input){
+            return $input->category_type == 6 ? 1 : 0;
+        });
+
+        /**
+         * type 7 real estate land validation
+         */
+        $validator->sometimes(['ad_price_type_7'], 'required|numeric|not_in:0', function($input){
+            if($input->category_type == 7){
+                return true;
+            }
+            return false;
+        });
+        $validator->sometimes(['estate_sq_m_type_7'], 'required|numeric|not_in:0', function($input){
+            return $input->category_type == 7 ? 1 : 0;
+        });
                      
         if ($validator->fails()) {
             $this->throwValidationException(
@@ -1611,6 +1694,37 @@ class AdController extends Controller
             case 3:
                 $ad_data['ad_price'] = $ad_data['ad_price_type_3'];
                 $ad_data['condition_id'] = $ad_data['condition_id_type_3'];
+                break;
+            case 4:
+                if($ad_data['price_radio_type_4'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_4'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                break;
+            case 5:
+                if($ad_data['price_radio_type_5'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_5'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                break;
+            case 6:
+                if($ad_data['price_radio_type_6'] == 1){
+                    $ad_data['ad_price'] = $ad_data['ad_price_type_6'];
+                    $ad_data['ad_free'] = 0;
+                } else {
+                    $ad_data['ad_price'] = 0;
+                    $ad_data['ad_free'] = 1;
+                }
+                break;
+            case 7:
+                $ad_data['ad_price'] = $ad_data['ad_price_type_7'];
+                $ad_data['estate_sq_m'] = $ad_data['estate_sq_m_type_7'];
                 break;
         }
          

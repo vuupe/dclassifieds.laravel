@@ -44,5 +44,7 @@ return [
     'Close' => 'Close',
     'Sending Report...' => 'Sending Report...',
     'Send Report' => 'Send Report',
-    'Please select reason for your report.' => 'Please select reason for your report.'
+    'Please select reason for your report.' => 'Please select reason for your report.',
+    'Clothes Size' => 'Clothes Size',
+    'Shoes Size' => 'Shoes Size'
 ];

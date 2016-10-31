@@ -16,7 +16,8 @@ class Ad extends Model
     'ad_description_hash', 'ad_puslisher_name', 'code', 'ad_promo', 'ad_promo_until', 'ad_link', 'ad_video', 'ad_lat_lng', 
     'ad_skype', 'ad_address', 'ad_pic', 'ad_view', 'estate_type_id', 'estate_sq_m', 'estate_year', 'estate_construction_type_id', 
     'estate_floor', 'estate_num_floors_in_building', 'estate_heating_type_id', 'estate_furnishing_type_id', 'car_brand_id', 
-    'car_model_id', 'car_engine_id', 'car_transmission_id', 'car_modification_id', 'car_condition_id', 'car_year', 'car_kilometeres', 'created_at', 'updated_at'];
+    'car_model_id', 'car_engine_id', 'car_transmission_id', 'car_modification_id', 'car_condition_id', 'car_year', 'car_kilometeres',
+    'clothes_size_id', 'shoes_size_id', 'created_at', 'updated_at'];
     
     //used for $fillable generation
     public function getTableColumns() {
@@ -109,7 +110,8 @@ class Ad extends Model
         if(empty($ret)){
             $q = Ad::select('ad.*', 'U.*', 'U.created_at AS user_register_date', 'C.category_title', 'C.category_type', 'L.location_name', 'L.location_slug', 'AC.ad_condition_name', 'AT.ad_type_name',
                     'ET.estate_type_name', 'ECT.estate_construction_type_name', 'EHT.estate_heating_type_name', 'EFT.estate_furnishing_type_name',
-                    'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name')
+                    'CB.car_brand_name', 'CM.car_model_name', 'CE.car_engine_name', 'CT.car_transmission_name', 'CC.car_condition_name', 'CMM.car_modification_name',
+                    'CS.clothes_size_name', 'SS.shoes_size_name')
             
                     ->leftJoin('user AS U', 'U.user_id' , '=', 'ad.user_id')
                     ->leftJoin('category AS C', 'C.category_id' , '=', 'ad.category_id')
@@ -127,7 +129,9 @@ class Ad extends Model
                     ->leftJoin('car_engine AS CE', 'CE.car_engine_id' , '=', 'ad.car_engine_id')
                     ->leftJoin('car_transmission AS CT', 'CT.car_transmission_id' , '=', 'ad.car_transmission_id')
                     ->leftJoin('car_condition AS CC', 'CC.car_condition_id' , '=', 'ad.car_condition_id')
-                    ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id');
+                    ->leftJoin('car_modification AS CMM', 'CMM.car_modification_id' , '=', 'ad.car_modification_id')
+                    ->leftJoin('clothes_size AS CS', 'CS.clothes_size_id' , '=', 'ad.clothes_size_id')
+                    ->leftJoin('shoes_size AS SS', 'SS.shoes_size_id' , '=', 'ad.shoes_size_id');
             if($_active){
                 $q->where('ad_active', 1);
             }

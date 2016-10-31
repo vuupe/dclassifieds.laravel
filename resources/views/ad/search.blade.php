@@ -84,6 +84,14 @@
                         <input type="text" name="price_to" id="price_to" class="form-control" placeholder="{{ trans('search.Price to') }}" value="{{ old('price_to') }}"/>
                     </div>
 
+                    <div class="col-md-3 padding_bottom_15">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="price_free" id="price_free" {{ !empty(old('price_free')) ? 'checked' : ''}} value="1"> {{ trans('search.Free') }}
+                            </label>
+                        </div>
+                    </div>
+
                     @if(isset($selected_category_info) && !empty($selected_category_info))
                         @if($selected_category_info['category_type'] == 2)
                             <div class="col-md-3 padding_bottom_15">
@@ -276,6 +284,48 @@
                                     @endforeach
                                 </select>
                                 @endif
+                            </div>
+                        @endif
+
+                        @if($selected_category_info['category_type'] == 5)
+                            <div class="col-md-3 padding_bottom_15">
+                                @if(!$clothes_sizes->isEmpty())
+                                <select name="clothes_size_id[]" id="clothes_size_id" class="form-control multi_select" data-placeholder="{{ trans('search.Select Clothes Sizes') }}" multiple="multiple">
+                                    @foreach ($clothes_sizes as $k => $v)
+                                        @if(in_array($v->clothes_size_id, old('clothes_size_id', [])))
+                                            <option value="{{ $v->clothes_size_id }}" selected>{{ $v->clothes_size_name }}</option>
+                                        @else
+                                            <option value="{{ $v->clothes_size_id }}">{{ $v->clothes_size_name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @endif
+                            </div>
+                        @endif
+
+                        @if($selected_category_info['category_type'] == 6)
+                            <div class="col-md-3 padding_bottom_15">
+                                @if(!$shoes_sizes->isEmpty())
+                                <select name="shoes_size_id[]" id="shoes_size_id" class="form-control multi_select" data-placeholder="{{ trans('search.Select Shoes Sizes') }}" multiple="multiple">
+                                    @foreach ($shoes_sizes as $k => $v)
+                                        @if(in_array($v->shoes_size_id, old('shoes_size_id', [])))
+                                            <option value="{{ $v->shoes_size_id }}" selected>{{ $v->shoes_size_name }}</option>
+                                        @else
+                                            <option value="{{ $v->shoes_size_id }}">{{ $v->shoes_size_name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @endif
+                            </div>
+                        @endif
+
+                        @if($selected_category_info['category_type'] == 7)
+                            <div class="col-md-3 padding_bottom_15">
+                                <input type="text" class="form-control" id="estate_sq_m_from" name="estate_sq_m_from" value="{{ old('estate_sq_m_from') }}" placeholder="{{ trans('search.Estate sq. m. from') }}" />
+                            </div>
+
+                            <div class="col-md-3 padding_bottom_15">
+                                <input type="text" class="form-control" id="estate_sq_m_to" name="estate_sq_m_to" value="{{ old('estate_sq_m_to') }}" placeholder="{{ trans('search.Estate sq. m. to') }}" />
                             </div>
                         @endif
                     @endif

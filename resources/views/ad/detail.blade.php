@@ -146,6 +146,16 @@
                     @if(!empty($ad_detail->car_condition_id))
                         <div class="col-md-6"><span class="text-muted">{{ trans('detail.Car Condition') }}:</span> <span class="text-primary"><strong>{{ $ad_detail->car_condition_name}}</strong></span></div>
                     @endif
+
+                    <!-- clothes info -->
+                    @if(!empty($ad_detail->clothes_size_id))
+                        <div class="col-md-6"><span class="text-muted">{{ trans('detail.Clothes Size') }}:</span> <span class="text-primary"><strong>{{ $ad_detail->clothes_size_name}}</strong></span></div>
+                    @endif
+
+                    <!-- shoes info -->
+                    @if(!empty($ad_detail->shoes_size_id))
+                        <div class="col-md-6"><span class="text-muted">{{ trans('detail.Shoes Size') }}:</span> <span class="text-primary"><strong>{{ $ad_detail->shoes_size_name}}</strong></span></div>
+                    @endif
                 </div>
 
                 <hr>
