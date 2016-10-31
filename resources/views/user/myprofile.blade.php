@@ -1,11 +1,17 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">{{ trans('myprofile.Home') }}</a></li>
+                    <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ trans('myprofile.Home') }}</a></li>
                     <li class="active">{{ trans('myprofile.My Profile') }}</li>
                 </ol>
             </div>

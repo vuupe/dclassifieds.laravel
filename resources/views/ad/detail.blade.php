@@ -41,6 +41,17 @@
         <div class="row ad_detail_ad_info">
             <div class="col-md-12"><span class="text-muted">{{ trans('detail.Ad Id') }}: <span itemprop="productID">{{ $ad_detail->ad_id }}</span> | {{ trans('detail.Views') }}: {{ $ad_detail->ad_view }}</span></div>
         </div>
+        <div class="row ad_detail_ad_info">
+            <div class="col-md-12">
+                <div class="pull-left">
+                    <g:plusone></g:plusone>
+                </div>
+                <div class="pull-left" style="height:24px;">
+                    <div class="fb-like" data-href="{{ url(str_slug($ad_detail->ad_title) . '-' . 'ad' . $ad_detail->ad_id . '.html') }}" data-send="true" data-width="450" data-show-faces="false"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-8">
@@ -155,6 +166,17 @@
                     <!-- shoes info -->
                     @if(!empty($ad_detail->shoes_size_id))
                         <div class="col-md-6"><span class="text-muted">{{ trans('detail.Shoes Size') }}:</span> <span class="text-primary"><strong>{{ $ad_detail->shoes_size_name}}</strong></span></div>
+                    @endif
+
+                    <!-- ad link -->
+                    @if(config('dc.enable_link_in_ad'))
+                        @if(!empty($ad_detail->ad_link))
+                            @if(config('dc.enable_dofollow_link') || (config('dc.enable_dofollow_link_promo') && $ad_detail->ad_promo == 1))
+                                <div class="col-md-6"><span class="text-muted">{{ trans('detail.Site') }}:</span> <a href="{{ $ad_detail->ad_link }}" target="_blank">{{ $ad_detail->ad_link }}</a></div>
+                            @else
+                                <div class="col-md-6"><span class="text-muted">{{ trans('detail.Site') }}:</span> <a href="{{ $ad_detail->ad_link }}" rel="nofollow" target="_blank">{{ $ad_detail->ad_link }}</a></div>
+                            @endif
+                        @endif
                     @endif
                 </div>
 
@@ -478,5 +500,12 @@
                 return false;
             });
         });
+    </script>
+    <script type="text/javascript">
+        (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
     </script>
 @endsection

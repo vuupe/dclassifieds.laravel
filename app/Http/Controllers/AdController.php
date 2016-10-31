@@ -1436,7 +1436,12 @@ class AdController extends Controller
         $where = ['user_id' => Auth::user()->user_id];
         $order = ['ad_publish_date' => 'desc'];
         $my_ad_list = $this->ad->getAdList($where, $order);
-        return view('ad.myads', ['my_ad_list' => $my_ad_list]);
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('myads.My Classifieds');
+
+        return view('ad.myads', ['my_ad_list' => $my_ad_list, 'title' => $title]);
     }
     
     public function republish(Request $request)
@@ -1839,6 +1844,12 @@ class AdController extends Controller
         $user = $this->user->getUserById($request->user_id);
         $where = ['user_id' => $user->user_id, 'ad_active' => 1];
         $user_ad_list = $this->ad->getAdList($where);
-        return view('ad.user', ['user' => $user, 'user_ad_list' => $user_ad_list]);
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('user.Ad List');
+        $title[] = trans('user.Ad List User', ['name' => $user->name]);
+
+        return view('ad.user', ['user' => $user, 'user_ad_list' => $user_ad_list, 'title' => $title]);
     }
 }

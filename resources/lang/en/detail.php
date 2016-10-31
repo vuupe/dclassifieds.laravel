@@ -46,5 +46,6 @@ return [
     'Send Report' => 'Send Report',
     'Please select reason for your report.' => 'Please select reason for your report.',
     'Clothes Size' => 'Clothes Size',
-    'Shoes Size' => 'Shoes Size'
+    'Shoes Size' => 'Shoes Size',
+    'Site' => 'Site'
 ];

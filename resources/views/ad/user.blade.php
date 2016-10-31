@@ -1,12 +1,19 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">{{ trans('user.Home') }}</a></li>
-                    <li class="active">{{ $user->name }}</li>
+                    <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ trans('user.Home') }}</a></li>
+                    <li><a href="{{ url('ad/user/' . $user->user_id) }}">{{ trans('user.Ad List') }}</a></li>
+                    <li class="active">{{ trans('user.Ad List User', ['name' => $user->name]) }}</li>
                 </ol>
             </div>
         </div>
@@ -28,7 +35,7 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h1 class="media-heading">{{ $user->name }}</h1>
+                                <h3 class="media-heading">{{ $user->name }}</h3>
                                 <small><span class="text-muted">{{ trans('user.Registered') }}: {{ $user->created_at }}</span></small>
                             </div>
                         </div>
@@ -40,7 +47,11 @@
                 <div class="row">
                     @if(isset($user_ad_list) && !$user_ad_list->isEmpty())
                         @foreach ($user_ad_list as $k => $v)
-                            @include('common.ad_list')
+                            @if(config('dc.show_small_item_ads_list'))
+                                @include('common.ad_list_small')
+                            @else
+                                @include('common.ad_list')
+                            @endif
                         @endforeach
                     @endif
                 </div>

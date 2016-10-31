@@ -5,7 +5,6 @@ return [
     'My Messages' => 'My Messages',
     'My Profile' => 'My Profile',
     'My Classifieds' => 'My Classifieds',
-    'My Messages' => 'My Messages',
     'Mail #' => 'Mail #',
     'Ad #' => 'Ad #',
     'Date' => 'Date',

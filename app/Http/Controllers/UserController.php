@@ -18,6 +18,7 @@ use Validator;
 use Image;
 use Cache;
 use Mail;
+use Auth;
 
 class UserController extends Controller
 {
@@ -27,8 +28,8 @@ class UserController extends Controller
     
     public function __construct(User $_user, UserMail $_mail, Location $_location)
     {
-        $this->user = $_user;
-        $this->mail = $_mail;
+        $this->user     = $_user;
+        $this->mail     = $_mail;
         $this->location = $_location;
     }
     
@@ -36,19 +37,23 @@ class UserController extends Controller
     {
         $user = $this->user->find($request->user()->user_id);
         $user->password = '';
-        return view('user.myprofile', [
-            'user' => $user,
-            'l' => $this->location->getAllHierarhy()]);
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('myprofile.My Profile');
+
+        return view('user.myprofile', ['user' => $user,
+            'l' => $this->location->getAllHierarhy(),
+            'title' => $title]);
     }
     
     public function myprofilesave(Request $request)
     {
-//         exit;
-        $current_user = $request->user();
+        $current_user = Auth::user();
         $rules = [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:user,email,' . $current_user->user_id  . ',user_id',
-            'avatar_img' => 'mimes:jpeg,bmp,png|max:300',
+            'name'          => 'required|max:255',
+            'email'         => 'required|email|max:255|unique:user,email,' . $current_user->user_id  . ',user_id',
+            'avatar_img'    => 'mimes:jpeg,bmp,png|max:300',
         ];
          
         $validator = Validator::make($request->all(), $rules);
@@ -106,17 +111,22 @@ class UserController extends Controller
         }
         
         //set flash message and return
-        session()->flash('message', 'Your profile is updated.');
+        session()->flash('message', trans('myprofile.Your profile is updated.'));
         return redirect()->back();
     }
     
     public function mymail(Request $request)
     {
-        $current_user_id = $request->user()->user_id;
+        $current_user_id = Auth::user()->user_id;
         $where = ['user_id_to' => $request->user()->user_id, 'UMS.mail_deleted' => 0];
         $order = ['mail_date' => 'DESC'];
         $mailList = $this->mail->getMailList($current_user_id, $where, $order);
-        return view('user.mymail', ['mailList' => $mailList]);
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('mymail.My Messages');
+
+        return view('user.mymail', ['mailList' => $mailList, 'title' => $title]);
     }
     
     public function mailview(Request $request)
@@ -125,7 +135,7 @@ class UserController extends Controller
         $hash = $request->hash;
         $user_id_from = $request->user_id_from;
         $ad_id = $request->ad_id;
-        $current_user_id = $request->user()->user_id;
+        $current_user_id = Auth::user()->user_id;
         
         //calc hash
         $hash_array = array($current_user_id, $user_id_from, $ad_id);
@@ -150,8 +160,12 @@ class UserController extends Controller
         if($mailList->isEmpty()){
             return redirect(route('mymail'));
         }
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('mailview.Mail View');
         
-        return view('user.mailview', ['mailList' => $mailList, 'hash' => $hash]);
+        return view('user.mailview', ['mailList' => $mailList, 'hash' => $hash, 'title' => $title]);
     }
     
     public function mailviewsave(Request $request)
@@ -160,7 +174,7 @@ class UserController extends Controller
         $hash = $request->hash;
         $user_id_from = $request->user_id_from;
         $ad_id = $request->ad_id;
-        $current_user_id = $request->user()->user_id;
+        $current_user_id = Auth::user()->user_id;
     
         //calc hash
         $hash_array = array($current_user_id, $user_id_from, $ad_id);
@@ -196,13 +210,13 @@ class UserController extends Controller
             $this->mail->saveMailToDbAndSendMail($current_user_id, $user_id_from, $ad_id, $request->contact_message, $userInfo->email);
         
             //set flash message and return
-            session()->flash('message', 'Your message was send.');
+            session()->flash('message', trans('mailview.Your message was send.'));
             
             //clear the cache
             Cache::flush();
         } else {
             //set error flash message and return
-            session()->flash('message', 'Ups something is wrong, please try again later or contact our team.');
+            session()->flash('message', trans('mailview.Ups something is wrong, please try again later or contact our team.'));
         }
         return redirect()->back();
     }
