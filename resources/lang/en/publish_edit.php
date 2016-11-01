@@ -105,7 +105,7 @@ return [
     'Click here to publish new ad' => 'Click <strong><a href=":link">here</a></strong> to publish new ad.',
     'Your ad is activated' => 'Your ad is activated.',
     'Send sms and make your ad promo' => 'Send SMS to <strong>:number</strong> with text: <strong>:text</strong> and your ad will be promo for :period Days for :sum:cur',
-    'Click the button to pay for promo' => 'Click to button to pay with :pay, and make your ad promo for :period Days for :sum:cur',
+    'Click the button to pay for promo' => 'Click the button to pay with :pay, and make your ad promo for :period Days for :sum:cur',
     'Your ad will be activated automatically when you pay.' => 'Your ad will be activated automatically when you pay.',
     'Your ad is deleted' => 'Your ad is deleted',
     'Thanks, The report is send.' => 'Thanks, The report is send.',

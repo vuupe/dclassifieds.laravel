@@ -1877,4 +1877,129 @@ class AdController extends Controller
 
         return view('ad.user', ['user' => $user, 'user_ad_list' => $user_ad_list, 'title' => $title, 'params' => $params]);
     }
+
+    public function makepromo(Request $request)
+    {
+        //get ad info
+        $ad_id = $request->ad_id;
+        $ad_detail = $this->ad->getAdDetail($ad_id);
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('makepromo.Make promo Ad Id') . ' #' . $ad_detail->ad_id;
+
+        $payment_methods = new Collection();
+        if(config('dc.enable_promo_ads')){
+            $where['pay_active']    = 1;
+            $order['pay_ord']       = 'ASC';
+            $payModel               = new Pay();
+            $payment_methods        = $payModel->getList($where, $order);
+        }
+
+        $enable_pay_from_wallet = 0;
+        if(config('dc.enable_promo_ads') && Auth::check()){
+            //no caching for the wallet :)
+            $wallet_total = Wallet::where('user_id', Auth::user()->user_id)->sum('sum');
+            if(number_format($wallet_total, 2, '.', '') >= number_format(config('dc.wallet_promo_ad_price'), 2, '.', '')){
+                $enable_pay_from_wallet = 1;
+            }
+        }
+
+        return view('ad.makepromo', ['title' => $title,
+            'payment_methods' => $payment_methods,
+            'ad_detail' => $ad_detail,
+            'enable_pay_from_wallet' => $enable_pay_from_wallet
+        ]);
+    }
+
+    public function postmakepromo(Request $request)
+    {
+        //get ad info
+        $ad_id = $request->ad_id;
+        $ad_detail = $this->ad->getAdDetail($ad_id);
+
+        $rules = [
+            'ad_type_pay' => 'required|integer|not_in:0'
+        ];
+
+        $messages = [
+            'required' => trans('addtowallet.Please select payment method.'),
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $params = $request->all();
+
+        //if promo ads are enable check witch option is selected
+        if(isset($params['ad_type_pay'])){
+
+            //wallet pay
+            if($params['ad_type_pay'] == 1000){
+                //no caching for the wallet :)
+                $wallet_total = Wallet::where('user_id', Auth::user()->user_id)->sum('sum');
+                if(number_format($wallet_total, 2, '.', '') >= number_format(config('dc.wallet_promo_ad_price'), 2, '.', '')){
+                    //calc promo period
+                    $promoUntilDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+config('dc.wallet_promo_ad_period'), date('Y')));
+
+                    //make ad promo and activate it
+                    $ad_detail->ad_promo = 1;
+                    $ad_detail->ad_promo_until = $promoUntilDate;
+                    $ad_detail->ad_active = 1;
+                    $ad_detail->save();
+
+                    //subtract money from wallet
+                    $wallet_data = ['user_id' => $ad_detail->user_id,
+                        'ad_id' => $ad_detail->ad_id,
+                        'sum' => -number_format(config('dc.wallet_promo_ad_price'), 2, '.', ''),
+                        'wallet_date' => date('Y-m-d H:i:s'),
+                        'wallet_description' => trans('payment_fortumo.Your ad #:ad_id is Promo Until :date.', ['ad_id' => $ad_detail->ad_id, 'date' => $promoUntilDate])
+                    ];
+                    Wallet::create($wallet_data);
+                    Cache::flush();
+
+                    $message[] = trans('payment_fortumo.Your ad #:ad_id is Promo Until :date.', ['ad_id' => $ad_detail->ad_id, 'date' => $promoUntilDate]);
+                    $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
+                }
+            } else {
+                $where['pay_active'] = 1;
+                $order['pay_ord'] = 'ASC';
+                $payModel = new Pay();
+                $payment_methods = $payModel->getList($where, $order);
+                if (!$payment_methods->isEmpty()) {
+                    foreach ($payment_methods as $k => $v) {
+                        if($v->pay_id == $params['ad_type_pay']){
+                            if(empty($v->pay_page_name)){
+                                $message[] = trans('publish_edit.Send sms and make your ad promo', [
+                                    'number' => $v->pay_number,
+                                    'text' => $v->pay_sms_prefix . ' a' . $ad_detail->ad_id,
+                                    'period' => $v->pay_promo_period,
+                                    'sum' => number_format($v->pay_sum, 2, '.', ''),
+                                    'cur' => config('dc.site_price_sign')
+                                ]);
+                            } else {
+                                $message[] = trans('publish_edit.Click the button to pay for promo', [
+                                    'pay' => $v->pay_name,
+                                    'period' => $v->pay_promo_period,
+                                    'sum' => number_format($v->pay_sum, 2, '.', ''),
+                                    'cur' => config('dc.site_price_sign')
+                                ]);
+                                session()->flash('message', $message);
+                                return redirect(url($v->pay_page_name . '/a' . $ad_detail->ad_id));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //set flash message and go to info page
+        session()->flash('message', $message);
+        return redirect(route('info'));
+    }
 }

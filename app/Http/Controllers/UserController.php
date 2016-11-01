@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Database\Eloquent\Collection;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -11,8 +12,10 @@ use App\User;
 use App\Ad;
 use App\UserMail;
 use App\UserMailStatus;
-use App\Http\Dc\Util;
 use App\Location;
+use App\Wallet;
+use App\Pay;
+use App\Http\Dc\Util;
 
 use Validator;
 use Image;
@@ -25,17 +28,19 @@ class UserController extends Controller
     protected $user;
     protected $mail;
     protected $location;
+    protected $wallet;
     
-    public function __construct(User $_user, UserMail $_mail, Location $_location)
+    public function __construct(User $_user, UserMail $_mail, Location $_location, Wallet $_wallet)
     {
         $this->user     = $_user;
         $this->mail     = $_mail;
         $this->location = $_location;
+        $this->wallet   = $_wallet;
     }
     
     public function myprofile(Request $request)
     {
-        $user = $this->user->find($request->user()->user_id);
+        $user = $this->user->find(Auth::user()->user_id);
         $user->password = '';
 
         //set page title
@@ -240,5 +245,114 @@ class UserController extends Controller
         Cache::flush();
         
         return redirect()->back();
+    }
+
+    public function mywallet(Request $request)
+    {
+        $user = Auth::user();
+
+        $params     = $request->all();
+        $where      = [];
+        $order      = ['wallet_id' => 'desc'];
+        $limit      = 0;
+        $orderRaw   = '';
+        $whereIn    = [];
+        $whereRaw   = [];
+        $paginate   = config('dc.mywallet_num_items');
+        $page       = 1;
+
+
+        $where['wallet.user_id'] = ['=', $user->user_id];
+        if (isset($params['page']) && is_numeric($params['page'])) {
+            $page = $params['page'];
+        }
+
+        $walletList = $this->wallet->getList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
+        $wallet_total = $this->wallet->where('user_id', $user->user_id)->sum('sum');
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('mywallet.My Wallet Page Title');
+        $title[] = trans('mywallet.Page:') . ' ' . $page;
+
+        return view('user.mywallet', ['title' => $title,
+            'walletList' => $walletList,
+            'wallet_total' => $wallet_total,
+            'user' => $user,
+            'params' => $params
+        ]);
+    }
+
+    public function addtowallet(Request $request)
+    {
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('addtowallet.Add Money To Wallet');
+
+        $payment_methods = new Collection();
+        if(config('dc.enable_promo_ads')){
+            $where['pay_active']    = 1;
+            $order['pay_ord']       = 'ASC';
+            $payModel               = new Pay();
+            $payment_methods        = $payModel->getList($where, $order);
+        }
+
+        return view('user.addtowallet', ['title' => $title, 'payment_methods' => $payment_methods]);
+    }
+
+    public function postaddtowallet(Request $request)
+    {
+        $rules = [
+            'ad_type_pay' => 'required|integer|not_in:0'
+        ];
+
+        $messages = [
+            'required' => trans('addtowallet.Please select payment method.'),
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $params = $request->all();
+        $user = Auth::user();
+
+        $where['pay_active'] = 1;
+        $order['pay_ord'] = 'ASC';
+        $payModel = new Pay();
+        $payment_methods = $payModel->getList($where, $order);
+        if (!$payment_methods->isEmpty()) {
+            foreach ($payment_methods as $k => $v) {
+                if($v->pay_id == $params['ad_type_pay']){
+                    if(empty($v->pay_page_name)){
+                        $message[] = trans('addtowallet.Your money will be added to your wallet automatically when you pay.');
+                        $message[] = trans('addtowallet.Send sms to add money to your wallet', [
+                            'number' => $v->pay_number,
+                            'text' => $v->pay_sms_prefix . ' w' . $user->user_id,
+                            'sum' => number_format($v->pay_sum, 2, '.', ''),
+                            'cur' => config('dc.site_price_sign')
+                        ]);
+                    } else {
+                        $message[] = trans('addtowallet.Your money will be added to your wallet automatically when you pay.');
+                        $message[] = trans('addtowallet.Click the button to pay and add money to your wallet', [
+                            'pay' => $v->pay_name,
+                            'sum' => number_format($v->pay_sum, 2, '.', ''),
+                            'cur' => config('dc.site_price_sign')
+                        ]);
+                        session()->flash('message', $message);
+                        return redirect(url($v->pay_page_name . '/w' . $user->user_id));
+                    }
+                }
+            }
+        }
+
+        //set flash message and go to info page
+        session()->flash('message', $message);
+        return redirect(route('info'));
+
     }
 }

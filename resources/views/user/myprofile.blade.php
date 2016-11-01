@@ -24,6 +24,9 @@
                 <ul class="nav nav-pills">
                     <li role="presentation" class="active"><a href="{{ url('myprofile') }}">{{ trans('myprofile.My Profile') }}</a></li>
                     <li role="presentation"><a href="{{ url('myads') }}">{{ trans('myprofile.My Classifieds') }}</a></li>
+                    @if(config('dc.enable_promo_ads'))
+                        <li role="presentation"><a href="{{ url('mywallet') }}">{{ trans('mywallet.My Wallet') }}</a></li>
+                    @endif
                     <li role="presentation"><a href="{{ url('mymail') }}">{{ trans('myprofile.My Messages') }}</a></li>
                 </ul>
             </div>

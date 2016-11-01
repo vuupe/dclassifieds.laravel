@@ -4,6 +4,7 @@ return [
     'admin_panel' => 'Admin Panel',
     'my_profile' => 'My Profile',
     'my_classifieds' => 'My Classifieds',
+    'my_wallet' => 'My Wallet',
     'my_messages' => 'My Messages',
     'My Profile' => 'My Profile',
     'logout' => 'Logout',

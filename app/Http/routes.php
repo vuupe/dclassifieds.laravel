@@ -232,6 +232,9 @@ Route::get('/ad/user/{user_id}', 'AdController@userads')->name('userads')->where
 
 Route::get('/proxy', 'AdController@proxy')->name('proxy');
 
+Route::get('/makepromo/{ad_id}', 'AdController@makepromo')->name('makepromo')->middleware('auth');
+Route::post('/makepromo/{ad_id}', 'AdController@postmakepromo')->name('postmakepromo')->middleware('auth');
+
 /**
  * user actions
  */
@@ -250,6 +253,13 @@ Route::get('/maildelete/{mail_id}', 'UserController@maildelete')->name('maildele
 
 Route::get('/myprofile', 'UserController@myprofile')->name('profile')->middleware('auth');
 Route::post('/myprofile', 'UserController@myprofilesave')->name('profilesave')->middleware('auth');
+
+/**
+ * wallet action
+ */
+Route::get('/mywallet', 'UserController@mywallet')->name('wallet')->middleware('auth');
+Route::get('/addtowallet', 'UserController@addtowallet')->name('addtowallet')->middleware('auth');
+Route::post('/addtowallet', 'UserController@postaddtowallet')->name('postaddtowallet')->middleware('auth');
 
 // Authentication Routes...
 Route::get('login', 'Auth\AuthController@getLogin');

@@ -22,9 +22,12 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav nav-pills">
-                  <li role="presentation"><a href="{{ url('myprofile') }}">{{ trans('myads.My Profile') }}</a></li>
-                  <li role="presentation" class="active"><a href="{{ url('myads') }}">{{ trans('myads.My Classifieds') }}</a></li>
-                  <li role="presentation"><a href="{{ url('mymail') }}">{{ trans('myads.My Messages') }}</a></li>
+                    <li role="presentation"><a href="{{ url('myprofile') }}">{{ trans('myads.My Profile') }}</a></li>
+                    <li role="presentation" class="active"><a href="{{ url('myads') }}">{{ trans('myads.My Classifieds') }}</a></li>
+                    @if(config('dc.enable_promo_ads'))
+                        <li role="presentation"><a href="{{ url('mywallet') }}">{{ trans('mywallet.My Wallet') }}</a></li>
+                    @endif
+                    <li role="presentation"><a href="{{ url('mymail') }}">{{ trans('myads.My Messages') }}</a></li>
                 </ul>
             </div>
         </div>
@@ -44,7 +47,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th style="max-width: 100px;">Image{{ trans('myads.Image') }}</th>
+                                    <th style="max-width: 100px;">{{ trans('myads.Image') }}</th>
                                     <th>{{ trans('myads.Title') }}</th>
                                     <th>{{ trans('myads.Views') }}</th>
                                     <th>{{ trans('myads.Price') }}</th>
@@ -69,7 +72,9 @@
                                     <td>{{ $v->ad_publish_date }}</td>
                                     <td>{!! date('Y-m-d') > $v->ad_valid_until ? '<span style="color:red; font-weight:bold;">' . trans('myads.Expired') . '</span>' : $v->ad_valid_until !!}</td>
                                     <td nowrap>
-                                        <a href="" class="btn btn-warning btn-block btn-sm">{{ trans('myads.Make Promo') }}</a>
+                                        @if(config('dc.enable_promo_ads'))
+                                            <a href="{{ route('makepromo', ['ad_id' => $v->ad_id]) }}" class="btn btn-warning btn-block btn-sm">{{ trans('myads.Make Promo') }}</a>
+                                        @endif
                                         <a href="{{ route('republish', ['token' => $v->code]) }}" class="btn btn-success btn-block btn-sm">{{ trans('myads.Republish') }}</a>
                                         <a href="{{ route('adedit', array('id' => $v->ad_id)) }}" class="btn btn-primary btn-block btn-sm">{{ trans('myads.Edit') }}</a>
                                         <a href="{{ route('delete', ['token' => $v->code]) }}" class="btn btn-danger btn-block need_confirm btn-sm">{{ trans('myads.Delete') }}</a>

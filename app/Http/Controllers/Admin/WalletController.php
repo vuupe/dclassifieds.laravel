@@ -46,7 +46,7 @@ class WalletController extends Controller
         }
 
         if(isset($params['user_id']) && !empty($params['user_id'])){
-            $where['user_id'] = ['=', $params['user_id']];
+            $where['wallet.user_id'] = ['=', $params['user_id']];
         }
 
         if(isset($params['name']) && !empty($params['name'])){

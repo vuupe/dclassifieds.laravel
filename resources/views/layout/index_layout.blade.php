@@ -79,6 +79,9 @@
                                <ul class="dropdown-menu">
                                    <li><a href="{{ url('myprofile') }}">{{ trans('index_layout.my_profile') }}</a></li>
                                    <li><a href="{{ url('myads') }}">{{ trans('index_layout.my_classifieds') }}</a></li>
+                                   @if(config('dc.enable_promo_ads'))
+                                       <li><a href="{{ url('mywallet') }}">{{ trans('index_layout.my_wallet') }}</a></li>
+                                   @endif
                                    <li><a href="{{ url('mymail') }}">{{ trans('index_layout.my_messages') }}</a></li>
                                    <li role="separator" class="divider"></li>
                                    <li><a href="{{ url('logout') }}">{{ trans('index_layout.logout') }}</a></li>

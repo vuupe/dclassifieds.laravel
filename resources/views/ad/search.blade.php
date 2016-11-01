@@ -48,6 +48,13 @@
                         @endif
                     </div>
 
+                    <?$hide_condition = 0;?>
+                    @if(isset($selected_category_info) && !empty($selected_category_info))
+                        @if($selected_category_info['category_type'] == 4 || $selected_category_info['category_type'] == 7)
+                            <?$hide_condition = 1;?>
+                        @endif
+                    @endif
+                    @if(!$hide_condition)
                     <div class="col-md-3 padding_bottom_15">
                         @if(!$ac->isEmpty())
                         <select name="condition_id[]" id="condition_id" class="form-control multi_select" data-placeholder="{{ trans('search.Condition') }}" multiple="multiple">
@@ -61,6 +68,7 @@
                         </select>
                         @endif
                     </div>
+                    @endif
 
                     <div class="col-md-3 padding_bottom_15">
                         @if(!$at->isEmpty())
@@ -84,6 +92,13 @@
                         <input type="text" name="price_to" id="price_to" class="form-control" placeholder="{{ trans('search.Price to') }}" value="{{ old('price_to') }}"/>
                     </div>
 
+                    <?$hide_free = 0;?>
+                    @if(isset($selected_category_info) && !empty($selected_category_info))
+                        @if($selected_category_info['category_type'] == 7)
+                            <?$hide_free = 1;?>
+                        @endif
+                    @endif
+                    @if(!$hide_free)
                     <div class="col-md-3 padding_bottom_15">
                         <div class="checkbox">
                             <label>
@@ -91,6 +106,7 @@
                             </label>
                         </div>
                     </div>
+                    @endif
 
                     @if(isset($selected_category_info) && !empty($selected_category_info))
                         @if($selected_category_info['category_type'] == 2)

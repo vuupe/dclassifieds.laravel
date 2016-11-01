@@ -22,9 +22,12 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav nav-pills">
-                  <li role="presentation"><a href="{{ url('myprofile') }}">{{ trans('mymail.My Profile') }}</a></li>
-                  <li role="presentation"><a href="{{ url('myads') }}">{{ trans('mymail.My Classifieds') }}</a></li>
-                  <li role="presentation" class="active"><a href="{{ url('mymail') }}">{{ trans('mymail.My Messages') }}</a></li>
+                    <li role="presentation"><a href="{{ url('myprofile') }}">{{ trans('mymail.My Profile') }}</a></li>
+                    <li role="presentation"><a href="{{ url('myads') }}">{{ trans('mymail.My Classifieds') }}</a></li>
+                    @if(config('dc.enable_promo_ads'))
+                        <li role="presentation"><a href="{{ url('mywallet') }}">{{ trans('mywallet.My Wallet') }}</a></li>
+                    @endif
+                    <li role="presentation" class="active"><a href="{{ url('mymail') }}">{{ trans('mymail.My Messages') }}</a></li>
                 </ul>
             </div>
         </div>
