@@ -104,6 +104,7 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes'    => [],
+    "recaptcha"     => 'Click on the captcha to proof you are human.',
 
 ];

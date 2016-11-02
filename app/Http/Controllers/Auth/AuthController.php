@@ -45,12 +45,18 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:user',
-            'password' => 'required|confirmed|min:6',
-            'policy_agree' => 'required',
-        ]);
+        $rules = [
+            'name'          => 'required|max:255',
+            'email'         => 'required|email|max:255|unique:user',
+            'password'      => 'required|confirmed|min:6',
+            'policy_agree'  => 'required',
+        ];
+
+        if(config('dc.enable_recaptcha_register')){
+            $rules['g-recaptcha-response'] = 'required|recaptcha';
+        }
+
+        return Validator::make($data, $rules);
     }
 
     /**

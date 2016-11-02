@@ -26,6 +26,10 @@ class ContactController extends Controller
             'contact_message'   => 'required|min:' . config('dc.site_contact_min_words')
         ];
 
+        if(config('dc.enable_recaptcha_site_contact')){
+            $rules['g-recaptcha-response'] = 'required|recaptcha';
+        }
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {

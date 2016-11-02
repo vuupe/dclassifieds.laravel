@@ -62,6 +62,9 @@ class AppServiceProvider extends ServiceProvider
             foreach($settings as $k => $v){
                 config(['dc.' . $v->setting_name => $v->setting_value]);
             }
+
+            config(['recaptcha.public_key' => config('dc.recaptcha_site_key')]);
+            config(['recaptcha.private_key' => config('dc.recaptcha_secret_key')]);
         }
 
         /**

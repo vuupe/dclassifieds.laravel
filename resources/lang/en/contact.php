@@ -19,5 +19,6 @@ return [
     'Contact Us Page Title' => 'Contact Us',
     'New Contact Us Requiest' => 'New Contact Us Requiest',
     'Name' => 'Name',
-    'E-Mail' => 'E-Mail'
+    'E-Mail' => 'E-Mail',
+    'Captcha' => 'Captcha'
 ];
