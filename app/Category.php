@@ -97,6 +97,7 @@ class Category extends Model
         $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
         return Cache::rememberForever($cache_key, function() use ($_parent_id) {
             return $this->where('category_parent_id', $_parent_id)
+                ->where('category_active', 1)
                 ->orderBy('category_ord', 'asc')
                 ->get();
         });

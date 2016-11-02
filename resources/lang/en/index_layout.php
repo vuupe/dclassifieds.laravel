@@ -13,6 +13,7 @@ return [
     'All Categories' => 'All Categories',
     'All Locations' => 'All Locations',
     'No results' => 'No results',
-    'All rights reserved.' => 'All rights reserved.'
+    'All rights reserved.' => 'All rights reserved.',
+    'Contact' => 'Contact'
 ];
 

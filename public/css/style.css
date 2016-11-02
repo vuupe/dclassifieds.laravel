@@ -57,6 +57,11 @@ a:active, a:focus {
                 padding-bottom: 15px;
 }
 
+.padding_top_bottom_5{
+                padding-top: 5px;
+                padding-bottom: 5px;
+}
+
 .margin_bottom_15{
                 margin-bottom: 15px;
 }

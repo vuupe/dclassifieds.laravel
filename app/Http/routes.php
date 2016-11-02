@@ -176,6 +176,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
  */
 Route::get('/ban', 'BanController@index')->name('ban');
 Route::get('/info', 'InfoController@index')->name('info');
+Route::get('/contact', 'ContactController@index')->name('contact');
+Route::post('/contact', 'ContactController@postcontact')->name('postcontact');
 
 /**
  * Payment

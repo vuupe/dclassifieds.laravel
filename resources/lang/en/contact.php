@@ -14,5 +14,10 @@ return [
     'show ad' => 'show ad',
     'return to ad' => 'return to ad',
     'Your message was send.' => 'Your message was send.',
-    'Ups something is wrong, please try again later or contact our team.' => 'Ups something is wrong, please try again later or contact our team.'
+    'Ups something is wrong, please try again later or contact our team.' => 'Ups something is wrong, please try again later or contact our team.',
+    'Contact Us' => 'Contact Us',
+    'Contact Us Page Title' => 'Contact Us',
+    'New Contact Us Requiest' => 'New Contact Us Requiest',
+    'Name' => 'Name',
+    'E-Mail' => 'E-Mail'
 ];

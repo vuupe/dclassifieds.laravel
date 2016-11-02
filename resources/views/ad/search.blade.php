@@ -377,7 +377,7 @@
         <div class="container category_panel">
             <div class="row">
                 @foreach ($first_level_childs as $k => $v)
-                    <div class="col-md-3 padding_top_bottom_15"><a href="{{ $v->category_url }}">{{ $v->category_title }}</a></div>
+                    <div class="col-md-3 padding_top_bottom_5 sub_category"><i class="fa fa-circle-o" style="font-size: 12px;"></i> <a href="{{ $v->category_url }}">{{ $v->category_title }}</a></div>
                 @endforeach
             </div>
         </div>

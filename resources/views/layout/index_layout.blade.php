@@ -111,11 +111,13 @@
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">{{ trans('index_layout.copyright') }} &copy; {{ date('Y') }} <a href="{{ config('dc.site_url') }}">{{ config('dc.site_copyright_name') }}</a> {{ trans('index_layout.All rights reserved.') }}
+                | <a href="{{ route('contact') }}">{{ trans('index_layout.Contact') }}</a>
                 @if(isset($footerMenu) && !$footerMenu->isEmpty())
                     @foreach($footerMenu as $k => $v)
                         | <a href="{{ url('p/' . $v->page_slug) }}">{{ $v->page_title }}</a>
                     @endforeach
                 @endif
+                </p>
                 {!! config('dc.footer_html')  !!}
             </div>
         </footer>
