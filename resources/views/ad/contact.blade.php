@@ -1,5 +1,7 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
 @section('header_tags')
     <meta name="robots" content="noindex, nofollow" />
     <meta name="googlebot" content="noindex, nofollow" />

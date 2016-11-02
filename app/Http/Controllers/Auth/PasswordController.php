@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller
 {
-	protected $redirectTo = '/profile';
+    protected $redirectTo = '/myprofile';
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -29,5 +29,59 @@ class PasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLinkRequestForm()
+    {
+        if (property_exists($this, 'linkRequestView')) {
+            return view($this->linkRequestView);
+        }
+
+        if (view()->exists('auth.passwords.email')) {
+            return view('auth.passwords.email');
+        }
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('password.Lost Password');
+
+        return view('auth.password', ['title' => $title]);
+    }
+
+    /**
+     * Display the password reset view for the given token.
+     *
+     * If no token is present, display the link request form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string|null  $token
+     * @return \Illuminate\Http\Response
+     */
+    public function showResetForm(Request $request, $token = null)
+    {
+        if (is_null($token)) {
+            return $this->getEmail();
+        }
+
+        $email = $request->input('email');
+
+        if (property_exists($this, 'resetView')) {
+            return view($this->resetView)->with(compact('token', 'email'));
+        }
+
+        if (view()->exists('auth.passwords.reset')) {
+            return view('auth.passwords.reset')->with(compact('token', 'email'));
+        }
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('reset.Reset Password');
+
+        return view('auth.reset')->with(compact('token', 'email'));
     }
 }

@@ -23,7 +23,7 @@ class ContactController extends Controller
         $rules = [
             'contact_name'      => 'required|string|max:255',
             'contact_mail'      => 'required|email|max:255',
-            'contact_message'   => 'required|min:20'
+            'contact_message'   => 'required|min:' . config('dc.site_contact_min_words')
         ];
 
         $validator = Validator::make($request->all(), $rules);

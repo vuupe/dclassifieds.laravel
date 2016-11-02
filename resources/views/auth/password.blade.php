@@ -1,5 +1,11 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -22,7 +28,6 @@
                     </div>
                 </div>
 
-                @include('common.errors')
                 @if (session()->has('status'))
                     <div class="alert alert-info">{{ session('status') }}</div>
                 @endif
@@ -31,10 +36,15 @@
 
                     {!! csrf_field() !!}
 
-                    <div class="form-group">
+                    <div class="form-group required {{ $errors->has('email') ? ' has-error' : '' }}">
                         <label for="email" class="col-md-2 control-label">{{ trans('password.E-Mail') }}</label>
                         <div class="col-md-5">
                             <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                            @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
 
@@ -43,6 +53,7 @@
                             <button type="submit" class="btn btn-primary">{{ trans('password.Send') }}</button>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>

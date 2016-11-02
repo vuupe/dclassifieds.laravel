@@ -1269,7 +1269,7 @@ class AdController extends Controller
         
         //validate form
         $rules = [
-            'contact_message' => 'required|min:20'
+            'contact_message' => 'required|min:' . config('dc.ad_contact_min_words')
         ];
          
         $validator = Validator::make($request->all(), $rules);

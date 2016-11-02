@@ -8,6 +8,5 @@ return [
     'Password' => 'Password',
     'Password Again' => 'Password Again',
     'I Agree with' => 'I Agree with',
-    '"Privacy Policy"' => '"Privacy Policy"',
-    'Register' => 'Register'
+    '"Privacy Policy"' => '"Privacy Policy"'
 ];

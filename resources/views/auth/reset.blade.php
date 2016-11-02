@@ -1,5 +1,11 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -22,31 +28,44 @@
                     </div>
                 </div>
 
-                @include('common.errors')
-
                 <form class="form-horizontal" method="POST" action="{{ url('reset') }}">
 
                     {!! csrf_field() !!}
                     <input type="hidden" name="token" value="{{ $token }}">
 
-                    <div class="form-group">
+                    <div class="form-group required {{ $errors->has('email') ? ' has-error' : '' }}">
                         <label for="email" class="col-md-2 control-label">{{ trans('reset.E-Mail') }}</label>
                         <div class="col-md-5">
                             <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                            @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group required {{ $errors->has('password') ? ' has-error' : '' }}">
                         <label for="password" class="col-md-2 control-label">{{ trans('reset.Password') }}</label>
                         <div class="col-md-5">
                             <input type="password" class="form-control" name="password" id="password" >
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group required {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                         <label for="password_confirmation" class="col-md-2 control-label">{{ trans('reset.Confirm Password') }}</label>
                         <div class="col-md-5">
                             <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" >
+                            @if ($errors->has('password_confirmation'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
 
