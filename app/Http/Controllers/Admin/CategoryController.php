@@ -72,6 +72,8 @@ class CategoryController extends Controller
          */
         if ($request->isMethod('post')) {
 
+            $data = $request->all();
+
             /**
              * validate data
              */

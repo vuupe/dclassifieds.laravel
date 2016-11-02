@@ -49,7 +49,7 @@
                             <div class="form-group required {{ $errors->has('category_type') ? ' has-error' : '' }}">
                                 <label for="category_type" class="control-label">{{ trans('admin_common.Category Type') }}</label>
                                 <select class="form-control chosen_select" name="category_type" id="category_type" data-placeholder="{{ trans('admin_common.Select Category Type') }}">
-                                <option value=""></option>
+                                <option value="0"></option>
                                 @foreach ($categoryType as $k => $v)
                                     @if(Util::getOldOrModelValue('category_type', $modelData) == $k)
                                         <option value="{{$k}}" selected>{{$v}}</option>

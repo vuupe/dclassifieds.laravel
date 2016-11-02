@@ -85,11 +85,13 @@ $(document).ready(function(){
 function show_ad_fields(_this)
 {
     var data_type = $(_this).find('option:selected').data('type');
-    $('.common_fields_container').hide();
-    if(data_type == null){
-        data_type = 0;
-    } else {
-        $('#type_' + data_type).show();
+    if(data_type != undefined) {
+        $('.common_fields_container').hide();
+        if (data_type == null) {
+            data_type = 0;
+        } else {
+            $('#type_' + data_type).show();
+        }
+        $('#category_type').val(data_type);
     }
-    $('#category_type').val(data_type);
 }
