@@ -1123,6 +1123,20 @@
                         </div>
                     </div>
 
+                    @if(config('dc.enable_recaptcha_publish'))
+                    <div class="form-group required {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                        <label for="g-recaptcha-response" class="control-label col-md-4">{{ trans('publish_edit.Captcha') }}</label>
+                        <div class="col-md-8">
+                            {!! Recaptcha::render(['lang' => config('dc.recaptcha_lang')]) !!}
+                            @if ($errors->has('g-recaptcha-response'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">
                             <button type="submit" class="btn btn-primary">{{ trans('publish_edit.Publish') }}</button>

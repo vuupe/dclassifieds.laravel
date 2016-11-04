@@ -118,6 +118,18 @@
                                 @endif
                             </div>
 
+                            @if(config('dc.enable_recaptcha_ad_contact'))
+                            <div class="form-group required {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                                <label for="g-recaptcha-response" class="control-label">{{ trans('publish_edit.Captcha') }}</label>
+                                {!! Recaptcha::render(['lang' => config('dc.recaptcha_lang')]) !!}
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            @endif
+
                             <button type="submit" class="btn btn-primary">{{ trans('contact.Send') }}</button>
                         </form>
                     </div>

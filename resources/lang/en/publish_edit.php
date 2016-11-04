@@ -121,5 +121,6 @@ return [
     'Select Shoes Size' => 'Select Shoes Size',
     'Choose Shoes Size' => '',
     'Estate/Land sq. m.' => 'Estate/Land sq. m.',
-    'Enter Estate/Land sq. m.' => ''
+    'Enter Estate/Land sq. m.' => '',
+    'Captcha' => 'Captcha'
 ];

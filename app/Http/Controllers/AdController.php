@@ -783,6 +783,10 @@ class AdController extends Controller
             $rules['ad_image'] = 'require_one_of_array';
         }
 
+        if(config('dc.enable_recaptcha_publish')){
+            $rules['g-recaptcha-response'] = 'required|recaptcha';
+        }
+
         $messages = [
             'require_one_of_array' => trans('publish_edit.You need to upload at least one ad pic.'),
         ];
@@ -1271,6 +1275,10 @@ class AdController extends Controller
         $rules = [
             'contact_message' => 'required|min:' . config('dc.ad_contact_min_words')
         ];
+
+        if(config('dc.enable_recaptcha_ad_contact')){
+            $rules['g-recaptcha-response'] = 'required|recaptcha';
+        }
          
         $validator = Validator::make($request->all(), $rules);
         $validator->sometimes(['contact_name'], 'required|string|max:255', function($request){

@@ -74,9 +74,9 @@
 
                     @if(config('dc.enable_recaptcha_site_contact'))
                     <div class="form-group required {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
-                        <label for="contact_message" class="control-label col-md-2">{{ trans('contact.Captcha') }}</label>
+                        <label for="g-recaptcha-response" class="control-label col-md-2">{{ trans('contact.Captcha') }}</label>
                         <div class="col-md-5">
-                            {!! Recaptcha::render() !!}
+                            {!! Recaptcha::render(['lang' => config('dc.recaptcha_lang')]) !!}
                             @if ($errors->has('g-recaptcha-response'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
