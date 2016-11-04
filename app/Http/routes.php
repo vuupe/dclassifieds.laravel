@@ -180,6 +180,12 @@ Route::get('/contact', 'ContactController@index')->name('contact');
 Route::post('/contact', 'ContactController@postcontact')->name('postcontact');
 
 /**
+ * facebook login
+ */
+Route::get('/fbredirect', 'SocialAuthController@redirect');
+Route::get('/fbcallback', 'SocialAuthController@callback');
+
+/**
  * Payment
  */
 //mobio sms

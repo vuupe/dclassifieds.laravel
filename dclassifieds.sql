@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 04, 2016 at 04:48 PM
+-- Generation Time: Nov 04, 2016 at 09:42 PM
 -- Server version: 5.1.42
 -- PHP Version: 5.2.12
 
@@ -370,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `banner` (
 --
 
 INSERT INTO `banner` (`banner_id`, `banner_position`, `banner_type`, `banner_name`, `banner_link`, `banner_code`, `banner_image`, `banner_active_from`, `banner_active_to`, `banner_num_views`) VALUES
-(2, 1, 1, 'cntral banner', 'http://www.google.com', '', '1475935276_banner.png', '2016-10-08', '2018-10-10', 1197),
+(2, 1, 1, 'cntral banner', 'http://www.google.com', '', '1475935276_banner.png', '2016-10-08', '2018-10-10', 1237),
 (4, 2, 1, 'ad detail banner', 'http://www.google.com', '', '1476006282_banner.gif', '2016-10-06', '2017-04-13', 175);
 
 -- --------------------------------------------------------
@@ -2705,7 +2705,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `setting_ord` int(11) DEFAULT '0',
   `setting_required` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
 
 --
 -- Dumping data for table `settings`
@@ -2770,7 +2770,10 @@ INSERT INTO `settings` (`setting_id`, `setting_name`, `setting_value`, `setting_
 (57, 'enable_recaptcha_register', '1', 'Enable reCaptcha for Site Register Page', 1, 'text', 'recaptcha_info', 0, 1),
 (58, 'enable_recaptcha_publish', '1', 'Enable reCaptcha for Site Publish Page', 1, 'text', NULL, 0, 1),
 (59, 'recaptcha_lang', 'en', 'reCaptcha Language', 1, 'text', NULL, 0, 1),
-(60, 'enable_recaptcha_ad_contact', '1', 'Enable reCaptcha for Ad Contact Page', 1, 'text', NULL, 0, 1);
+(60, 'enable_recaptcha_ad_contact', '1', 'Enable reCaptcha for Ad Contact Page', 1, 'text', NULL, 0, 1),
+(61, 'enable_facebook_login', '1', 'Enable Facebook Login', 1, 'text', NULL, 0, 1),
+(62, 'facebook_app_client_id', '1616767541958956', 'Facebook App Client Id', 1, 'text', NULL, 0, 0),
+(63, 'facebook_app_secret', 'a24cc88a6867ad2c69ff13493987b558', 'Facebook App Client Secret', 1, 'text', NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2825,7 +2828,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `name`, `avatar`, `email`, `password`, `remember_token`, `user_activated`, `user_activation_token`, `user_location_id`, `user_phone`, `user_skype`, `user_address`, `user_lat_lng`, `user_site`, `is_admin`, `created_at`, `updated_at`) VALUES
-(1, 'dinko1 georgiev1', '1_f2ac6ef22c16c7e2f97abe9ab134c283.jpg', 'dinko359@gmail.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'n0pOj8LgfVmN8QhvrzaQmR1XcJ310iY0fWgSruIH8aGJUN0cNXM43TENi1zj', 1, NULL, 5, 'phone1', 'skype1', '451-499 24th St N, Birmingham, AL 35203, USA', '(33.5206313, -86.80255310000001)', 'web site1', 1, '2016-05-01 14:18:20', '2016-11-02 15:15:05'),
+(1, 'dinko1 georgiev1', '1_f2ac6ef22c16c7e2f97abe9ab134c283.jpg', 'dinko359@gmail.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'l2KKjbAtKl34Y1u3o0Bti7ceylfOVXdZqjgi6zUD1bzjTGSU5S6sK5cHy0RW', 1, NULL, 5, 'phone1', 'skype1', '451-499 24th St N, Birmingham, AL 35203, USA', '(33.5206313, -86.80255310000001)', 'web site1', 1, '2016-05-01 14:18:20', '2016-11-04 19:36:59'),
 (2, 'Ivan Ivanov', NULL, 'webmaster@silabg.com', '$2y$10$OVuW0xkgw2.1hcJTC8nDx.7sMq1mOuLG/MA3Nh0s1uoPPhQdU.bEW', 'ZsGZV0Dzu67KfivfPfP2hI1xdZF5nmwnTaZDeppsrrW1lzeBrJ1R4VBI6ru9', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2016-05-01 14:23:22', '2016-06-21 14:05:12');
 
 -- --------------------------------------------------------
@@ -2880,6 +2883,28 @@ INSERT INTO `user_mail_status` (`mail_status_id`, `mail_id`, `user_id`, `mail_st
 (4, 2, 1, 2, 0, '4f57d0ecf9622a0bd8a6e3f79c71a09d'),
 (5, 3, 2, 0, 0, '4f57d0ecf9622a0bd8a6e3f79c71a09d'),
 (6, 3, 1, 1, 0, '4f57d0ecf9622a0bd8a6e3f79c71a09d');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_social_account`
+--
+
+CREATE TABLE IF NOT EXISTS `user_social_account` (
+  `user_id` int(11) NOT NULL,
+  `provider_user_id` varchar(255) NOT NULL,
+  `provider` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_social_account`
+--
+
+INSERT INTO `user_social_account` (`user_id`, `provider_user_id`, `provider`, `created_at`, `updated_at`) VALUES
+(1, '10209511660562132', 'facebook', '2016-11-04 19:26:43', '2016-11-04 19:26:43');
 
 -- --------------------------------------------------------
 

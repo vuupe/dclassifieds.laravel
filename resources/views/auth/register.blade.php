@@ -117,10 +117,19 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <button type="submit" class="btn btn-primary">{{ trans('register.Register') }}</button>
+                            @if(config('dc.enable_facebook_login'))
+                                <a class="btn btn-social btn-facebook">
+                                    <i class="fa fa-facebook"></i> {{ trans('login.Sign in with Facebook') }}
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-social.css') }}">
 @endsection

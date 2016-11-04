@@ -63,8 +63,13 @@ class AppServiceProvider extends ServiceProvider
                 config(['dc.' . $v->setting_name => $v->setting_value]);
             }
 
+            //recaptcha settings
             config(['recaptcha.public_key' => config('dc.recaptcha_site_key')]);
             config(['recaptcha.private_key' => config('dc.recaptcha_secret_key')]);
+
+            //facebook login settings
+            config(['services.facebook.client_id' => config('dc.facebook_app_client_id')]);
+            config(['services.facebook.client_secret' => config('dc.facebook_app_secret')]);
         }
 
         /**
