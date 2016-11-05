@@ -1,14 +1,24 @@
 <?php
-
+/**
+ * Thanks to Damir Miladinov
+ *
+ * https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-facebook-login.html#.WBn2o8mYI88
+ * https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-twitter-login.html#.WB20WcmYI88
+ * https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#.WB3EdcmYI88
+ */
 namespace App;
 
-use Laravel\Socialite\Contracts\User as ProviderUser;
+//use Laravel\Socialite\Contracts\User as ProviderUser;
+use Laravel\Socialite\Contracts\Provider;
 
 class SocialAccountService
 {
-    public function createOrGetUser(ProviderUser $providerUser)
+    public function createOrGetUser(Provider $provider)
     {
-        $account = UserSocialAccount::whereProvider('facebook')
+        $providerUser = $provider->user();
+        $providerName = class_basename($provider);
+
+        $account = UserSocialAccount::whereProvider($providerName)
             ->whereProviderUserId($providerUser->getId())
             ->first();
 

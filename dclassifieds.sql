@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 04, 2016 at 09:42 PM
+-- Generation Time: Nov 05, 2016 at 01:52 PM
 -- Server version: 5.1.42
 -- PHP Version: 5.2.12
 
@@ -370,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `banner` (
 --
 
 INSERT INTO `banner` (`banner_id`, `banner_position`, `banner_type`, `banner_name`, `banner_link`, `banner_code`, `banner_image`, `banner_active_from`, `banner_active_to`, `banner_num_views`) VALUES
-(2, 1, 1, 'cntral banner', 'http://www.google.com', '', '1475935276_banner.png', '2016-10-08', '2018-10-10', 1237),
+(2, 1, 1, 'cntral banner', 'http://www.google.com', '', '1475935276_banner.png', '2016-10-08', '2018-10-10', 1250),
 (4, 2, 1, 'ad detail banner', 'http://www.google.com', '', '1476006282_banner.gif', '2016-10-06', '2017-04-13', 175);
 
 -- --------------------------------------------------------
@@ -2705,7 +2705,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `setting_ord` int(11) DEFAULT '0',
   `setting_required` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
 
 --
 -- Dumping data for table `settings`
@@ -2773,7 +2773,13 @@ INSERT INTO `settings` (`setting_id`, `setting_name`, `setting_value`, `setting_
 (60, 'enable_recaptcha_ad_contact', '1', 'Enable reCaptcha for Ad Contact Page', 1, 'text', NULL, 0, 1),
 (61, 'enable_facebook_login', '1', 'Enable Facebook Login', 1, 'text', NULL, 0, 1),
 (62, 'facebook_app_client_id', '1616767541958956', 'Facebook App Client Id', 1, 'text', NULL, 0, 0),
-(63, 'facebook_app_secret', 'a24cc88a6867ad2c69ff13493987b558', 'Facebook App Client Secret', 1, 'text', NULL, 0, 0);
+(63, 'facebook_app_secret', 'a24cc88a6867ad2c69ff13493987b558', 'Facebook App Client Secret', 1, 'text', NULL, 0, 0),
+(64, 'enable_google_login', '1', 'Enable Google Login', 1, 'text', NULL, 0, 1),
+(65, 'google_app_client_id', NULL, 'Google App Client Id', 1, 'text', NULL, 0, 0),
+(66, 'google_app_secret', NULL, 'Google App Client Secret', 1, 'text', NULL, 0, 0),
+(67, 'enable_twitter_login', '1', 'Enable Twitter Login', 1, 'text', NULL, 0, 1),
+(68, 'twitter_app_client_id', NULL, 'Twitter App Client Id', 1, 'text', NULL, 0, 0),
+(69, 'twitter_app_secret', NULL, 'Twitter App Client Secret', 1, 'text', NULL, 0, 0);
 
 -- --------------------------------------------------------
 

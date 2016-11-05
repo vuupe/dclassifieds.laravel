@@ -77,14 +77,29 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10 margin_bottom_15">
                             <button type="submit" class="btn btn-primary">{{ trans('login.Login') }}</button>
-                            @if(config('dc.enable_facebook_login'))
-                                <a href="{{ url('fbredirect') }}" class="btn btn-social btn-facebook">
-                                    <i class="fa fa-facebook"></i> {{ trans('login.Sign in with Facebook') }}
-                                </a>
-                            @endif
                         </div>
                         <div class="col-md-offset-2 col-md-10">
                             <a href="{{ url('register') }}">{{ trans('login.Register') }}</a> | <a href="{{ url('lostpassword') }}">{{ trans('login.Lost Password?') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-5 margin_bottom_15">
+                            @if(config('dc.enable_facebook_login'))
+                                <a href="{{ url('socialredirect/facebook') }}" class="btn btn-block btn-social btn-facebook">
+                                    <i class="fa fa-facebook"></i> {{ trans('login.Sign in with Facebook') }}
+                                </a>
+                            @endif
+                            @if(config('dc.enable_google_login'))
+                                <a href="{{ url('socialredirect/google') }}" class="btn btn-block btn-social btn-google">
+                                    <i class="fa fa-google-plus"></i> {{ trans('login.Sign in with Google') }}
+                                </a>
+                            @endif
+                            @if(config('dc.enable_twitter_login'))
+                                <a href="{{ url('socialredirect/twitter') }}" class="btn btn-block btn-social btn-twitter">
+                                    <i class="fa fa-twitter"></i> {{ trans('login.Sign in with Twitter') }}
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </form>

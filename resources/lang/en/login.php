@@ -9,5 +9,7 @@ return [
     'Register' => 'Register',
     'Lost Password?' => 'Lost Password?',
     'Facebook Login' => 'Facebook Login',
-    'Sign in with Facebook' => 'Sign in with Facebook'
+    'Sign in with Facebook' => 'Sign in with Facebook',
+    'Sign in with Google' => 'Sign in with Google',
+    'Sign in with Twitter' => 'Sign in with Twitter'
 ];

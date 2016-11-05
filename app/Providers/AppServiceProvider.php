@@ -70,6 +70,14 @@ class AppServiceProvider extends ServiceProvider
             //facebook login settings
             config(['services.facebook.client_id' => config('dc.facebook_app_client_id')]);
             config(['services.facebook.client_secret' => config('dc.facebook_app_secret')]);
+
+            //google login settings
+            config(['services.google.client_id' => config('dc.google_app_client_id')]);
+            config(['services.google.client_secret' => config('dc.google_app_secret')]);
+
+            //twitter login settings
+            config(['services.twitter.client_id' => config('dc.twitter_app_client_id')]);
+            config(['services.twitter.client_secret' => config('dc.twitter_app_secret')]);
         }
 
         /**

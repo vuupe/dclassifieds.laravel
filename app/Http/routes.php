@@ -180,10 +180,10 @@ Route::get('/contact', 'ContactController@index')->name('contact');
 Route::post('/contact', 'ContactController@postcontact')->name('postcontact');
 
 /**
- * facebook login
+ * social login
  */
-Route::get('/fbredirect', 'SocialAuthController@redirect');
-Route::get('/fbcallback', 'SocialAuthController@callback');
+Route::get('/socialredirect/{provider}', 'SocialAuthController@redirect');
+Route::get('/socialcallback/{provider}', 'SocialAuthController@callback');
 
 /**
  * Payment
