@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
@@ -35,6 +34,8 @@ use App\UserMailStatus;
 use App\AdReport;
 use App\AdFav;
 use App\Pay;
+use App\MagicKeywords;
+use App\Wallet;
 
 use Image;
 use Validator;
@@ -106,13 +107,60 @@ class AdController extends Controller
             $latest_ad_list = $this->ad->getAdList($where, $order, $limit);
         }
 
+        /**
+         * get ad count by category and selected filter
+         */
+        $all_location_childs = [];
+        if($lid > 0) {
+            $alc = $this->location->getAllHierarhyFlat($lid);
+            if (!empty($alc)) {
+                foreach ($alc as $ak => $av) {
+                    $all_location_childs[] = $av['lid'];
+                }
+            }
+            $all_location_childs[] = $lid;
+        }
+        if(!$first_level_childs->isEmpty()){
+            unset($where['ad_promo']);
+            if($lid > 0){
+                $whereIn['ad.location_id'] = $all_location_childs;
+            }
+
+            foreach($first_level_childs as $k => &$v){
+
+                $this_category_childs = [];
+                //get this category childs
+                $acc = $this->category->getAllHierarhyFlat($v->category_id);
+                if(!empty($acc)){
+                    foreach($acc as $ak => $av){
+                        $this_category_childs[] = $av['cid'];
+                    }
+                }
+                $this_category_childs[] = $v->category_id;
+                $whereIn['category_id'] = $this_category_childs;
+                $v->ad_count = $this->ad->getAdCount($where, $whereIn);
+            }
+        }
+
+        /**
+         * magic keywords
+         */
+        $magic_keywords = new Collection();
+        if(config('dc.enable_magic_keywords')){
+            $order = ['keyword_count' => 'DESC'];
+            $limit = config('dc.num_magic_keywords_to_show');
+            $mkModel = new MagicKeywords();
+            $magic_keywords = $mkModel->getList($order, $limit);
+        }
+
         return view('ad.home',[
             'c'                 => $this->category->getAllHierarhy(),
             'l'                 => $this->location->getAllHierarhy(),
             'first_level_childs'=> $first_level_childs,
             'lid'               => $lid,
             'promo_ad_list'     => $promo_ad_list,
-            'latest_ad_list'    => $latest_ad_list
+            'latest_ad_list'    => $latest_ad_list,
+            'magic_keywords'    => $magic_keywords
         ]);
 
     }
@@ -523,6 +571,46 @@ class AdController extends Controller
         $title[] = trans('search.Page:') . ' ' . $page;
 
         $ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
+
+        /**
+         * magic keywords
+         */
+        if(!empty($search_text) && config('dc.enable_magic_keywords')){
+            unset($where['ad_promo']);
+            $ad_count = $this->ad->getAdCount($where, $whereIn, $whereRaw);
+            if($ad_count >= config('dc.minimum_results_to_save_magic_keyword')){
+                $mkModel = new MagicKeywords();
+                $mkCount = $mkModel->where('keyword', $search_text)->count();
+                if($mkCount == 0){
+                    $mkModel->keyword = $search_text;
+                    $mkModel->save();
+                } else {
+                    $mkModel->where('keyword', $search_text)->increment('keyword_count', 1);
+                }
+            }
+        }
+
+        /**
+         * get ad count by category and selected filter
+         */
+        if(!$first_level_childs->isEmpty()){
+            unset($where['ad_promo']);
+
+            foreach($first_level_childs as $k => &$v){
+
+                $this_category_childs = [];
+                //get this category childs
+                $acc = $this->category->getAllHierarhyFlat($v->category_id);
+                if(!empty($acc)){
+                    foreach($acc as $ak => $av){
+                        $this_category_childs[] = $av['cid'];
+                    }
+                }
+                $this_category_childs[] = $v->category_id;
+                $whereIn['category_id'] = $this_category_childs;
+                $v->ad_count = $this->ad->getAdCount($where, $whereIn, $whereRaw);
+            }
+        }
 
         /**
          * put all view vars in array

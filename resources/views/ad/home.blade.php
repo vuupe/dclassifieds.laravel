@@ -62,7 +62,7 @@
             <div class="row">
                 @foreach ($first_level_childs as $k => $v)
                     <div class="col-md-3 padding_top_bottom_15">
-                        <a href="{{ $v->category_url }}" class="home-category-link"><img src="{{ asset('uf/cicons/' . $v->category_img) }}" />{{ $v->category_title }}</a>
+                        <a href="{{ $v->category_url }}" class="home-category-link"><img src="{{ asset('uf/cicons/' . $v->category_img) }}" />{{ $v->category_title }} <small class="text-muted">({{ $v->ad_count }})</small></a>
                     </div>
                 @endforeach
             </div>
@@ -118,6 +118,7 @@
                 <div class="fb-like" data-href="{{ config('dc.facebook_site_url') }}" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
             </div>
         </div>
+        <hr>
     </div>
 
     @if(isset($first_level_childs) && !$first_level_childs->isEmpty())
@@ -132,6 +133,30 @@
                     </ol>
                 </div>
             </div>
+            <hr>
         </div>
     @endif
+
+    @if(config('dc.enable_magic_keywords') && !$magic_keywords->isEmpty())
+        <div class="container home_info_link_panel">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="active">{{ trans('home.Popular Searches') }}</li>
+                        @foreach ($magic_keywords as $k => $v)
+                            <?
+                            $url = $v->keyword_url;
+                            if(empty($url)){
+                                $url = url('q-' . preg_replace('/\s+/', '-', $v->keyword));
+                            }
+                            ?>
+                            <li><a href="{{ $url }}">{{ $v->keyword }}</a></li>
+                        @endforeach
+                    </ol>
+                </div>
+            </div>
+            <hr>
+        </div>
+    @endif
+
 @endsection

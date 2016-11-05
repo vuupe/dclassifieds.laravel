@@ -102,6 +102,50 @@ class Ad extends Model
         }
         return $ret;
     }
+
+    public function getAdCount($_where = [], $_whereIn = [], $_whereRaw = [])
+    {
+        $cache_key = __CLASS__ . '_' . __LINE__ . '_' . md5(config('dc.site_domain') . serialize(func_get_args()));
+        $ret = Cache::get($cache_key, 0);
+        if(!$ret){
+            $q = $this->newQuery();
+
+            if(!empty($_where)){
+                foreach ($_where as $k => $v){
+                    if(is_array($v)){
+                        $q->where($k, $v[0], $v[1]);
+                    } else {
+                        $q->where($k, $v);
+                    }
+                }
+            }
+
+            if(!empty($_whereIn)){
+                foreach ($_whereIn as $k => $v){
+                    if(is_array($v)){
+                        $q->whereIn($k, $v);
+                    }
+                }
+            }
+
+            if(!empty($_whereRaw)){
+                foreach ($_whereRaw as $k => $v){
+                    if(is_array($v)){
+                        $q->whereRaw($k, $v);
+                    }
+                }
+            }
+
+            $q->leftJoin('location AS L', 'L.location_id' , '=', 'ad.location_id');
+
+            $res = $q->count();
+            if($res > 0){
+                $ret = $res;
+                Cache::put($cache_key, $ret, config('dc.cache_expire'));
+            }
+        }
+        return $ret;
+    }
     
     public function getAdDetail($_ad_id, $_active = 1)
     {
