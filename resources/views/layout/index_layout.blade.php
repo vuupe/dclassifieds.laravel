@@ -124,9 +124,11 @@
         
         <script>
             __AX_GET_CAR_MODELS = '{{ url('axgetcarmodels') }}';
+            __AX_GET_CATEGORY = '{{ url('axgetcategory') }}';
             __ALL_CATEGORIES_TEXT = '{{ trans('index_layout.All Categories') }}';
             __ALL_LOCATIONS_TEXT = '{{ trans('index_layout.All Locations') }}';
             __NO_RESULTS_TEXT = '{{ trans('index_layout.No results') }}';
+            __START = '{{ trans('publish_edit.Start') }}';
         </script>
     
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

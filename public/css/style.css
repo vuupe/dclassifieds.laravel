@@ -248,6 +248,14 @@ generated from http://www.cssportal.com/css-ribbon-generator/
                 top:6px;
 }
 
+#quick_category_loader{
+                display:none;
+}
+
+.category_selector{
+                padding: 5px 5px;
+}
+
 .form-group.required .control-label:after {
                 content:"*";
                 color:red;

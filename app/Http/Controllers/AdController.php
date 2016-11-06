@@ -821,6 +821,8 @@ class AdController extends Controller
             }
         }
 
+        $first_level_childs = $this->category->getOneLevel();
+
         /**
          * put all view vars in array
          */
@@ -831,6 +833,7 @@ class AdController extends Controller
             'title' => $title, //set the page title
             'payment_methods' => $payment_methods, //get payment methods
             'enable_pay_from_wallet' => $enable_pay_from_wallet, //enable/disable wallet promo ad pay
+            'first_level_childs' => $first_level_childs, //first level categories
 
             //filter vars
             'at'                        => AdType::allCached('ad_type_name'),
@@ -1263,9 +1266,25 @@ class AdController extends Controller
         if(!empty($code)){
             $ad = Ad::where('code', $code)->first();
             if(!empty($ad)){
+
+                //if enabled add bonus to wallet
+                if(config('dc.enable_bonus_on_ad_activation') && $ad->bonus_added == 0 && config('dc.bonus_sum_on_ad_activation') > 0){
+                    //add money to wallet
+                    $wallet_data = ['user_id' => $ad->user_id,
+                        'ad_id' => $ad->ad_id,
+                        'sum' => config('dc.bonus_sum_on_ad_activation'),
+                        'wallet_date' => date('Y-m-d H:i:s'),
+                        'wallet_description' => trans('publish_edit.Ad Activation Bonus')
+                    ];
+                    Wallet::create($wallet_data);
+                    $ad->bonus_added = 1;
+                    $message[] = trans('publish_edit.We have added to your wallet for ad activation.', ['sum' => config('dc.bonus_sum_on_ad_activation'), 'sign' => config('dc.site_price_sign')]);
+                }
+
                 $ad->ad_active = 1;
                 $ad->save();
                 $message[] = trans('publish_edit.Your ad is active now');
+
                 Cache::flush();
             }
         }
@@ -1444,6 +1463,43 @@ class AdController extends Controller
                     $ret['code'] = 200;
                     $ret['info'] = $info;
                 }
+            }
+        }
+        echo json_encode($ret);
+    }
+
+    public function axgetcategory(Request $request)
+    {
+        $ret = array('code' => 400);
+        $category_id = (int)$request->category_id;
+        if(is_numeric($category_id)){
+            if($category_id == 0) {
+                $first_level_childs = $this->category->getOneLevel();
+            } else {
+                $first_level_childs = $this->category->getOneLevel($category_id);
+                $breadcrump_data = $this->category->getParentsByIdFlat($category_id);
+            }
+            if(!$first_level_childs->isEmpty()){
+                foreach ($first_level_childs as $k => $v){
+                    $info[$v->category_id] = $v->category_title;
+                }
+                if(!empty($breadcrump_data)){
+                    foreach($breadcrump_data as $k => $v){
+                        $binfo[$v['category_id']] = $v['category_title'];
+                    }
+
+                }
+                if(!empty($info)){
+                    if(empty($binfo)){
+                        $binfo = [];
+                    }
+                    $ret['code'] = 200;
+                    $ret['info'] = $info;
+                    $ret['binfo'] = $binfo;
+                }
+            } else {
+                $ret['code'] = 300;
+                $ret['info'] = $category_id;
             }
         }
         echo json_encode($ret);

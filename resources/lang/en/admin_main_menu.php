@@ -33,5 +33,6 @@ return [
     'clear_cache' => 'Clear The Cache',
     'clothes_types' => 'Clothes/Shoes Ad Types',
     'clothes_sizes' => 'Clothes Sizes',
-    'shoes_sizes' => 'Shoes Sizes'
+    'shoes_sizes' => 'Shoes Sizes',
+    'magic_keywords' => 'Magic Keywords'
 ];

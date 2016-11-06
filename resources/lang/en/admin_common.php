@@ -371,5 +371,16 @@ return [
     'New Shoes Size' => 'New Shoes Size',
     'Shoes Size' => 'Shoes Size',
     'Shoes Size Ord' => 'Shoes Size Ord',
-    'Add/Edit Shoes Sizes' => 'Add/Edit Shoes Sizes'
+    'Add/Edit Shoes Sizes' => 'Add/Edit Shoes Sizes',
+    'Magic Keywords' => 'Magic Keywords',
+    'There are no magic keywords.' => 'There are no magic keywords.',
+    'All Magic Keywords' => 'All Magic Keywords',
+    'Keyword' => 'Keyword',
+    'Count' => 'Count',
+    'Url' => 'Url',
+    'New Magic Keyword' => 'New Magic Keyword',
+    'Add/Edit Magic Keyword' => 'Add/Edit Magic Keyword',
+    'Invalid Magic Keyword' => 'Invalid Magic Keyword',
+    'Magic keyword saved' => 'Magic keyword saved',
+    'Magic keyword deleted' => 'Magic keyword deleted'
 ];

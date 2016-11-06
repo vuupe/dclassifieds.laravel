@@ -122,5 +122,10 @@ return [
     'Choose Shoes Size' => '',
     'Estate/Land sq. m.' => 'Estate/Land sq. m.',
     'Enter Estate/Land sq. m.' => '',
-    'Captcha' => 'Captcha'
+    'Captcha' => 'Captcha',
+    'Ad Activation Bonus' => 'Ad Activation Bonus',
+    'We have added to your wallet for ad activation.' => 'We have added to your wallet :sum:sign for ad activation.',
+    'Start' => 'Start',
+    'Quick Select' => 'Quick Select',
+    'Close' => 'Close'
 ];

@@ -166,6 +166,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
 
     //Payment Options
     Route::get('/admin/clearcache', 'ClearCacheController@index');
+
+    //Magic Keywords
+    Route::get('/admin/magic', 'MagicController@index');
+    Route::any('/admin/magic/edit/{id?}', 'MagicController@edit');
+    Route::any('/admin/magic/delete/{id?}', 'MagicController@delete');
 });
 /*
  * end of admin routes
@@ -223,6 +228,7 @@ Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
         
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
+Route::post('/axgetcategory', 'AdController@axgetcategory');
 
 Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 Route::post('/axreportad', 'AdController@axreportad');
