@@ -185,6 +185,12 @@ Route::get('/contact', 'ContactController@index')->name('contact');
 Route::post('/contact', 'ContactController@postcontact')->name('postcontact');
 
 /**
+ * cron
+ */
+Route::get('/deactivate', 'CronController@deactivate');
+Route::get('/sendmaildeactivatesoon', 'CronController@sendmaildeactivatesoon');
+
+/**
  * social login
  */
 Route::get('/socialredirect/{provider}', 'SocialAuthController@redirect');
@@ -229,6 +235,7 @@ Route::post('/ad/contact/{ad_id}', 'AdController@postAdContact')
 Route::get('/publish', 'AdController@getPublish')->name('publish');
 Route::post('/publish', 'AdController@postPublish')->name('postPublish');
 Route::post('/axgetcategory', 'AdController@axgetcategory');
+Route::post('/axgetlocation', 'AdController@axgetlocation');
 
 Route::post('/axgetcarmodels', 'AdController@axgetcarmodels');
 Route::post('/axreportad', 'AdController@axreportad');

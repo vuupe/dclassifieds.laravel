@@ -127,5 +127,6 @@ return [
     'We have added to your wallet for ad activation.' => 'We have added to your wallet :sum:sign for ad activation.',
     'Start' => 'Start',
     'Quick Select' => 'Quick Select',
+    'Quick Select Location' => 'Quick Select',
     'Close' => 'Close'
 ];

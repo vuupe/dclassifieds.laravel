@@ -822,6 +822,7 @@ class AdController extends Controller
         }
 
         $first_level_childs = $this->category->getOneLevel();
+        $location_first_level_childs = $this->location->getOneLevel();
 
         /**
          * put all view vars in array
@@ -834,6 +835,7 @@ class AdController extends Controller
             'payment_methods' => $payment_methods, //get payment methods
             'enable_pay_from_wallet' => $enable_pay_from_wallet, //enable/disable wallet promo ad pay
             'first_level_childs' => $first_level_childs, //first level categories
+            'location_first_level_childs' => $location_first_level_childs, //first level locations
 
             //filter vars
             'at'                        => AdType::allCached('ad_type_name'),
@@ -1504,6 +1506,43 @@ class AdController extends Controller
         }
         echo json_encode($ret);
     }
+
+    public function axgetlocation(Request $request)
+    {
+        $ret = array('code' => 400);
+        $location_id = (int)$request->location_id;
+        if(is_numeric($location_id)){
+            if($location_id == 0) {
+                $first_level_childs = $this->location->getOneLevel();
+            } else {
+                $first_level_childs = $this->location->getOneLevel($location_id);
+                $breadcrump_data = $this->location->getParentsByIdFlat($location_id);
+            }
+            if(!$first_level_childs->isEmpty()){
+                foreach ($first_level_childs as $k => $v){
+                    $info[$v->location_id] = $v->location_name;
+                }
+                if(!empty($breadcrump_data)){
+                    foreach($breadcrump_data as $k => $v){
+                        $binfo[$v['location_id']] = $v['location_name'];
+                    }
+
+                }
+                if(!empty($info)){
+                    if(empty($binfo)){
+                        $binfo = [];
+                    }
+                    $ret['code'] = 200;
+                    $ret['info'] = $info;
+                    $ret['binfo'] = $binfo;
+                }
+            } else {
+                $ret['code'] = 300;
+                $ret['info'] = $location_id;
+            }
+        }
+        echo json_encode($ret);
+    }
     
     public function axreportad(Request $request)
     {
@@ -1675,6 +1714,8 @@ class AdController extends Controller
         //set page title
         $title = [config('dc.site_domain')];
         $title[] = trans('publish_edit.Edit Ad');
+
+        $location_first_level_childs = $this->location->getOneLevel();
         
         return view('ad.edit', [
             'c'     => $this->category->getAllHierarhy(), //all categories hierarhy
@@ -1682,6 +1723,7 @@ class AdController extends Controller
             'ad_detail' => $ad_detail,
             'ad_pic'    => $ad_pic,
             'title'     => $title,
+            'location_first_level_childs' => $location_first_level_childs,
 
             //filter vars
             'at'                        => AdType::allCached('ad_type_name'),

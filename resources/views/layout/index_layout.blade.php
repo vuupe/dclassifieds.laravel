@@ -125,6 +125,7 @@
         <script>
             __AX_GET_CAR_MODELS = '{{ url('axgetcarmodels') }}';
             __AX_GET_CATEGORY = '{{ url('axgetcategory') }}';
+            __AX_GET_LOCATION = '{{ url('axgetlocation') }}';
             __ALL_CATEGORIES_TEXT = '{{ trans('index_layout.All Categories') }}';
             __ALL_LOCATIONS_TEXT = '{{ trans('index_layout.All Locations') }}';
             __NO_RESULTS_TEXT = '{{ trans('index_layout.No results') }}';

@@ -72,7 +72,7 @@
                                     </select>
                                 @endif
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary" id="quick-category-selector" data-toggle="modal" data-target="#quick-category-select-modal">{{ trans('publish_edit.Quick Select') }}</button>
+                                    <button type="button" class="btn btn-info" id="quick-category-selector" data-toggle="modal" data-target="#quick-category-select-modal">{{ trans('publish_edit.Quick Select') }}</button>
                                 </span>
                             </div>
                             @if ($errors->has('category_id'))
@@ -937,18 +937,23 @@
                     <div class="form-group required {{ $errors->has('location_id') ? ' has-error' : '' }}">
                         <label for="location_id" class="col-md-4 control-label">{{ trans('publish_edit.Location') }}</label>
                         <div class="col-md-5">
-                            @if(isset($l) && !empty($l))
-                            <select name="location_id" id="location_id" class="form-control lid_select">
-                                <option value="0"></option>
-                                @foreach ($l as $k => $v)
-                                    <optgroup label="{{$v['title']}}">
-                                        @if(isset($v['c']) && !empty($v['c'])){
-                                            @include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('location_id', $user, 'user_location_id')])
-                                        @endif
-                                    </optgroup>
-                                @endforeach
-                            </select>
-                            @endif
+                            <div class="input-group">
+                                @if(isset($l) && !empty($l))
+                                <select name="location_id" id="location_id" class="form-control lid_select">
+                                    <option value="0"></option>
+                                    @foreach ($l as $k => $v)
+                                        <optgroup label="{{$v['title']}}">
+                                            @if(isset($v['c']) && !empty($v['c'])){
+                                                @include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('location_id', $user, 'user_location_id')])
+                                            @endif
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                                @endif
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info" id="quick-location-selector" data-toggle="modal" data-target="#quick-location-select-modal">{{ trans('publish_edit.Quick Select Location') }}</button>
+                                </span>
+                            </div>
                             @if ($errors->has('location_id'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('location_id') }}</strong>
@@ -1170,48 +1175,8 @@
         <div style="width: 800px; height:400px;" id="map_canvas"></div>
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="quick-category-select-modal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('publish_edit.Close') }}"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">{{ trans('publish_edit.Quick Select') }}</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <ol class="breadcrumb" id="quick-category-select-breadcrump" style="background-color: #eff0f1; padding-left:5px;">
-                                <li><a href="" class="category_selector btn-block" style="display:inline;" data-id="0">{{ trans('publish_edit.Start') }}</a></li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="quick-category-select-container">
-                                @if(isset($first_level_childs) && !$first_level_childs->isEmpty())
-                                    @foreach($first_level_childs as $k => $v)
-                                        <a href="" class="category_selector btn-block" data-id="{{ $v->category_id }}">{{ $v->category_title }}</a>
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="quick_category_loader"><img src="{{ asset('images/small_loader.gif') }}" /></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('publish_edit.Close') }}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
+    @include('common.category_select_modal')
+    @include('common.location_select_modal')
 @endsection
 
 @section('styles')
@@ -1222,44 +1187,5 @@
     <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=true&language=en"></script>
     <script src="{{asset('js/google.map.js')}}"></script>
-
-    <script>
-        $('body').on('click', '.category_selector', function(e){
-            e.preventDefault();
-
-            var category_id = $(this).data('id');
-            var token = $('input[name=_token]').val();
-
-            $.ajax({
-                url: __AX_GET_CATEGORY,
-                headers: {'X-CSRF-TOKEN': token},
-                type: 'POST',
-                data: {'category_id': category_id},
-                dataType: "json",
-                beforeSend: function() {
-                    $('#quick_category_loader').show();
-                },
-                success: function( data ) {
-                    $('#quick_category_loader').hide();
-                    if(data.code == 200){
-                        var html = '';
-                        $.each(data.info, function( index, value ) {
-                            html += '<a href="" class="category_selector btn-block" data-id="' + index + '">' + value + '</a>';
-                        });
-                        $('#quick-category-select-container').html(html);
-                        var bhtml = '<li><a href="" class="category_selector btn-block" style="display:inline;" data-id="0">' + __START + '</a></li>';
-                        $.each(data.binfo, function( index, value ) {
-                            bhtml += '<li><a href="" class="category_selector btn-block" style="display:inline;" data-id="' + index + '">' + value + '</a></li>';
-                        });
-                        $('#quick-category-select-breadcrump').html(bhtml);
-                    } else {
-                        $('#category_id').val(data.info);
-                        $('#category_id').trigger("chosen:updated");
-                        show_ad_fields($('#category_id'));
-                        $('#quick-category-select-modal').modal('hide');
-                    }
-                }
-            });
-        });
-    </script>
+    <script src="{{asset('js/publish.js')}}"></script>
 @endsection

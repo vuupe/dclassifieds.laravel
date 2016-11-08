@@ -945,18 +945,23 @@
                     <div class="form-group required {{ $errors->has('location_id') ? ' has-error' : '' }}">
                         <label for="location_id" class="col-md-4 control-label">{{ trans('publish_edit.Location') }}</label>
                         <div class="col-md-5">
-                            @if(isset($l) && !empty($l))
-                            <select name="location_id" id="location_id" class="form-control lid_select">
-                                <option value="0"></option>
-                                @foreach ($l as $k => $v)
-                                    <optgroup label="{{$v['title']}}">
-                                        @if(isset($v['c']) && !empty($v['c'])){
-                                            @include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('location_id', $ad_detail)])
-                                        @endif
-                                    </optgroup>
-                                @endforeach
-                            </select>
-                            @endif
+                            <div class="input-group">
+                                @if(isset($l) && !empty($l))
+                                <select name="location_id" id="location_id" class="form-control lid_select">
+                                    <option value="0"></option>
+                                    @foreach ($l as $k => $v)
+                                        <optgroup label="{{$v['title']}}">
+                                            @if(isset($v['c']) && !empty($v['c'])){
+                                                @include('common.lselect', ['c' => $v['c'], 'lid' => Util::getOldOrModelValue('location_id', $ad_detail)])
+                                            @endif
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                                @endif
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info" id="quick-location-selector" data-toggle="modal" data-target="#quick-location-select-modal">{{ trans('publish_edit.Quick Select Location') }}</button>
+                                </span>
+                            </div>
                             @if ($errors->has('location_id'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('location_id') }}</strong>
@@ -1117,6 +1122,8 @@
         </div>
         <div style="width: 800px; height:400px;" id="map_canvas"></div>
     </div>
+
+    @include('common.location_select_modal')
 @endsection
 
 @section('styles')
@@ -1127,5 +1134,6 @@
     <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=true&language=en"></script>
     <script src="{{asset('js/google.map.js')}}"></script>
+    <script src="{{asset('js/publish.js')}}"></script>
 @endsection
 

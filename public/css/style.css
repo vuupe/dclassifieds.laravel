@@ -252,7 +252,15 @@ generated from http://www.cssportal.com/css-ribbon-generator/
                 display:none;
 }
 
+#quick_location_loader{
+                display:none;
+}
+
 .category_selector{
+                padding: 5px 5px;
+}
+
+.location_selector{
                 padding: 5px 5px;
 }
 
