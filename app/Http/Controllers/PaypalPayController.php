@@ -104,7 +104,7 @@ class PaypalPayController extends Controller
                         if ($total_paid_match) {
                             $pay_type = mb_strtolower(mb_substr($order_type_info, 0, 1));
 
-                            //make ad vip
+                            //make ad promo
                             if ($pay_type == 'a') {
                                 $ad_id = mb_substr($order_type_info, 1);
                                 $adInfo = Ad::find($ad_id);
@@ -117,6 +117,7 @@ class PaypalPayController extends Controller
                                     $adInfo->ad_promo = 1;
                                     $adInfo->ad_promo_until = $promoUntilDate;
                                     $adInfo->ad_active = 1;
+                                    $adInfo->promo_expire_warning_mail_send = 0;
                                     $adInfo->save();
 
                                     //add money to wallet

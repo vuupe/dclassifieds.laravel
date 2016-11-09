@@ -9,5 +9,6 @@ return [
     'Please confirm' => 'Please confirm',
     'We just need you to' => 'We just need you to',
     'confirm your email address' => 'confirm your email address',
-    'real quick!' => 'real quick!'
+    'real quick!' => 'real quick!',
+    'Your info' => 'Your info'
 ];

@@ -14,5 +14,9 @@ return [
     'Make Promo' => 'Make Promo',
     'Republish' => 'Republish',
     'Edit' => 'Edit',
-    'Delete' => 'Delete'
+    'Delete' => 'Delete',
+    'Your Promo Will Expire Soon' => 'Your Promo Will Expire Soon:',
+    'Your Promo Period for ad' => 'Your Promo Period for ad',
+    'You can make your ad Promo, after current promo period expires.' => 'You can make your ad Promo, after current promo period expires.',
+    'Promo Advertise text' => ''
 ];

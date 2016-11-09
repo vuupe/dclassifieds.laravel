@@ -9,5 +9,6 @@ return [
     'Num Additions Ads From User' => 'Num Additions Ads From User in Ad Detail',
     'recaptcha_info' => 'More info About reCaptcha: http://www.google.com/recaptcha/intro/index.html',
     'send_warning_mail_ad_expire' => 'How many days before the ad expire date the system will send warning mail.',
-    'how many mails to send at once on one script run' => 'How many mails to send at once on one script run.'
+    'how many mails to send at once on one script run' => 'How many mails to send at once on one script run.',
+    'how many promo expire mails to send at once on one script run' => 'How many promo expire mails to send at once on one script run'
 ];

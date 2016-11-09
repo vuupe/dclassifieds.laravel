@@ -189,6 +189,8 @@ Route::post('/contact', 'ContactController@postcontact')->name('postcontact');
  */
 Route::get('/deactivate', 'CronController@deactivate');
 Route::get('/sendmaildeactivatesoon', 'CronController@sendmaildeactivatesoon');
+Route::get('/sendmailpromoexpiresoon', 'CronController@sendmailpromoexpiresoon');
+Route::get('/deactivatepromo', 'CronController@deactivatepromo');
 
 /**
  * social login

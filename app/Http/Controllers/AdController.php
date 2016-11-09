@@ -1655,6 +1655,7 @@ class AdController extends Controller
             if(!empty($ad)){
                 $ad->ad_publish_date = date('Y-m-d H:i:s');
                 $ad->ad_valid_until = date('Y-m-d', mktime(null, null, null, date('m'), date('d')+config('dc.ad_valid_period_in_days'), date('Y')));
+                $ad->expire_warning_mail_send = 0;
                 $ad->save();
                 Cache::flush();
             } 
@@ -1884,6 +1885,7 @@ class AdController extends Controller
         $ad_data['user_id']         = Auth::user()->user_id;
         $ad_data['ad_publish_date'] = date('Y-m-d H:i:s');
         $ad_data['ad_valid_until']  = date('Y-m-d', mktime(null, null, null, date('m'), date('d')+config('dc.ad_valid_period_in_days'), date('Y')));
+        $ad_data['expire_warning_mail_send'] = 0;
         $ad_data['ad_ip']           = Util::getRemoteAddress();
         $ad_data['ad_description']  = Util::nl2br(strip_tags($ad_data['ad_description']));
          

@@ -78,7 +78,7 @@ class StripePayController extends Controller
 
             $pay_type = mb_strtolower(mb_substr($paytype, 0, 1));
 
-            //make ad vip
+            //make ad promo
             if ($pay_type == 'a') {
                 $ad_id = mb_substr($paytype, 1);
                 $adInfo = Ad::find($ad_id);
@@ -91,6 +91,7 @@ class StripePayController extends Controller
                     $adInfo->ad_promo = 1;
                     $adInfo->ad_promo_until = $promoUntilDate;
                     $adInfo->ad_active = 1;
+                    $adInfo->promo_expire_warning_mail_send = 0;
                     $adInfo->save();
 
                     //add money to wallet

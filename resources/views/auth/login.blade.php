@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}">{{ trans('login.Home') }}</a></li>
+                    <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{ trans('login.Home') }}</a></li>
                     <li class="active">{{ trans('login.Login') }}</li>
                 </ol>
             </div>

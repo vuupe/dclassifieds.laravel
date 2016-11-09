@@ -133,12 +133,15 @@ class AuthController extends Controller
         $user = $this->create($request->all());
         
         Mail::send('emails.activation', ['user' => $user, 'password' => $request->password], function ($m) use ($user) {
-            $m->from('test@mylove.bg', 'dclassifieds activation');
-            $m->to($user->email)->subject('Activate your account!');
+            $m->from(config('dc.site_contact_mail'), config('dc.site_domain'));
+            $m->to($user->email)->subject(trans('register.Please activate your account'));
         });
-        
-        session()->flash('message', 'Please confirm your email address.');
-        return redirect()->back();
+
+        $message[] = trans('register.Please confirm your email address.');
+        $message[] = trans('register.If you dont receive mail from us, please check your spam folder or contact us.');
+
+        session()->flash('message', $message);
+        return redirect(route('info'));
     }
     
     /**
@@ -150,7 +153,7 @@ class AuthController extends Controller
     public function confirmEmail($token)
     {
         User::where('user_activation_token', $token)->firstOrFail()->confirmEmail();
-        session()->flash('message', 'You are now confirmed. Please login.');
+        session()->flash('message', trans('register.Your account is activated. Please login.'));
         return redirect('login');
     }
     

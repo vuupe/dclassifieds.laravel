@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>{{ trans('cron.Your Ad Will Expire Soon') }}{{$ad->ad_title}}</title>
+<title>{{ trans('cron.Your Promo Will Expire Soon') }}{{$ad->ad_title}}</title>
 <style type="text/css">
 a { border: none; }
 img { border: none; }
@@ -38,8 +38,11 @@ p { margin: 10px 0px; font-size: 14px; }
                                 <tr>
                                     <td style="padding: 10px; border-bottom: 1px solid #dddddd;">
                                         <h1 style="font-size: 22px;">{{ trans('cron.Hello') }} {{$ad->ad_puslisher_name}},</h1>
-                                        <p>{{ trans('cron.Your ad') }} <strong><a href="{{ url(str_slug($ad->ad_title) . '-' . 'ad' . $ad->ad_id . '.html') }}">{{$ad->ad_title}}</a></strong> {{ trans('cron.will expire after') }} <strong>{{config('dc.send_warning_mail_ad_expire')}} {{ trans('cron.days.') }}</strong></p>
-                                        <p>{{ trans('cron.You can republish your ad, and she will appear on the top of search results.') }}</p>
+                                        <p>{{ trans('cron.Your Promo Period for ad') }} <strong><a href="{{ url(str_slug($ad->ad_title) . '-' . 'ad' . $ad->ad_id . '.html') }}">{{$ad->ad_title}}</a></strong> {{ trans('cron.will expire after') }} <strong>{{config('dc.send_warning_mail_promo_expire')}} {{ trans('cron.days.') }}</strong></p>
+                                        <p>{{ trans('cron.You can make your ad Promo, after current promo period expires.') }}</p>
+                                        @if(trans('cron.Promo Advertise text'))
+                                        <p>{{ trans('cron.Promo Advertise text') }}</p>
+                                        @endif
                                     </td>
                                 </tr>
                             </table>
