@@ -113,6 +113,14 @@ class PaypalPayController extends Controller
                                     //calc promo period
                                     $promoUntilDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+$payTypeInfo->pay_promo_period, date('Y')));
 
+                                    //check if ad is promo and extend promo period
+                                    if(!empty($adInfo->ad_promo_until) && $adInfo->ad_promo == 1){
+                                        $current_promo_period_timestamp = strtotime($adInfo->ad_promo_until);
+                                        if($current_promo_period_timestamp) {
+                                            $promoUntilDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d', $current_promo_period_timestamp) + $payTypeInfo->pay_promo_period, date('Y')));
+                                        }
+                                    }
+
                                     //update ad
                                     $adInfo->ad_promo = 1;
                                     $adInfo->ad_promo_until = $promoUntilDate;

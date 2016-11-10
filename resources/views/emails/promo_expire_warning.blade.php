@@ -39,9 +39,9 @@ p { margin: 10px 0px; font-size: 14px; }
                                     <td style="padding: 10px; border-bottom: 1px solid #dddddd;">
                                         <h1 style="font-size: 22px;">{{ trans('cron.Hello') }} {{$ad->ad_puslisher_name}},</h1>
                                         <p>{{ trans('cron.Your Promo Period for ad') }} <strong><a href="{{ url(str_slug($ad->ad_title) . '-' . 'ad' . $ad->ad_id . '.html') }}">{{$ad->ad_title}}</a></strong> {{ trans('cron.will expire after') }} <strong>{{config('dc.send_warning_mail_promo_expire')}} {{ trans('cron.days.') }}</strong></p>
-                                        <p>{{ trans('cron.You can make your ad Promo, after current promo period expires.') }}</p>
+                                        <p>{{ trans('cron.You can extend ad Promo period, click on the Make Promo button and new promo pediod will be added.') }}</p>
                                         @if(trans('cron.Promo Advertise text'))
-                                        <p>{{ trans('cron.Promo Advertise text') }}</p>
+                                            <p>{{ trans('cron.Promo Advertise text') }}</p>
                                         @endif
                                     </td>
                                 </tr>
