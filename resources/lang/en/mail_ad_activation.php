@@ -5,5 +5,8 @@ return [
     'Thanks for publishing your ad' => 'Thanks for publishing your ad',
     'We just need you to' => 'We just need you to',
     'activate your ad' => 'activate your ad',
-    'real quick!' => 'real quick!'
+    'real quick!' => 'real quick!',
+    'Ad' => 'Ad',
+    'Activate' => 'Activate',
+    'Advertise text' => ''
 ];

@@ -38,5 +38,6 @@ return [
     'Page:' => 'Page:',
     'Select Clothes Sizes' => 'Select Clothes Sizes',
     'Select Shoes Sizes' => 'Select Shoes Sizes',
-    'Free' => 'Free'
+    'Free' => 'Free',
+    'PROMO' => 'PROMO'
 ];

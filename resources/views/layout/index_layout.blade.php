@@ -13,6 +13,10 @@
             <meta name="googlebot" content="index, follow" />
             <meta name="rating" content="general" />
         @show
+
+        @if(config('dc.enable_rss'))
+            <link rel="alternate"  type="application/rss+xml" href="{{ route('rss') }}" />
+        @endif
         
         <script src="{{ asset('js/pace/pace.min.js') }}"></script>
         <link href="{{ asset('js/pace/themes/red/pace-theme-minimal.css') }}" rel="stylesheet" />

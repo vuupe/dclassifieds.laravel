@@ -1254,6 +1254,7 @@ class AdController extends Controller
 
         if(!isset($message) || empty($message)){
             $message[] = trans('publish_edit.Your ad is in moderation mode, please activate it.');
+            $message[] = trans('publish_edit.If you dont receive mail from us, please check your spam folder or contact us.');
             $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);
         }
 
@@ -1268,6 +1269,8 @@ class AdController extends Controller
         if(!empty($code)){
             $ad = Ad::where('code', $code)->first();
             if(!empty($ad)){
+
+                $message[] = trans('publish_edit.Your ad is active now');
 
                 //if enabled add bonus to wallet
                 if(config('dc.enable_bonus_on_ad_activation') && $ad->bonus_added == 0 && config('dc.bonus_sum_on_ad_activation') > 0){
@@ -1285,14 +1288,13 @@ class AdController extends Controller
 
                 $ad->ad_active = 1;
                 $ad->save();
-                $message[] = trans('publish_edit.Your ad is active now');
 
                 Cache::flush();
             }
         }
 
         if(!isset($message) || empty($message)){
-            $message[] = trans('publish_edit.Ups something is wrong. Please contact us.');
+            $message = trans('publish_edit.Ups something is wrong. Please contact us.');
         }
 
         $message[] = trans('publish_edit.Click here to publish new ad', ['link' => route('publish')]);

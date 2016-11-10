@@ -5,6 +5,10 @@
     <title>{{ trans('mail_control_ad.[CONTROL] Ad') }} #{{ $ad->ad_id }}</title>
 </head>
 <body>
+    <br /><br />
+    <a href="{{ url('/delete/' . $ad->code) }}">{{ trans('mail_control_ad.Delete this ad') }}</a>
+    <br /><br />
+
     <strong>#{{ $ad->ad_id }}</strong><br />
     <strong>{{ $ad->ad_title }}</strong><br />
     {{ $ad->ad_description }}<br />

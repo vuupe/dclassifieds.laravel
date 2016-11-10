@@ -3,7 +3,7 @@
 <div class="col-md-2 ad-list-item-container">
     <div class="ad-list-item">
         @if($v->ad_promo)
-            <div class="ribbon"><span>PROMO</span></div>
+            <div class="ribbon"><span>{{ trans('search.PROMO') }}</span></div>
         @endif
         <div class="ad-list-item-image">
             @if(!empty($v->ad_pic))

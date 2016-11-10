@@ -17,7 +17,7 @@ return [
     'Ups something is wrong, please try again later or contact our team.' => 'Ups something is wrong, please try again later or contact our team.',
     'Contact Us' => 'Contact Us',
     'Contact Us Page Title' => 'Contact Us',
-    'New Contact Us Requiest' => 'New Contact Us Requiest',
+    'New Contact Us Request' => 'New Contact Us Request',
     'Name' => 'Name',
     'E-Mail' => 'E-Mail',
     'Captcha' => 'Captcha'

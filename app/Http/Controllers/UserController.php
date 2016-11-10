@@ -156,6 +156,8 @@ class UserController extends Controller
         UserMailStatus::where('mail_hash', $hash)
             ->where('user_id', $current_user_id)
             ->update(['mail_status' => UserMailStatus::MAIL_STATUS_READ]);
+
+        Cache::flush();
         
         //get conversation
         $where = ['user_mail.mail_hash' => $hash, 'UMS.mail_deleted' => 0];

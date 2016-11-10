@@ -60,7 +60,7 @@
                     <div class="col-md-12">
                         <div class="ad_detail_main_image_container">
                             @if($ad_detail->ad_promo)
-                                <div class="ribbon"><span>PROMO</span></div>
+                                <div class="ribbon"><span>{{ trans('detail.PROMO') }}</span></div>
                             @endif
                             @if(!empty($ad_detail->ad_pic))
                                 <a href="{{ asset('uf/adata/1000_' . $ad_detail->ad_pic) }}" class="fancybox" rel="group"><img src="{{ asset('uf/adata/740_' . $ad_detail->ad_pic) }}" class="img-responsive"  itemprop="image" /></a>
