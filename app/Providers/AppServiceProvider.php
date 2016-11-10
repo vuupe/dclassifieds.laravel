@@ -42,6 +42,14 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
+        //check for valid theme
+        Validator::extend('theme', function($attribute, $value, $parameters, $validator) {
+            if(is_dir(realpath(base_path('resources/views/themes' . '/' . $value)))){
+                return true;
+            }
+            return false;
+        });
+
         /**
          * Get Admin Menu from DB
          */

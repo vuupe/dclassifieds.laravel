@@ -51,7 +51,18 @@ class SettingsController extends Controller
                 $rules = ['setting_value' => 'required'];
             }
 
-            $validator = Validator::make($request->all(), $rules);
+            $messages = [
+                'theme' => 'Invalid theme'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            $validator->sometimes(['setting_value', 'setting_name'], 'theme', function($input) use ($modelData) {
+                if(($modelData->setting_name == 'theme')){
+                    return true;
+                }
+                return false;
+            });
 
             if ($validator->fails()) {
                 $this->throwValidationException(
