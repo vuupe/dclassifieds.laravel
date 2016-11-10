@@ -17,7 +17,8 @@ class SettingsController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.settings.settings_list', ['modelData' => Settings::where('setting_show_in_admin', 1)->get()]);
+        return view('admin.settings.settings_list', ['modelData' => Settings::where('setting_show_in_admin', 1)->get(),
+            'yesnoselect' => ['_' => '', 0 => trans('admin_common.No'), 1 => trans('admin_common.Yes')]]);
     }
 
     public function edit(Request $request)
@@ -98,6 +99,7 @@ class SettingsController extends Controller
             return redirect(url('admin/settings'));
         }
 
-        return view('admin.settings.settings_edit', ['modelData' => $modelData]);
+        return view('admin.settings.settings_edit', ['modelData' => $modelData,
+            'yesnoselect' => ['_' => '', 0 => trans('admin_common.No'), 1 => trans('admin_common.Yes')]]);
     }
 }

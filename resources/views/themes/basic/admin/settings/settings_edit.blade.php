@@ -39,6 +39,16 @@
                                     <input type="checkbox" name="clear_value" id="clear_value"> {{ trans('admin_common.Clear Value') }}
                                 @elseif ($modelData->setting_field_type == 'password')
                                     <input type="password" class="form-control" name="setting_value" id="setting_value" placeholder="{{ $modelData->setting_description }}" value="{{ Util::getOldOrModelValue('setting_value', $modelData) }}">
+                                @elseif ($modelData->setting_field_type == 'yesno')
+                                    <select name="setting_value" id="setting_value" class="form-control">
+                                    @foreach($yesnoselect as $k => $v)
+                                        @if(Util::getOldOrModelValue('setting_value', $modelData) == $k)
+                                            <option value="{{ $k }}" selected>{{ $v }}</option>
+                                        @else
+                                            <option value="{{ $k }}">{{ $v }}</option>
+                                        @endif
+                                    @endforeach
+                                    </select>
                                 @endif
 
                                 @if($modelData->setting_more_info)

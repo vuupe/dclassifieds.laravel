@@ -48,8 +48,22 @@
                             <tr>
                                 <td>{{ $v['setting_id'] }}</td>
                                 <td>{{ $v['setting_description'] }}</td>
-                                <td>{!! $v['setting_value'] !!}</td>
-                                <td style="width: 500px;">{{ $v['setting_value'] }}</td>
+                                <td>
+                                    @if($v['setting_field_type'] == 'yesno')
+                                        {{ $yesnoselect[$v['setting_value']] }}
+                                    @elseif($v['setting_field_type'] == 'password')
+                                    @else
+                                        {!! $v['setting_value'] !!}
+                                    @endif
+                                </td>
+                                <td style="width: 500px;">
+                                    @if($v['setting_field_type'] == 'yesno')
+                                        {{ $yesnoselect[$v['setting_value']] }}
+                                    @elseif($v['setting_field_type'] == 'password')
+                                    @else
+                                        {{ $v['setting_value'] }}
+                                    @endif
+                                </td>
                                 <td><a href="{{ url('admin/settings/edit/' . $v['setting_id']) }}"><i class="fa fa-edit"></i> {{ trans('admin_common.Edit') }}</a></td>
                             </tr>
                         @endforeach

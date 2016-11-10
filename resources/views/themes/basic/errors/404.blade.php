@@ -1,5 +1,9 @@
 @extends('layout.index_layout')
 
+@section('search_filter')
+    <div style="margin-bottom: 20px;"></div>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">

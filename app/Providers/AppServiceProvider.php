@@ -14,6 +14,7 @@ use Cache;
 use Validator;
 use DB;
 use Log;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -78,6 +79,9 @@ class AppServiceProvider extends ServiceProvider
             //twitter login settings
             config(['services.twitter.client_id' => config('dc.twitter_app_client_id')]);
             config(['services.twitter.client_secret' => config('dc.twitter_app_secret')]);
+
+            //set themes path
+            View::addLocation(realpath(base_path('resources/views/themes' . '/' . config('dc.theme'))));
         }
 
         /**
