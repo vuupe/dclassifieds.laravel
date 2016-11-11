@@ -2001,20 +2001,37 @@ class AdController extends Controller
 
                     if($width > 1000 || $height > 1000) {
                         if ($width == $height) {
-                            $img->resize(1000, 1000)->save($destination_path . '1000_' . $file_name);
+                            $img->resize(1000, 1000);
+                            if(config('dc.watermark')){
+                                $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                            }
+                            $img->save($destination_path . '1000_' . $file_name);
                         } elseif ($width > $height) {
                             $img->resize(1000, null, function($constraint){
                                 $constraint->aspectRatio();
                                 $constraint->upsize();
-                            })->save($destination_path . '1000_' . $file_name);
+                            });
+                            if(config('dc.watermark')){
+                                $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                            }
+                            $img->save($destination_path . '1000_' . $file_name);
                         } elseif ($width < $height) {
                             $img->resize(null, 1000, function($constraint){
                                 $constraint->aspectRatio();
                                 $constraint->upsize();
-                            })->save($destination_path . '1000_' . $file_name);
+                            });
+                            if(config('dc.watermark')){
+                                $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                            }
+                            $img->save($destination_path . '1000_' . $file_name);
                         }
                     } else {
-                        $img->save($destination_path . '1000_' . $file_name);
+                        if(config('dc.watermark')){
+                            $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                            $img->save($destination_path . '1000_' . $file_name);
+                        } else {
+                            $img->save($destination_path . '1000_' . $file_name);
+                        }
                     }
 
                     if(!$first_image_uploaded){
