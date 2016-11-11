@@ -747,9 +747,9 @@ class AdController extends Controller
         if(Auth::check()){
             $adFavModel = new AdFav();
             $fav_ads_info = $adFavModel->getFavAds($request->user()->user_id);
-        } else if(Cookie::has('__dclassifieds_fav_ads')) {
+        } else if(Cookie::has('__' . md5(config('dc.site_domain')) . '_fav_ads')) {
             //no user check cookie
-            $fav_ads_info = $request->cookie('__dclassifieds_fav_ads', array());
+            $fav_ads_info = $request->cookie('__' . md5(config('dc.site_domain')) . '_fav_ads', array());
         }
         if(isset($fav_ads_info[$ad_id])){
             $ad_fav = 1;
@@ -1126,27 +1126,46 @@ class AdController extends Controller
 
                 if($width > 1000 || $height > 1000) {
                     if ($width == $height) {
-                        $img->resize(1000, 1000)->save($destination_path . '1000_' . $file_name);
+                        $img->resize(1000, 1000);
+                        if(config('dc.watermark')){
+                            $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                        }
+                        $img->save($destination_path . '1000_' . $file_name);
                     } elseif ($width > $height) {
                         $img->resize(1000, null, function($constraint){
                             $constraint->aspectRatio();
                             $constraint->upsize();
-                        })->save($destination_path . '1000_' . $file_name);
+                        });
+                        if(config('dc.watermark')){
+                            $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                        }
+                        $img->save($destination_path . '1000_' . $file_name);
                     } elseif ($width < $height) {
                         $img->resize(null, 1000, function($constraint){
                             $constraint->aspectRatio();
                             $constraint->upsize();
-                        })->save($destination_path . '1000_' . $file_name);
+                        });
+                        if(config('dc.watermark')){
+                            $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                        }
+                        $img->save($destination_path . '1000_' . $file_name);
                     }
                 } else {
-                    $img->save($destination_path . '1000_' . $file_name);
+                    if(config('dc.watermark')){
+                        $img->insert(public_path('uf/settings/') . config('dc.watermark'), config('dc.watermark_position'));
+                        $img->save($destination_path . '1000_' . $file_name);
+                    } else {
+                        $img->save($destination_path . '1000_' . $file_name);
+                    }
                 }
 
                 if(!$first_image_uploaded){
                     if($width >= 720 || $height >= 720) {
-                        $img->fit(720, 720)->save($destination_path . '740_' . $file_name);
+                        $img->fit(720, 720);
+                        $img->save($destination_path . '740_' . $file_name);
                     } else {
-                        $img->resizeCanvas(720, 720, 'top')->save($destination_path . '740_' . $file_name);
+                        $img->resizeCanvas(720, 720, 'top');
+                        $img->save($destination_path . '740_' . $file_name);
                     }
                     $ad->ad_pic = $file_name;
                     $ad->save();
@@ -1578,7 +1597,7 @@ class AdController extends Controller
         $ad_id = $request->ad_id;
         
         if(isset($ad_id) && is_numeric($ad_id)){
-            $fav_ads_info = $request->cookie('__dclassifieds_fav_ads', array());
+            $fav_ads_info = $request->cookie('__' . md5(config('dc.site_domain')) . '_fav_ads', array());
             if(Auth::check()){
                 //registered user save/remove to/from db
                 $adFavModel = new AdFav();
@@ -1617,7 +1636,7 @@ class AdController extends Controller
                     $ret['code'] = 200;
                 }
             }
-            $cookie = Cookie::forever('__dclassifieds_fav_ads', $fav_ads_info);
+            $cookie = Cookie::forever('__' . md5(config('dc.site_domain')) . '_fav_ads', $fav_ads_info);
             Cookie::queue($cookie);
         }
         

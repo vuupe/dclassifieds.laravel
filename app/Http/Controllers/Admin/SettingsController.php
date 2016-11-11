@@ -52,7 +52,7 @@ class SettingsController extends Controller
             }
 
             $messages = [
-                'theme' => 'Invalid theme'
+                'theme' => trans('admin_common.Invalid theme')
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);

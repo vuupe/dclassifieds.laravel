@@ -382,5 +382,6 @@ return [
     'Add/Edit Magic Keyword' => 'Add/Edit Magic Keyword',
     'Invalid Magic Keyword' => 'Invalid Magic Keyword',
     'Magic keyword saved' => 'Magic keyword saved',
-    'Magic keyword deleted' => 'Magic keyword deleted'
+    'Magic keyword deleted' => 'Magic keyword deleted',
+    'Invalid theme' => 'Invalid theme'
 ];

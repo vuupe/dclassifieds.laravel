@@ -90,6 +90,30 @@ class AppServiceProvider extends ServiceProvider
 
             //set themes path
             View::addLocation(realpath(base_path('resources/views/themes' . '/' . config('dc.theme'))));
+
+            //cache settings
+            config(['cache.default' => config('dc.cache_type')]);
+            config(['cache.prefix' => config('dc.cache_prefix')]);
+            $memcached_servers = ['host' => config('dc.memcached_host'),
+                'port' => config('dc.memcached_port'),
+                'weight' => config('dc.memcached_weight')];
+            config(['cache.stores.memcached.servers' => [$memcached_servers]]);
+
+            //mail settings
+            config(['mail.driver' => config('dc.mail_driver')]);
+            config(['mail.host' => config('dc.mail_host')]);
+            config(['mail.port' => config('dc.mail_port')]);
+            config(['mail.encryption' => config('dc.mail_encryption')]);
+            config(['mail.username' => config('dc.mail_user')]);
+            config(['mail.password' => config('dc.mail_password')]);
+
+            //app settings
+            config(['app.env' => config('dc.app_env')]);
+            config(['app.debug' => config('dc.app_debug')]);
+            config(['app.locale' => config('dc.app_locale')]);
+            config(['app.key' => config('dc.api_key')]);
+            config(['app.timezone' => config('dc.app_timezone')]);
+
         }
 
         /**
