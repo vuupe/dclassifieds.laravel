@@ -248,6 +248,7 @@ Route::get('/publish/activate/{token}', 'AdController@activate');
 Route::get('/delete/{token}', 'AdController@delete')->name('delete');
 
 Route::get('/myads', 'AdController@myads')->name('myads')->middleware('auth');
+Route::get('/myfav', 'AdController@myfav')->name('myfav');
 Route::get('/republish/{token}', 'AdController@republish')->name('republish');
 
 Route::get('/ad/edit/{ad_id}', 'AdController@getAdEdit')->name('adedit')->where(['ad_id' => '\d+'])->middleware('auth');
@@ -258,6 +259,8 @@ Route::get('/proxy', 'AdController@proxy')->name('proxy');
 
 Route::get('/makepromo/{ad_id}', 'AdController@makepromo')->name('makepromo')->middleware('auth');
 Route::post('/makepromo/{ad_id}', 'AdController@postmakepromo')->name('postmakepromo')->middleware('auth');
+
+
 
 /**
  * user actions
@@ -345,5 +348,3 @@ Route::get('/{category_slug}/q-{search_text}', 'AdController@search')
 Route::get('/{category_slug}', 'AdController@search')
     ->name('category_slug')
     ->where(['category_slug' => '.*']);
-
-

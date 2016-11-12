@@ -86,32 +86,11 @@ class AdController extends Controller
 
         //get home page promo ads
         $where = ['ad_promo' => 1, 'ad_active' => 1];
-        if($lid > 0){
-            $where['ad.location_id'] = $lid;
-        }
-        $order = ['ad_publish_date' => 'desc'];
-        $limit = config('dc.num_promo_ads_home_page');
-        $promo_ad_list = $this->ad->getAdList($where, $order, $limit);
 
-        if($promo_ad_list->count() < config('dc.num_promo_ads_home_page')){
-            $where['ad_promo'] = 0;
-            $limit = config('dc.num_promo_ads_home_page') - $promo_ad_list->count();
-            $promo_ad_list = $promo_ad_list->merge($this->ad->getAdList($where, $order, $limit));
-        }
-
-        //if enable latest ads on home page get some new ads
-        $latest_ad_list = new Collection();
-        if(config('dc.enable_new_ads_on_homepage')){
-            $where['ad_promo'] = 0;
-            $limit = config('dc.num_latest_ads_home_page');
-            $latest_ad_list = $this->ad->getAdList($where, $order, $limit);
-        }
-
-        /**
-         * get ad count by category and selected filter
-         */
+        //check if location is selected and get all childs
         $all_location_childs = [];
-        if($lid > 0) {
+        $whereIn = [];
+        if($lid > 0){
             $alc = $this->location->getAllHierarhyFlat($lid);
             if (!empty($alc)) {
                 foreach ($alc as $ak => $av) {
@@ -119,7 +98,31 @@ class AdController extends Controller
                 }
             }
             $all_location_childs[] = $lid;
+            $whereIn['ad.location_id'] = $all_location_childs;
         }
+
+        $order = ['ad_publish_date' => 'desc'];
+        $limit = config('dc.num_promo_ads_home_page');
+        $promo_ad_list = $this->ad->getAdList($where, $order, $limit, [], $whereIn);
+
+        if($promo_ad_list->count() < config('dc.num_promo_ads_home_page')){
+            $where['ad_promo'] = 0;
+            $limit = config('dc.num_promo_ads_home_page') - $promo_ad_list->count();
+            $promo_ad_list = $promo_ad_list->merge($this->ad->getAdList($where, $order, $limit, [], $whereIn));
+        }
+
+        //if enable latest ads on home page get some new ads
+        $latest_ad_list = new Collection();
+        if(config('dc.enable_new_ads_on_homepage')){
+            $where['ad_promo'] = 0;
+            $limit = config('dc.num_latest_ads_home_page');
+            $latest_ad_list = $this->ad->getAdList($where, $order, $limit, [], $whereIn);
+        }
+
+        /**
+         * get ad count by category and selected filter
+         */
+
         if(!$first_level_childs->isEmpty()){
             unset($where['ad_promo']);
             if($lid > 0){
@@ -293,6 +296,10 @@ class AdController extends Controller
         if(!empty($category_slug)){
             $cid = $this->category->getCategoryIdByFullPath($category_slug);
             if (empty($cid)) {
+                abort(404);
+            }
+
+            if($category_slug != $this->category->getCategoryFullPathById($cid)){
                 abort(404);
             }
         }
@@ -660,8 +667,17 @@ class AdController extends Controller
         
         //get ad info and increment num views
         $ad_detail = $this->ad->getAdDetail($ad_id);
+
+        //check original slug and url slug
+        $request_slug = $request->ad_slug;
+        $original_slug  = str_slug($ad_detail->ad_title);
+        if($request_slug != $original_slug){
+            $ad_url = url(str_slug($ad_detail->ad_title) . '-' . 'ad' . $ad_detail->ad_id . '.html');
+            return redirect($ad_url);
+        }
+
         $ad_detail->increment('ad_view', 1);
-        
+
         if(!empty($ad_detail->ad_video)){
             $ad_detail->ad_video_fixed = Util::getVideoReady($ad_detail->ad_video);
         }
@@ -2235,5 +2251,48 @@ class AdController extends Controller
         //set flash message and go to info page
         session()->flash('message', $message);
         return redirect(route('info'));
+    }
+
+    public function myfav(Request $request)
+    {
+        $params     = $request->all();
+        $limit      = 0;
+        $orderRaw   = '';
+        $whereIn    = [];
+        $whereRaw   = [];
+        $page       = 1;
+        $paginate   = config('dc.num_ads_on_myads');
+        if (isset($params['page']) && is_numeric($params['page'])) {
+            $page = $params['page'];
+        }
+
+        //get fav ads from cookie or db
+        $fav_ads_info = [];
+        if(Auth::check()){
+            $adFavModel = new AdFav();
+            $fav_ads_info = $adFavModel->getFavAds(Auth::user()->user_id);
+        } else if(Cookie::has('__' . md5(config('dc.site_domain')) . '_fav_ads')) {
+            //no user check cookie
+            $fav_ads_info = $request->cookie('__' . md5(config('dc.site_domain')) . '_fav_ads', array());
+        }
+
+        if(!empty($fav_ads_info)){
+            $whereIn['ad.ad_id'] = $fav_ads_info;
+        }
+
+        $where = ['ad_active' => 1];
+        $order = ['ad_publish_date' => 'desc'];
+
+        $my_ad_list = new Collection();
+        if(!empty($whereIn)) {
+            $my_ad_list = $this->ad->getAdList($where, $order, $limit, $orderRaw, $whereIn, $whereRaw, $paginate, $page);
+        }
+
+        //set page title
+        $title = [config('dc.site_domain')];
+        $title[] = trans('myfav.My Favorite Classifieds');
+        $title[] = trans('myfav.Page:') . ' ' . $page;
+
+        return view('ad.myfav', ['my_ad_list' => $my_ad_list, 'title' => $title, 'params' => $params]);
     }
 }

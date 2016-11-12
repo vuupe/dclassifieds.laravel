@@ -293,6 +293,15 @@ generated from http://www.cssportal.com/css-ribbon-generator/
                 color: #888888;
 }
 
+.navbar-nav > .dropdown .user-image {
+                float: left;
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                margin-right: 5px;
+                margin-top: -2px;
+}
+
 
 
 

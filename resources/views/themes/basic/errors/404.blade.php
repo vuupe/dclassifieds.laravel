@@ -1,5 +1,7 @@
 @extends('layout.index_layout')
 
+@section('title', join(' / ', $title))
+
 @section('search_filter')
     <div style="margin-bottom: 20px;"></div>
 @endsection

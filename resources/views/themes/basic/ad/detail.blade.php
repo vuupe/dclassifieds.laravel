@@ -251,11 +251,11 @@
 
                 <div class="ad_detail_panel">
                     @if($ad_fav)
-                        <a href="#" id="add_to_fav" class="btn btn-default btn-block btn-sm" data-loading-text="Saving..." data-addfav-text='<span class="fa fa-star"></span> Add to favorites' data-removefav-text='<span class="fa fa-star"></span> Remove from favorites'>
+                        <a href="#" id="add_to_fav" class="btn btn-default btn-block btn-sm" data-loading-text="{{ trans('detail.Saving...') }}" data-addfav-text='<span class="fa fa-star"></span> {{ trans('detail.Add to favorites') }}' data-removefav-text='<span class="fa fa-star"></span> {{ trans('detail.Remove from favorites') }}'>
                             <span class="fa fa-star"></span> {{ trans('detail.Remove from favorites') }}
                         </a>
                     @else
-                        <a href="#" id="add_to_fav" class="btn btn-default btn-block btn-sm" data-loading-text="Saving..." data-addfav-text='<span class="fa fa-star"></span> Add to favorites' data-removefav-text='<span class="fa fa-star"></span> Remove from favorites'>
+                        <a href="#" id="add_to_fav" class="btn btn-default btn-block btn-sm" data-loading-text="{{ trans('detail.Saving...') }}" data-addfav-text='<span class="fa fa-star"></span> {{ trans('detail.Add to favorites') }}' data-removefav-text='<span class="fa fa-star"></span> {{ trans('detail.Remove from favorites') }}'>
                             <span class="fa fa-star"></span> {{ trans('detail.Add to favorites') }}
                         </a>
                     @endif
@@ -333,27 +333,6 @@
             </div>
         </div>
     </div>
-
-    <div class="container home_info_link_panel">
-        <div class="row">
-            <div class="col-md-12">
-                <ol class="breadcrumb">
-                      <li class="active">Main Cateegories</li>
-                      <li><a href="#">Real Eastates</a></li>
-                      <li><a href="#">Cars and Parts</a></li>
-                      <li><a href="#">Electronics</a></li>
-                      <li><a href="#">Sport, Books, Hobby</a></li>
-                      <li><a href="#">Home and Garden</a></li>
-                      <li><a href="#">Fashion</a></li>
-                      <li><a href="#">Baby and Kids</a></li>
-                      <li><a href="#">Тourism</a></li>
-                      <li><a href="#">Business, Services</a></li>
-                      <li><a href="#">Job</a></li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
 
     <div class="modal fade" id="report_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog">

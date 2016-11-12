@@ -77,9 +77,16 @@
                         @if( Auth::check() && Auth::user()->isAdmin() )
                             <li><a href="{{ url('admin') }}">{{ trans('index_layout.admin_panel') }}</a></li>
                         @endif
+                        <li><a href="{{ url('myfav') }}"><i class="fa fa-star" style="font-size:22px; color: #FFD700;"></i></a></li>
                         @if( Auth::check() )
                             <li class="dropdown">
-                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ trans('index_layout.my_profile') }} <span class="caret"></span></a>
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                   @if(!empty(Auth::user()->avatar))
+                                        <img src="{{ asset('uf/udata/100_' . Auth::user()->avatar) }}" class="user-image">
+                                   @else
+                                        <img src="{{ 'https://www.gravatar.com/avatar/' . md5(trim(Auth::user()->email)) . '?s=100&d=identicon' }}" class="user-image">
+                                   @endif
+                                   {{ Auth::user()->name }} <span class="caret"></span></a>
                                <ul class="dropdown-menu">
                                    <li><a href="{{ url('myprofile') }}">{{ trans('index_layout.my_profile') }}</a></li>
                                    <li><a href="{{ url('myads') }}">{{ trans('index_layout.my_classifieds') }}</a></li>

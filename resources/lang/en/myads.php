@@ -19,7 +19,7 @@ return [
     'Republish' => 'Republish',
     'Edit' => 'Edit',
     'Delete' => 'Delete',
-    'You dont have classifieds.' => 'You dont\'t have classifieds.',
+    'You dont have classifieds.' => 'You don\'t have classifieds.',
     'Click here to publish.' => 'Click here to publish.',
     'Page:' => 'Page:'
 ];

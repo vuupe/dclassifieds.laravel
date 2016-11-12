@@ -231,12 +231,12 @@ class CategoryController extends Controller
                     $import_error_array = [];
 
                     foreach ($csv_data as $k => $v){
-                        if(is_array($v)){
+                        if(is_array($v) && !empty($v)){
                             $data_to_save = [];
 
                             //set fields to be imported
-                            if(isset($v[0]) && !empty($v[0])){
-                                $data_to_save['category_type'] = trim($v[0]);
+                            if(isset($v[0]) && !empty($v[0]) && (int)$v[0] > 0){
+                                $data_to_save['category_type'] = (int)trim($v[0]);
                             }
                             if(isset($v[1]) && !empty($v[1])){
                                 $data_to_save['category_title'] = trim($v[1]);
@@ -244,7 +244,9 @@ class CategoryController extends Controller
                             if(isset($v[2]) && !empty($v[2])){
                                 $data_to_save['category_slug'] = trim($v[2]);
                             } else {
-                                $data_to_save['category_slug'] = str_slug($data_to_save['category_title']);
+                                if(isset($data_to_save['category_title']) && !empty($data_to_save['category_title'])) {
+                                    $data_to_save['category_slug'] = str_slug($data_to_save['category_title']);
+                                }
                             }
                             if(isset($v[3]) && !empty($v[3]) && ($v[3] == 1 || $v[3] == 0)){
                                 $data_to_save['category_active'] = $v[3];

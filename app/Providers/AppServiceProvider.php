@@ -100,20 +100,19 @@ class AppServiceProvider extends ServiceProvider
             config(['cache.stores.memcached.servers' => [$memcached_servers]]);
 
             //mail settings
-            config(['mail.driver' => config('dc.mail_driver')]);
-            config(['mail.host' => config('dc.mail_host')]);
-            config(['mail.port' => config('dc.mail_port')]);
-            config(['mail.encryption' => config('dc.mail_encryption')]);
-            config(['mail.username' => config('dc.mail_user')]);
-            config(['mail.password' => config('dc.mail_password')]);
+            config(['mail.driver'       => config('dc.mail_driver')]);
+            config(['mail.host'         => config('dc.mail_host')]);
+            config(['mail.port'         => config('dc.mail_port')]);
+            config(['mail.encryption'   => config('dc.mail_encryption')]);
+            config(['mail.username'     => config('dc.mail_user')]);
+            config(['mail.password'     => config('dc.mail_password')]);
 
             //app settings
-            config(['app.env' => config('dc.app_env')]);
-            config(['app.debug' => config('dc.app_debug')]);
-            config(['app.locale' => config('dc.app_locale')]);
-            config(['app.key' => config('dc.api_key')]);
-            config(['app.timezone' => config('dc.app_timezone')]);
-
+            config(['app.env'           => config('dc.app_env')]);
+            config(['app.debug'         => (int)config('dc.app_debug')]);
+            config(['app.locale'        => config('dc.app_locale')]);
+            config(['app.key'           => config('dc.api_key')]);
+            config(['app.timezone'      => config('dc.app_timezone')]);
         }
 
         /**
@@ -169,6 +168,12 @@ class AppServiceProvider extends ServiceProvider
                 $adDetailBanner->increment('banner_num_views');
             }
             $view->with('adDetailBanner', $adDetailBanner);
+        });
+
+        view()->composer(['errors.404'], function ($view) {
+            $title = [config('dc.site_domain')];
+            $title[] = trans('404.Ups something is missing.');
+            $view->with('title', $title);
         });
     }
 
