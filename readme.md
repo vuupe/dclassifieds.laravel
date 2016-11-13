@@ -50,8 +50,18 @@ DClassifieds Free Classifieds Script is open-sourced software licensed under the
     - Set reCaptcha
     - Set Facebook Login
     - etc.
-9. Enjoy :)
-10. If you like the script please donate
+9. Add rss to your google webmasters tools, rss adress : http://your domein/rss
+    - set number of ads in rss from settings
+10. Set cron job to deactivate expired ads: http://your domain/deactivate
+    - once a day
+11. Set cron job to send warning mail for expiring soon ads: http://your domain/sendmaildeactivatesoon
+    - depends on ads volume and hosting limits, set it to several times a day, set number of mails from settings
+12. Set cron job to send warning mail for expiring soon promo ads: http://your domain/sendmailpromoexpiresoon
+    - depends on ads volume and hosting limits, set it to several times a day, set number of mails from settings
+13. Set cron job to remove promo from expired promo ads: http://your domain/deactivatepromo
+    - once a day
+14. Enjoy :)
+15. If you like the script please donate
 
 ### Info
 If you find bugs, please report.
