@@ -37,3 +37,16 @@ DClassifieds Free Classifieds Script is open-sourced software licensed under the
     - etc.
 9. Enjoy :)
 10. If you like the script please donate
+
+### Info
+If you find bugs, please report.
+
+### Services
+- Install Services
+- Custom Development Services
+Please contact
+
+### Contact and Credits
+Developer: Dinko Georgiev - contact@dclassifieds.eu
+QA: Georgi Georgiev
+p.s. we are not relatives :)

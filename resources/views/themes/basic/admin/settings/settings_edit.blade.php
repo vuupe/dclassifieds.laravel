@@ -28,17 +28,17 @@
 
                             {!! csrf_field() !!}
                             <div class="form-group {{ $modelData->setting_required ? 'required' : '' }} {{ $errors->has('setting_value') ? ' has-error' : '' }}">
-                                <label for="setting_value" class="control-label">{{ $modelData->setting_description }}</label>
+                                <label for="setting_value" class="control-label">{{ trans('admin_settings.' . $modelData->setting_description) }}</label>
 
                                 @if($modelData->setting_field_type == 'text')
-                                    <input type="text" class="form-control" name="setting_value" id="setting_value" placeholder="{{ $modelData->setting_description }}" value="{{ Util::getOldOrModelValue('setting_value', $modelData) }}">
+                                    <input type="text" class="form-control" name="setting_value" id="setting_value" placeholder="{{ trans('admin_settings.' . $modelData->setting_description) }}" value="{{ Util::getOldOrModelValue('setting_value', $modelData) }}">
                                 @elseif ($modelData->setting_field_type == 'textarea')
                                     <textarea type="text" class="form-control" name="setting_value" id="setting_value" rows="20">{{ Util::getOldOrModelValue('setting_value', $modelData) }}</textarea>
                                 @elseif ($modelData->setting_field_type == 'file')
                                     <input type="file" name="setting_value" id="setting_value"><br />
                                     <input type="checkbox" name="clear_value" id="clear_value"> {{ trans('admin_common.Clear Value') }}
                                 @elseif ($modelData->setting_field_type == 'password')
-                                    <input type="password" class="form-control" name="setting_value" id="setting_value" placeholder="{{ $modelData->setting_description }}" value="{{ Util::getOldOrModelValue('setting_value', $modelData) }}">
+                                    <input type="password" class="form-control" name="setting_value" id="setting_value" placeholder="{{ trans('admin_settings.' . $modelData->setting_description) }}" value="{{ Util::getOldOrModelValue('setting_value', $modelData) }}">
                                 @elseif ($modelData->setting_field_type == 'yesno')
                                     <select name="setting_value" id="setting_value" class="form-control">
                                     @foreach($yesnoselect as $k => $v)

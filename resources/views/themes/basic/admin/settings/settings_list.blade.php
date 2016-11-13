@@ -47,7 +47,7 @@
                         @foreach($modelData as $k => $v)
                             <tr>
                                 <td>{{ $v['setting_id'] }}</td>
-                                <td>{{ $v['setting_description'] }}</td>
+                                <td>{{ trans('admin_settings.' . $v['setting_description']) }}</td>
                                 <td>
                                     @if($v['setting_field_type'] == 'yesno')
                                         {{ $yesnoselect[$v['setting_value']] }}
