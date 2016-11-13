@@ -89,9 +89,17 @@ class Util
         return $video;
     }
     
-    static function formatPrice( $_price )
+    static function formatPrice( $_price, $_price_sign = '' )
     {
-        return number_format($_price, 2, '.', ' ');    
+        if(!empty($_price_sign)) {
+            if (config('dc.show_price_sign_before_price')){
+                return $_price_sign . number_format($_price, 2, '.', ' ');
+            } else {
+                return number_format($_price, 2, '.', ' ') . $_price_sign;
+            }
+        } else {
+            return number_format($_price, 2, '.', ' ');
+        }
     }
     
     static function getOldOrModelValue($_name, $_model = '', $_model_name = '')

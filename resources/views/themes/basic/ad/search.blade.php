@@ -2,6 +2,18 @@
 
 @section('title', join(' / ', $title))
 
+@if(isset($selected_category_info) && !empty($selected_category_info))
+    @section('meta')
+        @if(isset($location_info) && !empty($location_info))
+            <meta name="description" content="{{ $selected_category_info->category_description }}, {{ $location_info->location_name }}" />
+            <meta name="keywords" content="{{ $selected_category_info->category_keywords }}, {{ $location_info->location_name }}" />
+        @else
+            <meta name="description" content="{{ $selected_category_info->category_description }}" />
+            <meta name="keywords" content="{{ $selected_category_info->category_keywords }}" />
+        @endif
+    @endsection
+@endif
+
 @section('search_filter')
     <div class="search_panel">
         <div class="container">
@@ -85,11 +97,27 @@
                     </div>
 
                     <div class="col-md-3 padding_bottom_15">
-                        <input type="text" name="price_from" id="price_from" class="form-control" placeholder="{{ trans('search.Price from') }}" value="{{ old('price_from') }}"/>
+                        <div class="input-group">
+                            @if(config('dc.show_price_sign_before_price'))
+                                <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                <input type="text" name="price_from" id="price_from" class="form-control" placeholder="{{ trans('search.Price from') }}" value="{{ old('price_from') }}"/>
+                            @else
+                                <input type="text" name="price_from" id="price_from" class="form-control" placeholder="{{ trans('search.Price from') }}" value="{{ old('price_from') }}"/>
+                                <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="col-md-3 padding_bottom_15">
-                        <input type="text" name="price_to" id="price_to" class="form-control" placeholder="{{ trans('search.Price to') }}" value="{{ old('price_to') }}"/>
+                        <div class="input-group">
+                            @if(config('dc.show_price_sign_before_price'))
+                                <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                <input type="text" name="price_to" id="price_to" class="form-control" placeholder="{{ trans('search.Price to') }}" value="{{ old('price_to') }}"/>
+                            @else
+                                <input type="text" name="price_to" id="price_to" class="form-control" placeholder="{{ trans('search.Price to') }}" value="{{ old('price_to') }}"/>
+                                <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                            @endif
+                        </div>
                     </div>
 
                     <?$hide_free = 0;?>
@@ -125,11 +153,17 @@
                             </div>
 
                             <div class="col-md-3 padding_bottom_15">
-                                <input type="text" class="form-control" id="estate_sq_m_from" name="estate_sq_m_from" value="{{ old('estate_sq_m_from') }}" placeholder="{{ trans('search.Estate sq. m. from') }}" />
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="estate_sq_m_from" name="estate_sq_m_from" value="{{ old('estate_sq_m_from') }}" placeholder="{{ trans('search.Estate sq. m. from') }}" />
+                                    <div class="input-group-addon">{{ config('dc.site_metric_system') }}</div>
+                                </div>
                             </div>
 
                             <div class="col-md-3 padding_bottom_15">
-                                <input type="text" class="form-control" id="estate_sq_m_to" name="estate_sq_m_to" value="{{ old('estate_sq_m_to') }}" placeholder="{{ trans('search.Estate sq. m. to') }}" />
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="estate_sq_m_to" name="estate_sq_m_to" value="{{ old('estate_sq_m_to') }}" placeholder="{{ trans('search.Estate sq. m. to') }}" />
+                                    <div class="input-group-addon">{{ config('dc.site_metric_system') }}</div>
+                                </div>
                             </div>
 
                             <div class="col-md-3 padding_bottom_15">
@@ -374,6 +408,15 @@
     </div>
 
     @if(isset($first_level_childs) && !$first_level_childs->isEmpty())
+
+        @if(isset($selected_category_info) && !empty($selected_category_info) && config('dc.enable_category_description_in_search'))
+            <div class="container category_panel">
+                <div class="row">
+                        <div class="col-md-12"><h5>{{ $selected_category_info->category_description }}</h5></div>
+                </div>
+            </div>
+        @endif
+
         <div class="container category_panel">
             <div class="row">
                 @foreach ($first_level_childs as $k => $v)

@@ -63,7 +63,7 @@
                                     <td>{{ $v->ad_id }}</td>
                                     <td>{{ $v->mail_date }}</td>
                                     <td>{{ $v->name }}</td>
-                                    <td><a href="{{ $link }}">{{ str_limit($v->mail_text, 60) }}</a></td>
+                                    <td><a href="{{ $link }}">{!! str_limit($v->mail_text, 60) !!}</a></td>
                                     <td>{{ $v->mail_status == 0 ? trans('mymail.New') : ''}}</td>
                                     <td nowrap>
                                         <a href="{{ $link }}" class="btn btn-primary btn-block btn-sm">{{ trans('mymail.View') }}</a>

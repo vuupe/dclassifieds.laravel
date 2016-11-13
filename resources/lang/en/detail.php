@@ -49,5 +49,6 @@ return [
     'Shoes Size' => 'Shoes Size',
     'Site' => 'Site',
     'PROMO' => 'PROMO',
-    'Saving...' => 'Saving...'
+    'Saving...' => 'Saving...',
+    'Make Promo' => 'Make Promo'
 ];

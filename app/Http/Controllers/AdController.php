@@ -657,6 +657,10 @@ class AdController extends Controller
             $view_params['selected_category_info'] = $selected_category_info;
         }
 
+        if($lid > 0){
+            $view_params['location_info'] = $location_info;
+        }
+
         return view('ad.search', $view_params);
     }
     

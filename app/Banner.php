@@ -11,6 +11,7 @@ class Banner extends Model
 
     const BANNER_POSITION_LIST = 1; //home page, ad list, end etc.
     const BANNER_POSITION_DETAIL = 2; //ad detail
+    const BANNER_POSITION_FOOTER = 3; //home page footer, ad list footer, end etc. footer
 
     protected $table = 'banner';
     protected $primaryKey = 'banner_id';

@@ -133,7 +133,6 @@
                     </ol>
                 </div>
             </div>
-            <hr>
         </div>
     @endif
 
@@ -155,7 +154,6 @@
                     </ol>
                 </div>
             </div>
-            <hr>
         </div>
     @endif
 

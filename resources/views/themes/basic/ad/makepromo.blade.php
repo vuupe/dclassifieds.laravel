@@ -68,7 +68,7 @@
                                     @if($enable_pay_from_wallet)
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="ad_type_pay" value="1000" {{ (1000 == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad from wallet', ['sum' => config('dc.wallet_promo_ad_price'), 'cur' => config('dc.site_price_sign'), 'period' => config('dc.wallet_promo_ad_period')]) }}
+                                                <input type="radio" name="ad_type_pay" value="1000" {{ (1000 == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad from wallet', ['sum' => Util::formatPrice(config('dc.wallet_promo_ad_price'), config('dc.site_price_sign')), 'period' => config('dc.wallet_promo_ad_period')]) }}
                                             </label>
                                         </div>
                                     @endif
@@ -76,7 +76,7 @@
                                     @foreach($payment_methods as $k => $v)
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad payment method', ['sum' => number_format($v->pay_sum, 2, '.', ''), 'cur' => config('dc.site_price_sign'), 'period' => $v->pay_promo_period, 'pay_type' => $v->pay_name]) }}
+                                                <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad payment method', ['sum' => Util::formatPrice($v->pay_sum, config('dc.site_price_sign')), 'period' => $v->pay_promo_period, 'pay_type' => $v->pay_name]) }}
                                             </label>
                                         </div>
                                     @endforeach

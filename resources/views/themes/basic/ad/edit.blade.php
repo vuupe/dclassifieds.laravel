@@ -124,8 +124,13 @@
                             <div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ Util::getOldOrModelValue('price_radio', $ad_detail, 'ad_price') > 0 ? 'checked' : '' }}></div>
                             <div class="pull-left" style="margin-left:5px;">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ Util::getOldOrModelValue('ad_price_type_1', $ad_detail, 'ad_price') }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ Util::getOldOrModelValue('ad_price_type_1', $ad_detail, 'ad_price') }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ Util::getOldOrModelValue('ad_price_type_1', $ad_detail, 'ad_price') }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                             </div>
                             @if ($errors->has('ad_price_type_1'))
@@ -193,8 +198,13 @@
                             <label for="ad_price_type_2" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ Util::getOldOrModelValue('ad_price_type_2', $ad_detail) }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ Util::getOldOrModelValue('ad_price_type_2', $ad_detail) }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ Util::getOldOrModelValue('ad_price_type_2', $ad_detail) }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                                 @if ($errors->has('ad_price_type_2'))
                                     <span class="help-block">
@@ -635,8 +645,13 @@
                             <label for="ad_price_type_3" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ Util::getOldOrModelValue('ad_price_type_3', $ad_detail) }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ Util::getOldOrModelValue('ad_price_type_3', $ad_detail) }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ Util::getOldOrModelValue('ad_price_type_3', $ad_detail) }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                                 @if ($errors->has('ad_price_type_3'))
                                     <span class="help-block">
@@ -663,8 +678,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio_type_4" id="price_radio_type_4" value="1" {{ Util::getOldOrModelValue('price_radio_type_4', $ad_detail) == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_4" name="ad_price_type_4" value="{{ Util::getOldOrModelValue('ad_price_type_4', $ad_detail) }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_4" name="ad_price_type_4" value="{{ Util::getOldOrModelValue('ad_price_type_4', $ad_detail) }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_4" name="ad_price_type_4" value="{{ Util::getOldOrModelValue('ad_price_type_4', $ad_detail) }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -701,8 +721,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio_type_5" id="price_radio_type_5" value="1" {{ Util::getOldOrModelValue('price_radio_type_5', $ad_detail) == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_5" name="ad_price_type_5" value="{{ Util::getOldOrModelValue('ad_price_type_5', $ad_detail) }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_5" name="ad_price_type_5" value="{{ Util::getOldOrModelValue('ad_price_type_5', $ad_detail) }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_5" name="ad_price_type_5" value="{{ Util::getOldOrModelValue('ad_price_type_5', $ad_detail) }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -767,8 +792,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio_type_6" id="price_radio_type_6" value="1" {{ Util::getOldOrModelValue('price_radio_type_6', $ad_detail) == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_6" name="ad_price_type_6" value="{{ Util::getOldOrModelValue('ad_price_type_6', $ad_detail) }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_6" name="ad_price_type_6" value="{{ Util::getOldOrModelValue('ad_price_type_6', $ad_detail) }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_6" name="ad_price_type_6" value="{{ Util::getOldOrModelValue('ad_price_type_6', $ad_detail) }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -831,8 +861,13 @@
                             <label for="ad_price_type_7" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_7" name="ad_price_type_7" value="{{ Util::getOldOrModelValue('ad_price_type_7', $ad_detail) }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_7" name="ad_price_type_7" value="{{ Util::getOldOrModelValue('ad_price_type_7', $ad_detail) }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_7" name="ad_price_type_7" value="{{ Util::getOldOrModelValue('ad_price_type_7', $ad_detail) }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                                 @if ($errors->has('ad_price_type_7'))
                                     <span class="help-block">

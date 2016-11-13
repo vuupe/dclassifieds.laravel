@@ -57,7 +57,7 @@
                                     @foreach($payment_methods as $k => $v)
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == old('ad_type_pay')) ? 'checked' : '' }}> {{ trans('addtowallet.Add to Wallet payment method', ['sum' => number_format($v->pay_sum, 2, '.', ''), 'cur' => config('dc.site_price_sign'), 'pay_type' => $v->pay_name]) }}
+                                                <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == old('ad_type_pay')) ? 'checked' : '' }}> {{ trans('addtowallet.Add to Wallet payment method', ['sum' => Util::formatPrice($v->pay_sum, config('dc.site_price_sign')), 'pay_type' => $v->pay_name]) }}
                                             </label>
                                         </div>
                                     @endforeach

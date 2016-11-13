@@ -49,7 +49,15 @@
 
                             <div class="form-group required {{ $errors->has('sum') ? ' has-error' : '' }}">
                                 <label for="ad_id" class="control-label">{{ trans('admin_common.Wallet Sum') }}</label>
-                                <input type="text" class="form-control" name="sum" id="sum" placeholder="{{ trans('admin_common.Wallet Sum') }}" value="{{ Util::getOldOrModelValue('sum', $modelData) }}">
+                                <div class="input-group">
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" name="sum" id="sum" placeholder="{{ trans('admin_common.Wallet Sum') }}" value="{{ Util::getOldOrModelValue('sum', $modelData) }}">
+                                    @else
+                                        <input type="text" class="form-control" name="sum" id="sum" placeholder="{{ trans('admin_common.Wallet Sum') }}" value="{{ Util::getOldOrModelValue('sum', $modelData) }}">
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
+                                </div>
                                 @if ($errors->has('sum'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('sum') }}</strong>
@@ -59,7 +67,12 @@
 
                             <div class="form-group required {{ $errors->has('wallet_date') ? ' has-error' : '' }}">
                                 <label for="ad_id" class="control-label">{{ trans('admin_common.Wallet Date') }}</label>
-                                <input type="text" class="form-control" name="wallet_date" id="wallet_date" placeholder="{{ trans('admin_common.Wallet Date') }}" value="{{ Util::getOldOrModelValue('wallet_date', $modelData) }}" readonly>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control" name="wallet_date" id="wallet_date" placeholder="{{ trans('admin_common.Wallet Date') }}" value="{{ Util::getOldOrModelValue('wallet_date', $modelData) }}" readonly>
+                                </div>
                                 @if ($errors->has('wallet_date'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('wallet_date') }}</strong>

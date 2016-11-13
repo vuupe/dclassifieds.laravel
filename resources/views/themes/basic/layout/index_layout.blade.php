@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>@yield('title')</title>
+        @yield('meta')
 
         @section('header_tags')
             <meta name="revisit-after" content="1 Days" />
@@ -115,9 +116,11 @@
         
         @yield('search_filter')
         
-        @include('common.central_banner');
+        @include('common.central_banner')
         
         @yield('content')
+
+        @include('common.footer_banner')
         
         <footer class="footer">
             <div class="container">

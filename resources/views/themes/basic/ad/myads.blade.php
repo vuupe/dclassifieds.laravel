@@ -67,7 +67,7 @@
                                     </td>
                                     <td><a href="{{ $link }}" target="_blank">{{ $v->ad_title }}</a></td>
                                     <td>{{ $v->ad_view }}</td>
-                                    <td>{{ $v->ad_price ? Util::formatPrice($v->ad_price) . config('dc.site_price_sign') : trans('myads.Free') }}</td>
+                                    <td>{{ $v->ad_price ? Util::formatPrice($v->ad_price, config('dc.site_price_sign')) : trans('myads.Free') }}</td>
                                     <td>{!! $v->ad_promo ? '<span style="color:#CFB53B; font-weight:bold;">' . trans('myads.Promo') . '</span>' : '' !!}</td>
                                     <td>{{ $v->ad_publish_date }}</td>
                                     <td>{!! date('Y-m-d') > $v->ad_valid_until ? '<span style="color:red; font-weight:bold;">' . trans('myads.Expired') . '</span>' : $v->ad_valid_until !!}</td>

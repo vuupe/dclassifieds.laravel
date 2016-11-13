@@ -151,6 +151,18 @@ class AppServiceProvider extends ServiceProvider
                 $centralBanner->increment('banner_num_views');
             }
             $view->with('centralBanner', $centralBanner);
+
+            //get footer banner if any
+            $footerBanner = Banner::where('banner_active_from', '<=' , $today)
+                ->where('banner_active_to', '>=', $today)
+                ->where('banner_position', Banner::BANNER_POSITION_FOOTER)
+                ->orderByRaw('rand()')
+                ->take(1)
+                ->first();
+            if(!empty($footerBanner)){
+                $footerBanner->increment('banner_num_views');
+            }
+            $view->with('footerBanner', $footerBanner);
         });
 
         /**

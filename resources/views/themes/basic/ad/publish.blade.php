@@ -116,8 +116,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio" id="price_radio" value="1" {{ old('price_radio') == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ old('ad_price_type_1') }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ old('ad_price_type_1') }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_1" name="ad_price_type_1" value="{{ old('ad_price_type_1') }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -181,8 +186,13 @@
                             <label for="ad_price_type_2" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ old('ad_price_type_2') }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ old('ad_price_type_2') }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_2" name="ad_price_type_2" value="{{ old('ad_price_type_2') }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                                 @if ($errors->has('ad_price_type_2'))
                                     <span class="help-block">
@@ -623,8 +633,13 @@
                             <label for="ad_price_type_3" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ old('ad_price_type_3') }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ old('ad_price_type_3') }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_3" name="ad_price_type_3" value="{{ old('ad_price_type_3') }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                                 @if ($errors->has('ad_price_type_3'))
                                     <span class="help-block">
@@ -651,8 +666,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio_type_4" id="price_radio_type_4" value="1" {{ old('price_radio_type_4') == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_4" name="ad_price_type_4" value="{{ old('ad_price_type_4') }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_4" name="ad_price_type_4" value="{{ old('ad_price_type_4') }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_4" name="ad_price_type_4" value="{{ old('ad_price_type_4') }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -689,8 +709,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio_type_5" id="price_radio_type_5" value="1" {{ old('price_radio_type_5') == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_5" name="ad_price_type_5" value="{{ old('ad_price_type_5') }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_5" name="ad_price_type_5" value="{{ old('ad_price_type_5') }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_5" name="ad_price_type_5" value="{{ old('ad_price_type_5') }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -755,8 +780,13 @@
                                 <div class="pull-left checkbox"><input type="radio" name="price_radio_type_6" id="price_radio_type_6" value="1" {{ old('price_radio_type_6') == 1 ? 'checked' : '' }}></div>
                                 <div class="pull-left" style="margin-left:5px;">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ad_price_type_6" name="ad_price_type_6" value="{{ old('ad_price_type_6') }}" />
-                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @if(config('dc.show_price_sign_before_price'))
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                            <input type="text" class="form-control" id="ad_price_type_6" name="ad_price_type_6" value="{{ old('ad_price_type_6') }}" />
+                                        @else
+                                            <input type="text" class="form-control" id="ad_price_type_6" name="ad_price_type_6" value="{{ old('ad_price_type_6') }}" />
+                                            <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -819,8 +849,13 @@
                             <label for="ad_price_type_7" class="col-md-4 control-label">{{ trans('publish_edit.Price') }}</label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="ad_price_type_7" name="ad_price_type_7" value="{{ old('ad_price_type_7') }}" />
-                                    <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @if(config('dc.show_price_sign_before_price'))
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                        <input type="text" class="form-control" id="ad_price_type_7" name="ad_price_type_7" value="{{ old('ad_price_type_7') }}" />
+                                    @else
+                                        <input type="text" class="form-control" id="ad_price_type_7" name="ad_price_type_7" value="{{ old('ad_price_type_7') }}" />
+                                        <div class="input-group-addon">{{ config('dc.site_price_sign') }}</div>
+                                    @endif
                                 </div>
                                 @if ($errors->has('ad_price_type_7'))
                                     <span class="help-block">
@@ -1095,7 +1130,7 @@
                                 @if($enable_pay_from_wallet)
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="ad_type_pay" value="1000" {{ (1000 == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad from wallet', ['sum' => config('dc.wallet_promo_ad_price'), 'cur' => config('dc.site_price_sign'), 'period' => config('dc.wallet_promo_ad_period')]) }}
+                                            <input type="radio" name="ad_type_pay" value="1000" {{ (1000 == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad from wallet', ['sum' => Util::formatPrice(config('dc.wallet_promo_ad_price'), config('dc.site_price_sign')), 'period' => config('dc.wallet_promo_ad_period')]) }}
                                         </label>
                                     </div>
                                 @endif
@@ -1103,7 +1138,7 @@
                                 @foreach($payment_methods as $k => $v)
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad payment method', ['sum' => number_format($v->pay_sum, 2, '.', ''), 'cur' => config('dc.site_price_sign'), 'period' => $v->pay_promo_period, 'pay_type' => $v->pay_name]) }}
+                                            <input type="radio" name="ad_type_pay" value="{{ $v->pay_id }}" {{ ($v->pay_id == $checked) ? 'checked' : '' }}> {{ trans('publish_edit.Pay promo ad payment method', ['sum' => Util::formatPrice($v->pay_sum, config('dc.site_price_sign')), 'period' => $v->pay_promo_period, 'pay_type' => $v->pay_name]) }}
                                         </label>
                                     </div>
                                 @endforeach

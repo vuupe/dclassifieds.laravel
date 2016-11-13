@@ -173,6 +173,7 @@ return [
     'Image Banner' => 'Image Banner',
     'Ad List Position (728x90px)' => 'Ad List Position (728x90px)',
     'Ad Detail Right Position (300x250px)' => 'Ad Detail Right Position (300x250px)',
+    'Ad List Footer Position (728x90px)' => 'Ad List Footer Position (728x90px)',
     'Invalid Banner' => 'Invalid Banner',
     'Banner saved' => 'Banner saved',
     'Banner deleted' => 'Banner deleted',

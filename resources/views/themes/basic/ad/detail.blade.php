@@ -207,7 +207,11 @@
                         @if($ad_detail->ad_free)
                             <span itemprop="price">{{ trans('detail.free') }}</span>
                         @else
-                            <span itemprop="price">{{ number_format($ad_detail->ad_price, 2, '.', '') }}</span>{{ config('dc.site_price_sign') }}
+                            @if(config('dc.show_price_sign_before_price'))
+                                {{ config('dc.site_price_sign') }}<span itemprop="price">{{ Util::formatPrice($ad_detail->ad_price) }}</span>
+                            @else
+                                <span itemprop="price">{{ Util::formatPrice($ad_detail->ad_price) }}</span>{{ config('dc.site_price_sign') }}
+                            @endif
                         @endif
                         <meta itemprop="priceCurrency" content="{{ config('dc.site_currency_code') }}">
                     </h2>
@@ -236,7 +240,13 @@
                 <hr>
 
                 <div class="ad_detail_panel">
-                    <a href="{{ route('ad_contact', ['ad_id' => $ad_detail->ad_id]) }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-envelope-o" aria-hidden="true"></span> {{ trans('detail.Send Message') }}</a>
+                    @if(Auth::check() && Auth::user()->user_id == $ad_detail->user_id)
+                        @if(config('dc.enable_promo_ads'))
+                            <a href="{{ route('makepromo', ['ad_id' => $ad_detail->ad_id]) }}" class="btn btn-warning btn-block btn-lg">{{ trans('detail.Make Promo') }}</a>
+                        @endif
+                    @else
+                        <a href="{{ route('ad_contact', ['ad_id' => $ad_detail->ad_id]) }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-envelope-o" aria-hidden="true"></span> {{ trans('detail.Send Message') }}</a>
+                    @endif
 
                     @if(!empty($ad_detail->ad_phone))
                         <a href="callto:{{ $ad_detail->ad_phone }}" class="btn btn-primary btn-block btn-lg"><span class="fa fa-phone" aria-hidden="true"></span> {{ $ad_detail->ad_phone }}</a>
@@ -321,7 +331,7 @@
                                     <div class="ad-list-item-content">
                                         <h5 class="ad_list_title"><a href="{{ $link }}">{{ str_limit($v['ad_title'], 60) }}</a></h5>
                                         <p class="ad-list-item-location"><i class="fa fa-map-marker"></i> {{ $v['location_name'] }}</p>
-                                        <h4>{{ $v['ad_price'] ? Util::formatPrice($v['ad_price']) . config('dc.site_price_sign') : trans('publish_edit.Free') }}</h4>
+                                        <h4>{{ $v['ad_price'] ? Util::formatPrice($v['ad_price'], config('dc.site_price_sign')) : trans('publish_edit.Free') }}</h4>
                                     </div>
                                 </div>
                             </div>

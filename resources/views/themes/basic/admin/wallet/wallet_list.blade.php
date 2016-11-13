@@ -89,7 +89,7 @@
                                     <td>{{ $v->name }}</td>
                                     <td>{{ $v->email }}</td>
                                     <td>{{ $v->wallet_date }}</td>
-                                    <td style="text-align:right;">{!! $v->sum < 0 ? '<span style="color:red; font-weight:bold;">' . number_format($v->sum, 2, '.', '') . config('dc.site_price_sign')  . '</span>' : '<span style="color:green; font-weight:bold;">' . number_format($v->sum, 2, '.', '') . config('dc.site_price_sign')  . '</span>' !!}</td>
+                                    <td style="text-align:right;">{!! $v->sum < 0 ? '<span style="color:red; font-weight:bold;">' . Util::formatPrice($v->sum, config('dc.site_price_sign'))  . '</span>' : '<span style="color:green; font-weight:bold;">' . Util::formatPrice($v->sum, config('dc.site_price_sign'))  . '</span>' !!}</td>
                                     <td>{{ $v->wallet_description }}</td>
                                     <td><a href="{{ url('admin/wallet/delete/' . $v->wallet_id) }}" class="text-danger need_confirm"><i class="fa fa-trash"></i> {{ trans('admin_ad.Delete') }}</a></td>
                                 </tr>
@@ -105,7 +105,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th style="text-align:right;">{{ number_format($total_sum, 2, '.', '') . config('dc.site_price_sign') }}</th>
+                                    <th style="text-align:right;">{{ Util::formatPrice($total_sum, config('dc.site_price_sign')) }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>

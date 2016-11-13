@@ -41,9 +41,9 @@
                         <h2>
                             {{ trans('mywallet.My Wallet') }} -
                             @if($wallet_total > 0)
-                                <span style="color: green;">{{ trans('mywallet.Total:') }} {{ number_format($wallet_total, 2, '.', '') }}{{ config('dc.site_price_sign') }}</span>
+                                <span style="color: green;">{{ trans('mywallet.Total:') }} {{ Util::formatPrice($wallet_total, config('dc.site_price_sign')) }}</span>
                             @else
-                                <span style="color: red;">{{ trans('mywallet.Total:') }} {{ number_format($wallet_total, 2, '.', '') }}{{ config('dc.site_price_sign') }}</span>
+                                <span style="color: red;">{{ trans('mywallet.Total:') }} {{ Util::formatPrice($wallet_total, config('dc.site_price_sign')) }}</span>
                             @endif
                         </h2>
                     </div>
@@ -73,9 +73,9 @@
                                     <td>{{ $v->ad_id }}</td>
                                     <td style="font-weight: bold; text-align: right;">
                                         @if($v->sum > 0)
-                                            <span style="color:green;">{{ number_format($v->sum, 2, '.', '') }}{{ config('dc.site_price_sign') }}</span>
+                                            <span style="color:green;">{{ Util::formatPrice($v->sum, config('dc.site_price_sign')) }}</span>
                                         @else
-                                            <span style="color:red;">{{ number_format($v->sum, 2, '.', '') }}{{ config('dc.site_price_sign') }}</span>
+                                            <span style="color:red;">{{ Util::formatPrice($v->sum, config('dc.site_price_sign')) }}</span>
                                         @endif
                                     </td>
                                     <td>{{ $v->wallet_description }}</td>

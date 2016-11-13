@@ -26,7 +26,9 @@ class BannerController extends Controller
             Banner::BANNER_IMAGE => trans('admin_common.Image Banner')];
 
         $bannerPosition = [Banner::BANNER_POSITION_LIST => trans('admin_common.Ad List Position (728x90px)'),
-            Banner::BANNER_POSITION_DETAIL => trans('admin_common.Ad Detail Right Position (300x250px)')];
+            Banner::BANNER_POSITION_DETAIL => trans('admin_common.Ad Detail Right Position (300x250px)'),
+            Banner::BANNER_POSITION_FOOTER => trans('admin_common.Ad List Footer Position (728x90px)'),
+        ];
 
         $id = 0;
         if(isset($request->id)){
