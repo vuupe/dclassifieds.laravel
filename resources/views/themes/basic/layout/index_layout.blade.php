@@ -117,6 +117,16 @@
         @yield('search_filter')
         
         @include('common.central_banner')
+
+        @if (session()->has('csrf_error'))
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">{{ session('csrf_error') }}</div>
+                    </div>
+                </div>
+            </div>
+        @endif
         
         @yield('content')
 
