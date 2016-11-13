@@ -23,13 +23,17 @@ DClassifieds Free Classifieds Script is open-sourced software licensed under the
 2. Extract
 3. Rename .env.example to .env
 4. Fill this fields in .env file :
-- DB_HOST=your db host
-- DB_DATABASE=your database name
-- DB_USERNAME=your database user name
-- DB_PASSWORD=your db password
+    - DB_HOST=your db host
+    - DB_DATABASE=your database name
+    - DB_USERNAME=your database user name
+    - DB_PASSWORD=your db password
 5. Import the dclassifieds.sql to your database name (see 4.)
 6. Upload the script to your hosting only the content of "public" folder must be in your document root, all other files must be outside
 7. Open your site and login with user: admin@admin.com pass: 123456
 8. Goto to admin panel settings, setup your configuration
+    - Set "Encryption Key" to custom string 32 characters length
+    - Set reCaptcha
+    - Set Facebook Login
+    - etc.
 9. Enjoy :)
 10. If you like the script please donate
