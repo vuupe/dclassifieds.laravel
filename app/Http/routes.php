@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+//enable this if you want to monitor db queries
+//use Illuminate\Support\Facades\DB;
+
+use Illuminate\Filesystem\Filesystem;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -12,7 +15,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-DB::enableQueryLog();
+//enable this if you want to monitor db queries
+//DB::enableQueryLog();
+//put this after the query you want to  monitor
+//dd(DB::getQueryLog());
 
 /*
  * admin routes
@@ -171,10 +177,28 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'admin']], functi
     Route::get('/admin/magic', 'MagicController@index');
     Route::any('/admin/magic/edit/{id?}', 'MagicController@edit');
     Route::any('/admin/magic/delete/{id?}', 'MagicController@delete');
+
+    //get custom defined admin route files
+    $fileSystem = new Filesystem();
+    $files = $fileSystem->files(app_path() . '/Http/Routes/backend');
+    if(is_array($files) && !empty($files)){
+        foreach($files as $k => $v){
+            require($v);
+        }
+    }
 });
 /*
  * end of admin routes
  */
+
+//get custom defined site route files
+$fileSystem = new Filesystem();
+$files = $fileSystem->files(app_path() . '/Http/Routes/frontend');
+if(is_array($files) && !empty($files)){
+    foreach($files as $k => $v){
+        require($v);
+    }
+}
 
 /**
  * common
