@@ -44,9 +44,9 @@ If you find bugs, please report.
 ### Services
 - Install Services
 - Custom Development Services
-Please contact
+- Please contact
 
 ### Contact and Credits
-Developer: Dinko Georgiev - contact@dclassifieds.eu
-QA: Georgi Georgiev
-p.s. we are not relatives :)
+- Developer: Dinko Georgiev - contact@dclassifieds.eu
+- QA: Georgi Georgiev
+- p.s. we are not relatives :)
