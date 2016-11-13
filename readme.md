@@ -10,6 +10,21 @@ DClassifieds Free Classifieds Script is open-sourced software licensed under the
 
 [http://v3.dclassifieds.eu/](http://v3.dclassifieds.eu/)
 
+### Futures
+- Unlimited Levels of Categories
+- Unlimited Levels of Locations
+- 7 Types of categories (different field in ad publish and ad search)
+- Lightning fast, several types of caching
+- Laravel based
+- Seo Ready
+- Banner Management System
+- Magic Keywords
+- Social Login (Facebook, Twitter, Google)
+- User Messaging system
+- User Wallet
+- 4 Payment Gateways (Mobio SMS, Fortumo SMS, Paypal Standard, Stripe)
+- and many more
+
 ### Server Requirements
 
 - PHP >= 5.5.9
