@@ -45,10 +45,6 @@
                                     <strong>{{ $errors->first('email') }}</strong>
                                 </span>
                             @endif
-                            <p class="help-block">
-                                Use: test@test.com<br />
-                                Password: 123456
-                            </p>
                         </div>
                     </div>
 
